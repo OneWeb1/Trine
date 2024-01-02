@@ -22,7 +22,7 @@ interface IModalChangeBalance {
 const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 	const dispatch = useDispatch();
 	const [balance, setBalance] = useState<string | number>(0);
-	const [account, setAccount] = useState<ProfileMeResponce>(
+	const [account] = useState<ProfileMeResponce>(
 		JSON.parse(
 			localStorage.getItem('account_settings') || '{balance:0, id: -1}',
 		),
