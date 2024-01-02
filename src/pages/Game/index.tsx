@@ -204,7 +204,7 @@ const Game: FC = () => {
 			setTimeout(() => {
 				setLoading(false);
 				setOpacity(1);
-			}, 1000);
+			}, 2000);
 		})();
 
 		return () => stopPolling();
