@@ -90,8 +90,6 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 			const player: IPlayerRoom = room.players[i];
 			players.push({ ...player });
 		}
-		console.log({ players });
-		console.log(room.players, playersNumber);
 
 		setPlayers(players);
 	};
