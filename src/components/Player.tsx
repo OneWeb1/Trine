@@ -12,8 +12,6 @@ import TreeCards from './cards';
 
 import { IPlayerRoom } from '../models/responce/AdminResponce';
 
-import cardsMin from './../../public/assets/cards-min.png';
-
 import styles from './../stylesheet/styles-components/Players.module.scss';
 import AdminService from '../services/AdminService';
 
