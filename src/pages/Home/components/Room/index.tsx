@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useRef } from 'react';
 
 import { RootState as CustomRootState } from '../../../../store/rootReducer';
 import { Link } from 'react-router-dom';
@@ -36,6 +36,9 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 	const [playersNumber, setPlayersNumber] = useState<number>(0);
 	const [left, setLeft] = useState<number>(5);
 	const [show, setShow] = useState<boolean>(false);
+	const [update, setUpdate] = useState<number>(1);
+
+	const intervalRef = useRef<number | null>(null);
 
 	const joinRoomHandler = async () => {
 		if (localStorage.getItem('joinRoom')) return;
@@ -80,25 +83,40 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 		setWindowWidth(() => window.innerWidth - (offset || 0));
 	};
 
-	useEffect(() => {
+	const initPlayers = () => {
 		const players = [] as IPlayerRoom[];
 		for (let i = 0; i < room.players.length; i++) {
 			if (playersNumber < i) continue;
 			const player: IPlayerRoom = room.players[i];
 			players.push({ ...player });
 		}
+		console.log({ players });
 		console.log(room.players, playersNumber);
-		setPlayers([...players]);
+
+		setPlayers(players);
+	};
+
+	useEffect(() => {
+		initPlayers();
 		window.addEventListener('resize', handleResize);
 
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, [windowWidth]);
+	}, [windowWidth, update]);
 
-	// useEffect(() => {
-	// 	handleResize();
-	// }, []);
+	useEffect(() => {
+		if (!intervalRef.current) {
+			intervalRef.current = setInterval(() => {
+				setUpdate(prev => prev + 1);
+			}, 2000);
+		}
+
+		return () => {
+			if (!intervalRef.current) return;
+			clearInterval(intervalRef.current);
+		};
+	}, []);
 
 	return (
 		<div

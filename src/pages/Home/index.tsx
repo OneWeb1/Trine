@@ -105,7 +105,7 @@ const Home: FC = () => {
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, [update, windowWidth]);
+	}, [update]);
 
 	return (
 		<>

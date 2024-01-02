@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, ChangeEvent } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { setGameOverAction } from '../store/slices/app.slice';
@@ -9,7 +9,7 @@ import ButtonSpecial from '../UI/ButtonSpecial';
 // import Button from '../UI/Button';
 
 import styles from './../stylesheet/styles-components/GameFooter.module.scss';
-import ButtonFunction from '../UI/ButtonFunction';
+// import ButtonFunction from '../UI/ButtonFunction';
 import AdminService from '../services/AdminService';
 
 interface IGameFooter {
@@ -25,16 +25,16 @@ const GameFooter: FC<IGameFooter> = ({
 	readyHandler,
 	isReady,
 	isEnable,
-	joinTax,
-	maxBid,
+	// joinTax,
+	// maxBid,
 	bid,
 }) => {
 	const dispatch = useDispatch();
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-	const [percent, setPercent] = useState<number>(0);
+	// const [percent, setPercent] = useState<number>(0);
 	const [raiseSum, setRaiseSum] = useState<number>(Number(bid) * 2);
 
-	const multiplay = (sum: number, x: number) => sum * x;
+	// const multiplay = (sum: number, x: number) => sum * x;
 
 	// const checkHandler = async () => {
 	// 	await AdminService.do({ action: 'check' });
@@ -47,7 +47,7 @@ const GameFooter: FC<IGameFooter> = ({
 	const raiseHandler = async () => {
 		await AdminService.do({ action: 'raise', sum: bid });
 		setRaiseSum(raiseSum / 2);
-		setPercent((raiseSum / maxBid) * 100);
+		// setPercent((raiseSum / maxBid) * 100);
 	};
 
 	const dropHandler = async () => {
@@ -56,17 +56,17 @@ const GameFooter: FC<IGameFooter> = ({
 		dispatch(setGameOverAction({ state: 'lose' }));
 	};
 
-	const changePercent = (e: ChangeEvent<HTMLInputElement>) => {
-		let value = Number(e.target.value);
-		const max = maxBid;
-		const min = ((bid * 2) / max) * 100;
-		value = (value < min && min) || value;
-		const percent = value / 100;
+	// const changePercent = (e: ChangeEvent<HTMLInputElement>) => {
+	// 	let value = Number(e.target.value);
+	// 	const max = maxBid;
+	// 	const min = ((bid * 2) / max) * 100;
+	// 	value = (value < min && min) || value;
+	// 	const percent = value / 100;
 
-		setPercent(value);
+	// 	setPercent(value);
 
-		setRaiseSum(Number((max * percent).toFixed(0)));
-	};
+	// 	setRaiseSum(Number((max * percent).toFixed(0)));
+	// };
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -85,7 +85,7 @@ const GameFooter: FC<IGameFooter> = ({
 			<div
 				className={styles.footer}
 				style={{
-					height: (windowWidth < 1100 && '130px') || '65px',
+					height: (windowWidth < 1100 && '65px') || '65px',
 				}}>
 				{!isReady && (
 					<div
@@ -130,7 +130,7 @@ const GameFooter: FC<IGameFooter> = ({
 										alignItems: 'center',
 										justifyContent: 'center',
 									}}>
-									{windowWidth >= 1100 && (
+									{/* {windowWidth >= 1100 && (
 										<div>
 											<input
 												disabled={!isEnable}
@@ -140,7 +140,7 @@ const GameFooter: FC<IGameFooter> = ({
 												onChange={e => changePercent(e)}
 											/>
 										</div>
-									)}
+									)} */}
 									<div
 										style={{ maxWidth: '600px', width: '550px' }}
 										className={
@@ -178,7 +178,7 @@ const GameFooter: FC<IGameFooter> = ({
 											onClick={dropHandler}
 										/>
 									</div>
-									{windowWidth >= 1100 && (
+									{/* {windowWidth >= 1100 && (
 										<div style={{ marginLeft: '20px', display: 'flex' }}>
 											<ButtonFunction
 												text='x2'
@@ -223,8 +223,8 @@ const GameFooter: FC<IGameFooter> = ({
 													setPercent((sum / maxBid) * 100);
 												}}
 											/>
-										</div>
-									)}
+										</div> */}
+									{/* )} */}
 								</div>
 							</div>
 
@@ -236,7 +236,7 @@ const GameFooter: FC<IGameFooter> = ({
 										justifyContent: 'center',
 										marginTop: '10px',
 									}}>
-									<div>
+									{/* <div>
 										<input
 											disabled={!isEnable}
 											type='range'
@@ -244,8 +244,8 @@ const GameFooter: FC<IGameFooter> = ({
 											className={styles.range}
 											onChange={e => changePercent(e)}
 										/>
-									</div>
-									<div style={{ marginLeft: '20px', display: 'flex' }}>
+									</div> */}
+									{/* <div style={{ marginLeft: '20px', display: 'flex' }}>
 										<ButtonFunction
 											text='x2'
 											number={multiplay(joinTax, 2)}
@@ -289,7 +289,7 @@ const GameFooter: FC<IGameFooter> = ({
 												setPercent((sum / maxBid) * 100);
 											}}
 										/>
-									</div>
+									</div> */}
 								</div>
 							)}
 						</div>
