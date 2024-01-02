@@ -1,0 +1,46 @@
+.header {
+	width: 100%;
+	height: 60px;
+	padding: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	.logoWrapper {
+		display: flex;
+		align-items: center;
+		.logo {
+			margin-right: 10px;
+		}
+		.logoText {
+			font-size: 22px;
+			font-weight: 600;
+		}
+	}
+
+	.avatar {
+		width: 45px;
+		height: 45px;
+		border-radius: 50px;
+		background: linear-gradient(#2970fa, #17203f);
+		cursor: pointer;
+		overflow: hidden;
+
+		.border {
+			width: 100%;
+			height: 100%;
+			padding: 2px;
+			border-radius: 50px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+
+			img {
+				width: 100%;
+				height: 100%;
+				border-radius: 50px;
+			}
+		}
+	}
+}

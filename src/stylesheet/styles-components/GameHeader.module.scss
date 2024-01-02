@@ -1,0 +1,98 @@
+.header {
+	position: fixed;
+	width: 100%;
+	height: 70px;
+	top: 0;
+	border-radius: 0px 0px 30px 30px;
+	background: linear-gradient(90deg, #0d1528 0%, #161e33 49.58%, #101729 100%);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	color: #fff;
+
+	.container {
+		max-width: 1920px;
+		width: 100%;
+		padding: 0px 60px;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.profile {
+		display: flex;
+
+		.avatar {
+			width: 50px;
+			height: 50px;
+
+			font-size: 25px;
+			background: linear-gradient(#2970fa, #17203f);
+			border-radius: 10px;
+			padding: 3px;
+
+			.border {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				img {
+					width: 100%;
+					height: 100%;
+					border-radius: 10px;
+				}
+			}
+		}
+
+		.content {
+			margin-left: 10px;
+
+			.name {
+				font-size: 16px;
+				margin-bottom: 2px;
+				// max-width: 120px;
+				// width: 120px;
+				// overflow: hidden;
+				// text-overflow: ellipsis;
+				// white-space: nowrap;
+			}
+
+			.chips {
+				display: flex;
+				align-items: center;
+				font-size: 15px;
+
+				img {
+					width: 20px;
+					height: 20px;
+					margin-right: 6px;
+					margin-top: 4px;
+					border-radius: 50px;
+				}
+			}
+		}
+	}
+
+	.rightWrapper {
+		.item {
+			width: 40px;
+			height: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 16px;
+			border: 2px solid rgba(41, 112, 250, 0.1);
+			border-radius: 10px;
+			transition: 0.4s;
+
+			cursor: pointer;
+
+			&:hover {
+				transform: scale(0.9);
+				background: linear-gradient(#2970fa, #17203f);
+				border: 2px solid rgba(41, 112, 250, 1);
+			}
+		}
+	}
+}

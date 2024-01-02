@@ -1,0 +1,29 @@
+.display {
+	position: relative;
+	min-width: 100px;
+	width: 100px;
+	height: 30px;
+	background: linear-gradient(#63360b, #422a0e);
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	z-index: 1000;
+	font-size: 16px;
+	font-weight: 600;
+
+	.fishka {
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		border-radius: 50px;
+		left: -10px;
+		top: 5px;
+	}
+}
+
+.player {
+	background: linear-gradient(180deg, #0053d0 0%, #2a72ff 100%);
+	box-shadow: 0px -9px 4px 0px rgba(0, 0, 0, 0.01);
+}
