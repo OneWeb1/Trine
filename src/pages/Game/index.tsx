@@ -141,10 +141,12 @@ const Game: FC = () => {
 				// }
 			}
 
-			if (player.state === 'defeat' && !defeat) {
+			if (player.state === 'defeat' && player.me && !defeat) {
 				dispatch(setDefeat(true));
 				dispatch(setCheck({ visible: true, id: player.id }));
 				console.log({ playerDefeat: player });
+			} else if (player.state === 'defeat' && !player.me) {
+				alert('Win');
 			}
 			if (isAdd) players.push({ ...player });
 		});

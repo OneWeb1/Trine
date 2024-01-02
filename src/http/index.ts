@@ -1,7 +1,10 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
 import AuthService from '../services/AuthService';
 
-export const API_URL = `https://trynka-backend.onrender.com/api`;
+// local: 193.202.118.219:5555
+// trynka-backend.onrender.com/api
+
+export const API_URL = `http://193.202.118.219:5555/api`;
 
 const $api = axios.create({
 	withCredentials: false,
