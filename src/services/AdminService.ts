@@ -29,11 +29,15 @@ export default class AdminService {
 		return $api.delete<string>(`/admin/profile/${id}`);
 	}
 	static async removeRoomById(id: string): Promise<AxiosResponse<string>> {
-		return $api.delete<string>(`/room/${id}`);
+		return $api.delete<string>(`/room/${id}?runtime=true`);
 	}
 
 	static async roomIsReady(ready: boolean): Promise<AxiosResponse<string>> {
 		return $api.post<string>(`/room/ready?ready=${ready}`);
+	}
+
+	static async roomLeave(): Promise<AxiosResponse<string>> {
+		return $api.post<string>(`/room/leave`);
 	}
 
 	static async getPublicRooms(): Promise<AxiosResponse<PublicRoomResponce[]>> {

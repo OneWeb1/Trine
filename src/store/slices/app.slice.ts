@@ -15,25 +15,26 @@ interface IVisibleStateMessage {
 }
 
 interface IState {
-	baseIconPath: string;
 	isAuth: boolean;
 	isSubmit: boolean;
 	ready: boolean;
 	defeat: boolean;
+	visibleHeaderMenu: boolean;
 	check: { visible: boolean; id: number };
 	visibleStateMessage: IVisibleStateMessage;
 	gameOverAction: { state: string };
 	gameState: string;
 	visibleModal: string;
-	visibleHeaderMenu: boolean;
+	gameParamId: string;
+	baseIconPath: string;
 	visibleMenuAccountSettings: boolean;
 	updateAccounts: number;
+	lastPlayerNumber: number;
 	updatePublicRooms: number;
 	account: AdminProfileResponce;
 	menuAccountSettingsPosition: IMenuAccountSettingsPosition;
 	joinRoom: PublicRoomResponce;
 	roomState: PublicRoomResponce;
-	gameParamId: string;
 }
 const initialState: IState = {
 	baseIconPath: 'https://trynka-backend.onrender.com',
@@ -49,6 +50,7 @@ const initialState: IState = {
 	visibleHeaderMenu: false,
 	visibleMenuAccountSettings: false,
 	updateAccounts: 1,
+	lastPlayerNumber: 0,
 	updatePublicRooms: 1,
 	account:
 		JSON.parse(localStorage.getItem('account') || '{}') ||
@@ -110,6 +112,9 @@ const appSlice = createSlice({
 			state.account = action.payload;
 			localStorage.setItem('account', JSON.stringify(action.payload));
 		},
+		setLastPlayerNumber(state, action) {
+			state.lastPlayerNumber = action.payload;
+		},
 		setMenuAccountSettingsPosition(state, action) {
 			state.menuAccountSettingsPosition = action.payload;
 		},
@@ -138,6 +143,7 @@ export const {
 	setVisibleMenuAccountSettings,
 	setMenuAccountSettingsPosition,
 	setAccount,
+	setLastPlayerNumber,
 	setUpdateAccounts,
 	setUpdatePublickRooms,
 	setIsAuth,

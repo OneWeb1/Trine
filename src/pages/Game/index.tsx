@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setGameOverAction,
 	setVisibleStateMessage,
+	setLastPlayerNumber,
 	setDefeat,
 	setCheck,
 } from '../../store/slices/app.slice';
@@ -29,9 +30,8 @@ import styles from './../../stylesheet/styles/Game.module.scss';
 
 const Game: FC = () => {
 	const dispatch = useDispatch();
-	const { joinRoom, gameOverAction, defeat, check } = useSelector(
-		(state: CustomRootState) => state.app,
-	);
+	const { joinRoom, gameOverAction, lastPlayerNumber, defeat, check } =
+		useSelector((state: CustomRootState) => state.app);
 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
 		{} as PublicRoomResponce,
 	);
@@ -79,11 +79,7 @@ const Game: FC = () => {
 
 	const getRoomState = async () => {
 		const responce = await AdminService.getPublicRoomByState(joinRoom.id);
-		// if (!responce) {
-		// 	dispatch(setGameOverAction({ state: 'room-not-found' }));
-		// 	stopPolling();
-		// 	return;
-		// }log()
+
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
 		const players = [] as IPlayerRoom[];

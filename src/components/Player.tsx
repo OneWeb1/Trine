@@ -43,7 +43,6 @@ const Player: FC<IPlayer> = ({
 	const { visibleStateMessage, baseIconPath } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
-
 	const ref = useRef<HTMLDivElement | null>(null);
 
 	const { visible, id } = visibleStateMessage;
@@ -66,67 +65,64 @@ const Player: FC<IPlayer> = ({
 	};
 
 	useEffect(() => {
-		setTimeout(() => {
-			if (!ref.current) return;
+		if (!ref.current) return;
+		const nb = ref.current.parentElement?.getBoundingClientRect();
+		const b = ref.current.getBoundingClientRect();
 
-			const nb = ref.current.parentElement?.getBoundingClientRect();
-			const b = ref.current.getBoundingClientRect();
+		if (!nb) return;
+		if (!b) return;
 
-			if (!nb) return;
-			if (!b) return;
+		const p = (nb.width - nb.width * 0.5) / 2;
+		const ip = (nb.width * 0.8 - b.width * 3) / 3 + b.width - 20;
+		const ipb = (nb.width * 0.8 - b.width * 2) / 2 + b.width - 30;
+		const tp = (nb.height - nb.height * 0.6) / 2;
 
-			const p = (nb.width - nb.width * 0.5) / 2;
-			const ip = (nb.width * 0.8 - b.width * 3) / 3 + b.width - 20;
-			const ipb = (nb.width * 0.8 - b.width * 2) / 2 + b.width - 30;
-			const tp = (nb.height - nb.height * 0.6) / 2;
+		const bc = b.width / 2;
 
-			const bc = b.width / 2;
+		const position = {
+			t: [
+				{ top: -40, left: p - bc },
+				{ top: -40, left: p + ip - bc },
+				{ top: -40, left: p + ip * 2 - bc },
+				{ top: -40, left: p + ip * 3 - bc },
+			],
+			b: [
+				{ top: nb.height + 40, left: p - bc },
+				{ top: nb.height + 40, left: p + ipb - bc },
+				{ top: nb.height + 40, left: p + ipb * 2 - bc },
+			],
+			l: [
+				{ top: tp, left: 0 },
+				{ top: nb.height - tp, left: 0 },
+			],
+			r: [
+				{ top: tp, left: nb.width + b.width + 40 },
+				{ top: nb.height - tp, left: nb.width + b.width + 40 },
+			],
+		};
 
-			const position = {
-				t: [
-					{ top: -40, left: p - bc },
-					{ top: -40, left: p + ip - bc },
-					{ top: -40, left: p + ip * 2 - bc },
-					{ top: -40, left: p + ip * 3 - bc },
-				],
-				b: [
-					{ top: nb.height + 40, left: p - bc },
-					{ top: nb.height + 40, left: p + ipb - bc },
-					{ top: nb.height + 40, left: p + ipb * 2 - bc },
-				],
-				l: [
-					{ top: tp, left: 0 },
-					{ top: nb.height - tp, left: 0 },
-				],
-				r: [
-					{ top: tp, left: nb.width + b.width + 40 },
-					{ top: nb.height - tp, left: nb.width + b.width + 40 },
-				],
-			};
+		const positions = [
+			position.b[1],
+			position.b[0],
+			position.l[1],
+			position.l[0],
+			position.t[0],
+			position.t[1],
+			position.t[2],
+			position.t[3],
+			position.r[0],
+			position.r[1],
+			position.b[2],
+		];
 
-			const positions = [
-				position.b[1],
-				position.b[0],
-				position.l[1],
-				position.l[0],
-				position.t[0],
-				position.t[1],
-				position.t[2],
-				position.t[3],
-				position.r[0],
-				position.r[1],
-				position.b[2],
-			];
-
-			// ref.current.style.left =
-			// 	(index === 0 && positions[index].left - 10 + 'px') ||
-			// 	positions[index].left + 'px';
-			ref.current.style.left = positions[index].left + 'px';
-			ref.current.style.top =
-				(!reverse && positions[index].top + 'px') ||
-				positions[index].top - 70 + 'px';
-		}, 100);
-	}, []);
+		// ref.current.style.left =
+		// 	(index === 0 && positions[index].left - 10 + 'px') ||
+		// 	positions[index].left + 'px';
+		ref.current.style.left = positions[index].left + 'px';
+		ref.current.style.top =
+			(!reverse && positions[index].top + 'px') ||
+			positions[index].top - 70 + 'px';
+	});
 
 	return (
 		<div
@@ -136,6 +132,7 @@ const Player: FC<IPlayer> = ({
 				marginTop: (!reverse && '-10px') || '',
 				marginLeft: (index === 0 && '-20px') || '0px',
 				display: (index === 0 && 'flex') || '',
+				opacity: player.state === 'defeat' ? 0.8 : 1,
 			}}>
 			<div>
 				{reverse && (
@@ -145,7 +142,16 @@ const Player: FC<IPlayer> = ({
 							style={{ marginTop: (!player.last_move && '0px') || '0px' }}>
 							<FishkaItem isPlayer={true} value={player.full_bid} />
 							<div className={styles.icon}>
-								<img src={cardsMin} alt='Cards' />
+								<TreeCards
+									style={{
+										position: 'absolute',
+										left: '0',
+										top: '-10px',
+										width: '170px',
+										transform: 'scale(.2)',
+									}}
+									cards={['fb', 'fb', 'fb', 'jpg']}
+								/>
 							</div>
 						</div>
 						{player.last_move && (
@@ -240,7 +246,7 @@ const Player: FC<IPlayer> = ({
 									? 'Підтримати'
 									: String(player.last_move) === 'check'
 									? 'Дивитися'
-									: String(player.last_move) === 'support'
+									: String(player.last_move) === 'drop'
 									? 'Впасти'
 									: ''}
 							</div>
@@ -250,7 +256,16 @@ const Player: FC<IPlayer> = ({
 							style={{ marginTop: (!player.last_move && '30px') || '-5px' }}>
 							<FishkaItem isPlayer={true} value={player.full_bid} />
 							<div className={styles.icon}>
-								<img src={cardsMin} alt='Cards' />
+								<TreeCards
+									style={{
+										position: 'absolute',
+										left: '0',
+										top: '-10px',
+										width: '170px',
+										transform: 'scale(.2)',
+									}}
+									cards={['fb', 'fb', 'fb', 'jpg']}
+								/>
 							</div>
 						</div>
 					</>
@@ -258,8 +273,15 @@ const Player: FC<IPlayer> = ({
 			</div>
 			{index === 0 && (
 				<div className={styles.cards}>
-					{!isReady && <TreeCards cards={['fb', 'fb', 'fb']} />}
-					{isReady && <TreeCards cards={cards} />}
+					{!isReady && (
+						<TreeCards
+							style={{ marginTop: '-10px' }}
+							cards={['fb', 'fb', 'fb']}
+						/>
+					)}
+					{isReady && (
+						<TreeCards style={{ marginTop: '-10px' }} cards={cards} />
+					)}
 				</div>
 			)}
 		</div>

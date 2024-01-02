@@ -107,6 +107,13 @@ const Home: FC = () => {
 		};
 	}, [update]);
 
+	useEffect(() => {
+		const leave = async () => {
+			await AdminService.roomLeave();
+		};
+		leave();
+	}, []);
+
 	return (
 		<>
 			<div
