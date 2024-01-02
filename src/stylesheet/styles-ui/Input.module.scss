@@ -1,5 +1,15 @@
 .inputWrapper {
+	position: relative;
 	width: 100%;
+
+	.eye {
+		position: absolute;
+		font-size: 14px;
+		right: 15px;
+		top: 53%;
+		color: #999ca1;
+		cursor: pointer;
+	}
 }
 
 .label {

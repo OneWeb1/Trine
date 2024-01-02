@@ -16,7 +16,9 @@ const ModalSettings: FC = () => {
 	const { account } = useSelector((state: CustomRootState) => state.app);
 	const [name, setName] = useState<string | number>(account.nickname);
 	const [email, setEmail] = useState<string | number>(account.email);
-	const [password, setPassword] = useState<string | number>('************');
+	const [password, setPassword] = useState<string | number>(
+		localStorage.getItem('password') || '********',
+	);
 	const [currentPassword, setCurrentPassword] = useState<string | number>('');
 	const [newPassword, setNewPassword] = useState<string | number>('');
 
@@ -31,18 +33,31 @@ const ModalSettings: FC = () => {
 	};
 
 	const saveChanges = async () => {
+		const $password = String(password);
+		const $currentPassword = String(currentPassword);
+		const $newPassword = String(newPassword);
+		console.log({ $password, $currentPassword, $newPassword });
 		if (name !== account.nickname) {
 			await AdminService.changeNickname(String(name));
+		}
+		if ($password === $currentPassword && $newPassword.length > 3) {
+			const formData = new FormData();
+			formData.append('password', $newPassword);
+			formData.append('prevPassword', $password);
+			try {
+				await AdminService.changePassword(formData);
+				localStorage.setItem('password', $newPassword);
+			} catch (e) {
+				return;
+			}
+		} else {
+			throw new Error('Password is not empty');
 		}
 
 		const { data } = await AdminService.getMeProfile();
 		dispatch(setAccount(data));
 		dispatch(setVisibleModal('h'));
 	};
-
-	useEffect(() => {
-		// const responce = AdminService.getAvatars();
-	}, []);
 
 	return (
 		<Modal title='Налаштування' score={`#${account.id}`}>

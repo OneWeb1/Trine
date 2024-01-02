@@ -1,4 +1,7 @@
-import { FC, Dispatch, SetStateAction, ReactNode } from 'react';
+import { FC, Dispatch, SetStateAction, ReactNode, useState } from 'react';
+
+import { ImEyeBlocked } from 'react-icons/im';
+import { ImEye } from 'react-icons/im';
 
 import styles from './../stylesheet/styles-ui/Input.module.scss';
 
@@ -22,6 +25,7 @@ const Input: FC<IInput> = ({
 	children,
 	onChange,
 }) => {
+	const [visiblePassword, setVisiblePassword] = useState<boolean>(false);
 	return (
 		<div className={styles.inputWrapper}>
 			<div className={styles.label}>{label}</div>
@@ -50,14 +54,25 @@ const Input: FC<IInput> = ({
 					{children}
 				</div>
 			) : (
-				<input
-					type={type}
-					readOnly={readOnly === null && true}
-					placeholder={placeholder}
-					className={styles.input}
-					value={value}
-					onChange={e => onChange(e.target.value)}
-				/>
+				<>
+					<input
+						type={(visiblePassword && 'text') || type}
+						readOnly={readOnly === null && true}
+						placeholder={placeholder}
+						className={styles.input}
+						value={value}
+						onChange={e => onChange(e.target.value)}
+					/>
+
+					{type === 'password' && (
+						<div
+							className={styles.eye}
+							onClick={() => setVisiblePassword(prev => !prev)}>
+							{' '}
+							{visiblePassword ? <ImEye /> : <ImEyeBlocked />}
+						</div>
+					)}
+				</>
 			)}
 		</div>
 	);

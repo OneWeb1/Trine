@@ -20,19 +20,25 @@ const Registration: FC = () => {
 	const [email, setEmail] = useState<string | number>('');
 	const [password, setPassword] = useState<string | number>('');
 	const [isChecked, setIsChecked] = useState<boolean>(false);
+	const [isError, setIsError] = useState<boolean>(false);
 
 	const registerUser = async () => {
 		const formData = new FormData();
 		formData.append('email', String(email));
 		formData.append('password', String(password));
 
-		if (isChecked) {
+		try {
 			const { data } = await AuthService.registration(formData);
-
-			if (data.access_token) dispatch(setIsSubmit(true));
+			dispatch(setIsSubmit(true));
 			localStorage.setItem('token', data.access_token);
 			localStorage.setItem('prolong_token', data.prolong_token);
+			localStorage.setItem('password', String(password));
 			dispatch(setIsAuth(true));
+		} catch (e) {
+			setIsError(true);
+			setTimeout(() => {
+				setIsError(false);
+			}, 2000);
 		}
 	};
 
@@ -59,7 +65,9 @@ const Registration: FC = () => {
 							placeholder='Введіть пароль'
 							onChange={setPassword}
 						/>
-						<div className={styles.flex}></div>
+						{isError && (
+							<div className={styles.error}>Неправильний імейл або пароль</div>
+						)}
 						<CheckBoxLabel
 							value='Запам’ятати мене'
 							isChecked={isChecked}

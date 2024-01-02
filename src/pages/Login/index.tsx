@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuth, setIsSubmit } from '../../store/slices/app.slice';
 import AuthService from './../../services/AuthService';
 
-import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import CheckBoxLabel from '../../UI/CheckBoxLabel';
 import CustomLink from '../../UI/CustomLink';
 import ButtonIcon from '../../UI/ButtonIcon';
@@ -23,21 +23,29 @@ const Login: FC = () => {
 	const [email, setEmail] = useState<string | number>('');
 	const [password, setPassword] = useState<string | number>('');
 	const [isChecked, setIsChecked] = useState<boolean>(false);
+	const [isError, setIsError] = useState<boolean>(false);
 
 	const login = async () => {
 		const formData = new FormData();
 		formData.append('email', String(email));
 		formData.append('password', String(password));
 
-		if (String(email).length > 5 && String(password).length > 3 && isChecked) {
-			const { data } = await AuthService.login(formData);
-
-			if (data.access_token) dispatch(setIsSubmit(true));
-
-			localStorage.setItem('token', data.access_token);
-			localStorage.setItem('prolong_token', data.prolong_token);
-			dispatch(setIsAuth(true));
-		}
+		if (String(email).length > 5 && String(password).length > 3) {
+			try {
+				const { data } = await AuthService.login(formData);
+				dispatch(setIsSubmit(true));
+				localStorage.setItem('token', data.access_token);
+				localStorage.setItem('prolong_token', data.prolong_token);
+				localStorage.setItem('password', String(password));
+				dispatch(setIsAuth(true));
+				return <Navigate to='/' />;
+			} catch (e) {
+				setIsError(true);
+			}
+		} else setIsError(true);
+		setTimeout(() => {
+			setIsError(false);
+		}, 2000);
 	};
 
 	return (
@@ -65,6 +73,10 @@ const Login: FC = () => {
 							value={password}
 							onChange={setPassword}
 						/>
+
+						{isError && (
+							<div className={styles.error}>Неправильний імейл або пароль</div>
+						)}
 						<div className={styles.flex}>
 							<CheckBoxLabel
 								value='Запам’ятати мене'
@@ -76,9 +88,7 @@ const Login: FC = () => {
 
 						<div className={styles.subtitle}>Вхід за допомогою:</div>
 						<ButtonIcon value='Google' onClick={() => {}} />
-						<Link to='/'>
-							<Button value='Увійти' onClick={login} />
-						</Link>
+						<Button value='Увійти' onClick={login} />
 						<div className={styles.isAccount}>
 							Ще немає аккаунту?{' '}
 							<CustomLink value='Зареєструватися' to='/registration' />

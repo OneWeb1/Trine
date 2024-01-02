@@ -58,6 +58,16 @@ export default class AdminService {
 		return $api.post<string>(`/profile/change_nickname?nickname=${name}`);
 	}
 
+	static async changePassword(
+		formData: FormData,
+	): Promise<AxiosResponse<string>> {
+		return $api.post<string>(`/profile/change_password`, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		});
+	}
+
 	static async changeAvatar(id: number): Promise<AxiosResponse<string>> {
 		return $api.post<string>(`/profile/change_avatar?id=${id}`);
 	}
