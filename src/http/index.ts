@@ -4,7 +4,7 @@ import AuthService from '../services/AuthService';
 // local: 193.202.118.219:5555
 // trynka-backend.onrender.com/api
 
-export const API_URL = `http://193.202.118.219:5555/api`;
+export const API_URL = `http://trynka-backend.onrender.com/api`;
 
 const $api = axios.create({
 	withCredentials: false,
