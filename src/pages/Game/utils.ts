@@ -29,22 +29,17 @@ const resizeHandler = (
 	}
 };
 
-const getIdx = (length: number): number[] => {
-	const pos: { [key: number]: number[] } = {
-		1: [0],
-		2: [0, 6],
-		3: [0, 4, 7],
-		4: [0, 1, 6, 10],
-		5: [0, 2, 4, 7, 10],
-		6: [0, 1, 2, 4, 7, 10],
-		7: [0, 1, 2, 4, 7, 9, 10],
-		8: [0, 1, 2, 4, 5, 7, 9, 10],
-		9: [0, 1, 2, 4, 5, 6, 7, 9, 10],
-		10: [0, 1, 2, 3, 4, 5, 6, 7, 9, 10],
-		11: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-	};
-
-	return pos[length];
+const getIdx = (length: number): { pos: number[]; lastIdx: number } => {
+	const pos = [0, 7, 4, 2, 9, 5, 6, 3, 8, 1, 10];
+	let max = 0;
+	let id = 0;
+	for (let i = 0; i < length; i++) {
+		if (pos[i] > max) {
+			id = i;
+			max = pos[i];
+		}
+	}
+	return { pos, lastIdx: id };
 };
 
 const sortPlayerRelative = (stateRoom: PublicRoomResponce): IPlayerRoom[] => {

@@ -38,7 +38,6 @@ const Game: FC = () => {
 
 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
 	const [mePlayer, setMePlayer] = useState<IPlayerRoom>({} as IPlayerRoom);
-	const [lastPlayer, setLastPlayer] = useState<IPlayerRoom>({} as IPlayerRoom);
 	const [ready, setReady] = useState<boolean>(
 		JSON.parse(localStorage.getItem('ready') || 'false'),
 	);
@@ -47,7 +46,7 @@ const Game: FC = () => {
 	const [opacity, setOpacity] = useState<number>(0);
 
 	const [pos, setPos] = useState<number[]>([]);
-
+	const [lastId, setLastId] = useState<number>(-1);
 	const lastMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 	const currentMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 	const roomResultStateRef = useRef<PublicRoomResponce>(
@@ -82,8 +81,6 @@ const Game: FC = () => {
 
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
-		const players = [] as IPlayerRoom[];
-		let isAdd = false;
 		if (room.state !== 'player_recruitment' && room.state !== 'bidding') {
 			console.log({ room });
 		}
@@ -115,7 +112,6 @@ const Game: FC = () => {
 		room.players.forEach(async player => {
 			if (player.me) {
 				setMePlayer(player);
-				isAdd = true;
 			}
 			if (
 				player.state !== 'idle' &&
@@ -144,17 +140,6 @@ const Game: FC = () => {
 			} else if (player.state === 'defeat' && !player.me) {
 				alert('Win');
 			}
-			if (isAdd) players.push({ ...player });
-		});
-		room.players.forEach((player, idx) => {
-			if (player.me) {
-				setLastPlayer(
-					room.players[idx - 1] || room.players[room.players.length - 1],
-				);
-
-				isAdd = false;
-			}
-			if (isAdd) players.push({ ...player });
 		});
 
 		lastMovePlayerRef.current = { ...currentMovePlayerRef.current };
@@ -172,8 +157,10 @@ const Game: FC = () => {
 				dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
 			}, 3000);
 		}
-		setPlayers(players);
-		setPos(getIdx(players.length));
+		const { pos, lastIdx } = getIdx(room.players.length);
+		setPlayers(room.players);
+		setPos(pos);
+		setLastId(lastIdx);
 		setRoomState(room);
 		setUpdate(prev => (prev += 1));
 	};
@@ -190,6 +177,7 @@ const Game: FC = () => {
 			resizeHandler(tableRef, screenWidth);
 		});
 	}, []);
+
 	useEffect(() => {
 		(async () => {
 			await getRoomState();
@@ -200,7 +188,7 @@ const Game: FC = () => {
 			setTimeout(() => {
 				setLoading(false);
 				setOpacity(1);
-			}, 2000);
+			}, 3000);
 		})();
 
 		return () => stopPolling();
@@ -230,7 +218,7 @@ const Game: FC = () => {
 									isReady={ready}
 									check={check}
 									bet={player.last_bid}
-									lastId={lastPlayer?.id}
+									lastId={roomState.players[lastId].id}
 									index={pos[idx]}
 								/>
 							))}

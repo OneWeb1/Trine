@@ -62,14 +62,12 @@ const Player: FC<IPlayer> = ({
 		console.log({ data });
 	};
 
-	useEffect(() => {
+	const setPosition = () => {
 		if (!ref.current) return;
 		const nb = ref.current.parentElement?.getBoundingClientRect();
 		const b = ref.current.getBoundingClientRect();
-
 		if (!nb) return;
 		if (!b) return;
-
 		const p = (nb.width - nb.width * 0.5) / 2;
 		const ip = (nb.width * 0.8 - b.width * 3) / 3 + b.width - 20;
 		const ipb = (nb.width * 0.8 - b.width * 2) / 2 + b.width - 30;
@@ -120,7 +118,10 @@ const Player: FC<IPlayer> = ({
 		ref.current.style.top =
 			(!reverse && positions[index].top + 'px') ||
 			positions[index].top - 70 + 'px';
-	});
+	};
+	useEffect(() => {
+		setPosition();
+	}, []);
 
 	return (
 		<div
