@@ -13,7 +13,9 @@ interface IFishkaItem {
 
 const FishkaItem: FC<IFishkaItem> = ({ isPlayer, value }) => {
 	return (
-		<div className={classNames(styles.display, isPlayer && styles.player)}>
+		<div
+			style={{ marginLeft: (!isPlayer && '7px') || '0px' }}
+			className={classNames(styles.display, isPlayer && styles.player)}>
 			<img className={styles.fishka} src={fishka} alt='fishka' />
 			{value}
 		</div>

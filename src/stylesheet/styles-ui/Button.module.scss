@@ -82,10 +82,6 @@
 	cursor: pointer;
 	font-weight: 600;
 
-	&:first-child {
-		margin-left: -5.5px;
-	}
-
 	.icon {
 		width: 50px;
 		height: 100%;
@@ -189,6 +185,55 @@
 			rgba(5, 86, 213, 0.9) 0%,
 			rgba(33, 107, 244, 0.2) 100%
 		);
+	}
+}
+
+@media screen and (min-width: 450px) and (max-width: 600px) {
+	.special {
+		min-width: 120px;
+		width: 135px;
+		height: 50px;
+		font-size: 12px;
+
+		.icon {
+			max-width: 50px;
+			height: 50px;
+			font-size: 20px;
+		}
+	}
+}
+
+@media screen and (min-width: 200px) and (max-width: 449px) {
+	.special {
+		min-width: 60px;
+		width: 100px;
+		height: 60px;
+		font-size: 15px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-top: 7px;
+
+		flex-direction: column;
+
+		.icon {
+			max-width: 50px;
+			height: 50px;
+			font-size: 30px;
+			background-color: transparent;
+		}
+
+		.rightWrapper {
+			.center {
+				.text {
+					display: none;
+				}
+
+				.number {
+					margin-top: 0px;
+				}
+			}
+		}
 	}
 }
 

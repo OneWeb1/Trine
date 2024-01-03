@@ -1,8 +1,9 @@
 .footer {
 	position: fixed;
 	width: 100%;
-	bottom: 0;
-	background: linear-gradient(90deg, #0d1528 0%, #161e33 49.58%, #101729 100%);
+	bottom: 10px;
+	z-index: 100;
+	// background: linear-gradient(90deg, #0d1528 0%, #161e33 49.58%, #101729 100%);
 }
 
 .flexContainer {

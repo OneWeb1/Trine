@@ -10,6 +10,7 @@ interface IButtonSpecial {
 	numberVisible?: boolean;
 	disabled: boolean;
 	style?: CSSProperties;
+	iconCenter?: boolean;
 	icon?: ReactNode;
 	onClick?: () => void;
 }
@@ -20,22 +21,35 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 	disabled,
 	icon,
 	style,
+	iconCenter,
 	numberVisible,
 	onClick,
 }) => {
 	const initHandler = () => {};
+
+	const wm450 = window.innerWidth < 450;
 
 	return (
 		<div
 			className={classNames(styles.special, disabled && styles.hoverSpecial)}
 			style={style}
 			onClick={(disabled && onClick) || initHandler}>
-			{icon && <div className={styles.icon}>{icon}</div>}
-			<div className={styles.rightWrapper}>
+			{icon && (
+				<div
+					className={styles.icon}
+					style={{ marginTop: (wm450 && iconCenter && '-8px') || '0px' }}>
+					{icon}
+				</div>
+			)}
+			<div
+				className={styles.rightWrapper}
+				style={{ display: (wm450 && iconCenter && 'none') || 'flex' }}>
 				<div className={styles.center}>
 					<div
 						className={styles.text}
-						style={{ paddingTop: numberVisible !== false ? '12px' : '2px' }}>
+						style={{
+							paddingTop: numberVisible !== false ? '12px' : '2px',
+						}}>
 						{title}
 					</div>
 					{number && numberVisible !== false && (

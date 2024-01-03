@@ -14,6 +14,7 @@ import fishka from './../../public/assets/fishka.png';
 
 import styles from './../stylesheet/styles-components/GameHeader.module.scss';
 import AdminService from '../services/AdminService';
+import useOrientation from '../hooks/useOrientation';
 
 const GameHeader: FC = () => {
 	const { account, baseIconPath } = useSelector(
@@ -21,6 +22,9 @@ const GameHeader: FC = () => {
 	);
 
 	const navigate = useNavigate();
+	const orientation = useOrientation();
+	const wm750 = orientation === 'landscape' && window.innerWidth < 750;
+	console.log({ wm750 });
 
 	const roomLeave = async () => {
 		try {
@@ -47,12 +51,20 @@ const GameHeader: FC = () => {
 						</div>
 					</div>
 					<div className={styles.content}>
-						<div className={styles.name}>{account.nickname}</div>
+						<div
+							className={styles.name}
+							style={{ fontSize: (wm750 && '10px') || '16px' }}>
+							{account.nickname}
+						</div>
 						<div className={styles.chips}>
 							<span className={styles.item}>
 								<img src={fishka} alt='fishka' />
 							</span>{' '}
-							<span className={styles.chipsNumber}>{account.balance}</span>
+							<span
+								className={styles.chipsNumber}
+								style={{ fontSize: (wm750 && '10px') || '14px' }}>
+								{account.balance}
+							</span>
 						</div>
 					</div>
 				</div>

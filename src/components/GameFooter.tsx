@@ -174,6 +174,7 @@ const GameFooter: FC<IGameFooter> = ({
 											icon={
 												<MdDoubleArrow style={{ transform: 'rotate(90deg)' }} />
 											}
+											iconCenter={true}
 											disabled={isEnable}
 											onClick={dropHandler}
 										/>

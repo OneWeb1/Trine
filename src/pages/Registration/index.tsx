@@ -68,11 +68,13 @@ const Registration: FC = () => {
 						{isError && (
 							<div className={styles.error}>Неправильний імейл або пароль</div>
 						)}
-						<CheckBoxLabel
-							value='Запам’ятати мене'
-							isChecked={isChecked}
-							setIsChecked={setIsChecked}
-						/>
+						<div style={{ marginTop: '10px' }}>
+							<CheckBoxLabel
+								value='Запам’ятати мене'
+								isChecked={isChecked}
+								setIsChecked={setIsChecked}
+							/>
+						</div>
 
 						<div className={styles.subtitle}>Реєстрація за допомогою:</div>
 						<ButtonIcon value='Google' onClick={() => {}} />
