@@ -28,13 +28,14 @@ const GameHeader: FC = () => {
 	const wm750 = orientation === 'landscape' && window.innerWidth < 750;
 
 	const roomLeave = async () => {
+		navigate('/');
+
 		try {
 			await AdminService.roomLeave();
 			dispatch(setGameAction({ state: '', prevState: '' }));
 		} catch (e) {
 			console.error(e);
 		}
-		navigate('/');
 	};
 
 	return (

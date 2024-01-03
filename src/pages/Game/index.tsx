@@ -88,26 +88,24 @@ const Game: FC = () => {
 		if (room.state !== 'player_recruitment' && room.state !== 'bidding') {
 			console.log({ room });
 		}
-		if (room.state === 'result') {
-			console.log({ resultRoom: room });
-			room.players.forEach(player => {
-				if (player.me) {
-					console.log('ME PLAYER: ', gameAction.prevState, player);
-					if (player.state === 'won') {
-						roomResultStateRef.current = { ...room };
-						dispatch(setGameAction({ state: player.state }));
-					} else if (player.state === 'defeat' && !gameAction.prevState) {
-						dispatch(setGameAction({ state: player.state }));
-						dispatch(setCheck({ visible: true, id: player.id }));
-						console.log('SETCHANGE WORKING>>>>');
-						setTimeout(() => {
-							dispatch(setCheck({ visible: false, id: player.id }));
-						}, 4000);
-						dispatch(setDefeat(true));
-					}
+		// if (room.state === 'result') {
+		// 	console.log({ resultRoom: room });
+		room.players.forEach(player => {
+			if (player.me) {
+				if (player.state === 'won') {
+					roomResultStateRef.current = { ...room };
+					dispatch(setGameAction({ state: player.state, prevState: '' }));
+				} else if (player.state === 'defeat') {
+					dispatch(setGameAction({ state: player.state, prevState: '' }));
+					dispatch(setCheck({ visible: true, id: player.id }));
+					setTimeout(() => {
+						dispatch(setCheck({ visible: false, id: player.id }));
+					}, 4000);
+					dispatch(setDefeat(true));
 				}
-			});
-		}
+			}
+		});
+		// }
 		if (room.template) {
 			localStorage.removeItem('joinRoom');
 			localStorage.removeItem('ready');
