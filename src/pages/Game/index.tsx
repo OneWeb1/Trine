@@ -102,6 +102,8 @@ const Game: FC = () => {
 						dispatch(setCheck({ visible: false, id: player.id }));
 					}, 4000);
 					dispatch(setDefeat(true));
+				} else {
+					console.log('PLAYERSTATE: ', player.state);
 				}
 			}
 		});
