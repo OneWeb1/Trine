@@ -66,6 +66,7 @@ const Input: FC<IInput> = ({
 
 					{type === 'password' && (
 						<div
+							style={{ top: (window.innerWidth < 450 && '52%') || '54%' }}
 							className={styles.eye}
 							onClick={() => setVisiblePassword(prev => !prev)}>
 							{' '}
