@@ -46,6 +46,7 @@ const Game: FC = () => {
 	const [opacity, setOpacity] = useState<number>(0);
 
 	const [pos, setPos] = useState<number[]>([]);
+	const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 	const [lastId, setLastId] = useState<number>(-1);
 	const lastMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 	const currentMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
@@ -176,10 +177,14 @@ const Game: FC = () => {
 	const handleFullScreen = () => {
 		const element = document.documentElement; // Fullscreen the entire document
 
-		if (element.requestFullscreen) {
+		if (!isFullScreen && element.requestFullscreen) {
 			element.requestFullscreen();
-			resizeHandler(tableRef, window.innerWidth);
+			setIsFullScreen(true);
+		} else if (isFullScreen) {
+			document.exitFullscreen();
+			setIsFullScreen(false);
 		}
+		resizeHandler(tableRef, window.innerWidth);
 	};
 
 	useEffect(() => {
@@ -220,7 +225,7 @@ const Game: FC = () => {
 			{update && roomState.join_tax && (
 				<div
 					className={styles.page}
-					onClick={handleFullScreen}
+					onDoubleClick={handleFullScreen}
 					style={{ transition: '3s', opacity: opacity }}>
 					<GameHeader />
 					<div className={styles.tableWrapper}>
