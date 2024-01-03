@@ -53,7 +53,10 @@ const GameHeader: FC = () => {
 					<div className={styles.content}>
 						<div
 							className={styles.name}
-							style={{ fontSize: (wm750 && '10px') || '16px' }}>
+							style={{
+								fontSize: (wm750 && '10px') || '14px',
+								fontWeight: '600',
+							}}>
 							{account.nickname}
 						</div>
 						<div className={styles.chips}>

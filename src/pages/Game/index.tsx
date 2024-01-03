@@ -55,6 +55,8 @@ const Game: FC = () => {
 	const tableRef = useRef<HTMLDivElement>(null);
 	const timeoutRef = useRef<number | null>(null);
 
+	const fullscreenRef = useRef<HTMLDivElement | null>(null);
+
 	const reverseIds = [0, 1, 2, 11, 10];
 
 	const startPolling = () => {
@@ -200,6 +202,33 @@ const Game: FC = () => {
 		resizeHandler(tableRef, window.innerWidth);
 	});
 
+	useEffect(() => {
+		const handleDoubleClick = () => {
+			const currentFullscreenRef = fullscreenRef.current;
+			if (!currentFullscreenRef) return;
+			if (document.fullscreenElement) {
+				document.exitFullscreen();
+			} else {
+				currentFullscreenRef.requestFullscreen();
+			}
+		};
+
+		const handleFullscreenChange = () => {
+			// Обработка события изменения режима полноэкранного режима
+			console.log('Fullscreen change event');
+		};
+		if (!fullscreenRef.current) return;
+		fullscreenRef.current.addEventListener('dblclick', handleDoubleClick);
+		document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+		return () => {
+			const currentFullscreenRef = fullscreenRef.current;
+			if (!currentFullscreenRef) return;
+			currentFullscreenRef.removeEventListener('dblclick', handleDoubleClick);
+			document.removeEventListener('fullscreenchange', handleFullscreenChange);
+		};
+	}, []); // Пустой массив зависимостей, так как мы не используем внешние переменные внутри эффекта
+
 	return (
 		<>
 			{loading && (
@@ -210,6 +239,7 @@ const Game: FC = () => {
 			{update && roomState.join_tax && (
 				<div
 					className={styles.page}
+					ref={fullscreenRef}
 					style={{ transition: '3s', opacity: opacity }}>
 					<GameHeader />
 					<div className={styles.tableWrapper}>
