@@ -227,7 +227,7 @@ const Game: FC = () => {
 			currentFullscreenRef.removeEventListener('dblclick', handleDoubleClick);
 			document.removeEventListener('fullscreenchange', handleFullscreenChange);
 		};
-	}, []); // Пустой массив зависимостей, так как мы не используем внешние переменные внутри эффекта
+	}, []);
 
 	return (
 		<>
