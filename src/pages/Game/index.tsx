@@ -30,7 +30,7 @@ import styles from './../../stylesheet/styles/Game.module.scss';
 const Game: FC = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { joinRoom, gameAction, defeat, check } = useSelector(
+	const { joinRoom, gameAction, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
