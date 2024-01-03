@@ -91,7 +91,7 @@ const Game: FC = () => {
 			// 	console.log('win');
 			// 	roomResultStateRef.current = { ...room };
 			// 	dispatch(setGameOverAction({ state: 'win' }));
-			// 	return;
+			// return;
 			// }
 			if (room.players.length === 1) {
 				const player = room.players[0];
