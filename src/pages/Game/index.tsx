@@ -61,6 +61,8 @@ const Game: FC = () => {
 
 	const startPolling = () => {
 		if (timeoutRef.current) return;
+		if (gameAction.prevState)
+			dispatch(setGameAction({ state: '', prevState: '' }));
 
 		timeoutRef.current = setInterval(async () => {
 			const responce = await AdminService.getPublicRoomByState(joinRoom.id);
