@@ -174,6 +174,16 @@ const Game: FC = () => {
 		localStorage.setItem('ready', 'true');
 		setReady(true);
 	};
+
+	const handleFullScreen = () => {
+		const element = document.documentElement; // Fullscreen the entire document
+
+		if (element.requestFullscreen) {
+			element.requestFullscreen();
+			resizeHandler(tableRef, window.innerWidth);
+		}
+	};
+
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			const screenWidth = window.innerWidth;
@@ -202,33 +212,6 @@ const Game: FC = () => {
 		resizeHandler(tableRef, window.innerWidth);
 	});
 
-	useEffect(() => {
-		const handleDoubleClick = () => {
-			const currentFullscreenRef = fullscreenRef.current;
-			if (!currentFullscreenRef) return;
-			if (document.fullscreenElement) {
-				document.exitFullscreen();
-			} else {
-				currentFullscreenRef.requestFullscreen();
-			}
-		};
-
-		const handleFullscreenChange = () => {
-			// Обработка события изменения режима полноэкранного режима
-			console.log('Fullscreen change event');
-		};
-		if (!fullscreenRef.current) return;
-		fullscreenRef.current.addEventListener('dblclick', handleDoubleClick);
-		document.addEventListener('fullscreenchange', handleFullscreenChange);
-
-		return () => {
-			const currentFullscreenRef = fullscreenRef.current;
-			if (!currentFullscreenRef) return;
-			currentFullscreenRef.removeEventListener('dblclick', handleDoubleClick);
-			document.removeEventListener('fullscreenchange', handleFullscreenChange);
-		};
-	}, []);
-
 	return (
 		<>
 			{loading && (
@@ -239,7 +222,7 @@ const Game: FC = () => {
 			{update && roomState.join_tax && (
 				<div
 					className={styles.page}
-					ref={fullscreenRef}
+					onClick={handleFullScreen}
 					style={{ transition: '3s', opacity: opacity }}>
 					<GameHeader />
 					<div className={styles.tableWrapper}>
