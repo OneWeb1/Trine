@@ -24,7 +24,6 @@ const GameHeader: FC = () => {
 	const navigate = useNavigate();
 	const orientation = useOrientation();
 	const wm750 = orientation === 'landscape' && window.innerWidth < 750;
-	console.log({ wm750 });
 
 	const roomLeave = async () => {
 		try {

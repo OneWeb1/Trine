@@ -100,7 +100,6 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 		);
 
 		if (diffTime > 2) {
-			console.log(3);
 			initPlayers();
 			handleResize();
 			dateRef.current = new Date().getTime();

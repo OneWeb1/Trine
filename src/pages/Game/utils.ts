@@ -9,7 +9,7 @@ const resizeHandler = (
 ) => {
 	if (!tableRef.current) return;
 	if (screenWidth < 1600 && screenWidth > 1200) {
-		tableRef.current.style.transform = `scale(.9)`;
+		tableRef.current.style.transform = `scale(.85)`;
 	} else if (screenWidth < 1200 && screenWidth > 1100) {
 		tableRef.current.style.transform = `scale(.8)`;
 	} else if (screenWidth < 1100 && screenWidth > 1000) {
