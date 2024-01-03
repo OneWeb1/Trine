@@ -86,10 +86,10 @@ const Game: FC = () => {
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
 		if (room.state !== 'player_recruitment' && room.state !== 'bidding') {
-			console.log({ room });
+			//console.log({ room });
 		}
 		// if (room.state === 'result') {
-		// 	console.log({ resultRoom: room });
+		console.log({ resultRoom: room });
 		room.players.forEach(player => {
 			if (player.me) {
 				if (player.state === 'won') {
