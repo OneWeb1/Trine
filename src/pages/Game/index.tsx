@@ -275,7 +275,7 @@ const Game: FC = () => {
 				/>
 			)}
 			{gameAction.state === 'won' &&
-				gameAction.prevState &&
+				!gameAction.prevState &&
 				roomResultStateRef.current.bank && (
 					<ModalAfterGame
 						title='Ви виграли'
