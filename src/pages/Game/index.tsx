@@ -90,7 +90,7 @@ const Game: FC = () => {
 			console.log({ resultRoom: room });
 			room.players.forEach(player => {
 				if (player.me) {
-					console.log('ME PLAYER: ', player);
+					console.log('ME PLAYER: ', gameAction.prevState, player);
 					if (player.state === 'won') {
 						roomResultStateRef.current = { ...room };
 						dispatch(setGameAction({ state: player.state }));
