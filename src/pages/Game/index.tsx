@@ -143,9 +143,6 @@ const Game: FC = () => {
 			}, 3000);
 		}
 		setPlayers(room.players);
-		console.log(
-			getRoomIndexPosition(room.players.length).sort((a, b) => a - b),
-		);
 		setPos(getRoomIndexPosition(room.players.length));
 		setRoomState(room);
 		setUpdate(prev => (prev += 1));
@@ -208,7 +205,6 @@ const Game: FC = () => {
 	}, [joinRoom]);
 
 	useEffect(() => {
-		console.log(4);
 		resizeHandler(tableRef, window.innerWidth);
 	});
 
@@ -232,13 +228,13 @@ const Game: FC = () => {
 									key={idx}
 									cards={mePlayer.cards}
 									player={player}
-									reverse={reverseIds.includes(pos.sort((a, b) => a - b)[idx])}
+									reverse={reverseIds.includes(pos[idx])}
 									isMeMove={mePlayer.state === 'move'}
 									isReady={ready}
 									check={check}
 									bet={player.last_bid}
 									lastId={getLastId()}
-									index={pos.sort((a, b) => a - b)[idx]}
+									index={pos[idx]}
 								/>
 							))}
 
@@ -273,7 +269,6 @@ const Game: FC = () => {
 					/>
 				</div>
 			)}
-			{console.log(gameAction)}
 			{gameAction.state === 'defeat' && !gameAction.prevState && (
 				<ModalAfterGame
 					title='Ви програли'

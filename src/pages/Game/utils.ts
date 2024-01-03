@@ -40,7 +40,7 @@ const resizeHandler = (
 const getRoomIndexPosition = (length: number): number[] => {
 	const position = [0, 7, 4, 2, 9, 5, 6, 3, 8, 1, 10];
 
-	return position.slice(0, length);
+	return position.slice(0, length).sort((a, b) => a - b);
 };
 
 const sortPlayerRelative = (stateRoom: PublicRoomResponce): IPlayerRoom[] => {

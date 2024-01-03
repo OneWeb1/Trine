@@ -111,7 +111,6 @@ const Player: FC<IPlayer> = ({
 			(!reverse && positions[index].top + 'px') ||
 			positions[index].top - 70 + 'px';
 	};
-	console.log({ index });
 
 	useEffect(() => {
 		setPosition();

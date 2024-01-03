@@ -8,6 +8,7 @@ import {
 	setVisibleModal,
 	setAccount,
 	setIsAuth,
+	setGameAction,
 } from '../../store/slices/app.slice';
 
 import ModalCreateRoom from '../../components/modals/ModalCreateRoom';
@@ -112,6 +113,7 @@ const Home: FC = () => {
 			await AdminService.roomLeave();
 		};
 		leave();
+		dispatch(setGameAction({ state: '', prevState: '' }));
 	}, []);
 
 	return (
