@@ -52,11 +52,11 @@ const Player: FC<IPlayer> = ({
 			console.log(player.state);
 			if (player.me && player.state === 'won') {
 				console.log('win');
-				alert('WIN');
+				// alert('WIN');
 			}
 			if (player.me && player.state === 'defeat') {
 				console.log('defeat');
-				alert('DEFEAT');
+				// alert('DEFEAT');
 			}
 		});
 		console.log({ data });
@@ -131,7 +131,7 @@ const Player: FC<IPlayer> = ({
 				marginTop: (!reverse && '-10px') || '',
 				marginLeft: (index === 0 && '-20px') || '0px',
 				display: (index === 0 && 'flex') || '',
-				opacity: player.state === 'defeat' ? 0.8 : 1,
+				opacity: player.state === 'defeat' ? 0.3 : 1,
 			}}>
 			<div>
 				{reverse && (

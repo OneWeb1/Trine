@@ -24,3 +24,19 @@
 		color: #2a72ff;
 	}
 }
+
+@media screen and (max-width: 450px) {
+	.wrapper {
+		span {
+			font-size: 12px;
+		}
+	}
+}
+
+@media screen and (max-width: 339px) {
+	.wrapper {
+		span {
+			font-size: 10px;
+		}
+	}
+}

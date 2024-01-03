@@ -191,3 +191,18 @@
 		);
 	}
 }
+
+@media screen and (max-width: 450px) {
+	.button {
+		height: 38px;
+		font-size: 12px;
+	}
+
+	.buttonIcon {
+		.flex > img {
+			width: 15px;
+			height: 15px;
+			margin-right: 5px;
+		}
+	}
+}

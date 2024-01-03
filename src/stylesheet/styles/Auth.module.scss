@@ -65,3 +65,37 @@
 	align-items: center;
 	justify-content: center;
 }
+
+@media screen and (max-width: 450px) {
+	.loginWrapper {
+		padding: 25px 20px;
+
+		.title {
+			font-size: 14px;
+		}
+
+		.subtitle {
+			font-size: 12px;
+		}
+
+		.isAccount {
+			font-size: 12px;
+		}
+
+		input::placeholder {
+			font-size: 12px;
+		}
+	}
+}
+
+@media screen and (min-width: 340px) and (max-width: 450px) {
+	.flex {
+		font-size: 12px;
+	}
+}
+
+@media screen and (min-width: 40px) and (max-width: 339px) {
+	.flex {
+		font-size: 10px;
+	}
+}

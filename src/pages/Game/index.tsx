@@ -120,11 +120,13 @@ const Game: FC = () => {
 				player.state !== 'move'
 			) {
 				if (player.state === 'won' && !player.me) {
-					alert('LOse');
+					// alert('LOse');
+					console.log('lose');
 					roomResultStateRef.current = { ...room };
 					dispatch(setGameOverAction({ state: 'lose' }));
 				} else if (player.state === 'won' && player.me) {
-					alert('win');
+					// alert('win');
+					console.log('win');
 				}
 				console.log({ palyerState: player, state: player.state });
 				// if (player.state === 'won' && !player.me) {

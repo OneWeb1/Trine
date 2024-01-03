@@ -50,7 +50,7 @@ const ModalSettings: FC = () => {
 			} catch (e) {
 				return;
 			}
-		} else {
+		} else if ($currentPassword.length || $newPassword.length) {
 			throw new Error('Password is not empty');
 		}
 
