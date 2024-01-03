@@ -23,7 +23,7 @@ interface IState {
 	visibleHeaderMenu: boolean;
 	check: { visible: boolean; id: number };
 	visibleStateMessage: IVisibleStateMessage;
-	gameOverAction: { state: string };
+	gameAction: { state: string; prevState: string };
 	gameState: string;
 	visibleModal: string;
 	gameParamId: string;
@@ -47,7 +47,7 @@ const initialState: IState = {
 	check: {} as { visible: boolean; id: number },
 	gameState: localStorage.getItem('game_state') || '',
 	visibleStateMessage: {} as IVisibleStateMessage,
-	gameOverAction: {} as { state: string },
+	gameAction: { state: '', prevState: '' },
 	visibleModal: '',
 	visibleHeaderMenu: false,
 	visibleMenuAccountSettings: false,
@@ -91,8 +91,15 @@ const appSlice = createSlice({
 		setVisibleStateMessage(state, action) {
 			state.visibleStateMessage = action.payload;
 		},
-		setGameOverAction(state, action) {
-			state.gameOverAction = action.payload;
+		setGameAction(state, action) {
+			if (!action.payload.prevState) {
+				state.gameAction = {
+					state: action.payload.state,
+					prevState: state.gameAction.prevState,
+				};
+				return;
+			}
+			state.gameAction = action.payload;
 		},
 		setGameState(state, action) {
 			state.gameState = action.payload;
@@ -142,7 +149,7 @@ export const {
 	setReady,
 	setDefeat,
 	setCheck,
-	setGameOverAction,
+	setGameAction,
 	setGameState,
 	setVisibleStateMessage,
 	setVisibleHeaderMenu,

@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
 import Modal from './Modal';
 import Button from '../../UI/Button';
 
@@ -43,13 +42,11 @@ const ModalAfterGame: FC<IModalAfterGame> = ({
 			)}
 
 			{isWin && <div style={{ color: 'green' }}>Вітаю! Сьогодні ваш день.</div>}
-			<Link to='/'>
-				<Button
-					style={{ marginTop: '20px' }}
-					value={value || 'Вийти з кімнати'}
-					onClick={onClick}
-				/>
-			</Link>
+			<Button
+				style={{ marginTop: '20px' }}
+				value={value || 'Ок'}
+				onClick={onClick}
+			/>
 		</Modal>
 	);
 };

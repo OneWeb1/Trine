@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { TbUserPentagon } from 'react-icons/tb';
 
 import { RootState as CustomRootState } from '../store/rootReducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setGameAction } from '../store/slices/app.slice';
 
 import { VscDebugStepBack } from 'react-icons/vsc';
 // import { RiSettings3Line } from 'react-icons/ri';
@@ -17,6 +18,7 @@ import AdminService from '../services/AdminService';
 import useOrientation from '../hooks/useOrientation';
 
 const GameHeader: FC = () => {
+	const dispatch = useDispatch();
 	const { account, baseIconPath } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
@@ -28,6 +30,7 @@ const GameHeader: FC = () => {
 	const roomLeave = async () => {
 		try {
 			await AdminService.roomLeave();
+			dispatch(setGameAction({ state: '', prevState: '' }));
 		} catch (e) {
 			console.error(e);
 		}

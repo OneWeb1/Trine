@@ -46,20 +46,11 @@ const Player: FC<IPlayer> = ({
 	const { visible, id } = visibleStateMessage;
 
 	const doCheckCards = async () => {
-		const { data } = await AdminService.do({ action: 'check' });
-		const players = data.players;
-		players.forEach(player => {
-			console.log(player.state);
-			if (player.me && player.state === 'won') {
-				console.log('win');
-				// alert('WIN');
-			}
-			if (player.me && player.state === 'defeat') {
-				console.log('defeat');
-				// alert('DEFEAT');
-			}
-		});
-		console.log({ data });
+		try {
+			await AdminService.do({ action: 'check' });
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	const setPosition = () => {

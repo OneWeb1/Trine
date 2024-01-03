@@ -1,14 +1,14 @@
 import { FC, useState, useRef, useEffect } from 'react';
 
-// import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	setGameOverAction,
+	setGameAction,
 	setVisibleStateMessage,
 	setDefeat,
-	setCheck,
+	// setCheck,
 } from '../../store/slices/app.slice';
 
 import GameHeader from '../../components/GameHeader';
@@ -29,7 +29,8 @@ import styles from './../../stylesheet/styles/Game.module.scss';
 
 const Game: FC = () => {
 	const dispatch = useDispatch();
-	const { joinRoom, gameOverAction, defeat, check } = useSelector(
+	const navigate = useNavigate();
+	const { joinRoom, gameAction, defeat, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
@@ -87,15 +88,24 @@ const Game: FC = () => {
 		}
 		if (room.state === 'result') {
 			console.log({ resultRoom: room });
-			if (room.players.length === 1) {
-				const player = room.players[0];
+			room.players.forEach(player => {
 				console.log({ playerOne: player });
-				if (player.state === 'won' && !player.me) {
-					dispatch(setDefeat(true));
-					dispatch(setCheck({ visible: true, id: player.id }));
-					console.log('won');
+				if (player.me) {
+					console.log({ defeat });
+					if (player.state === 'won') {
+						roomResultStateRef.current = { ...room };
+						dispatch(setGameAction({ state: player.state }));
+					} else if (player.state === 'defeat') {
+						dispatch(setGameAction({ state: player.state }));
+						// dispatch(setCheck({ visible: true, id: player.id }));
+						// console.log('SETCHANGE WORKING>>>>');
+						// setTimeout(() => {
+						// 	dispatch(setCheck({ visible: false, id: player.id }));
+						// }, 4000);
+						dispatch(setDefeat(true));
+					}
 				}
-			}
+			});
 		}
 		if (room.template) {
 			localStorage.removeItem('joinRoom');
@@ -108,13 +118,13 @@ const Game: FC = () => {
 				setMePlayer(player);
 			}
 
-			if (player.state === 'defeat' && player.me && !defeat) {
-				dispatch(setDefeat(true));
-				dispatch(setCheck({ visible: true, id: player.id }));
-				console.log({ playerDefeat: player });
-			} else if (player.state === 'defeat' && !player.me) {
-				console.log('win');
-			}
+			// if (player.state === 'defeat' && player.me && !defeat) {
+			// 	dispatch(setDefeat(true));
+			// 	dispatch(setCheck({ visible: true, id: player.id }));
+			// 	console.log({ playerDefeat: player });
+			// } else if (player.state === 'defeat' && !player.me) {
+			// 	console.log('win');
+			// }
 		});
 
 		lastMovePlayerRef.current = { ...currentMovePlayerRef.current };
@@ -250,8 +260,8 @@ const Game: FC = () => {
 					/>
 				</div>
 			)}
-
-			{gameOverAction.state === 'lose' && (
+			{console.log(gameAction)}
+			{gameAction.state === 'defeat' && !gameAction.prevState && (
 				<ModalAfterGame
 					title='Ви програли'
 					message='Сума програшу:'
@@ -259,30 +269,36 @@ const Game: FC = () => {
 					isHide={false}
 					sum={mePlayer.full_bid}
 					onClick={() => {
-						dispatch(setGameOverAction({ state: '' }));
+						dispatch(setGameAction({ state: '', prevState: 'defeat' }));
+						navigate('/game');
 					}}
 				/>
 			)}
-			{gameOverAction.state === 'win' && (
-				<ModalAfterGame
-					title='Ви виграли'
-					message='Сума виграшу:'
-					isWin={true}
-					isHide={false}
-					sum={roomResultStateRef.current.bank * 0.95}
-					onClick={() => {
-						dispatch(setGameOverAction({ state: '' }));
-					}}
-				/>
-			)}
-			{gameOverAction.state === 'room-not-found' && (
+			{gameAction.state === 'won' &&
+				gameAction.prevState &&
+				roomResultStateRef.current.bank && (
+					<ModalAfterGame
+						title='Ви виграли'
+						message='Сума виграшу:'
+						isWin={true}
+						isHide={false}
+						sum={roomResultStateRef.current.bank * 0.95}
+						onClick={() => {
+							roomResultStateRef.current = {} as PublicRoomResponce;
+							dispatch(setGameAction({ state: '', prevState: 'won' }));
+							navigate('/game');
+						}}
+					/>
+				)}
+			{gameAction.state === 'room-not-found' && !gameAction.prevState && (
 				<ModalAfterGame
 					title='Повідомлення'
 					message="З'єднання з кімнатою було втрачене. Зайдіть в другу кімнату або звяжіться з нашими менеджерами."
 					value='На головну'
 					isHide={false}
 					onClick={() => {
-						dispatch(setGameOverAction({ state: '' }));
+						dispatch(setGameAction({ state: '', prevState: 'room-not-found' }));
+						navigate('/');
 					}}
 				/>
 			)}

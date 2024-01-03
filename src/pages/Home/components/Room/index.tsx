@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setUpdatePublickRooms,
 	setJoinRoom,
-	setGameOverAction,
+	setGameAction,
 } from '../../../../store/slices/app.slice';
 
 import { MdDeleteOutline } from 'react-icons/md';
@@ -47,7 +47,7 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 			dispatch(setJoinRoom(data));
 			localStorage.setItem('joinRoom', JSON.stringify(data));
 		} catch (e) {
-			dispatch(setGameOverAction({ state: 'room-not-found' }));
+			dispatch(setGameAction({ state: 'room-not-found' }));
 		}
 	};
 

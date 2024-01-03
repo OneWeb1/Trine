@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { setGameOverAction } from '../store/slices/app.slice';
+import { setGameAction } from '../store/slices/app.slice';
 
 import { MdDoubleArrow } from 'react-icons/md';
 
@@ -53,7 +53,7 @@ const GameFooter: FC<IGameFooter> = ({
 	const dropHandler = async () => {
 		const responce = await AdminService.do({ action: 'drop' });
 		if (!responce.data) return;
-		dispatch(setGameOverAction({ state: 'lose' }));
+		dispatch(setGameAction({ state: 'lose', prevState: 'lose' }));
 	};
 
 	// const changePercent = (e: ChangeEvent<HTMLInputElement>) => {

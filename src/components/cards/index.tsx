@@ -12,7 +12,8 @@ interface ITreeCards {
 
 const TreeCards: FC<ITreeCards> = ({ cards, style }) => {
 	const [visible, setVisible] = useState<boolean>(false);
-	const type = (cards.length === 3 && 'svg') || 'jpg';
+
+	const type = (cards?.length === 3 && 'svg') || 'jpg';
 
 	const baseCardsUrl = './assets/cards';
 
