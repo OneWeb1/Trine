@@ -55,8 +55,6 @@ const Game: FC = () => {
 	const tableRef = useRef<HTMLDivElement>(null);
 	const timeoutRef = useRef<number | null>(null);
 
-	const fullscreenRef = useRef<HTMLDivElement | null>(null);
-
 	const reverseIds = [0, 1, 2, 11, 10];
 
 	const startPolling = () => {
