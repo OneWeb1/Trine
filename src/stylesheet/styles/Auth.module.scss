@@ -68,8 +68,11 @@
 }
 
 @media screen and (max-width: 450px) {
+	.page {
+		padding: 0px 10px;
+	}
 	.loginWrapper {
-		padding: 25px 20px;
+		padding: 25px 10px;
 
 		.title {
 			font-size: 14px;
