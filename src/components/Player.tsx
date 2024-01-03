@@ -105,14 +105,17 @@ const Player: FC<IPlayer> = ({
 		// ref.current.style.left =
 		// 	(index === 0 && positions[index].left - 10 + 'px') ||
 		// 	positions[index].left + 'px';
+
 		ref.current.style.left = positions[index].left + 'px';
 		ref.current.style.top =
 			(!reverse && positions[index].top + 'px') ||
 			positions[index].top - 70 + 'px';
 	};
+	console.log({ index });
+
 	useEffect(() => {
 		setPosition();
-	}, []);
+	});
 
 	return (
 		<div

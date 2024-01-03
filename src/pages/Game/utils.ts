@@ -37,17 +37,10 @@ const resizeHandler = (
 	}
 };
 
-const getIdx = (length: number): { pos: number[]; lastIdx: number } => {
-	const pos = [0, 7, 4, 2, 9, 5, 6, 3, 8, 1, 10];
-	let max = 0;
-	let id = 0;
-	for (let i = 0; i < length; i++) {
-		if (pos[i] > max) {
-			id = i;
-			max = pos[i];
-		}
-	}
-	return { pos, lastIdx: id };
+const getRoomIndexPosition = (length: number): number[] => {
+	const position = [0, 7, 4, 2, 9, 5, 6, 3, 8, 1, 10];
+
+	return position.slice(0, length);
 };
 
 const sortPlayerRelative = (stateRoom: PublicRoomResponce): IPlayerRoom[] => {
@@ -65,4 +58,4 @@ const sortPlayerRelative = (stateRoom: PublicRoomResponce): IPlayerRoom[] => {
 	return players;
 };
 
-export { resizeHandler, getIdx, sortPlayerRelative };
+export { resizeHandler, getRoomIndexPosition, sortPlayerRelative };

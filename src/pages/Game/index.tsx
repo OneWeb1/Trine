@@ -8,7 +8,7 @@ import {
 	setGameAction,
 	setVisibleStateMessage,
 	setDefeat,
-	// setCheck,
+	setCheck,
 } from '../../store/slices/app.slice';
 
 import GameHeader from '../../components/GameHeader';
@@ -24,7 +24,7 @@ import AdminService from '../../services/AdminService';
 import { PublicRoomResponce } from '../../models/responce/AdminResponce';
 import { IPlayerRoom } from '../Admin/interfaces';
 
-import { resizeHandler, getIdx } from './utils';
+import { resizeHandler, getRoomIndexPosition } from './utils';
 import styles from './../../stylesheet/styles/Game.module.scss';
 
 const Game: FC = () => {
@@ -48,7 +48,7 @@ const Game: FC = () => {
 
 	const [pos, setPos] = useState<number[]>([]);
 	const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
-	const [lastId, setLastId] = useState<number>(-1);
+	// const [lastId, setLastId] = useState<number>(-1);
 	const lastMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 	const currentMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 	const roomResultStateRef = useRef<PublicRoomResponce>(
@@ -97,11 +97,11 @@ const Game: FC = () => {
 						dispatch(setGameAction({ state: player.state }));
 					} else if (player.state === 'defeat') {
 						dispatch(setGameAction({ state: player.state }));
-						// dispatch(setCheck({ visible: true, id: player.id }));
-						// console.log('SETCHANGE WORKING>>>>');
-						// setTimeout(() => {
-						// 	dispatch(setCheck({ visible: false, id: player.id }));
-						// }, 4000);
+						dispatch(setCheck({ visible: true, id: player.id }));
+						console.log('SETCHANGE WORKING>>>>');
+						setTimeout(() => {
+							dispatch(setCheck({ visible: false, id: player.id }));
+						}, 4000);
 						dispatch(setDefeat(true));
 					}
 				}
@@ -142,10 +142,11 @@ const Game: FC = () => {
 				dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
 			}, 3000);
 		}
-		const { pos, lastIdx } = getIdx(room.players.length);
 		setPlayers(room.players);
-		setPos(pos);
-		setLastId(lastIdx);
+		console.log(
+			getRoomIndexPosition(room.players.length).sort((a, b) => a - b),
+		);
+		setPos(getRoomIndexPosition(room.players.length));
 		setRoomState(room);
 		setUpdate(prev => (prev += 1));
 	};
@@ -154,6 +155,18 @@ const Game: FC = () => {
 		await AdminService.roomIsReady(true);
 		localStorage.setItem('ready', 'true');
 		setReady(true);
+	};
+
+	const getLastId = () => {
+		let id = roomState.players.length - 1;
+		let lastPlayer = roomState.players[id];
+		let state = lastPlayer.state === 'defeat';
+		while (state) {
+			id = id - 1;
+			lastPlayer = roomState.players[id];
+			state = lastPlayer.state === 'defeat';
+		}
+		return lastPlayer.id;
 	};
 
 	const handleFullScreen = () => {
@@ -219,13 +232,13 @@ const Game: FC = () => {
 									key={idx}
 									cards={mePlayer.cards}
 									player={player}
-									reverse={reverseIds.includes(pos[idx])}
+									reverse={reverseIds.includes(pos.sort((a, b) => a - b)[idx])}
 									isMeMove={mePlayer.state === 'move'}
 									isReady={ready}
 									check={check}
 									bet={player.last_bid}
-									lastId={roomState.players[lastId].id}
-									index={pos[idx]}
+									lastId={getLastId()}
+									index={pos.sort((a, b) => a - b)[idx]}
 								/>
 							))}
 
