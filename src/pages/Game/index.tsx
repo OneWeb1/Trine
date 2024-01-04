@@ -88,7 +88,8 @@ const Game: FC = () => {
 		if (
 			(room.state === 'player_recruitment' || room.state === 'result') &&
 			room.players.length === 1 &&
-			!room.players.some(player => player.me)
+			!room.players.some(player => player.me) &&
+			room.players[0].state !== 'ready'
 		) {
 			navigate('/');
 		}
