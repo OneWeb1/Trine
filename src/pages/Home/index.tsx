@@ -35,13 +35,10 @@ import {
 	ProfileMeResponce,
 	PublicRoomResponce,
 } from '../../models/responce/AdminResponce';
-import useSetTimeout from '../../hooks/useSetTimeout';
 
 const Home: FC = () => {
 	const dispatch = useDispatch();
-	const { visibleModal, joinRoom } = useSelector(
-		(state: CustomRootState) => state.app,
-	);
+	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
 	const [publicRooms, setPublicRooms] = useState<PublicRoomResponce[]>([]);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const [update, setUpdate] = useState<number>(1);
