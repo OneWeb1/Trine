@@ -11,7 +11,9 @@
 			width: 90px;
 			height: 90px;
 			top: 0px;
-			left: 80px;
+			left: 0px;
+			background-color: rgba(0, 0, 0, 0.9);
+			border-radius: 10px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -28,7 +30,7 @@
 				color: #ffffff;
 				transition: 0.5s;
 				transform: scale(0.7);
-				filter: brightness(0.8);
+				// filter: brightness(0.8);
 
 				&:hover {
 					border: 2px solid #ffffff;
@@ -143,15 +145,4 @@
 	100% {
 		transform: scale(1) translateY(-2px);
 	}
-}
-
-.cards {
-	// position: absolute;
-	// width: 200px;
-	// height: 123px;
-	// left: 90px;
-
-	// top: 0px;
-	// z-index: 1000px;
-	// background-color: red;
 }

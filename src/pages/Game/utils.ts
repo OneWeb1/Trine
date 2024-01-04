@@ -3,38 +3,36 @@ import {
 	IPlayerRoom,
 } from '../../models/responce/AdminResponce';
 
-const resizeHandler = (
-	tableRef: { current: HTMLDivElement | null },
-	screenWidth: number,
-) => {
+const resizeHandler = (tableRef: { current: HTMLDivElement | null }) => {
+	const screenWidth = window.innerWidth;
+
 	if (!tableRef.current) return;
-	if (screenWidth < 1600 && screenWidth > 1200) {
-		tableRef.current.style.transform = `scale(.85)`;
-	} else if (screenWidth < 1200 && screenWidth > 1100) {
-		tableRef.current.style.transform = `scale(.8)`;
-	} else if (screenWidth < 1100 && screenWidth > 1000) {
-		tableRef.current.style.transform = `scale(.8)`;
-	} else if (screenWidth < 1000 && screenWidth > 900) {
-		tableRef.current.style.transform = `scale(.48)`;
-	} else if (screenWidth < 900 && screenWidth > 800) {
-		tableRef.current.style.transform = `scale(.50)`;
-	} else if (screenWidth < 800 && screenWidth > 700) {
-		tableRef.current.style.transform = `scale(.45)`;
-	} else if (screenWidth < 700 && screenWidth > 600) {
-		tableRef.current.style.transform = `scale(.42)`;
-	} else if (screenWidth < 600 && screenWidth > 500) {
-		tableRef.current.style.transform = `scale(.35)`;
-	} else if (screenWidth < 500 && screenWidth > 400) {
-		tableRef.current.style.transform = `scale(.30)`;
-	} else if (screenWidth < 400 && screenWidth > 300) {
-		tableRef.current.style.transform = `scale(.45) rotate(-90deg)`;
-	} else if (screenWidth < 300 && screenWidth > 200) {
-		tableRef.current.style.transform = `scale(.20) rotate(-90deg)`;
-	} else if (screenWidth < 260 && screenWidth > 160) {
-		tableRef.current.style.transform = `scale(.1) rotate(-90deg)`;
-	} else if (screenWidth >= 900) {
-		tableRef.current.style.transform = `scale(.8)`;
-	}
+	let scale = 1;
+	let deg = 0;
+
+	const screens = [
+		[1600, 1200, 0.85],
+		[1200, 1100, 0.8],
+		[1100, 1000, 0.8],
+		[1000, 900, 0.48],
+		[900, 800, 0.5],
+		[800, 700, 0.45],
+		[700, 600, 0.42],
+		[600, 500, 0.35],
+		[500, 400, 0.3],
+		[400, 300, 0.45, -90],
+		[300, 200, 0.3, -90],
+		[260, 160, 0.1, -90],
+	];
+	screens.forEach(screen => {
+		const [max, min, zoom, d] = screen;
+		if (screenWidth <= max && screenWidth >= min) {
+			const angle = d || 0;
+			scale = zoom;
+			deg = angle;
+		}
+	});
+	tableRef.current.style.transform = `scale(${scale}) rotate(${deg}deg)`;
 };
 
 const getRoomIndexPosition = (length: number): number[] => {

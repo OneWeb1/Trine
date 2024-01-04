@@ -42,6 +42,9 @@ const Player: FC<IPlayer> = ({
 		(state: CustomRootState) => state.app,
 	);
 	const ref = useRef<HTMLDivElement | null>(null);
+	const blockedRePositionRef = useRef<boolean>(false);
+	const timeoutRef = useRef<number | null>(null);
+	const avatarRef = useRef<HTMLDivElement>(null);
 
 	const { visible, id } = visibleStateMessage;
 
@@ -55,36 +58,32 @@ const Player: FC<IPlayer> = ({
 
 	const setPosition = () => {
 		if (!ref.current) return;
-		const nb = ref.current.parentElement?.getBoundingClientRect();
-		const b = ref.current.getBoundingClientRect();
-		if (!nb) return;
-		if (!b) return;
-		const p = (nb.width - nb.width * 0.5) / 2;
-		const ip = (nb.width * 0.8 - b.width * 3) / 3 + b.width - 20;
-		const ipb = (nb.width * 0.8 - b.width * 2) / 2 + b.width - 30;
-		const tp = (nb.height - nb.height * 0.6) / 2;
-
-		const bc = b.width / 2;
+		if (!avatarRef.current) return;
+		if (!ref.current.parentElement) return;
+		const nbw = ref.current.parentElement.clientWidth;
+		const nbh = ref.current.parentElement.clientHeight;
+		const bw = ref.current.clientWidth;
+		const bh = ref.current.clientHeight;
 
 		const position = {
 			t: [
-				{ top: -40, left: p - bc },
-				{ top: -40, left: p + ip - bc },
-				{ top: -40, left: p + ip * 2 - bc },
-				{ top: -40, left: p + ip * 3 - bc },
+				{ top: -40, left: nbw * 0.2 - bw / 2 },
+				{ top: -40, left: nbw * 0.4 - bw / 2 },
+				{ top: -40, left: nbw * 0.6 - bw / 2 },
+				{ top: -40, left: nbw * 0.8 - bw / 2 },
 			],
 			b: [
-				{ top: nb.height + 40, left: p - bc },
-				{ top: nb.height + 40, left: p + ipb - bc },
-				{ top: nb.height + 40, left: p + ipb * 2 - bc },
+				{ top: nbh - 60, left: nbw * 0.2 - bw / 2 },
+				{ top: nbh - 60, left: nbw * 0.5 - bw / 2 },
+				{ top: nbh - 60, left: nbw * 0.8 - bw / 2 },
 			],
 			l: [
-				{ top: tp, left: 0 },
-				{ top: nb.height - tp, left: 0 },
+				{ top: nbh * 0.15, left: 0 },
+				{ top: nbh * 0.85 - nbh * 0.15, left: 0 },
 			],
 			r: [
-				{ top: tp, left: nb.width + b.width + 40 },
-				{ top: nb.height - tp, left: nb.width + b.width + 40 },
+				{ top: nbh * 0.15, left: nbw - bw },
+				{ top: nbh * 0.85 - nbh * 0.15, left: nbw - bw },
 			],
 		};
 
@@ -102,18 +101,28 @@ const Player: FC<IPlayer> = ({
 			position.b[2],
 		];
 
-		// ref.current.style.left =
-		// 	(index === 0 && positions[index].left - 10 + 'px') ||
-		// 	positions[index].left + 'px';
-
 		ref.current.style.left = positions[index].left + 'px';
 		ref.current.style.top =
 			(!reverse && positions[index].top + 'px') ||
 			positions[index].top - 70 + 'px';
 	};
 
+	const handleResize = () => {
+		if (!blockedRePositionRef.current) blockedRePositionRef.current = true;
+		if (timeoutRef.current) clearTimeout(timeoutRef.current);
+		timeoutRef.current = setTimeout(() => {
+			blockedRePositionRef.current = false;
+		}, 3000);
+	};
+
 	useEffect(() => {
 		setPosition();
+
+		window.addEventListener('resize', handleResize);
+	}, []);
+
+	useEffect(() => {
+		if (!blockedRePositionRef.current) setPosition();
 	});
 
 	return (
@@ -121,8 +130,8 @@ const Player: FC<IPlayer> = ({
 			className={styles.player}
 			ref={ref}
 			style={{
-				marginTop: (!reverse && '-10px') || '',
-				marginLeft: (index === 0 && '-20px') || '0px',
+				// marginTop: (!reverse && '-10px') || '',
+				// marginLeft: (index === 0 && '-20px') || '0px',
 				display: (index === 0 && 'flex') || '',
 				opacity: player.state === 'defeat' ? 0.3 : 1,
 			}}>
@@ -172,7 +181,7 @@ const Player: FC<IPlayer> = ({
 						)}
 					</>
 				)}
-				<div className={styles.avatarWrapper}>
+				<div ref={avatarRef} className={styles.avatarWrapper}>
 					{check?.visible && check?.id === id && (
 						<div
 							style={{

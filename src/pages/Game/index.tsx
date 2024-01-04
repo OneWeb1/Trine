@@ -57,7 +57,7 @@ const Game: FC = () => {
 	const tableRef = useRef<HTMLDivElement>(null);
 	const timeoutRef = useRef<number | null>(null);
 
-	const reverseIds = [0, 1, 2, 11, 10];
+	const reverseIds = [0, 1, 2, 9, 11, 10];
 
 	const startPolling = () => {
 		if (timeoutRef.current) return;
@@ -177,16 +177,14 @@ const Game: FC = () => {
 			document.exitFullscreen();
 			setIsFullScreen(false);
 		}
-		resizeHandler(tableRef, window.innerWidth);
+		resizeHandler(tableRef);
 	};
 
 	useEffect(() => {
 		window.addEventListener('resize', () => {
-			const screenWidth = window.innerWidth;
-
-			resizeHandler(tableRef, screenWidth);
+			resizeHandler(tableRef);
 		});
-		resizeHandler(tableRef, window.innerWidth);
+		resizeHandler(tableRef);
 	}, []);
 
 	useEffect(() => {
@@ -206,7 +204,7 @@ const Game: FC = () => {
 	}, [joinRoom]);
 
 	useEffect(() => {
-		resizeHandler(tableRef, window.innerWidth);
+		resizeHandler(tableRef);
 	});
 
 	return (
