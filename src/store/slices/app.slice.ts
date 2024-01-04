@@ -92,7 +92,7 @@ const appSlice = createSlice({
 			state.visibleStateMessage = action.payload;
 		},
 		setGameAction(state, action) {
-			if (!action.payload.prevState) {
+			if (typeof action.payload.prevState !== 'string') {
 				state.gameAction = {
 					state: action.payload.state,
 					prevState: state.gameAction.prevState,

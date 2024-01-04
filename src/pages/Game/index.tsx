@@ -67,10 +67,6 @@ const Game: FC = () => {
 			dispatch(setGameAction({ state: '', prevState: '' }));
 
 		timeoutRef.current = setInterval(async () => {
-			const responce = await AdminService.getPublicRoomByState(joinRoom.id);
-			if (!responce) return;
-			if (!responce.data) return;
-
 			await getRoomState();
 		}, 1000);
 	};
@@ -93,9 +89,6 @@ const Game: FC = () => {
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
 
-		if (room.state === 'player_recruitment' && gameAction.prevState) {
-			dispatch(setGameAction({ state: '', prevState: '' }));
-		}
 		if (
 			(room.state === 'player_recruitment' || room.state === 'result') &&
 			room.players.length === 1 &&
@@ -116,6 +109,7 @@ const Game: FC = () => {
 		room.players.forEach(player => {
 			if (player.me) {
 				console.log('PLAYERSTATE: ', player.state);
+				if (gameAction.prevState) return;
 				if (player.state === 'won') {
 					roomResultStateRef.current = { ...room };
 					dispatch(setGameAction({ state: player.state, prevState: '' }));
