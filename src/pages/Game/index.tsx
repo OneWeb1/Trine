@@ -116,9 +116,12 @@ const Game: FC = () => {
 				if (player.state === 'won') {
 					roomResultStateRef.current = { ...room };
 					dispatch(setGameAction({ state: player.state, prevState: '' }));
-				} else if (player.state === 'defeat') {
+					console.log({ gameAction });
+				}
+				if (player.state === 'defeat') {
 					dispatch(setGameAction({ state: player.state, prevState: '' }));
 					dispatch(setCheck({ visible: true, id: player.id }));
+					console.log({ gameAction });
 					setTimeout(() => {
 						dispatch(setCheck({ visible: false, id: player.id }));
 					}, 4000);
