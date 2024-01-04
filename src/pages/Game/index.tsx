@@ -90,7 +90,7 @@ const Game: FC = () => {
 			if (!room.players.some(player => player.me)) {
 				navigate('/');
 			}
-		}, 1000);
+		}, 4000);
 
 		// if (room.state === 'result') {
 		console.log({ resultRoom: room });
