@@ -109,20 +109,21 @@ const Game: FC = () => {
 		room.players.forEach(player => {
 			if (player.me) {
 				console.log('PLAYERSTATE: ', player.state);
-				if (gameAction.prevState) return;
-				if (player.state === 'won') {
-					roomResultStateRef.current = { ...room };
-					dispatch(setGameAction({ state: player.state, prevState: '' }));
-					console.log({ gameAction });
-				}
-				if (player.state === 'defeat') {
-					dispatch(setGameAction({ state: player.state, prevState: '' }));
-					dispatch(setCheck({ visible: true, id: player.id }));
-					console.log({ gameAction });
-					setTimeout(() => {
-						dispatch(setCheck({ visible: false, id: player.id }));
-					}, 4000);
-					dispatch(setDefeat(true));
+				if (!gameAction.prevState.length) {
+					if (player.state === 'won') {
+						roomResultStateRef.current = { ...room };
+						console.log({ gameAction });
+						dispatch(setGameAction({ state: player.state, prevState: '' }));
+					}
+					if (player.state === 'defeat') {
+						console.log({ gameAction });
+						dispatch(setGameAction({ state: player.state, prevState: '' }));
+						dispatch(setCheck({ visible: true, id: player.id }));
+						setTimeout(() => {
+							dispatch(setCheck({ visible: false, id: player.id }));
+						}, 4000);
+						dispatch(setDefeat(true));
+					}
 				}
 			}
 		});
