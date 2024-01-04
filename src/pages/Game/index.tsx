@@ -86,14 +86,16 @@ const Game: FC = () => {
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
 
-		setTimeout(() => {
+		// if (room.state === 'result' && !room.players.some(player => player.me)) {
+		// 	navigate('/');
+		// }
+
+		if (room.state === 'result') {
 			if (!room.players.some(player => player.me)) {
 				navigate('/');
 			}
-		}, 4000);
-
-		// if (room.state === 'result') {
-		console.log({ resultRoom: room });
+		}
+		// console.log({ resultRoom: room }
 		room.players.forEach(player => {
 			if (player.me) {
 				if (player.state === 'won') {
@@ -205,7 +207,7 @@ const Game: FC = () => {
 		})();
 
 		return () => stopPolling();
-	}, [joinRoom]);
+	}, []);
 
 	useEffect(() => {
 		resizeHandler(tableRef);

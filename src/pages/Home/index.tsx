@@ -35,10 +35,13 @@ import {
 	ProfileMeResponce,
 	PublicRoomResponce,
 } from '../../models/responce/AdminResponce';
+import useSetTimeout from '../../hooks/useSetTimeout';
 
 const Home: FC = () => {
 	const dispatch = useDispatch();
-	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
+	const { visibleModal, joinRoom } = useSelector(
+		(state: CustomRootState) => state.app,
+	);
 	const [publicRooms, setPublicRooms] = useState<PublicRoomResponce[]>([]);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const [update, setUpdate] = useState<number>(1);
@@ -93,7 +96,7 @@ const Home: FC = () => {
 		if (!intervalRef.current) {
 			intervalRef.current = setInterval(() => {
 				setUpdate(prev => prev + 1);
-			}, 3000);
+			}, 1000);
 		}
 
 		window.addEventListener('resize', handleResize);
@@ -104,15 +107,12 @@ const Home: FC = () => {
 		initData();
 
 		return () => {
+			// if (intervalRef.current) clearInterval(intervalRef.current);
 			window.removeEventListener('resize', handleResize);
 		};
 	}, [update]);
 
 	useEffect(() => {
-		const leave = async () => {
-			await AdminService.roomLeave();
-		};
-		leave();
 		dispatch(setGameAction({ state: '', prevState: '' }));
 	}, []);
 
