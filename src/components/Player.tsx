@@ -63,7 +63,6 @@ const Player: FC<IPlayer> = ({
 		const nbw = ref.current.parentElement.clientWidth;
 		const nbh = ref.current.parentElement.clientHeight;
 		const bw = ref.current.clientWidth;
-		const bh = ref.current.clientHeight;
 
 		const position = {
 			t: [
