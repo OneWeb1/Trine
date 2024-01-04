@@ -109,14 +109,13 @@ const Game: FC = () => {
 		room.players.forEach(player => {
 			if (player.me) {
 				console.log('PLAYERSTATE: ', player.state);
+				console.log({ gameAction });
 				if (!gameAction.prevState.length) {
 					if (player.state === 'won') {
 						roomResultStateRef.current = { ...room };
-						console.log({ gameAction });
 						dispatch(setGameAction({ state: player.state, prevState: '' }));
 					}
 					if (player.state === 'defeat') {
-						console.log({ gameAction });
 						dispatch(setGameAction({ state: player.state, prevState: '' }));
 						dispatch(setCheck({ visible: true, id: player.id }));
 						setTimeout(() => {
