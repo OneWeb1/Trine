@@ -1,6 +1,7 @@
 import { FC, useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,6 +57,7 @@ const Game: FC = () => {
 	);
 	const tableRef = useRef<HTMLDivElement>(null);
 	const timeoutRef = useRef<number | null>(null);
+	const requestStateTime = useRef<number>(new Date().getTime());
 
 	const reverseIds = [0, 1, 2, 9, 10];
 
@@ -81,6 +83,12 @@ const Game: FC = () => {
 	};
 
 	const getRoomState = async () => {
+		const diffRequestTime =
+			(new Date().getTime() - requestStateTime.current) / 1000;
+		if (diffRequestTime > 5) {
+			requestStateTime.current = new Date().getTime();
+		} else return;
+
 		const responce = await AdminService.getPublicRoomByState(joinRoom.id);
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
@@ -92,6 +100,7 @@ const Game: FC = () => {
 			room.players[0].state !== 'ready'
 		) {
 			navigate('/');
+			location.reload();
 		}
 
 		if (room.state === 'bidding') {
@@ -219,7 +228,8 @@ const Game: FC = () => {
 
 	return (
 		<>
-			<head>
+			<Helmet>
+				<title>Game</title>
 				{assets.map((imageName, index) => (
 					<link
 						key={index}
@@ -228,7 +238,7 @@ const Game: FC = () => {
 						href={`./assets/cards/${imageName}.svg`}
 					/>
 				))}
-			</head>
+			</Helmet>
 
 			{loading && (
 				<div className='flex-center'>
