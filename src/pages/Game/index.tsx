@@ -235,6 +235,7 @@ const Game: FC = () => {
 									player={player}
 									reverse={reverseIds.includes(pos[idx])}
 									isMeMove={mePlayer.state === 'move'}
+									isVisibleCards={roomState.state === 'bidding'}
 									isReady={ready}
 									check={check}
 									bet={player.last_bid}

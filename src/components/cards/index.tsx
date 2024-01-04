@@ -7,12 +7,11 @@ interface ITreeCards {
 	cards: string[];
 	red?: boolean;
 	blue?: boolean;
+	visible?: boolean;
 	style?: CSSProperties;
 }
 
-const TreeCards: FC<ITreeCards> = ({ cards, style }) => {
-	const [visible, setVisible] = useState<boolean>(false);
-
+const TreeCards: FC<ITreeCards> = ({ cards, visible, style }) => {
 	const type = (cards?.length === 3 && 'svg') || 'jpg';
 	const cardsItem = cards && cards.length ? cards : ['fb', 'fb', 'fb'];
 
@@ -22,12 +21,6 @@ const TreeCards: FC<ITreeCards> = ({ cards, style }) => {
 		...style,
 		opacity: (visible && 1) || 0,
 	};
-
-	useEffect(() => {
-		setTimeout(() => {
-			setVisible(true);
-		}, 1000);
-	}, []);
 
 	return (
 		<div style={cssStyle} className={styles.cardsWrapper}>

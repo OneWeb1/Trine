@@ -38,7 +38,9 @@ import {
 
 const Home: FC = () => {
 	const dispatch = useDispatch();
-	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
+	const { visibleModal, joinRoom } = useSelector(
+		(state: CustomRootState) => state.app,
+	);
 	const [publicRooms, setPublicRooms] = useState<PublicRoomResponce[]>([]);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const [update, setUpdate] = useState<number>(1);
@@ -110,6 +112,11 @@ const Home: FC = () => {
 	}, [update]);
 
 	useEffect(() => {
+		const leave = async () => {
+			await AdminService.roomLeave();
+		};
+
+		leave();
 		dispatch(setGameAction({ state: '', prevState: '' }));
 	}, []);
 

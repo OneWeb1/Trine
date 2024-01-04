@@ -21,6 +21,7 @@ interface IPlayer {
 	reverse: boolean;
 	isCurrent?: boolean;
 	isReady: boolean;
+	isVisibleCards: boolean;
 	check: { visible: boolean; id: number };
 	lastId: number;
 	isMeMove: boolean;
@@ -33,6 +34,7 @@ const Player: FC<IPlayer> = ({
 	reverse,
 	isMeMove,
 	isReady,
+	isVisibleCards,
 	check,
 	lastId,
 	cards,
@@ -273,14 +275,19 @@ const Player: FC<IPlayer> = ({
 			</div>
 			{index === 0 && (
 				<div className={styles.cards}>
-					{!isReady && (
+					{!isVisibleCards && (
 						<TreeCards
 							style={{ marginTop: '-10px' }}
+							visible={true}
 							cards={['fb', 'fb', 'fb']}
 						/>
 					)}
-					{isReady && (
-						<TreeCards style={{ marginTop: '-10px' }} cards={cards} />
+					{isVisibleCards && (
+						<TreeCards
+							style={{ marginTop: '-10px' }}
+							visible={isVisibleCards}
+							cards={cards}
+						/>
 					)}
 				</div>
 			)}
