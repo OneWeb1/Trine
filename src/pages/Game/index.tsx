@@ -24,7 +24,7 @@ import AdminService from '../../services/AdminService';
 import { PublicRoomResponce } from '../../models/responce/AdminResponce';
 import { IPlayerRoom } from '../Admin/interfaces';
 
-import { resizeHandler, getRoomIndexPosition } from './utils';
+import { assets, resizeHandler, getRoomIndexPosition } from './utils';
 import styles from './../../stylesheet/styles/Game.module.scss';
 
 const Game: FC = () => {
@@ -82,13 +82,16 @@ const Game: FC = () => {
 
 	const getRoomState = async () => {
 		const responce = await AdminService.getPublicRoomByState(joinRoom.id);
-
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
 
-		// if (room.state === 'result' && !room.players.some(player => player.me)) {
-		// 	navigate('/');
-		// }
+		if (
+			(room.state === 'player_recruitment' || room.state === 'result') &&
+			room.players.length === 1 &&
+			!room.players.some(player => player.me)
+		) {
+			navigate('/');
+		}
 
 		if (room.state === 'bidding') {
 			if (!room.players.some(player => player.me)) {
@@ -99,6 +102,7 @@ const Game: FC = () => {
 		// console.log({ resultRoom: room }
 		room.players.forEach(player => {
 			if (player.me) {
+				console.log('PLAYERSTATE: ', player.state);
 				if (player.state === 'won') {
 					roomResultStateRef.current = { ...room };
 					dispatch(setGameAction({ state: player.state, prevState: '' }));
@@ -109,8 +113,6 @@ const Game: FC = () => {
 						dispatch(setCheck({ visible: false, id: player.id }));
 					}, 4000);
 					dispatch(setDefeat(true));
-				} else {
-					console.log('PLAYERSTATE: ', player.state);
 				}
 			}
 		});
@@ -216,6 +218,17 @@ const Game: FC = () => {
 
 	return (
 		<>
+			<head>
+				{assets.map((imageName, index) => (
+					<link
+						key={index}
+						rel='preload'
+						as='image'
+						href={`./assets/cards/${imageName}.svg`}
+					/>
+				))}
+			</head>
+
 			{loading && (
 				<div className='flex-center'>
 					<Spinner />

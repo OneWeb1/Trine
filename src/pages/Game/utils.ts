@@ -3,6 +3,48 @@ import {
 	IPlayerRoom,
 } from '../../models/responce/AdminResponce';
 
+const assets = [
+	'0',
+	'6c',
+	'7c',
+	'8c',
+	'9c',
+	'10c',
+	'jc',
+	'qc',
+	'kc',
+	'ac',
+	'6d',
+	'7d',
+	'8d',
+	'9d',
+	'10d',
+	'jd',
+	'qd',
+	'kd',
+	'ad',
+	'6h',
+	'7h',
+	'8h',
+	'9h',
+	'10h',
+	'jh',
+	'qh',
+	'kh',
+	'ah',
+	'6s',
+	'7s',
+	'8s',
+	'9s',
+	'10s',
+	'js',
+	'qs',
+	'ks',
+	'as',
+	'fr',
+	'fb',
+];
+
 const resizeHandler = (tableRef: { current: HTMLDivElement | null }) => {
 	const screenWidth = window.innerWidth;
 
@@ -56,4 +98,4 @@ const sortPlayerRelative = (stateRoom: PublicRoomResponce): IPlayerRoom[] => {
 	return players;
 };
 
-export { resizeHandler, getRoomIndexPosition, sortPlayerRelative };
+export { assets, resizeHandler, getRoomIndexPosition, sortPlayerRelative };
