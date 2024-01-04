@@ -207,7 +207,7 @@ const Game: FC = () => {
 		})();
 
 		return () => stopPolling();
-	}, []);
+	}, [joinRoom]);
 
 	useEffect(() => {
 		resizeHandler(tableRef);
