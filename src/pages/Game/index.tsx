@@ -311,7 +311,9 @@ const Game: FC = () => {
 					isHide={false}
 					sum={mePlayer.full_bid}
 					onClick={() => {
-						dispatch(setGameAction({ state: '', prevState: 'defeat' }));
+						dispatch(
+							setGameAction({ state: '', prevState: 'DEFEAT TO DEFEAT' }),
+						);
 						navigate('/game');
 					}}
 				/>
@@ -327,7 +329,7 @@ const Game: FC = () => {
 						sum={roomResultStateRef.current.bank * 0.95}
 						onClick={() => {
 							roomResultStateRef.current = {} as PublicRoomResponce;
-							dispatch(setGameAction({ state: '', prevState: 'won' }));
+							dispatch(setGameAction({ state: '', prevState: 'WON DO WON' }));
 							navigate('/game');
 						}}
 					/>
