@@ -44,7 +44,7 @@ const ModalAfterGame: FC<IModalAfterGame> = ({
 			{isWin && <div style={{ color: 'green' }}>Вітаю! Сьогодні ваш день.</div>}
 			<Button
 				style={{ marginTop: '20px' }}
-				value={value || 'Ок'}
+				value={value || 'Продовжити гру'}
 				onClick={onClick}
 			/>
 		</Modal>

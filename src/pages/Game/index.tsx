@@ -86,9 +86,12 @@ const Game: FC = () => {
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
 
-		if (!room.players.some(player => player.me)) {
-			navigate('/');
-		}
+		setTimeout(() => {
+			if (!room.players.some(player => player.me)) {
+				navigate('/');
+			}
+		}, 1000);
+
 		// if (room.state === 'result') {
 		console.log({ resultRoom: room });
 		room.players.forEach(player => {
