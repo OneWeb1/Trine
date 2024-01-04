@@ -93,6 +93,9 @@ const Game: FC = () => {
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
 
+		if (room.state === 'player_recruitment' && gameAction.prevState) {
+			dispatch(setGameAction({ state: '', prevState: '' }));
+		}
 		if (
 			(room.state === 'player_recruitment' || room.state === 'result') &&
 			room.players.length === 1 &&
@@ -219,7 +222,7 @@ const Game: FC = () => {
 			setTimeout(() => {
 				setLoading(false);
 				setOpacity(1);
-			}, 3000);
+			}, 5000);
 		})();
 
 		return () => stopPolling();
