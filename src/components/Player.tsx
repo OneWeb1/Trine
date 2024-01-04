@@ -33,7 +33,7 @@ const Player: FC<IPlayer> = ({
 	player,
 	reverse,
 	isMeMove,
-	isReady,
+	// isReady,
 	isVisibleCards,
 	check,
 	lastId,

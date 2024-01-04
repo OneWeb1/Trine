@@ -1,4 +1,4 @@
-import { CSSProperties, FC, useEffect, useState } from 'react';
+import { CSSProperties, FC } from 'react';
 
 import styles from './../../stylesheet/styles-components/cards/TreeCards.module.scss';
 // import Spinner from '../spinner';
