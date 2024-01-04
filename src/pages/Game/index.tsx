@@ -57,7 +57,7 @@ const Game: FC = () => {
 	const tableRef = useRef<HTMLDivElement>(null);
 	const timeoutRef = useRef<number | null>(null);
 
-	const reverseIds = [0, 1, 2, 9, 11, 10];
+	const reverseIds = [0, 1, 2, 9, 10];
 
 	const startPolling = () => {
 		if (timeoutRef.current) return;
@@ -85,8 +85,9 @@ const Game: FC = () => {
 
 		if (!responce) return;
 		const room = (responce.data && responce.data) || joinRoom;
-		if (room.state !== 'player_recruitment' && room.state !== 'bidding') {
-			//console.log({ room });
+
+		if (!room.players.some(player => player.me)) {
+			navigate('/');
 		}
 		// if (room.state === 'result') {
 		console.log({ resultRoom: room });
