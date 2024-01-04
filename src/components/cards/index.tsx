@@ -17,7 +17,10 @@ const TreeCards: FC<ITreeCards> = ({ cards, visible, style }) => {
 
 	const baseCardsUrl = './assets/cards';
 
-	const cssStyle = (style && { ...style, opacity: (visible && 1) || 0 }) || {
+	const cssStyle = (style && {
+		...style,
+		opacity: ((visible || visible === undefined) && 1) || 0,
+	}) || {
 		...style,
 		opacity: (visible && 1) || 0,
 	};

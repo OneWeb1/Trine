@@ -90,9 +90,10 @@ const Game: FC = () => {
 		// 	navigate('/');
 		// }
 
-		if (room.state === 'result') {
+		if (room.state === 'bidding') {
 			if (!room.players.some(player => player.me)) {
 				navigate('/');
+				location.reload();
 			}
 		}
 		// console.log({ resultRoom: room }
@@ -313,6 +314,7 @@ const Game: FC = () => {
 					onClick={() => {
 						dispatch(setGameAction({ state: '', prevState: 'room-not-found' }));
 						navigate('/');
+						location.reload();
 					}}
 				/>
 			)}
