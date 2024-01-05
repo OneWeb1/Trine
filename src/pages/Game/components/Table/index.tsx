@@ -62,7 +62,7 @@ const Table: FC<ITable> = ({
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { joinRoom, isAction, roomResultState, check } = useSelector(
+	const { joinRoom, isAction, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
