@@ -18,7 +18,6 @@ import {
 	setVisibleStateMessage,
 	setDefeat,
 	setCheck,
-	setIsAction,
 	setRoomResultState,
 } from '../../../../store/slices/app.slice';
 
@@ -242,7 +241,7 @@ const Table: FC<ITable> = ({
 				))}
 
 				<div className={styles.tableBorder}>
-					<div className={styles.tableField}>
+					<div className={styles.tabsleField}>
 						<div className={styles.screenCenter}>
 							<div className={styles.displayWrapper}>
 								<div className={styles.tax}>
