@@ -33,7 +33,7 @@ import { IPlayerRoom } from '../../../Admin/interfaces';
 
 import styles from './Table.module.scss';
 import { PublicRoomResponce } from '../../../../models/responce/AdminResponce';
-import GameService from '../../../../services/GameService';
+// import GameService from '../../../../services/GameService';
 
 interface ITable {
 	roomState: PublicRoomResponce;
