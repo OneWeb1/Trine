@@ -78,6 +78,8 @@ const appSlice = createSlice({
 			state.isSubmit = action.payload;
 		},
 		setIsAction(state, action) {
+			console.log(state.isAction);
+			console.log(action.payload);
 			state.isAction = action.payload;
 		},
 		setIsPlayerResize(state, action) {
@@ -97,7 +99,6 @@ const appSlice = createSlice({
 			state.visibleStateMessage = action.payload;
 		},
 		setGameAction(state, action) {
-			console.log(action.payload);
 			state.gameAction = action.payload;
 		},
 		setGameState(state, action) {

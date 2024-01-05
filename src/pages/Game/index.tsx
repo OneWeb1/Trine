@@ -35,6 +35,7 @@ const Game: FC = () => {
 	const { joinRoom, isAction, gameAction, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
+	console.log({ startAction: isAction });
 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
 		{} as PublicRoomResponce,
 	);
@@ -77,6 +78,34 @@ const Game: FC = () => {
 		timeoutRef.current = null;
 	};
 
+	const stateActionHandler = () => {
+		roomState?.players?.forEach(player => {
+			if (player.me) {
+				console.log('PLAYERSTATE: ', player.state);
+				console.log({ isAction });
+
+				if (!isAction) {
+					console.log({ isAction });
+
+					if (player.state === 'won') {
+						roomResultStateRef.current = { ...roomState };
+						dispatch(setGameAction({ state: player.state }));
+						dispatch(setIsAction(true));
+					}
+					if (player.state === 'defeat') {
+						dispatch(setGameAction({ state: player.state }));
+						dispatch(setIsAction(true));
+						dispatch(setCheck({ visible: true, id: player.id }));
+						setTimeout(() => {
+							dispatch(setCheck({ visible: false, id: player.id }));
+						}, 4000);
+						dispatch(setDefeat(true));
+					}
+				}
+			}
+		});
+	};
+
 	const getRoomState = async () => {
 		const diffRequestTime =
 			(new Date().getTime() - requestStateTime.current) / 1000;
@@ -105,27 +134,7 @@ const Game: FC = () => {
 			}
 		}
 		// console.log({ resultRoom: room }
-		room.players.forEach(player => {
-			if (player.me) {
-				console.log('PLAYERSTATE: ', player.state);
-				if (!isAction) {
-					if (player.state === 'won') {
-						roomResultStateRef.current = { ...room };
-						dispatch(setGameAction({ state: player.state }));
-						dispatch(setIsAction(true));
-					}
-					if (player.state === 'defeat') {
-						dispatch(setGameAction({ state: player.state }));
-						dispatch(setIsAction(true));
-						dispatch(setCheck({ visible: true, id: player.id }));
-						setTimeout(() => {
-							dispatch(setCheck({ visible: false, id: player.id }));
-						}, 4000);
-						dispatch(setDefeat(true));
-					}
-				}
-			}
-		});
+
 		// }
 		if (room.template) {
 			localStorage.removeItem('joinRoom');
@@ -223,6 +232,7 @@ const Game: FC = () => {
 	}, [joinRoom]);
 
 	useEffect(() => {
+		stateActionHandler();
 		resizeHandler(tableRef);
 	});
 
@@ -321,7 +331,6 @@ const Game: FC = () => {
 					sum={roomResultStateRef.current.bank * 0.95}
 					onClick={() => {
 						roomResultStateRef.current = {} as PublicRoomResponce;
-						console.log({ isAction });
 						dispatch(setGameAction({ state: '' }));
 					}}
 				/>
