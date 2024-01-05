@@ -28,7 +28,6 @@ import { IPlayerRoom } from '../Admin/interfaces';
 
 import { assets, resizeHandler, getRoomIndexPosition } from './utils';
 import styles from './../../stylesheet/styles/Game.module.scss';
-import { isAction } from '@reduxjs/toolkit';
 
 const Game: FC = () => {
 	const dispatch = useDispatch();
