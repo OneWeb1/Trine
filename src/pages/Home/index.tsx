@@ -115,7 +115,7 @@ const Home: FC = () => {
 		};
 
 		leave();
-		dispatch(setGameAction({ state: '', prevState: '' }));
+		// dispatch(setGameAction({ state: '', prevState: '' }));
 	}, []);
 
 	return (

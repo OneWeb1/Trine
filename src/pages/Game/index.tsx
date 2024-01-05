@@ -10,6 +10,7 @@ import {
 	setVisibleStateMessage,
 	setDefeat,
 	setCheck,
+	setIsAction,
 } from '../../store/slices/app.slice';
 
 import GameHeader from '../../components/GameHeader';
@@ -27,11 +28,12 @@ import { IPlayerRoom } from '../Admin/interfaces';
 
 import { assets, resizeHandler, getRoomIndexPosition } from './utils';
 import styles from './../../stylesheet/styles/Game.module.scss';
+import { isAction } from '@reduxjs/toolkit';
 
 const Game: FC = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { joinRoom, gameAction, check } = useSelector(
+	const { joinRoom, isAction, gameAction, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
@@ -63,8 +65,6 @@ const Game: FC = () => {
 
 	const startPolling = () => {
 		if (timeoutRef.current) return;
-		if (gameAction.prevState)
-			dispatch(setGameAction({ state: '', prevState: '' }));
 
 		timeoutRef.current = setInterval(async () => {
 			await getRoomState();
@@ -109,21 +109,24 @@ const Game: FC = () => {
 		room.players.forEach(player => {
 			if (player.me) {
 				console.log('PLAYERSTATE: ', player.state);
-				console.log({ gameAction });
-				if (!gameAction.prevState.length) {
-					if (player.state === 'won') {
-						roomResultStateRef.current = { ...room };
-						dispatch(setGameAction({ state: player.state, prevState: '' }));
+				setTimeout(() => {
+					if (!isAction) {
+						if (player.state === 'won') {
+							roomResultStateRef.current = { ...room };
+							dispatch(setGameAction({ state: player.state }));
+							dispatch(setIsAction(true));
+						}
+						if (player.state === 'defeat') {
+							dispatch(setGameAction({ state: player.state }));
+							dispatch(setIsAction(true));
+							dispatch(setCheck({ visible: true, id: player.id }));
+							setTimeout(() => {
+								dispatch(setCheck({ visible: false, id: player.id }));
+							}, 4000);
+							dispatch(setDefeat(true));
+						}
 					}
-					if (player.state === 'defeat') {
-						dispatch(setGameAction({ state: player.state, prevState: '' }));
-						dispatch(setCheck({ visible: true, id: player.id }));
-						setTimeout(() => {
-							dispatch(setCheck({ visible: false, id: player.id }));
-						}, 4000);
-						dispatch(setDefeat(true));
-					}
-				}
+				}, 0);
 			}
 		});
 		// }
@@ -300,7 +303,7 @@ const Game: FC = () => {
 					/>
 				</div>
 			)}
-			{gameAction.state === 'defeat' && !gameAction.prevState && (
+			{gameAction.state === 'defeat' && (
 				<ModalAfterGame
 					title='Ви програли'
 					message='Сума програшу:'
@@ -308,30 +311,25 @@ const Game: FC = () => {
 					isHide={false}
 					sum={mePlayer.full_bid}
 					onClick={() => {
-						dispatch(
-							setGameAction({ state: '', prevState: 'DEFEAT TO DEFEAT' }),
-						);
-						navigate('/game');
+						dispatch(setGameAction({ state: '' }));
 					}}
 				/>
 			)}
-			{gameAction.state === 'won' &&
-				!gameAction.prevState &&
-				roomResultStateRef.current.bank && (
-					<ModalAfterGame
-						title='Ви виграли'
-						message='Сума виграшу:'
-						isWin={true}
-						isHide={false}
-						sum={roomResultStateRef.current.bank * 0.95}
-						onClick={() => {
-							roomResultStateRef.current = {} as PublicRoomResponce;
-							dispatch(setGameAction({ state: '', prevState: 'WON DO WON' }));
-							navigate('/game');
-						}}
-					/>
-				)}
-			{gameAction.state === 'room-not-found' && !gameAction.prevState && (
+			{gameAction.state === 'won' && roomResultStateRef.current.bank && (
+				<ModalAfterGame
+					title='Ви виграли'
+					message='Сума виграшу:'
+					isWin={true}
+					isHide={false}
+					sum={roomResultStateRef.current.bank * 0.95}
+					onClick={() => {
+						roomResultStateRef.current = {} as PublicRoomResponce;
+						console.log({ isAction });
+						dispatch(setGameAction({ state: '' }));
+					}}
+				/>
+			)}
+			{gameAction.state === 'room-not-found' && (
 				<ModalAfterGame
 					title='Повідомлення'
 					message="З'єднання з кімнатою було втрачене. Зайдіть в другу кімнату або звяжіться з нашими менеджерами."

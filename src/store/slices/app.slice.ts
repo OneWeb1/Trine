@@ -17,6 +17,7 @@ interface IVisibleStateMessage {
 interface IState {
 	isAuth: boolean;
 	isSubmit: boolean;
+	isAction: boolean;
 	isPlayerResize: boolean;
 	ready: boolean;
 	defeat: boolean;
@@ -40,6 +41,7 @@ interface IState {
 const initialState: IState = {
 	baseIconPath: 'https://trynka-backend.onrender.com',
 	isAuth: (localStorage.getItem('token') && true) || false,
+	isAction: false,
 	isPlayerResize: false,
 	isSubmit: false,
 	ready: JSON.parse(localStorage.getItem('ready') || 'false'),
@@ -75,6 +77,9 @@ const appSlice = createSlice({
 		setIsSubmit(state, action) {
 			state.isSubmit = action.payload;
 		},
+		setIsAction(state, action) {
+			state.isAction = action.payload;
+		},
 		setIsPlayerResize(state, action) {
 			state.isPlayerResize = action.payload;
 		},
@@ -92,6 +97,7 @@ const appSlice = createSlice({
 			state.visibleStateMessage = action.payload;
 		},
 		setGameAction(state, action) {
+			console.log(action.payload);
 			state.gameAction = action.payload;
 		},
 		setGameState(state, action) {
@@ -138,6 +144,7 @@ const appSlice = createSlice({
 export const {
 	setVisibleModal,
 	setIsSubmit,
+	setIsAction,
 	setIsPlayerResize,
 	setReady,
 	setDefeat,
