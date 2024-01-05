@@ -113,7 +113,7 @@ const Home: FC = () => {
 		const leave = async () => {
 			await AdminService.roomLeave();
 		};
-		// dispatch(setIsAction(false));
+		dispatch(setIsAction(false));
 		leave();
 	}, []);
 
