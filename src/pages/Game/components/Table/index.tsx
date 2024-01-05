@@ -100,7 +100,6 @@ const Table: FC<ITable> = ({
 
 	const roomJoin = async () => {
 		try {
-			await GameService.joinRoom(roomState.id);
 			setReady(false);
 			localStorage.setItem('ready', 'false');
 		} catch (e) {
@@ -146,7 +145,7 @@ const Table: FC<ITable> = ({
 	const getRoomState = async () => {
 		const diffRequestTime =
 			(new Date().getTime() - requestStateTime.current) / 1000;
-		if (diffRequestTime > 5) {
+		if (diffRequestTime > 1) {
 			requestStateTime.current = new Date().getTime();
 		} else return;
 
