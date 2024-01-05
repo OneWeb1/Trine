@@ -18,6 +18,7 @@ import {
 	setVisibleStateMessage,
 	setDefeat,
 	setCheck,
+	setIsAction,
 	setRoomResultState,
 } from '../../../../store/slices/app.slice';
 
@@ -98,10 +99,13 @@ const Table: FC<ITable> = ({
 					if (player.state === 'won') {
 						setRoomResultState({ ...roomState });
 						dispatch(setGameAction({ state: player.state }));
+						dispatch(setIsAction(true));
+						localStorage.setItem('isAction', JSON.stringify(true));
 					}
 					if (player.state === 'defeat') {
 						dispatch(setGameAction({ state: player.state }));
-
+						dispatch(setIsAction(true));
+						localStorage.setItem('isAction', JSON.stringify(true));
 						dispatch(setCheck({ visible: true, id: player.id }));
 						setTimeout(() => {
 							dispatch(setCheck({ visible: false, id: player.id }));
@@ -241,7 +245,7 @@ const Table: FC<ITable> = ({
 				))}
 
 				<div className={styles.tableBorder}>
-					<div className={styles.tabsleField}>
+					<div className={styles.tableField}>
 						<div className={styles.screenCenter}>
 							<div className={styles.displayWrapper}>
 								<div className={styles.tax}>

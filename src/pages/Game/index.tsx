@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setGameAction,
 	setRoomResultState,
-	setIsAction,
+	// setIsAction,
 } from '../../store/slices/app.slice';
 
 import GameHeader from '../../components/GameHeader';
@@ -132,8 +132,6 @@ const Game: FC = () => {
 					sum={mePlayer.full_bid}
 					onClick={() => {
 						dispatch(setGameAction({ state: '' }));
-						dispatch(setIsAction(true));
-						localStorage.setItem('isAction', JSON.stringify(true));
 					}}
 				/>
 			)}
@@ -146,8 +144,6 @@ const Game: FC = () => {
 					onClick={() => {
 						setRoomResultState({} as PublicRoomResponce);
 						dispatch(setGameAction({ state: '' }));
-						dispatch(setIsAction(true));
-						localStorage.setItem('isAction', JSON.stringify(true));
 					}}
 				/>
 			)}
