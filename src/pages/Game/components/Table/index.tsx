@@ -99,13 +99,10 @@ const Table: FC<ITable> = ({
 					if (player.state === 'won') {
 						setRoomResultState({ ...roomState });
 						dispatch(setGameAction({ state: player.state }));
-						dispatch(setIsAction(true));
-						localStorage.setItem('isAction', JSON.stringify(true));
 					}
 					if (player.state === 'defeat') {
 						dispatch(setGameAction({ state: player.state }));
-						dispatch(setIsAction(true));
-						localStorage.setItem('isAction', JSON.stringify(true));
+
 						dispatch(setCheck({ visible: true, id: player.id }));
 						setTimeout(() => {
 							dispatch(setCheck({ visible: false, id: player.id }));
@@ -143,12 +140,15 @@ const Table: FC<ITable> = ({
 			location.reload();
 		}
 
-		if (room.state === 'bidding') {
+		if (room.state === 'player_recruitment') {
 			const storageIsAction = JSON.parse(
 				localStorage.getItem('isAction') || 'false',
 			);
 			if (storageIsAction)
 				localStorage.setItem('isAction', JSON.stringify(false));
+		}
+
+		if (room.state === 'bidding') {
 			if (!room.players.some(player => player.me)) {
 				navigate('/');
 				location.reload();
@@ -191,6 +191,7 @@ const Table: FC<ITable> = ({
 	const getLastId = () => {
 		let id = roomState.players.length - 1;
 		let lastPlayer = roomState.players[id];
+		if (!lastPlayer) return -1;
 		let state = lastPlayer.state === 'defeat';
 		while (state) {
 			id = id - 1;

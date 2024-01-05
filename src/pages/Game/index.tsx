@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setGameAction,
 	setRoomResultState,
+	setIsAction,
 } from '../../store/slices/app.slice';
 
 import GameHeader from '../../components/GameHeader';
@@ -122,16 +123,17 @@ const Game: FC = () => {
 					/>
 				</div>
 			)}
-			{console.log({ gameActionState: gameAction.state === 'defeat' })}
+			{console.log({ gameActionState: gameAction })}
 			{gameAction.state === 'defeat' && (
 				<ModalAfterGame
 					title='Ви програли'
 					message='Сума програшу:'
 					isWin={false}
-					isHide={false}
 					sum={mePlayer.full_bid}
 					onClick={() => {
 						dispatch(setGameAction({ state: '' }));
+						dispatch(setIsAction(true));
+						localStorage.setItem('isAction', JSON.stringify(true));
 					}}
 				/>
 			)}
@@ -140,11 +142,12 @@ const Game: FC = () => {
 					title='Ви виграли'
 					message='Сума виграшу:'
 					isWin={true}
-					isHide={false}
 					sum={roomResultState.bank * 0.95}
 					onClick={() => {
 						setRoomResultState({} as PublicRoomResponce);
 						dispatch(setGameAction({ state: '' }));
+						dispatch(setIsAction(true));
+						localStorage.setItem('isAction', JSON.stringify(true));
 					}}
 				/>
 			)}
