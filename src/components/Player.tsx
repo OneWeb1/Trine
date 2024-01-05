@@ -131,8 +131,6 @@ const Player: FC<IPlayer> = ({
 			className={styles.player}
 			ref={ref}
 			style={{
-				// marginTop: (!reverse && '-10px') || '',
-				// marginLeft: (index === 0 && '-20px') || '0px',
 				display: (index === 0 && 'flex') || '',
 				opacity: player.state === 'defeat' ? 0.3 : 1,
 			}}>
@@ -156,30 +154,23 @@ const Player: FC<IPlayer> = ({
 								/>
 							</div>
 						</div>
-						{player.last_move && (
-							<div
-								className={styles.viewState}
-								style={{
-									opacity: visible && player.id === id ? 1 : 0,
-									marginBottom: '5px',
-									marginTop:
-										(reverse &&
-											player.last_move &&
-											player.state === 'move' &&
-											'-2px') ||
-										'0px',
-								}}>
-								{String(player.last_move) == 'raise'
-									? 'Підвищити'
-									: String(player.last_move) === 'support'
-									? 'Підтримати'
-									: String(player.last_move) === 'check'
-									? 'Дивитися'
-									: String(player.last_move) === 'support'
-									? 'Впасти'
-									: ''}
-							</div>
-						)}
+						{/* {(player.last_move || player.state === 'idle') && ( */}
+						<div
+							className={styles.viewState}
+							style={{
+								opacity: visible && player.id === id ? 1 : 0,
+								marginBottom: '0px',
+							}}>
+							{String(player.last_move) == 'raise'
+								? 'Підвищити'
+								: String(player.last_move) === 'support'
+								? 'Підтримати'
+								: String(player.last_move) === 'check'
+								? 'Дивитися'
+								: String(player.last_move) === 'support'
+								? 'Впасти'
+								: 'Готовий'}
+						</div>
 					</>
 				)}
 				<div ref={avatarRef} className={styles.avatarWrapper}>
@@ -189,7 +180,7 @@ const Player: FC<IPlayer> = ({
 								position: 'absolute',
 								width: '160px',
 								marginLeft: '-60px',
-								marginTop: '-30px',
+								marginTop: '0px',
 								zIndex: 1000,
 							}}>
 							<TreeCards cards={player.cards} />
@@ -202,7 +193,7 @@ const Player: FC<IPlayer> = ({
 							player.state === 'move' && styles.anim,
 						)}
 						style={{
-							marginTop: (reverse && !player.last_move && '35px') || '8px',
+							marginTop: '5px',
 						}}>
 						{/* {player.state === 'move' && <div className={styles.timeLoader}></div>} */}
 
@@ -235,27 +226,25 @@ const Player: FC<IPlayer> = ({
 
 				{!reverse && (
 					<>
-						{player.last_move && (
-							<div
-								className={styles.viewState}
-								style={{
-									opacity: visible && player.id === id ? 1 : 0,
-									marginTop: (!player.last_move && '0px') || '25px',
-								}}>
-								{String(player.last_move) == 'raise'
-									? 'Підвищити'
-									: String(player.last_move) === 'support'
-									? 'Підтримати'
-									: String(player.last_move) === 'check'
-									? 'Дивитися'
-									: String(player.last_move) === 'drop'
-									? 'Впасти'
-									: ''}
-							</div>
-						)}
+						{/* {player.last_move && player.state === 'idle' && ( */}
 						<div
-							className={styles.info}
-							style={{ marginTop: (!player.last_move && '30px') || '-5px' }}>
+							className={styles.viewState}
+							style={{
+								opacity: visible && player.id === id ? 1 : 0,
+								marginTop: '28px',
+							}}>
+							{String(player.last_move) == 'raise'
+								? 'Підвищити'
+								: String(player.last_move) === 'support'
+								? 'Підтримати'
+								: String(player.last_move) === 'check'
+								? 'Дивитися'
+								: String(player.last_move) === 'drop'
+								? 'Впасти'
+								: 'Готовий'}
+						</div>
+						{/* )} */}
+						<div className={styles.info} style={{ marginTop: '5px' }}>
 							<FishkaItem isPlayer={true} value={player.full_bid} />
 							<div className={styles.icon}>
 								<TreeCards

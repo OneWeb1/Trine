@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setGameAction,
 	setRoomResultState,
+	setVisibleStateMessage,
 	// setIsAction,
 } from '../../store/slices/app.slice';
 
@@ -29,7 +30,9 @@ import styles from './../../stylesheet/styles/Game.module.scss';
 const Game: FC = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { gameAction } = useSelector((state: CustomRootState) => state.app);
+	const { gameAction, account } = useSelector(
+		(state: CustomRootState) => state.app,
+	);
 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
 		{} as PublicRoomResponce,
 	);
@@ -47,9 +50,24 @@ const Game: FC = () => {
 	const tableRef = useRef<HTMLDivElement>(null);
 
 	const readyHandler = async () => {
-		await AdminService.roomIsReady(true);
-		localStorage.setItem('ready', 'true');
-		setReady(true);
+		try {
+			await AdminService.roomIsReady(true);
+
+			dispatch(
+				setVisibleStateMessage({
+					visible: true,
+					id: account.id,
+				}),
+			);
+			setTimeout(() => {
+				dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
+			}, 3000);
+			setReady(true);
+
+			localStorage.setItem('ready', 'true');
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	const handleFullScreen = () => {

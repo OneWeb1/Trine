@@ -51,9 +51,7 @@ const GameFooter: FC<IGameFooter> = ({
 	};
 
 	const dropHandler = async () => {
-		const responce = await AdminService.do({ action: 'drop' });
-		if (!responce.data) return;
-		dispatch(setGameAction({ state: 'lose', prevState: 'lose' }));
+		await AdminService.do({ action: 'drop' });
 	};
 
 	// const changePercent = (e: ChangeEvent<HTMLInputElement>) => {
