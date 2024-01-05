@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 
-import { useDispatch } from 'react-redux';
-import { setGameAction } from '../store/slices/app.slice';
+// import { useDispatch } from 'react-redux';
+// import { setGameAction } from '../store/slices/app.slice';
 
 import { MdDoubleArrow } from 'react-icons/md';
 
@@ -29,7 +29,7 @@ const GameFooter: FC<IGameFooter> = ({
 	// maxBid,
 	bid,
 }) => {
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 	// const [percent, setPercent] = useState<number>(0);
 	const [raiseSum, setRaiseSum] = useState<number>(Number(bid) * 2);
