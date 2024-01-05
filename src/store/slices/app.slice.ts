@@ -37,11 +37,12 @@ interface IState {
 	menuAccountSettingsPosition: IMenuAccountSettingsPosition;
 	joinRoom: PublicRoomResponce;
 	roomState: PublicRoomResponce;
+	roomResultState: PublicRoomResponce;
 }
 const initialState: IState = {
 	baseIconPath: 'https://trynka-backend.onrender.com',
 	isAuth: (localStorage.getItem('token') && true) || false,
-	isAction: false,
+	isAction: JSON.parse(localStorage.getItem('isAction') || 'false'),
 	isPlayerResize: false,
 	isSubmit: false,
 	ready: JSON.parse(localStorage.getItem('ready') || 'false'),
@@ -64,6 +65,7 @@ const initialState: IState = {
 		JSON.parse(localStorage.getItem('joinRoom') || '{}') ||
 		({} as PublicRoomResponce),
 	roomState: {} as PublicRoomResponce,
+	roomResultState: {} as PublicRoomResponce,
 	gameParamId: '',
 };
 
@@ -136,6 +138,9 @@ const appSlice = createSlice({
 		setRoomState(state, action) {
 			state.roomState = action.payload;
 		},
+		setRoomResultState(state, action) {
+			state.roomResultState = action.payload;
+		},
 		setGameParamId(state, action) {
 			state.gameParamId = action.payload;
 		},
@@ -163,6 +168,7 @@ export const {
 	setIsAuth,
 	setJoinRoom,
 	setRoomState,
+	setRoomResultState,
 	setGameParamId,
 } = appSlice.actions;
 

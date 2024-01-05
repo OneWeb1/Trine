@@ -23,6 +23,7 @@ const Modal: FC<IModal> = ({ title, score, isHide, children, styleNode }) => {
 	};
 	return (
 		<>
+			{console.log({ visibleModal })}
 			{visibleModal !== 'h' && (
 				<div
 					style={styleNode}

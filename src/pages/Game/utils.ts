@@ -1,3 +1,5 @@
+import { ForwardedRef, RefObject } from 'react';
+
 import {
 	PublicRoomResponce,
 	IPlayerRoom,
@@ -45,10 +47,11 @@ const assets = [
 	'fb',
 ];
 
-const resizeHandler = (tableRef: { current: HTMLDivElement | null }) => {
+const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 	const screenWidth = window.innerWidth;
-
-	if (!tableRef.current) return;
+	const table = (tableRef && tableRef.current && tableRef.current) || {
+		style: { transform: '' },
+	};
 	let scale = 1;
 	let deg = 0;
 
@@ -74,7 +77,7 @@ const resizeHandler = (tableRef: { current: HTMLDivElement | null }) => {
 			deg = angle;
 		}
 	});
-	tableRef.current.style.transform = `scale(${scale}) rotate(${deg}deg)`;
+	table.style.transform = `scale(${scale}) rotate(${deg}deg)`;
 };
 
 const getRoomIndexPosition = (length: number): number[] => {

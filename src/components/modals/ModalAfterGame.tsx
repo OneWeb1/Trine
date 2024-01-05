@@ -21,6 +21,7 @@ const ModalAfterGame: FC<IModalAfterGame> = ({
 	sum,
 	onClick,
 }) => {
+	console.log('MODAL SHOW');
 	return (
 		<Modal title={title} styleNode={{ background: 'rgba(255,255,255,.6)' }}>
 			<div
