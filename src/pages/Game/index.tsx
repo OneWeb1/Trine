@@ -29,9 +29,7 @@ import styles from './../../stylesheet/styles/Game.module.scss';
 const Game: FC = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { gameAction, roomResultState } = useSelector(
-		(state: CustomRootState) => state.app,
-	);
+	const { gameAction } = useSelector((state: CustomRootState) => state.app);
 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
 		{} as PublicRoomResponce,
 	);
@@ -123,7 +121,6 @@ const Game: FC = () => {
 					/>
 				</div>
 			)}
-			{console.log({ gameActionState: gameAction })}
 			{gameAction.state === 'defeat' && (
 				<ModalAfterGame
 					title='Ви програли'
@@ -135,12 +132,13 @@ const Game: FC = () => {
 					}}
 				/>
 			)}
-			{gameAction.state === 'won' && roomResultState.bank && (
+			{console.log({ roomState })}
+			{gameAction.state === 'won' && roomState.bank && (
 				<ModalAfterGame
 					title='Ви виграли'
 					message='Сума виграшу:'
 					isWin={true}
-					sum={roomResultState.bank * 0.95}
+					sum={roomState.bank * 0.95}
 					onClick={() => {
 						setRoomResultState({} as PublicRoomResponce);
 						dispatch(setGameAction({ state: '' }));

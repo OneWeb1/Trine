@@ -33,6 +33,7 @@ import { IPlayerRoom } from '../../../Admin/interfaces';
 
 import styles from './Table.module.scss';
 import { PublicRoomResponce } from '../../../../models/responce/AdminResponce';
+import GameService from '../../../../services/GameService';
 
 interface ITable {
 	roomState: PublicRoomResponce;
@@ -61,7 +62,7 @@ const Table: FC<ITable> = ({
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { joinRoom, isAction, check } = useSelector(
+	const { joinRoom, isAction, roomResultState, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
@@ -88,8 +89,34 @@ const Table: FC<ITable> = ({
 		timeoutRef.current = null;
 	};
 
+	const isMeReady = (room: PublicRoomResponce) => {
+		for (let i = 0; i < room.players.length; i++) {
+			const player = room.players[i];
+			if (player.me && player.state === 'ready') return true;
+		}
+
+		return false;
+	};
+
+	const roomJoin = async () => {
+		try {
+			await GameService.joinRoom(roomState.id);
+			setReady(false);
+			localStorage.setItem('ready', 'false');
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	const stateActionHandler = () => {
 		if (!roomState.players) return;
+
+		if (roomState.state === 'result') {
+			if (!isMeReady(roomState)) {
+				roomJoin();
+			}
+			setRoomResultState({ ...roomState });
+		}
 
 		roomState.players.forEach(player => {
 			if (player.me) {
@@ -97,10 +124,9 @@ const Table: FC<ITable> = ({
 				console.log({ isAction });
 				if (!isAction) {
 					if (player.state === 'won') {
-						setRoomResultState({ ...roomState });
+						localStorage.setItem('isAction', JSON.stringify(true));
 						dispatch(setGameAction({ state: player.state }));
 						dispatch(setIsAction(true));
-						localStorage.setItem('isAction', JSON.stringify(true));
 					}
 					if (player.state === 'defeat') {
 						dispatch(setGameAction({ state: player.state }));
@@ -115,11 +141,6 @@ const Table: FC<ITable> = ({
 				}
 			}
 		});
-
-		if (roomState.state === 'result') {
-			setReady(false);
-			localStorage.setItem('ready', 'false');
-		}
 	};
 
 	const getRoomState = async () => {
@@ -199,6 +220,11 @@ const Table: FC<ITable> = ({
 		while (state) {
 			id = id - 1;
 			lastPlayer = roomState.players[id];
+			if (!lastPlayer) {
+				state = false;
+				lastPlayer = { id: -1 } as IPlayerRoom;
+				continue;
+			}
 			state = lastPlayer.state === 'defeat';
 		}
 		return lastPlayer.id;
