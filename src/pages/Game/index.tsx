@@ -9,7 +9,7 @@ import {
 	setGameAction,
 	setRoomResultState,
 	// setVisibleStateMessage,
-	// setIsAction,
+	setIsAction,
 } from '../../store/slices/app.slice';
 
 import GameHeader from '../../components/GameHeader';
@@ -50,13 +50,15 @@ const Game: FC = () => {
 	const readyHandler = async () => {
 		try {
 			await AdminService.roomIsReady(true);
+			setIsAction(false);
+			localStorage.setItem('isAction', 'false');
 		} catch (e) {
 			console.log(e);
 		}
 	};
 
 	const handleFullScreen = () => {
-		const element = document.documentElement; // Fullscreen the entire document
+		const element = document.documentElement;
 
 		if (!isFullScreen && element.requestFullscreen) {
 			element.requestFullscreen();
