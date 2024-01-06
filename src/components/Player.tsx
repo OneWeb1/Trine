@@ -49,7 +49,7 @@ const Player: FC<IPlayer> = ({
 	const timeoutRef = useRef<number | null>(null);
 	const avatarRef = useRef<HTMLDivElement>(null);
 
-	const { visible, id } = visibleStateMessage;
+	const { visible, message, id } = visibleStateMessage;
 	const visibleMessage = visible && player.id === id;
 
 	const doCheckCards = async () => {
@@ -163,20 +163,12 @@ const Player: FC<IPlayer> = ({
 								opacity: visibleMessage ? 1 : 0,
 								marginBottom: '0px',
 							}}>
-							{String(player.last_move) == 'raise'
-								? 'Підвищити'
-								: String(player.last_move) === 'support'
-								? 'Підтримати'
-								: String(player.last_move) === 'check'
-								? 'Дивитися'
-								: String(player.last_move) === 'support'
-								? 'Впасти'
-								: 'Готовий'}
+							{message}
 						</div>
 					</>
 				)}
 				<div ref={avatarRef} className={styles.avatarWrapper}>
-					{/* {check?.visible && check?.id === id && (
+					{!player.cards.includes('*') && (
 						<div
 							style={{
 								position: 'absolute',
@@ -185,9 +177,9 @@ const Player: FC<IPlayer> = ({
 								marginTop: '0px',
 								zIndex: 1000,
 							}}>
-							<TreeCards cards={player.cards} />
+							<TreeCards cards={player.cards} visible={true} />
 						</div>
-					)} */}
+					)}
 
 					<div
 						className={classNames(
@@ -235,15 +227,7 @@ const Player: FC<IPlayer> = ({
 								opacity: visibleMessage ? 1 : 0,
 								marginTop: '28px',
 							}}>
-							{String(player.last_move) == 'raise'
-								? 'Підвищити'
-								: String(player.last_move) === 'support'
-								? 'Підтримати'
-								: String(player.last_move) === 'check'
-								? 'Дивитися'
-								: String(player.last_move) === 'drop'
-								? 'Впасти'
-								: 'Готовий'}
+							{message}
 						</div>
 						{/* )} */}
 						<div className={styles.info} style={{ marginTop: '5px' }}>

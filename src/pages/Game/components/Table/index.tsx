@@ -63,7 +63,7 @@ const Table: FC<ITable> = ({
 }) => {
 	const dispatch = useDispatch();
 	// const navigate = useNavigate();
-	const { joinRoom, isAction, check } = useSelector(
+	const { joinRoom, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
@@ -79,6 +79,7 @@ const Table: FC<ITable> = ({
 	const isActionRef = useRef<boolean>(
 		JSON.parse(localStorage.getItem('isAction') || 'false'),
 	);
+	const isWriteReadyState = useRef<boolean>(false);
 
 	const reverseIds = [0, 1, 2, 9, 10];
 
@@ -102,6 +103,7 @@ const Table: FC<ITable> = ({
 		if (roomState.state === 'bidding') {
 			if (isActionRef.current) {
 				isActionRef.current = false;
+				isWriteReadyState.current = false;
 				localStorage.setItem('isAction', 'false');
 			}
 
@@ -114,27 +116,16 @@ const Table: FC<ITable> = ({
 		}
 
 		roomState.players.forEach(player => {
-			if (player.me) {
-				console.log({ isAction, current: isActionRef.current });
-				if (!isActionRef.current) {
-					if (player.state === 'won') {
-						dispatch(setGameAction({ state: player.state }));
-						isActionRef.current = true;
-						localStorage.setItem('isAction', 'true');
+			if (isActionRef.current) return;
+			if (!player.me) return;
 
-						dispatch(setGameAction({ state: player.state }));
-					} else if (player.state === 'defeat') {
-						console.log(12222344332);
-						dispatch(setGameAction({ state: player.state }));
-						isActionRef.current = true;
-						localStorage.setItem('isAction', 'true');
-						// dispatch(setCheck({ visible: true, id: player.id }));
-						// setTimeout(() => {
-						// 	dispatch(setCheck({ visible: false, id: player.id }));
-						// }, 4000);
-						// dispatch(setDefeat(true));
-					}
-				}
+			if (player.state === 'won' || player.state === 'defeat') {
+				dispatch(setGameAction({ state: player.state }));
+				isActionRef.current = true;
+				isWriteReadyState.current = true;
+				playersReadyRef.current = [] as number[];
+				recruitmentStateRef.current = {} as { [key: number]: string };
+				localStorage.setItem('isAction', 'true');
 			}
 		});
 
@@ -157,8 +148,62 @@ const Table: FC<ITable> = ({
 	};
 
 	const reJoinRoom = async () => {
-		await AdminService.roomLeave();
-		await GameService.joinRoom(joinRoom.id);
+		try {
+			await AdminService.roomLeave();
+			await GameService.joinRoom(joinRoom.id);
+		} catch (e) {
+			if (e.response.status === 403) {
+				await GameService.joinRoom(joinRoom.id);
+			}
+		}
+	};
+
+	const writeStates = (room: PublicRoomResponce) => {
+		if (Object.keys(recruitmentStateRef.current).length < room.players.length) {
+			room.players.forEach(player => {
+				const { state, id } = player;
+				if (
+					!playersReadyRef.current.includes(id) &&
+					!recruitmentStateRef.current[id]
+				) {
+					recruitmentStateRef.current[id] = state;
+				}
+			});
+		}
+	};
+
+	const showReadyMessage = (room: PublicRoomResponce) => {
+		room.players.forEach(player => {
+			const prevState = recruitmentStateRef.current[player.id];
+			if (
+				!playersReadyRef.current.includes(player.id) &&
+				player.state !== prevState
+			) {
+				playersReadyRef.current.push(player.id);
+				delete recruitmentStateRef.current[player.id];
+				dispatch(
+					setVisibleStateMessage({
+						visible: true,
+						message: 'Готовий',
+						id: player.id,
+					}),
+				);
+				setTimeout(() => {
+					dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
+				}, 4000);
+			}
+		});
+	};
+
+	const translateStateToMessage = (state: string): string => {
+		const states: { [key: string]: string } = {
+			support: 'Підтримати',
+			raise: 'Підняти',
+			check: 'Дивитися',
+			drop: 'Впасти',
+		};
+
+		return states[state];
 	};
 
 	const getRoomState = async () => {
@@ -181,40 +226,10 @@ const Table: FC<ITable> = ({
 			reJoinRoom();
 		}
 
-		if (room.state === 'player_recruitment') {
-			if (
-				Object.keys(recruitmentStateRef.current).length < room.players.length
-			) {
-				room.players.forEach(player => {
-					const { state, id } = player;
-					if (
-						!playersReadyRef.current.includes(id) &&
-						!recruitmentStateRef.current[id]
-					) {
-						recruitmentStateRef.current[id] = state;
-					}
-				});
-			}
-
-			room.players.forEach(player => {
-				const prevState = recruitmentStateRef.current[player.id];
-				if (
-					!playersReadyRef.current.includes(player.id) &&
-					player.state !== prevState
-				) {
-					playersReadyRef.current.push(player.id);
-					delete recruitmentStateRef.current[player.id];
-					dispatch(
-						setVisibleStateMessage({
-							visible: true,
-							id: player.id,
-						}),
-					);
-					setTimeout(() => {
-						dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
-					}, 4000);
-				}
-			});
+		if (room.state === 'player_recruitment' || isWriteReadyState.current) {
+			writeStates(room);
+			showReadyMessage(room);
+			console.log(recruitmentStateRef.current);
 		}
 
 		if (room.template) {
@@ -239,6 +254,7 @@ const Table: FC<ITable> = ({
 			dispatch(
 				setVisibleStateMessage({
 					visible: true,
+					message: translateStateToMessage(lastMovePlayerRef.current.last_move),
 					id: lastMovePlayerRef.current.id,
 				}),
 			);

@@ -11,6 +11,7 @@ interface IMenuAccountSettingsPosition {
 
 interface IVisibleStateMessage {
 	visible: boolean;
+	message: '';
 	id: number;
 }
 
