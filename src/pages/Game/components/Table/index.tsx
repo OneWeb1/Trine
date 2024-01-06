@@ -8,7 +8,7 @@ import {
 	RefObject,
 } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import { RootState as CustomRootState } from '../../../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,6 +33,7 @@ import { IPlayerRoom } from '../../../Admin/interfaces';
 
 import styles from './Table.module.scss';
 import { PublicRoomResponce } from '../../../../models/responce/AdminResponce';
+import GameService from '../../../../services/GameService';
 // import GameService from '../../../../services/GameService';
 
 interface ITable {
@@ -61,12 +62,16 @@ const Table: FC<ITable> = ({
 	tableRef,
 }) => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const { joinRoom, isAction, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
 	const [pos, setPos] = useState<number[]>([]);
+	const recruitmentStateRef = useRef<{ [key: number]: string }>(
+		{} as { [key: number]: string },
+	);
+	const playersReadyRef = useRef<number[]>([] as number[]);
 	const lastMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 	const currentMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 	const timeoutRef = useRef<number | null>(null);
@@ -89,38 +94,15 @@ const Table: FC<ITable> = ({
 		timeoutRef.current = null;
 	};
 
-	const isMeReady = (room: PublicRoomResponce) => {
-		for (let i = 0; i < room.players.length; i++) {
-			const player = room.players[i];
-			if (player.me && player.state === 'ready') return true;
-		}
-
-		return false;
-	};
-
-	const roomJoin = async () => {
-		try {
-			setReady(false);
-			localStorage.setItem('ready', 'false');
-		} catch (e) {
-			console.log(e);
-		}
-	};
-
 	const stateActionHandler = () => {
 		if (!roomState.players) return;
 
 		if (roomState.state === 'result') {
-			if (!isMeReady(roomState)) {
-				roomJoin();
-			}
 			setRoomResultState({ ...roomState });
 		}
 
 		roomState.players.forEach(player => {
 			if (player.me) {
-				console.log('PLAYERSTATE: ', player.state);
-				console.log({ isAction });
 				if (!isAction) {
 					if (player.state === 'won') {
 						localStorage.setItem('isAction', JSON.stringify(true));
@@ -140,6 +122,23 @@ const Table: FC<ITable> = ({
 				}
 			}
 		});
+
+		if (
+			(roomState.state === 'player_recruitment' ||
+				roomState.state === 'result') &&
+			mePlayer.state !== 'ready'
+		) {
+			setReady(false);
+			localStorage.setItem('ready', 'false');
+		} else {
+			setReady(true);
+			localStorage.setItem('ready', 'true');
+		}
+	};
+
+	const reJoinRoom = async () => {
+		await AdminService.roomLeave();
+		await GameService.joinRoom(joinRoom.id);
 	};
 
 	const getRoomState = async () => {
@@ -159,22 +158,54 @@ const Table: FC<ITable> = ({
 			!room.players.some(player => player.me) &&
 			room.players[0].state !== 'ready'
 		) {
-			navigate('/');
-			location.reload();
+			reJoinRoom();
 		}
 
 		if (room.state === 'player_recruitment') {
+			if (
+				Object.keys(recruitmentStateRef.current).length < room.players.length
+			) {
+				room.players.forEach(player => {
+					const { state, id } = player;
+					if (
+						!playersReadyRef.current.includes(id) &&
+						!recruitmentStateRef.current[id]
+					) {
+						recruitmentStateRef.current[id] = state;
+					}
+				});
+			}
 			const storageIsAction = JSON.parse(
 				localStorage.getItem('isAction') || 'false',
 			);
 			if (storageIsAction)
 				localStorage.setItem('isAction', JSON.stringify(false));
+			// console.log(recruitmentStateRef.current);
+			room.players.forEach(player => {
+				const prevState = recruitmentStateRef.current[player.id];
+				if (
+					!playersReadyRef.current.includes(player.id) &&
+					player.state !== prevState
+				) {
+					playersReadyRef.current.push(player.id);
+					delete recruitmentStateRef.current[player.id];
+					dispatch(
+						setVisibleStateMessage({
+							visible: true,
+							id: player.id,
+						}),
+					);
+					setTimeout(() => {
+						dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
+						console.log('HIDE');
+					}, 4000);
+				}
+			});
 		}
 
 		if (room.state === 'bidding') {
 			if (!room.players.some(player => player.me)) {
-				navigate('/');
-				location.reload();
+				reJoinRoom();
 			}
 		}
 
@@ -192,7 +223,9 @@ const Table: FC<ITable> = ({
 
 		lastMovePlayerRef.current = { ...currentMovePlayerRef.current };
 		room.players.forEach(player => {
-			if (player.state === 'move') currentMovePlayerRef.current = { ...player };
+			if (player.state === 'move') {
+				currentMovePlayerRef.current = { ...player };
+			}
 		});
 		if (lastMovePlayerRef.current.id !== currentMovePlayerRef.current.id) {
 			dispatch(

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setGameAction,
 	setRoomResultState,
-	setVisibleStateMessage,
+	// setVisibleStateMessage,
 	// setIsAction,
 } from '../../store/slices/app.slice';
 
@@ -30,9 +30,7 @@ import styles from './../../stylesheet/styles/Game.module.scss';
 const Game: FC = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { gameAction, account } = useSelector(
-		(state: CustomRootState) => state.app,
-	);
+	const { gameAction } = useSelector((state: CustomRootState) => state.app);
 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
 		{} as PublicRoomResponce,
 	);
@@ -52,19 +50,6 @@ const Game: FC = () => {
 	const readyHandler = async () => {
 		try {
 			await AdminService.roomIsReady(true);
-
-			dispatch(
-				setVisibleStateMessage({
-					visible: true,
-					id: account.id,
-				}),
-			);
-			setTimeout(() => {
-				dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
-			}, 3000);
-			setReady(true);
-
-			localStorage.setItem('ready', 'true');
 		} catch (e) {
 			console.log(e);
 		}
@@ -150,7 +135,6 @@ const Game: FC = () => {
 					}}
 				/>
 			)}
-			{console.log({ roomState })}
 			{gameAction.state === 'won' && roomState.bank && (
 				<ModalAfterGame
 					title='Ви виграли'

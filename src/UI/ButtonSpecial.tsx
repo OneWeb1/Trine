@@ -1,4 +1,4 @@
-import { CSSProperties, FC, ReactNode } from 'react';
+import { CSSProperties, FC, ReactNode, RefObject } from 'react';
 
 import classNames from 'classnames';
 

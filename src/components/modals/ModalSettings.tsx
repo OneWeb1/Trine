@@ -36,7 +36,6 @@ const ModalSettings: FC = () => {
 		const $password = String(password);
 		const $currentPassword = String(currentPassword);
 		const $newPassword = String(newPassword);
-		console.log({ $password, $currentPassword, $newPassword });
 		if (name !== account.nickname) {
 			await AdminService.changeNickname(String(name));
 		}

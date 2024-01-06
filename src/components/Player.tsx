@@ -14,6 +14,7 @@ import { IPlayerRoom } from '../models/responce/AdminResponce';
 
 import styles from './../stylesheet/styles-components/Players.module.scss';
 import AdminService from '../services/AdminService';
+// import { setVisibleStateMessage } from '../store/slices/app.slice';
 
 interface IPlayer {
 	cards: string[];
@@ -49,6 +50,7 @@ const Player: FC<IPlayer> = ({
 	const avatarRef = useRef<HTMLDivElement>(null);
 
 	const { visible, id } = visibleStateMessage;
+	const visibleMessage = visible && player.id === id;
 
 	const doCheckCards = async () => {
 		try {
@@ -158,7 +160,7 @@ const Player: FC<IPlayer> = ({
 						<div
 							className={styles.viewState}
 							style={{
-								opacity: visible && player.id === id ? 1 : 0,
+								opacity: visibleMessage ? 1 : 0,
 								marginBottom: '0px',
 							}}>
 							{String(player.last_move) == 'raise'
@@ -230,7 +232,7 @@ const Player: FC<IPlayer> = ({
 						<div
 							className={styles.viewState}
 							style={{
-								opacity: visible && player.id === id ? 1 : 0,
+								opacity: visibleMessage ? 1 : 0,
 								marginTop: '28px',
 							}}>
 							{String(player.last_move) == 'raise'
@@ -266,14 +268,14 @@ const Player: FC<IPlayer> = ({
 				<div className={styles.cards}>
 					{!isVisibleCards && (
 						<TreeCards
-							style={{ marginTop: '-10px' }}
+							style={{ marginTop: '-10px', marginLeft: '30px' }}
 							visible={true}
 							cards={['fb', 'fb', 'fb']}
 						/>
 					)}
 					{isVisibleCards && (
 						<TreeCards
-							style={{ marginTop: '-10px' }}
+							style={{ marginTop: '-10px', marginLeft: '30px' }}
 							visible={isVisibleCards}
 							cards={cards}
 						/>

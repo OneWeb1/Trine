@@ -80,8 +80,6 @@ const appSlice = createSlice({
 			state.isSubmit = action.payload;
 		},
 		setIsAction(state, action) {
-			console.log(state.isAction);
-			console.log(action.payload);
 			state.isAction = action.payload;
 		},
 		setIsPlayerResize(state, action) {

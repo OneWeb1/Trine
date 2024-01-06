@@ -35,7 +35,6 @@ const Game: FC = () => {
 	const { joinRoom, isAction, gameAction, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
-	console.log({ startAction: isAction });
 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
 		{} as PublicRoomResponce,
 	);
@@ -83,17 +82,15 @@ const Game: FC = () => {
 
 		roomState.players.forEach(player => {
 			if (player.me) {
-				console.log('PLAYERSTATE: ', player.state);
-
 				if (!isAction) {
 					if (player.state === 'won') {
 						roomResultStateRef.current = { ...roomState };
 						dispatch(setGameAction({ state: player.state }));
-						dispatch(setIsAction(true));
+						// dispatch(setIsAction(true));
 					}
 					if (player.state === 'defeat') {
 						dispatch(setGameAction({ state: player.state }));
-						dispatch(setIsAction(true));
+						// dispatch(setIsAction(true));
 						dispatch(setCheck({ visible: true, id: player.id }));
 						setTimeout(() => {
 							dispatch(setCheck({ visible: false, id: player.id }));
@@ -229,7 +226,7 @@ const Game: FC = () => {
 			setTimeout(() => {
 				setLoading(false);
 				setOpacity(1);
-			}, 5000);
+			}, 1000);
 		})();
 
 		return () => stopPolling();
