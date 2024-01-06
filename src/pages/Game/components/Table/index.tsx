@@ -123,6 +123,11 @@ const Table: FC<ITable> = ({
 			}
 		});
 
+		if (roomState.state === 'player_recruitment' && isAction) {
+			setIsAction(false);
+			localStorage.setItem('isAction', 'false');
+		}
+
 		if (
 			(roomState.state === 'player_recruitment' ||
 				roomState.state === 'result') &&
