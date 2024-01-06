@@ -180,6 +180,7 @@ const Player: FC<IPlayer> = ({
 							<TreeCards
 								style={{ transform: 'scale(.8) translateY(-20px)' }}
 								cards={player.cards}
+								number={player.cards_sum}
 								visible={true}
 							/>
 						</div>
@@ -266,6 +267,7 @@ const Player: FC<IPlayer> = ({
 							style={{ marginTop: '-10px', marginLeft: '30px' }}
 							visible={isVisibleCards}
 							cards={cards}
+							number={player.cards_sum}
 						/>
 					)}
 				</div>

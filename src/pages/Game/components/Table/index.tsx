@@ -104,7 +104,9 @@ const Table: FC<ITable> = ({
 		if (roomState.state === 'result') {
 			setRoomResultState({ ...roomState });
 		}
-
+		if (roomState.state === 'bidding') {
+			isWriteReadyState.current = false;
+		}
 		roomState.players.forEach(player => {
 			if (
 				player.me &&
@@ -134,7 +136,6 @@ const Table: FC<ITable> = ({
 			if (!ready) {
 				if (isActionRef.current) {
 					isActionRef.current = false;
-					isWriteReadyState.current = false;
 					localStorage.setItem('isAction', 'false');
 				}
 

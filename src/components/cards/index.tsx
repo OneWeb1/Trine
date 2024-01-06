@@ -28,7 +28,11 @@ const TreeCards: FC<ITreeCards> = ({ cards, number, visible, style }) => {
 
 	return (
 		<div style={cssStyle} className={styles.cardsWrapper}>
-			<div className={styles.cardsNumber}>{number}</div>
+			<div
+				style={{ opacity: (number && 1) || 0 }}
+				className={styles.cardsNumber}>
+				{number}
+			</div>
 			<img
 				style={{ transform: 'rotate(-5deg)', zIndex: 0 }}
 				className={styles.card}
