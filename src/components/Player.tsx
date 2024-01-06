@@ -36,7 +36,7 @@ const Player: FC<IPlayer> = ({
 	isMeMove,
 	// isReady,
 	isVisibleCards,
-	check,
+	// check,
 	lastId,
 	cards,
 	index,
@@ -176,7 +176,7 @@ const Player: FC<IPlayer> = ({
 					</>
 				)}
 				<div ref={avatarRef} className={styles.avatarWrapper}>
-					{check?.visible && check?.id === id && (
+					{/* {check?.visible && check?.id === id && (
 						<div
 							style={{
 								position: 'absolute',
@@ -187,7 +187,7 @@ const Player: FC<IPlayer> = ({
 							}}>
 							<TreeCards cards={player.cards} />
 						</div>
-					)}
+					)} */}
 
 					<div
 						className={classNames(

@@ -18,7 +18,7 @@ import {
 	setVisibleStateMessage,
 	// setDefeat,
 	// setCheck,
-	setIsAction,
+	// setIsAction,
 	setRoomResultState,
 } from '../../../../store/slices/app.slice';
 
@@ -76,7 +76,7 @@ const Table: FC<ITable> = ({
 	const currentMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 	const timeoutRef = useRef<number | null>(null);
 	const requestStateTime = useRef<number>(new Date().getTime());
-	const lastIsActionRef = useRef<boolean>(
+	const isActionRef = useRef<boolean>(
 		JSON.parse(localStorage.getItem('isAction') || 'false'),
 	);
 
@@ -100,9 +100,8 @@ const Table: FC<ITable> = ({
 	const stateActionHandler = () => {
 		if (!roomState.players) return;
 		if (roomState.state === 'bidding') {
-			if (lastIsActionRef.current) {
-				dispatch(setIsAction(false));
-				lastIsActionRef.current = false;
+			if (isActionRef.current) {
+				isActionRef.current = false;
 				localStorage.setItem('isAction', 'false');
 			}
 
@@ -116,18 +115,18 @@ const Table: FC<ITable> = ({
 
 		roomState.players.forEach(player => {
 			if (player.me) {
-				if (!isAction && !lastIsActionRef.current) {
+				console.log({ isAction, current: isActionRef.current });
+				if (!isActionRef.current) {
 					if (player.state === 'won') {
-						dispatch(setIsAction(true));
 						dispatch(setGameAction({ state: player.state }));
-						lastIsActionRef.current = true;
+						isActionRef.current = true;
 						localStorage.setItem('isAction', 'true');
 
 						dispatch(setGameAction({ state: player.state }));
 					} else if (player.state === 'defeat') {
-						dispatch(setIsAction(true));
+						console.log(12222344332);
 						dispatch(setGameAction({ state: player.state }));
-						lastIsActionRef.current = true;
+						isActionRef.current = true;
 						localStorage.setItem('isAction', 'true');
 						// dispatch(setCheck({ visible: true, id: player.id }));
 						// setTimeout(() => {
