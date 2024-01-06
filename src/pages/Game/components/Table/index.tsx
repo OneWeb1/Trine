@@ -8,7 +8,7 @@ import {
 	RefObject,
 } from 'react';
 
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { RootState as CustomRootState } from '../../../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,7 +62,7 @@ const Table: FC<ITable> = ({
 	tableRef,
 }) => {
 	const dispatch = useDispatch();
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 	const { joinRoom, check } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
@@ -150,9 +150,13 @@ const Table: FC<ITable> = ({
 	const reJoinRoom = async () => {
 		try {
 			await AdminService.roomLeave();
-			await GameService.joinRoom(joinRoom.id);
 		} catch (e) {
+			console.log(e);
+		}
+		try {
 			await GameService.joinRoom(joinRoom.id);
+		} catch {
+			navigate('/');
 		}
 	};
 

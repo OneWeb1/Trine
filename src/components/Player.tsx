@@ -168,7 +168,7 @@ const Player: FC<IPlayer> = ({
 					</>
 				)}
 				<div ref={avatarRef} className={styles.avatarWrapper}>
-					{!player.cards.includes('*') && (
+					{!player.cards.includes('*') && !player.me && (
 						<div
 							style={{
 								position: 'absolute',
@@ -177,7 +177,11 @@ const Player: FC<IPlayer> = ({
 								marginTop: '0px',
 								zIndex: 1000,
 							}}>
-							<TreeCards cards={player.cards} visible={true} />
+							<TreeCards
+								style={{ transform: 'scale(.8) translateY(-20px)' }}
+								cards={player.cards}
+								visible={true}
+							/>
 						</div>
 					)}
 
