@@ -16,8 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setGameAction,
 	setVisibleStateMessage,
-	setDefeat,
-	setCheck,
+	// setDefeat,
+	// setCheck,
 	setIsAction,
 	setRoomResultState,
 } from '../../../../store/slices/app.slice';
@@ -76,6 +76,9 @@ const Table: FC<ITable> = ({
 	const currentMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 	const timeoutRef = useRef<number | null>(null);
 	const requestStateTime = useRef<number>(new Date().getTime());
+	const lastIsActionRef = useRef<boolean>(
+		JSON.parse(localStorage.getItem('isAction') || 'false'),
+	);
 
 	const reverseIds = [0, 1, 2, 9, 10];
 
@@ -96,34 +99,41 @@ const Table: FC<ITable> = ({
 
 	const stateActionHandler = () => {
 		if (!roomState.players) return;
+		if (roomState.state === 'bidding') {
+			if (lastIsActionRef.current) {
+				dispatch(setIsAction(false));
+				lastIsActionRef.current = false;
+				localStorage.setItem('isAction', 'false');
+			}
 
+			if (!roomState.players.some(player => player.me)) {
+				reJoinRoom();
+			}
+		}
 		if (roomState.state === 'result') {
 			setRoomResultState({ ...roomState });
 		}
 
 		roomState.players.forEach(player => {
 			if (player.me) {
-				console.log({ isAction, state: player.state });
-				if (!isAction) {
+				if (!isAction && !lastIsActionRef.current) {
 					if (player.state === 'won') {
-						localStorage.setItem('isAction', 'true');
-						dispatch(setGameAction({ state: player.state }));
 						dispatch(setIsAction(true));
+						dispatch(setGameAction({ state: player.state }));
+						lastIsActionRef.current = true;
+						localStorage.setItem('isAction', 'true');
+
+						dispatch(setGameAction({ state: player.state }));
 					} else if (player.state === 'defeat') {
-						dispatch(setGameAction({ state: player.state }));
 						dispatch(setIsAction(true));
+						dispatch(setGameAction({ state: player.state }));
+						lastIsActionRef.current = true;
 						localStorage.setItem('isAction', 'true');
-						dispatch(setCheck({ visible: true, id: player.id }));
-						setTimeout(() => {
-							dispatch(setCheck({ visible: false, id: player.id }));
-						}, 4000);
-						dispatch(setDefeat(true));
-					} else {
-						if (isAction) {
-							console.log('ISACTIONTRUE');
-							setIsAction(false);
-							localStorage.setItem('isAction', 'false');
-						}
+						// dispatch(setCheck({ visible: true, id: player.id }));
+						// setTimeout(() => {
+						// 	dispatch(setCheck({ visible: false, id: player.id }));
+						// }, 4000);
+						// dispatch(setDefeat(true));
 					}
 				}
 			}
@@ -142,6 +152,7 @@ const Table: FC<ITable> = ({
 			if (!ready) {
 				setReady(true);
 				localStorage.setItem('ready', 'true');
+				localStorage.setItem('isAction', 'false');
 			}
 		}
 	};
@@ -185,12 +196,7 @@ const Table: FC<ITable> = ({
 					}
 				});
 			}
-			const storageIsAction = JSON.parse(
-				localStorage.getItem('isAction') || 'false',
-			);
-			if (storageIsAction)
-				localStorage.setItem('isAction', JSON.stringify(false));
-			// console.log(recruitmentStateRef.current);
+
 			room.players.forEach(player => {
 				const prevState = recruitmentStateRef.current[player.id];
 				if (
@@ -207,16 +213,9 @@ const Table: FC<ITable> = ({
 					);
 					setTimeout(() => {
 						dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
-						console.log('HIDE');
 					}, 4000);
 				}
 			});
-		}
-
-		if (room.state === 'bidding') {
-			if (!room.players.some(player => player.me)) {
-				reJoinRoom();
-			}
 		}
 
 		if (room.template) {
