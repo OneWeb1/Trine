@@ -152,9 +152,7 @@ const Table: FC<ITable> = ({
 			await AdminService.roomLeave();
 			await GameService.joinRoom(joinRoom.id);
 		} catch (e) {
-			if (e.response.status === 403) {
-				await GameService.joinRoom(joinRoom.id);
-			}
+			await GameService.joinRoom(joinRoom.id);
 		}
 	};
 
