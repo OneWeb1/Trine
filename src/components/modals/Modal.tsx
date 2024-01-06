@@ -1,4 +1,4 @@
-import { CSSProperties, FC, ReactNode } from 'react';
+import { FC, memo, CSSProperties, ReactNode } from 'react';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,7 +18,6 @@ interface IModal {
 const Modal: FC<IModal> = ({ title, score, isHide, children, styleNode }) => {
 	const dispatch = useDispatch();
 	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
-	console.log({ visibleModal });
 	const hideModal = () => {
 		if (isHide !== false) dispatch(setVisibleModal('h'));
 	};
@@ -59,4 +58,6 @@ const Modal: FC<IModal> = ({ title, score, isHide, children, styleNode }) => {
 	);
 };
 
-export default Modal;
+const memoModal = memo(Modal);
+
+export default memoModal;

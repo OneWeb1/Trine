@@ -5,13 +5,14 @@ import styles from './../../stylesheet/styles-components/cards/TreeCards.module.
 
 interface ITreeCards {
 	cards: string[];
+	number?: number;
 	red?: boolean;
 	blue?: boolean;
 	visible?: boolean;
 	style?: CSSProperties;
 }
 
-const TreeCards: FC<ITreeCards> = ({ cards, visible, style }) => {
+const TreeCards: FC<ITreeCards> = ({ cards, number, visible, style }) => {
 	const type = (cards?.length === 3 && 'svg') || 'jpg';
 	const cardsItem = cards && cards.length ? cards : ['fb', 'fb', 'fb'];
 
@@ -27,17 +28,21 @@ const TreeCards: FC<ITreeCards> = ({ cards, visible, style }) => {
 
 	return (
 		<div style={cssStyle} className={styles.cardsWrapper}>
+			<div className={styles.cardsNumber}>{number}</div>
 			<img
+				style={{ transform: 'rotate(-5deg)', zIndex: 0 }}
 				className={styles.card}
 				src={`${baseCardsUrl}/${cardsItem[0]}.${type}`}
 				alt='card'
 			/>
 			<img
+				style={{ transform: 'translateY(-2px)', zIndex: 1 }}
 				className={styles.card}
 				src={`${baseCardsUrl}/${cardsItem[1]}.${type}`}
 				alt='card'
 			/>
 			<img
+				style={{ transform: 'rotate(5deg)', zIndex: 2 }}
 				className={styles.card}
 				src={`${baseCardsUrl}/${cardsItem[2]}.${type}`}
 				alt='card'

@@ -1,5 +1,6 @@
 import {
 	FC,
+	memo,
 	useState,
 	useRef,
 	useEffect,
@@ -100,32 +101,23 @@ const Table: FC<ITable> = ({
 
 	const stateActionHandler = () => {
 		if (!roomState.players) return;
-		if (roomState.state === 'bidding') {
-			if (isActionRef.current) {
-				isActionRef.current = false;
-				isWriteReadyState.current = false;
-				localStorage.setItem('isAction', 'false');
-			}
-
-			if (!roomState.players.some(player => player.me)) {
-				reJoinRoom();
-			}
-		}
 		if (roomState.state === 'result') {
 			setRoomResultState({ ...roomState });
 		}
 
 		roomState.players.forEach(player => {
-			if (isActionRef.current) return;
-			if (!player.me) return;
-
-			if (player.state === 'won' || player.state === 'defeat') {
-				dispatch(setGameAction({ state: player.state }));
+			if (
+				player.me &&
+				!JSON.parse(localStorage.getItem('isAction') || 'false') &&
+				(player.state === 'won' || player.state === 'defeat')
+			) {
 				isActionRef.current = true;
+
 				isWriteReadyState.current = true;
 				playersReadyRef.current = [] as number[];
 				recruitmentStateRef.current = {} as { [key: number]: string };
 				localStorage.setItem('isAction', 'true');
+				dispatch(setGameAction({ state: player.state }));
 			}
 		});
 
@@ -140,9 +132,17 @@ const Table: FC<ITable> = ({
 			}
 		} else {
 			if (!ready) {
+				if (isActionRef.current) {
+					isActionRef.current = false;
+					isWriteReadyState.current = false;
+					localStorage.setItem('isAction', 'false');
+				}
+
+				if (!roomState.players.some(player => player.me)) {
+					reJoinRoom();
+				}
 				setReady(true);
 				localStorage.setItem('ready', 'true');
-				localStorage.setItem('isAction', 'false');
 			}
 		}
 	};
@@ -183,6 +183,7 @@ const Table: FC<ITable> = ({
 			) {
 				playersReadyRef.current.push(player.id);
 				delete recruitmentStateRef.current[player.id];
+				console.log(player.nickname, 'Готовий');
 				dispatch(
 					setVisibleStateMessage({
 						visible: true,
@@ -200,7 +201,7 @@ const Table: FC<ITable> = ({
 	const translateStateToMessage = (state: string): string => {
 		const states: { [key: string]: string } = {
 			support: 'Підтримати',
-			raise: 'Підняти',
+			raise: 'Підвищити',
 			check: 'Дивитися',
 			drop: 'Впасти',
 		};
@@ -221,17 +222,14 @@ const Table: FC<ITable> = ({
 
 		if (
 			(room.state === 'player_recruitment' || room.state === 'result') &&
-			room.players.length === 1 &&
 			!room.players.some(player => player.me) &&
 			room.players[0].state !== 'ready'
 		) {
 			reJoinRoom();
 		}
-
 		if (room.state === 'player_recruitment' || isWriteReadyState.current) {
 			writeStates(room);
 			showReadyMessage(room);
-			console.log(recruitmentStateRef.current);
 		}
 
 		if (room.template) {
@@ -253,10 +251,16 @@ const Table: FC<ITable> = ({
 			}
 		});
 		if (lastMovePlayerRef.current.id !== currentMovePlayerRef.current.id) {
+			const lastMove = room.players.find(
+				player => player.id === lastMovePlayerRef.current.id,
+			)?.last_move;
+			const moveMessageText = translateStateToMessage(String(lastMove));
+			console.log({ moveMessageText });
+			if (!moveMessageText.length) return;
 			dispatch(
 				setVisibleStateMessage({
 					visible: true,
-					message: translateStateToMessage(lastMovePlayerRef.current.last_move),
+					message: moveMessageText,
 					id: lastMovePlayerRef.current.id,
 				}),
 			);
@@ -350,4 +354,6 @@ const Table: FC<ITable> = ({
 	);
 };
 
-export default Table;
+const memoTable = memo(Table);
+
+export default memoTable;

@@ -134,7 +134,7 @@ const Player: FC<IPlayer> = ({
 			ref={ref}
 			style={{
 				display: (index === 0 && 'flex') || '',
-				opacity: player.state === 'defeat' ? 0.3 : 1,
+				// opacity: player.state === 'defeat' ? 0.3 : 1,
 			}}>
 			<div>
 				{reverse && (
