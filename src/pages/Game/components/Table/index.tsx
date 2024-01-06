@@ -103,41 +103,46 @@ const Table: FC<ITable> = ({
 
 		roomState.players.forEach(player => {
 			if (player.me) {
+				console.log({ isAction, state: player.state });
 				if (!isAction) {
 					if (player.state === 'won') {
-						localStorage.setItem('isAction', JSON.stringify(true));
+						localStorage.setItem('isAction', 'true');
 						dispatch(setGameAction({ state: player.state }));
 						dispatch(setIsAction(true));
-					}
-					if (player.state === 'defeat') {
+					} else if (player.state === 'defeat') {
 						dispatch(setGameAction({ state: player.state }));
 						dispatch(setIsAction(true));
-						localStorage.setItem('isAction', JSON.stringify(true));
+						localStorage.setItem('isAction', 'true');
 						dispatch(setCheck({ visible: true, id: player.id }));
 						setTimeout(() => {
 							dispatch(setCheck({ visible: false, id: player.id }));
 						}, 4000);
 						dispatch(setDefeat(true));
+					} else {
+						if (isAction) {
+							console.log('ISACTIONTRUE');
+							setIsAction(false);
+							localStorage.setItem('isAction', 'false');
+						}
 					}
 				}
 			}
 		});
-
-		if (roomState.state === 'player_recruitment' && isAction) {
-			setIsAction(false);
-			localStorage.setItem('isAction', 'false');
-		}
 
 		if (
 			(roomState.state === 'player_recruitment' ||
 				roomState.state === 'result') &&
 			mePlayer.state !== 'ready'
 		) {
-			setReady(false);
-			localStorage.setItem('ready', 'false');
+			if (ready) {
+				setReady(false);
+				localStorage.setItem('ready', 'false');
+			}
 		} else {
-			setReady(true);
-			localStorage.setItem('ready', 'true');
+			if (!ready) {
+				setReady(true);
+				localStorage.setItem('ready', 'true');
+			}
 		}
 	};
 

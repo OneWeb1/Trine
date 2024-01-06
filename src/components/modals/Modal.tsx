@@ -18,12 +18,12 @@ interface IModal {
 const Modal: FC<IModal> = ({ title, score, isHide, children, styleNode }) => {
 	const dispatch = useDispatch();
 	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
+	console.log({ visibleModal });
 	const hideModal = () => {
 		if (isHide !== false) dispatch(setVisibleModal('h'));
 	};
 	return (
 		<>
-			{console.log({ visibleModal })}
 			{visibleModal !== 'h' && (
 				<div
 					style={styleNode}

@@ -9,7 +9,7 @@ import {
 	setGameAction,
 	setRoomResultState,
 	// setVisibleStateMessage,
-	setIsAction,
+	// setIsAction,
 } from '../../store/slices/app.slice';
 
 import GameHeader from '../../components/GameHeader';
@@ -50,8 +50,6 @@ const Game: FC = () => {
 	const readyHandler = async () => {
 		try {
 			await AdminService.roomIsReady(true);
-			setIsAction(false);
-			localStorage.setItem('isAction', 'false');
 		} catch (e) {
 			console.log(e);
 		}
@@ -156,7 +154,7 @@ const Game: FC = () => {
 					value='На головну'
 					isHide={false}
 					onClick={() => {
-						dispatch(setGameAction({ state: '', prevState: 'room-not-found' }));
+						dispatch(setGameAction({ state: '' }));
 						navigate('/');
 						location.reload();
 					}}
