@@ -69,7 +69,7 @@ const GameFooter: FC<IGameFooter> = ({
 			newRaiseSum;
 		if (!newRaiseSum || fullBid > maxBid) setPercent(0);
 		else setPercent(value);
-
+		console.log({ value });
 		setRaiseSum(newRaiseSum);
 	};
 
@@ -109,7 +109,11 @@ const GameFooter: FC<IGameFooter> = ({
 							className={styles.buttonReady}
 							disabled={true}
 							title='Готовий'
-							onClick={readyHandler}
+							onClick={() => {
+								setPercent((bid / maxBid) * 10000);
+								setRaiseSum(bid);
+								readyHandler();
+							}}
 						/>
 					</div>
 				)}

@@ -173,7 +173,7 @@ const Game: FC = () => {
 					title='Ви виграли'
 					message='Сума виграшу:'
 					isWin={true}
-					sum={roomState.bank * 0.95}
+					sum={Math.floor(roomState.bank * 0.95)}
 					onClick={() => {
 						setRoomResultState({} as PublicRoomResponce);
 						dispatch(setGameAction({ state: '' }));
