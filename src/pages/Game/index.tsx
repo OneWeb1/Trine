@@ -191,7 +191,13 @@ const Game: FC = () => {
 
 			{!isLandscape && (
 				<div
-					style={{ position: 'fixed', top: 0, left: 0, zIndex: 10000 }}
+					style={{
+						position: 'fixed',
+						top: 0,
+						left: 0,
+						zIndex: 10000,
+						background: '#090f1e',
+					}}
 					className={styles.flex}>
 					Гра не підтримує портретний режим
 				</div>
