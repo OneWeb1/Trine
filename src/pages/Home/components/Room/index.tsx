@@ -140,7 +140,11 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 								style={{
 									zIndex: idx,
 									marginLeft: (idx !== 0 && left) || '0px',
-									marginRight: (idx === players.length - 1 && '10px') || '0px',
+									marginRight:
+										(!(show && room.players.length - 1 - playersNumber > 0) &&
+											idx === players.length - 1 &&
+											'10px') ||
+										'0px',
 								}}
 								className={styles.playerProfile}>
 								<img
