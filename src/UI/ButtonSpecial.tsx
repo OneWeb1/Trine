@@ -32,7 +32,7 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 	return (
 		<div
 			className={classNames(styles.special, disabled && styles.hoverSpecial)}
-			style={style}
+			style={{ ...style, opacity: !disabled ? 0.5 : 1 }}
 			onClick={(disabled && onClick) || initHandler}>
 			{icon && (
 				<div

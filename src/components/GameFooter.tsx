@@ -45,10 +45,10 @@ const GameFooter: FC<IGameFooter> = ({
 	};
 
 	const raiseHandler = async () => {
-		console.log({ raiseSum: raiseSum / 2 });
-		await AdminService.do({ action: 'raise', sum: Math.round(raiseSum / 2) });
-		// setRaiseSum(raiseSum * 2);
-		// setPercent((raiseSum / maxBid) * 10000);
+		console.log({ raiseSum, raiseSumDouble: Math.round(raiseSum / 2) });
+		await AdminService.do({ action: 'raise', sum: Math.round(raiseSum) });
+		setRaiseSum(raiseSum * 2);
+		setPercent((raiseSum / maxBid) * 10000);
 	};
 
 	const dropHandler = async () => {
@@ -57,15 +57,18 @@ const GameFooter: FC<IGameFooter> = ({
 
 	const changePercent = (e: ChangeEvent<HTMLInputElement>) => {
 		let value = Number(e.target.value);
-		const max = maxBid - 1500;
+		const max = maxBid - fullBid;
 		const min = ((bid * 2) / max) * 10000;
 		value = (value < min && min) || value;
 		const percent = value / 10000;
 		let newRaiseSum = Number((max * percent).toFixed(0));
-		newRaiseSum =
-			(maxBid - fullBid < newRaiseSum && maxBid - fullBid) || newRaiseSum;
+		newRaiseSum = newRaiseSum < 0 || bid === maxBid ? 0 : newRaiseSum;
 
-		setPercent(value);
+		newRaiseSum =
+			(maxBid - bid > 0 && maxBid - bid < newRaiseSum && maxBid - bid) ||
+			newRaiseSum;
+		if (!newRaiseSum || fullBid > maxBid) setPercent(0);
+		else setPercent(value);
 
 		setRaiseSum(newRaiseSum);
 	};
@@ -146,9 +149,10 @@ const GameFooter: FC<IGameFooter> = ({
 									{windowWidth >= 1100 && (
 										<div>
 											<input
+												style={{ opacity: percent === 0 ? 0.5 : 1 }}
 												type='range'
 												ref={rangeRef}
-												disabled={!isEnable}
+												disabled={percent === 0 ? false : !isEnable}
 												className={styles.range}
 												min={0}
 												max={10000}
@@ -165,13 +169,13 @@ const GameFooter: FC<IGameFooter> = ({
 										}>
 										<ButtonSpecial
 											title='Підвищити'
-											number={raiseSum}
+											number={isNaN(raiseSum) ? 0 : raiseSum}
 											icon={
 												<MdDoubleArrow
 													style={{ transform: 'rotate(-90deg)' }}
 												/>
 											}
-											disabled={isEnable}
+											disabled={raiseSum === 0 ? raiseSum !== 0 : isEnable}
 											onClick={raiseHandler}
 										/>
 										<ButtonSpecial
@@ -199,10 +203,14 @@ const GameFooter: FC<IGameFooter> = ({
 										<div style={{ marginLeft: '20px', display: 'flex' }}>
 											<ButtonFunction
 												text='x2'
-												number={multiplay(joinTax, 2)}
-												disabled={isEnable}
+												number={multiplay(bid, 2)}
+												disabled={
+													maxBid - bid < multiplay(bid, 2)
+														? maxBid - bid > multiplay(bid, 2)
+														: isEnable
+												}
 												onClick={() => {
-													let sum = multiplay(joinTax, 2);
+													let sum = multiplay(bid, 2);
 													if (sum < bid * 2) sum = bid * 2;
 													setRaiseSum(sum);
 													setPercent((sum / maxBid) * 10000);
@@ -210,10 +218,14 @@ const GameFooter: FC<IGameFooter> = ({
 											/>
 											<ButtonFunction
 												text='x5'
-												number={multiplay(joinTax, 5)}
-												disabled={isEnable}
+												number={multiplay(bid, 5)}
+												disabled={
+													maxBid - bid < multiplay(bid, 5)
+														? maxBid - bid > multiplay(bid, 5)
+														: isEnable
+												}
 												onClick={() => {
-													let sum = multiplay(joinTax, 5);
+													let sum = multiplay(bid, 5);
 													if (sum < bid * 2) sum = bid * 5;
 													setRaiseSum(sum);
 													setPercent((sum / maxBid) * 10000);
@@ -221,8 +233,12 @@ const GameFooter: FC<IGameFooter> = ({
 											/>
 											<ButtonFunction
 												text='x10'
-												number={multiplay(joinTax, 10)}
-												disabled={isEnable}
+												number={multiplay(bid, 10)}
+												disabled={
+													maxBid - bid < multiplay(bid, 10)
+														? maxBid - bid > multiplay(bid, 10)
+														: isEnable
+												}
 												onClick={() => {
 													let sum = multiplay(joinTax, 10);
 													if (sum < bid * 2) sum = bid * 10;
@@ -232,10 +248,12 @@ const GameFooter: FC<IGameFooter> = ({
 											/>
 											<ButtonFunction
 												text='MAX'
-												number={maxBid - fullBid}
-												disabled={isEnable}
+												number={maxBid - bid}
+												disabled={
+													maxBid - bid === 0 ? maxBid - bid !== 0 : isEnable
+												}
 												onClick={() => {
-													const sum = maxBid - fullBid;
+													const sum = maxBid - bid;
 													setRaiseSum(sum);
 													setPercent((sum / maxBid) * 10000);
 												}}
@@ -255,9 +273,10 @@ const GameFooter: FC<IGameFooter> = ({
 									}}>
 									<div>
 										<input
+											style={{ opacity: percent === 0 ? 0.5 : 1 }}
 											type='range'
 											ref={rangeRef}
-											disabled={!isEnable}
+											disabled={percent === 0 ? true : !isEnable}
 											min={0}
 											max={10000}
 											value={percent}
@@ -268,8 +287,12 @@ const GameFooter: FC<IGameFooter> = ({
 									<div style={{ marginLeft: '20px', display: 'flex' }}>
 										<ButtonFunction
 											text='x2'
-											number={multiplay(joinTax, 2)}
-											disabled={isEnable}
+											number={multiplay(bid, 2)}
+											disabled={
+												maxBid - bid < multiplay(bid, 2)
+													? maxBid - bid > multiplay(bid, 2)
+													: isEnable
+											}
 											onClick={() => {
 												let sum = multiplay(joinTax, 2);
 												if (sum < bid * 2) sum = bid * 2;
@@ -279,8 +302,12 @@ const GameFooter: FC<IGameFooter> = ({
 										/>
 										<ButtonFunction
 											text='x5'
-											number={multiplay(joinTax, 5)}
-											disabled={isEnable}
+											number={multiplay(bid, 5)}
+											disabled={
+												maxBid - bid < multiplay(bid, 5)
+													? maxBid - bid > multiplay(bid, 5)
+													: isEnable
+											}
 											onClick={() => {
 												let sum = multiplay(joinTax, 5);
 												if (sum < bid * 2) sum = bid * 2;
@@ -290,8 +317,12 @@ const GameFooter: FC<IGameFooter> = ({
 										/>
 										<ButtonFunction
 											text='x10'
-											number={multiplay(joinTax, 10)}
-											disabled={isEnable}
+											number={multiplay(bid, 10)}
+											disabled={
+												maxBid - bid < multiplay(bid, 10)
+													? maxBid - bid > multiplay(bid, 10)
+													: isEnable
+											}
 											onClick={() => {
 												let sum = multiplay(joinTax, 10);
 												if (sum < bid * 2) sum = bid * 2;
@@ -301,10 +332,12 @@ const GameFooter: FC<IGameFooter> = ({
 										/>
 										<ButtonFunction
 											text='MAX'
-											number={maxBid - fullBid}
-											disabled={isEnable}
+											number={maxBid - bid}
+											disabled={
+												maxBid - bid === 0 ? maxBid - bid !== 0 : isEnable
+											}
 											onClick={() => {
-												const sum = maxBid - fullBid;
+												const sum = maxBid - bid;
 												setRaiseSum(sum);
 												setPercent((sum / maxBid) * 10000);
 											}}

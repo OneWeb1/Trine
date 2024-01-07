@@ -22,6 +22,7 @@ const ButtonFunction: FC<IButtonFunction> = ({
 	const initHandler = () => {};
 	return (
 		<div
+			style={{ opacity: !disabled ? 0.5 : 1 }}
 			className={classNames(styles.function, disabled && styles.hoverFunction)}
 			onClick={(disabled && onClick) || initHandler}>
 			<div className={styles.top}>
