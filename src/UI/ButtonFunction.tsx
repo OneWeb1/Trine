@@ -10,6 +10,7 @@ interface IButtonFunction {
 	text: string;
 	number: number;
 	disabled: boolean;
+	className: string;
 	onClick: () => void;
 }
 
@@ -17,13 +18,18 @@ const ButtonFunction: FC<IButtonFunction> = ({
 	text,
 	number,
 	disabled,
+	className,
 	onClick,
 }) => {
 	const initHandler = () => {};
 	return (
 		<div
 			style={{ opacity: !disabled ? 0.5 : 1 }}
-			className={classNames(styles.function, disabled && styles.hoverFunction)}
+			className={classNames(
+				styles.function,
+				disabled && styles.hoverFunction,
+				className,
+			)}
 			onClick={(disabled && onClick) || initHandler}>
 			<div className={styles.top}>
 				<div className={styles.center}>

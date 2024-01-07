@@ -110,3 +110,37 @@
 		border: 2px solid rgb(3, 32, 85);
 	}
 }
+
+@media screen and (min-width: 801px) and (max-width: 1150px) {
+	.range {
+		width: 220px;
+		height: 15px;
+		margin-right: 10px;
+		margin-top: 5px;
+
+		&::-webkit-slider-thumb {
+			height: 25px;
+			width: 25px;
+			border-radius: 8px;
+		}
+	}
+}
+
+@media screen and (min-width: 401px) and (max-width: 900px) {
+	.range {
+		width: 160px;
+		height: 12px;
+		margin-right: 10px;
+		margin-top: 5px;
+
+		&::-webkit-slider-thumb {
+			height: 20px;
+			width: 20px;
+			border-radius: 6px;
+		}
+	}
+
+	.x2 {
+		display: none;
+	}
+}
