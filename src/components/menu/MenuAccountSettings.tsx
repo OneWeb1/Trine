@@ -25,6 +25,8 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 		const box = menuRef.current.getBoundingClientRect();
 		const left = x - box.width + 40;
 		const top = y + 50;
+		// console.log({ top, height: window.innerHeight });
+		// if (top > window.innerHeight - 100) top -= 100;
 		menuRef.current.style.left = `${left}px`;
 		menuRef.current.style.top = `${top}px`;
 		setVisible(true);

@@ -154,6 +154,7 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 								style={{
 									zIndex: 15,
 									marginLeft: left,
+									marginRight: '10px',
 									display: 'flex',
 									alignItems: 'center',
 									justifyContent: 'center',
