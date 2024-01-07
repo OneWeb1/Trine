@@ -68,35 +68,33 @@ const Game: FC = () => {
 		resizeHandler(tableRef);
 	};
 
-	useEffect(() => {
-		const setViewportOrientation = () => {
-			const viewportMeta = document.querySelector(
-				'meta[name="viewport"]',
-			) as HTMLMetaElement;
-			if (viewportMeta) {
-				viewportMeta.content =
-					'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape';
-			}
-		};
+	function isMobileDevice() {
+		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+			navigator.userAgent,
+		);
+	}
 
-		setViewportOrientation();
+	useEffect(() => {
+		window.addEventListener('resize', () => {
+			resizeHandler(tableRef);
+		});
+		if (isMobileDevice()) {
+			document.documentElement.requestFullscreen();
+			screen.orientation.lock('landscape');
+		}
+
 		resizeHandler(tableRef);
 
-		window.addEventListener('resize', resizeHandler.bind(null, tableRef));
-		window.addEventListener('orientationchange', setViewportOrientation);
-
 		return () => {
-			window.removeEventListener('orientationchange', setViewportOrientation);
+			if (isMobileDevice()) {
+				document.exitFullscreen();
+			}
 		};
 	}, []);
 
 	return (
 		<>
 			<Helmet>
-				<meta
-					name='viewport'
-					content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape'
-				/>
 				<title>Game</title>
 				{assets.map((imageName, index) => (
 					<link
