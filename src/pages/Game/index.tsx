@@ -83,14 +83,22 @@ const Game: FC = () => {
 			(window.screen.orientation as any).lock('landscape');
 		}
 
-		resizeHandler(tableRef);
-
 		return () => {
 			if (isMobileDevice()) {
 				document.exitFullscreen();
 			}
 		};
 	}, []);
+
+	resizeHandler(tableRef);
+
+	if (
+		isMobileDevice() &&
+		(screen.orientation.type === 'portrait-primary' ||
+			screen.orientation.type === 'portrait-secondary')
+	) {
+		return <div className={styles.flex}>Гра не підтримує портретний режим</div>;
+	}
 
 	return (
 		<>
