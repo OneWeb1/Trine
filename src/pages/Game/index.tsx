@@ -1,6 +1,6 @@
 import { FC, useState, useRef, useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
@@ -26,6 +26,7 @@ import { IPlayerRoom } from '../Admin/interfaces';
 
 import { assets, resizeHandler } from './utils';
 import styles from './../../stylesheet/styles/Game.module.scss';
+import Button from '../../UI/Button';
 
 const Game: FC = () => {
 	const dispatch = useDispatch();
@@ -140,16 +141,20 @@ const Game: FC = () => {
 						setOpacity={setOpacity}
 						tableRef={tableRef}
 					/>
-					<GameFooter
-						isEnable={
-							mePlayer.state === 'move' && roomState.state === 'bidding'
-						}
-						isReady={ready}
-						joinTax={Number(roomState.join_tax)}
-						maxBid={Number(roomState.max_bid)}
-						bid={Number(roomState.bid)}
-						readyHandler={readyHandler}
-					/>
+					{!loading && (
+						<GameFooter
+							isEnable={
+								mePlayer.state === 'move' && roomState.state === 'bidding'
+							}
+							isReady={ready}
+							joinTax={Number(roomState.join_tax)}
+							maxBid={Number(roomState.max_bid)}
+							bid={Number(roomState.bid)}
+							fullBid={mePlayer.full_bid}
+							readyHandler={readyHandler}
+							loading={loading}
+						/>
+					)}
 				</div>
 			)}
 			{gameAction.state === 'defeat' && (
@@ -199,7 +204,21 @@ const Game: FC = () => {
 						background: '#090f1e',
 					}}
 					className={styles.flex}>
-					Гра не підтримує портретний режим
+					<div>
+						Гра не підтримує портретний режим. Для того щоб продовжити гру
+						поверніться в альбомний режим або покиньте кімнату.
+						<Link to='/'>
+							<Button
+								style={{
+									maxWidth: '180px',
+									margin: '20px auto',
+									padding: '5px 20px',
+								}}
+								value='Покинути кімнату'
+								onClick={() => {}}
+							/>
+						</Link>
+					</div>
 				</div>
 			)}
 		</>

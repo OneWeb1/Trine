@@ -17,7 +17,9 @@ import NotFound from './pages/NotFound';
 import TestPage from './pages/TestPage';
 
 const App = () => {
-	const { isAuth } = useSelector((state: CustomRootState) => state.app);
+	const { isAuth, account } = useSelector(
+		(state: CustomRootState) => state.app,
+	);
 	return (
 		<div>
 			<Router>
@@ -34,7 +36,9 @@ const App = () => {
 							<Route path='/registration' element={<Navigate to='/' />}></Route>
 							<Route path='/login' element={<Navigate to='/' />}></Route>
 							<Route path='/game' element={<Game />}></Route>
-							<Route path='/admin' element={<Admin />}></Route>
+							{account.is_admin && (
+								<Route path='/admin' element={<Admin />}></Route>
+							)}
 
 							<Route path='/test' element={<TestPage />}></Route>
 						</>

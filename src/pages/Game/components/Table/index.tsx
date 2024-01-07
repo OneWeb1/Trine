@@ -82,6 +82,8 @@ const Table: FC<ITable> = ({
 	);
 	const isWriteReadyState = useRef<boolean>(false);
 
+	const h = window.innerHeight;
+
 	const reverseIds = [0, 1, 2, 9, 10];
 
 	const startPolling = () => {
@@ -282,7 +284,7 @@ const Table: FC<ITable> = ({
 		while (state) {
 			id = id - 1;
 			lastPlayer = roomState.players[id];
-			if (!lastPlayer) {
+			if (!lastPlayer || lastPlayer.me) {
 				state = false;
 				lastPlayer = { id: -1 } as IPlayerRoom;
 				continue;
@@ -314,7 +316,7 @@ const Table: FC<ITable> = ({
 	});
 
 	return (
-		<div className={styles.tableWrapper}>
+		<div style={{ marginTop: '-20px' }} className={styles.tableWrapper}>
 			<div className={styles.table} ref={tableRef}>
 				{players.map((player, idx) => (
 					<Player
