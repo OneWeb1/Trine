@@ -69,15 +69,32 @@ const Game: FC = () => {
 	};
 
 	useEffect(() => {
-		window.addEventListener('resize', () => {
-			resizeHandler(tableRef);
-		});
+		const setViewportOrientation = () => {
+			const viewportMeta = document.querySelector('meta[name="viewport"]');
+			if (viewportMeta) {
+				viewportMeta.content =
+					'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape';
+			}
+		};
+
+		setViewportOrientation();
 		resizeHandler(tableRef);
+
+		window.addEventListener('resize', resizeHandler.bind(null, tableRef));
+		window.addEventListener('orientationchange', setViewportOrientation);
+
+		return () => {
+			window.removeEventListener('orientationchange', setViewportOrientation);
+		};
 	}, []);
 
 	return (
 		<>
 			<Helmet>
+				<meta
+					name='viewport'
+					content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape'
+				/>
 				<title>Game</title>
 				{assets.map((imageName, index) => (
 					<link
