@@ -70,7 +70,9 @@ const Game: FC = () => {
 
 	useEffect(() => {
 		const setViewportOrientation = () => {
-			const viewportMeta = document.querySelector('meta[name="viewport"]');
+			const viewportMeta = document.querySelector(
+				'meta[name="viewport"]',
+			) as HTMLMetaElement;
 			if (viewportMeta) {
 				viewportMeta.content =
 					'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape';
