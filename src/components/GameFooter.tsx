@@ -20,7 +20,6 @@ interface IGameFooter {
 	fullBid: number;
 	maxBid: number;
 	loading: boolean;
-	isResetValue: boolean;
 	readyHandler: () => void;
 }
 
@@ -31,7 +30,6 @@ const GameFooter: FC<IGameFooter> = ({
 	joinTax,
 	fullBid,
 	maxBid,
-	isResetValue,
 	bid,
 	loading,
 }) => {

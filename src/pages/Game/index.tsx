@@ -151,11 +151,6 @@ const Game: FC = () => {
 							maxBid={Number(roomState.max_bid)}
 							bid={Number(roomState.bid)}
 							fullBid={mePlayer.full_bid}
-							isResetValue={
-								roomState.players.length - 1 ===
-								roomState.players.filter(player => player.state === 'ready')
-									.length
-							}
 							readyHandler={readyHandler}
 							loading={loading}
 						/>
