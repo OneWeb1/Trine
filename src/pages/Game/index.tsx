@@ -44,6 +44,7 @@ const Game: FC = () => {
 	const [opacity, setOpacity] = useState<number>(0);
 
 	const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
+	const [isLandscape, setIsLandscape] = useState<boolean>(true);
 
 	const tableRef = useRef<HTMLDivElement>(null);
 
@@ -68,6 +69,14 @@ const Game: FC = () => {
 		resizeHandler(tableRef);
 	};
 
+	const orientationChange = () => {
+		if (window.orientation === 90 || window.orientation === -90) {
+			setIsLandscape(true);
+		} else {
+			setIsLandscape(false);
+		}
+	};
+
 	function isMobileDevice() {
 		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
 			navigator.userAgent,
@@ -75,117 +84,116 @@ const Game: FC = () => {
 	}
 
 	useEffect(() => {
-		window.addEventListener('resize', () => {
-			resizeHandler(tableRef);
-		});
 		if (isMobileDevice()) {
 			document.documentElement.requestFullscreen();
 			(window.screen.orientation as any).lock('landscape');
+			orientationChange();
+			window.addEventListener('orientationchange', orientationChange);
 		}
-
+		window.addEventListener('resize', resizeHandler.bind(null, tableRef));
 		return () => {
 			if (isMobileDevice()) {
 				document.exitFullscreen();
+				window.addEventListener('orientationchange', orientationChange);
 			}
 		};
 	}, []);
 
 	resizeHandler(tableRef);
 
-	if (
-		isMobileDevice() &&
-		(screen.orientation.type === 'portrait-primary' ||
-			screen.orientation.type === 'portrait-secondary')
-	) {
-		return <div className={styles.flex}>Гра не підтримує портретний режим</div>;
-	}
-
 	return (
 		<>
-			<Helmet>
-				<title>Game</title>
-				{assets.map((imageName, index) => (
-					<link
-						key={index}
-						rel='preload'
-						as='image'
-						href={`./assets/cards/${imageName}.svg`}
-					/>
-				))}
-			</Helmet>
+			{isLandscape && (
+				<>
+					<Helmet>
+						<title>Game</title>
+						{assets.map((imageName, index) => (
+							<link
+								key={index}
+								rel='preload'
+								as='image'
+								href={`./assets/cards/${imageName}.svg`}
+							/>
+						))}
+					</Helmet>
 
-			{loading && (
-				<div className='flex-center'>
-					<Spinner />
-				</div>
+					{loading && (
+						<div className='flex-center'>
+							<Spinner />
+						</div>
+					)}
+					{update && (
+						<div
+							className={styles.page}
+							style={{ transition: '3s', opacity: opacity }}>
+							<GameHeader
+								isFullScreen={isFullScreen}
+								handleFullScreen={handleFullScreen}
+							/>
+							<Table
+								roomState={roomState}
+								setRoomState={setRoomState}
+								ready={ready}
+								setReady={setReady}
+								setLoading={setLoading}
+								mePlayer={mePlayer}
+								setMePlayer={setMePlayer}
+								setUpdate={setUpdate}
+								setOpacity={setOpacity}
+								tableRef={tableRef}
+							/>
+							<GameFooter
+								isEnable={
+									mePlayer.state === 'move' && roomState.state === 'bidding'
+								}
+								isReady={ready}
+								joinTax={Number(roomState.join_tax)}
+								maxBid={Number(roomState.max_bid)}
+								bid={Number(roomState.bid)}
+								readyHandler={readyHandler}
+							/>
+						</div>
+					)}
+					{gameAction.state === 'defeat' && (
+						<ModalAfterGame
+							title='Ви програли'
+							message='Сума програшу:'
+							isWin={false}
+							sum={mePlayer.full_bid}
+							onClick={() => {
+								dispatch(setGameAction({ state: '' }));
+							}}
+						/>
+					)}
+					{gameAction.state === 'won' && (
+						<ModalAfterGame
+							title='Ви виграли'
+							message='Сума виграшу:'
+							isWin={true}
+							sum={roomState.bank * 0.95}
+							onClick={() => {
+								setRoomResultState({} as PublicRoomResponce);
+								dispatch(setGameAction({ state: '' }));
+							}}
+						/>
+					)}
+					{gameAction.state === 'room-not-found' && (
+						<ModalAfterGame
+							title='Повідомлення'
+							message="З'єднання з кімнатою було втрачене. Зайдіть в другу кімнату або звяжіться з нашими менеджерами."
+							value='На головну'
+							isHide={false}
+							onClick={() => {
+								dispatch(setGameAction({ state: '' }));
+								navigate('/');
+								location.reload();
+							}}
+						/>
+					)}
+				</>
 			)}
-			{update && (
-				<div
-					className={styles.page}
-					style={{ transition: '3s', opacity: opacity }}>
-					<GameHeader
-						isFullScreen={isFullScreen}
-						handleFullScreen={handleFullScreen}
-					/>
-					<Table
-						roomState={roomState}
-						setRoomState={setRoomState}
-						ready={ready}
-						setReady={setReady}
-						setLoading={setLoading}
-						mePlayer={mePlayer}
-						setMePlayer={setMePlayer}
-						setUpdate={setUpdate}
-						setOpacity={setOpacity}
-						tableRef={tableRef}
-					/>
-					<GameFooter
-						isEnable={
-							mePlayer.state === 'move' && roomState.state === 'bidding'
-						}
-						isReady={ready}
-						joinTax={Number(roomState.join_tax)}
-						maxBid={Number(roomState.max_bid)}
-						bid={Number(roomState.bid)}
-						readyHandler={readyHandler}
-					/>
-				</div>
-			)}
-			{gameAction.state === 'defeat' && (
-				<ModalAfterGame
-					title='Ви програли'
-					message='Сума програшу:'
-					isWin={false}
-					sum={mePlayer.full_bid}
-					onClick={() => {
-						dispatch(setGameAction({ state: '' }));
-					}}
-				/>
-			)}
-			{gameAction.state === 'won' && (
-				<ModalAfterGame
-					title='Ви виграли'
-					message='Сума виграшу:'
-					isWin={true}
-					sum={roomState.bank * 0.95}
-					onClick={() => {
-						setRoomResultState({} as PublicRoomResponce);
-						dispatch(setGameAction({ state: '' }));
-					}}
-				/>
-			)}
-			{gameAction.state === 'room-not-found' && (
-				<ModalAfterGame
-					title='Повідомлення'
-					message="З'єднання з кімнатою було втрачене. Зайдіть в другу кімнату або звяжіться з нашими менеджерами."
-					value='На головну'
-					isHide={false}
-					onClick={() => {
-						dispatch(setGameAction({ state: '' }));
-						navigate('/');
-						location.reload();
-					}}
-				/>
+			{!isLandscape && (
+				<div className={styles.flex}>Гра не підтримує портретний режим</div>
 			)}
 		</>
 	);
