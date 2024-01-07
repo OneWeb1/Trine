@@ -1,4 +1,4 @@
-import { FC, useState, useRef } from 'react';
+import { FC, useState, useRef, useEffect } from 'react';
 
 import { MdOutlineFullscreen } from 'react-icons/md';
 import { MdFullscreenExit } from 'react-icons/md';
@@ -10,8 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { TbUserPentagon } from 'react-icons/tb';
 
 import { RootState as CustomRootState } from '../store/rootReducer';
-import { useSelector } from 'react-redux';
-// import { setGameAction } from '../store/slices/app.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAccount } from '../store/slices/app.slice';
 
 import { VscDebugStepBack } from 'react-icons/vsc';
 // import { RiSettings3Line } from 'react-icons/ri';
@@ -28,7 +28,7 @@ interface IGameHeader {
 }
 
 const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const { account, baseIconPath } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
@@ -36,6 +36,7 @@ const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
 	const orientation = useOrientation();
 	const [isVisibleHeader, setIsVisibleHeader] = useState<boolean>(true);
 	const headerRef = useRef<HTMLDivElement>(null);
+	const intervalRef = useRef<number>(0);
 
 	const wm750 = orientation === 'landscape' && window.innerWidth < 750;
 
@@ -62,6 +63,25 @@ const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
 
 		setIsVisibleHeader(prev => !prev);
 	};
+
+	useEffect(() => {
+		if (!intervalRef.current) {
+			intervalRef.current = setInterval(async () => {
+				try {
+					const { data } = await AdminService.getMeProfile();
+					dispatch(setAccount(data));
+				} catch (e) {
+					console.log(e);
+				}
+			}, 3000);
+		}
+
+		return () => {
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current);
+			}
+		};
+	}, []);
 
 	return (
 		<div className={styles.header} ref={headerRef}>
