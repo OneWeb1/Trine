@@ -97,9 +97,11 @@ const Game: FC = () => {
 			{update && (
 				<div
 					className={styles.page}
-					onDoubleClick={handleFullScreen}
 					style={{ transition: '3s', opacity: opacity }}>
-					<GameHeader />
+					<GameHeader
+						isFullScreen={isFullScreen}
+						handleFullScreen={handleFullScreen}
+					/>
 					<Table
 						roomState={roomState}
 						setRoomState={setRoomState}
@@ -135,7 +137,7 @@ const Game: FC = () => {
 					}}
 				/>
 			)}
-			{gameAction.state === 'won' && roomState.bank && (
+			{gameAction.state === 'won' && (
 				<ModalAfterGame
 					title='Ви виграли'
 					message='Сума виграшу:'

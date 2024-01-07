@@ -1,12 +1,17 @@
-import { FC } from 'react';
+import { FC, useState, useRef } from 'react';
+
+import { MdOutlineFullscreen } from 'react-icons/md';
+import { MdFullscreenExit } from 'react-icons/md';
+import { BiArrowToTop } from 'react-icons/bi';
+import { BiSolidArrowFromTop } from 'react-icons/bi';
 
 import { useNavigate } from 'react-router-dom';
 
 import { TbUserPentagon } from 'react-icons/tb';
 
 import { RootState as CustomRootState } from '../store/rootReducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { setGameAction } from '../store/slices/app.slice';
+import { useSelector } from 'react-redux';
+// import { setGameAction } from '../store/slices/app.slice';
 
 import { VscDebugStepBack } from 'react-icons/vsc';
 // import { RiSettings3Line } from 'react-icons/ri';
@@ -17,14 +22,21 @@ import styles from './../stylesheet/styles-components/GameHeader.module.scss';
 import AdminService from '../services/AdminService';
 import useOrientation from '../hooks/useOrientation';
 
-const GameHeader: FC = () => {
-	const dispatch = useDispatch();
+interface IGameHeader {
+	isFullScreen: boolean;
+	handleFullScreen: () => void;
+}
+
+const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
+	// const dispatch = useDispatch();
 	const { account, baseIconPath } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
-
 	const navigate = useNavigate();
 	const orientation = useOrientation();
+	const [isVisibleHeader, setIsVisibleHeader] = useState<boolean>(true);
+	const headerRef = useRef<HTMLDivElement>(null);
+
 	const wm750 = orientation === 'landscape' && window.innerWidth < 750;
 
 	const roomLeave = async () => {
@@ -32,14 +44,27 @@ const GameHeader: FC = () => {
 
 		try {
 			await AdminService.roomLeave();
-			dispatch(setGameAction({ state: '', prevState: '' }));
 		} catch (e) {
 			console.error(e);
 		}
 	};
 
+	const handleVisibleHeader = () => {
+		if (!headerRef.current) return;
+
+		const { height } = headerRef.current.getBoundingClientRect();
+
+		if (isVisibleHeader) {
+			headerRef.current.style.marginTop = `${-height}px`;
+		} else {
+			headerRef.current.style.marginTop = `0px`;
+		}
+
+		setIsVisibleHeader(prev => !prev);
+	};
+
 	return (
-		<div className={styles.header}>
+		<div className={styles.header} ref={headerRef}>
 			<div className={styles.container}>
 				<div className={styles.profile}>
 					<div className={styles.avatar}>
@@ -76,8 +101,17 @@ const GameHeader: FC = () => {
 				</div>
 
 				<div className={styles.rightWrapper}>
+					<div className={styles.item} onClick={handleFullScreen}>
+						{(!isFullScreen && <MdOutlineFullscreen />) || <MdFullscreenExit />}
+					</div>
+					<div
+						style={{ position: 'absolute', marginTop: '120px', right: '20px' }}
+						className={styles.visibleHeader}
+						onClick={handleVisibleHeader}>
+						{(isVisibleHeader && <BiArrowToTop />) || <BiSolidArrowFromTop />}
+					</div>
 					<div className={styles.item} onClick={roomLeave}>
-						<VscDebugStepBack />
+						<VscDebugStepBack style={{ fontSize: '14px' }} />
 					</div>
 				</div>
 			</div>

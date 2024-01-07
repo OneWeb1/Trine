@@ -110,11 +110,10 @@ const Table: FC<ITable> = ({
 		roomState.players.forEach(player => {
 			if (
 				player.me &&
-				!JSON.parse(localStorage.getItem('isAction') || 'false') &&
+				!isActionRef.current &&
 				(player.state === 'won' || player.state === 'defeat')
 			) {
 				isActionRef.current = true;
-
 				isWriteReadyState.current = true;
 				playersReadyRef.current = [] as number[];
 				recruitmentStateRef.current = {} as { [key: number]: string };
@@ -257,7 +256,7 @@ const Table: FC<ITable> = ({
 			)?.last_move;
 			const moveMessageText = translateStateToMessage(String(lastMove));
 			console.log({ moveMessageText });
-			if (!moveMessageText.length) return;
+			if (!moveMessageText) return;
 			dispatch(
 				setVisibleStateMessage({
 					visible: true,
