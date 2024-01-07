@@ -28,12 +28,6 @@
 	justify-content: center;
 	margin: 0 auto;
 
-	.readyWrapper {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
 	.buttonFlex {
 		height: 100%;
 		display: flex;
@@ -46,6 +40,36 @@
 		height: 100%;
 		display: flex;
 		// align-items: center;
+	}
+}
+
+.readyWrapper {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.buttonReady {
+		width: 250px;
+		padding-bottom: 8px;
+		font-size: 16px;
+		margin-left: 0;
+		background: linear-gradient(#2970fa, #0729a2);
+	}
+}
+
+@media screen and (max-width: 800px) {
+	.readyWrapper {
+		position: absolute;
+		height: 40px;
+		bottom: -3px;
+
+		.buttonReady {
+			width: 100px;
+			height: 40px;
+			font-size: 12px;
+		}
 	}
 }
 

@@ -104,23 +104,9 @@ const GameFooter: FC<IGameFooter> = ({
 					height: (windowWidth < 1100 && '65px') || '65px',
 				}}>
 				{!isReady && (
-					<div
-						className={styles.readyWrapper}
-						style={{
-							width: '100%',
-							height: '100%',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}>
+					<div className={styles.readyWrapper}>
 						<ButtonSpecial
-							style={{
-								width: '250px',
-								paddingBottom: '8px',
-								fontSize: '16px',
-								marginLeft: '0px',
-								background: 'linear-gradient(#2970fa, #0729a2)',
-							}}
+							className={styles.buttonReady}
 							disabled={true}
 							title='Готовий'
 							onClick={readyHandler}
@@ -129,7 +115,10 @@ const GameFooter: FC<IGameFooter> = ({
 				)}
 				<div
 					className={styles.menu}
-					style={{ opacity: (isEnable && 1) || 0.4 }}>
+					style={{
+						opacity: (isEnable && 1) || 0.4,
+						display: (!isReady && 'none') || 'block',
+					}}>
 					{isReady && (
 						<div className={styles.flexContainer}>
 							<div
@@ -262,89 +251,6 @@ const GameFooter: FC<IGameFooter> = ({
 									)}
 								</div>
 							</div>
-
-							{windowWidth < 1100 && (
-								<div
-									style={{
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'center',
-										marginTop: '10px',
-									}}>
-									<div>
-										<input
-											style={{ opacity: percent === 0 ? 0.5 : 1 }}
-											type='range'
-											ref={rangeRef}
-											disabled={percent === 0 ? true : !isEnable}
-											min={0}
-											max={10000}
-											value={percent}
-											className={styles.range}
-											onChange={e => changePercent(e)}
-										/>
-									</div>
-									<div style={{ marginLeft: '20px', display: 'flex' }}>
-										<ButtonFunction
-											text='x2'
-											number={multiplay(bid, 2)}
-											disabled={
-												maxBid - bid < multiplay(bid, 2)
-													? maxBid - bid > multiplay(bid, 2)
-													: isEnable
-											}
-											onClick={() => {
-												let sum = multiplay(joinTax, 2);
-												if (sum < bid * 2) sum = bid * 2;
-												setRaiseSum(sum);
-												setPercent((sum / maxBid) * 10000);
-											}}
-										/>
-										<ButtonFunction
-											text='x5'
-											number={multiplay(bid, 5)}
-											disabled={
-												maxBid - bid < multiplay(bid, 5)
-													? maxBid - bid > multiplay(bid, 5)
-													: isEnable
-											}
-											onClick={() => {
-												let sum = multiplay(joinTax, 5);
-												if (sum < bid * 2) sum = bid * 2;
-												setRaiseSum(sum);
-												setPercent((sum / maxBid) * 10000);
-											}}
-										/>
-										<ButtonFunction
-											text='x10'
-											number={multiplay(bid, 10)}
-											disabled={
-												maxBid - bid < multiplay(bid, 10)
-													? maxBid - bid > multiplay(bid, 10)
-													: isEnable
-											}
-											onClick={() => {
-												let sum = multiplay(joinTax, 10);
-												if (sum < bid * 2) sum = bid * 2;
-												setRaiseSum(sum);
-												setPercent((sum / maxBid) * 10000);
-											}}
-										/>
-										<ButtonFunction
-											text='MAX'
-											number={maxBid - bid}
-											disabled={
-												maxBid - bid === 0 ? maxBid - bid !== 0 : isEnable
-											}
-											onClick={() => {
-												const sum = maxBid - bid;
-												setRaiseSum(sum);
-												setPercent((sum / maxBid) * 10000);
-											}}
-										/>
-									</div>
-								</div>
-							)}
 						</div>
 					)}
 				</div>

@@ -10,6 +10,7 @@ interface IButtonSpecial {
 	numberVisible?: boolean;
 	disabled: boolean;
 	style?: CSSProperties;
+	className?: string;
 	iconCenter?: boolean;
 	icon?: ReactNode;
 	onClick?: () => void;
@@ -21,6 +22,7 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 	disabled,
 	icon,
 	style,
+	className,
 	iconCenter,
 	numberVisible,
 	onClick,
@@ -31,7 +33,11 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 
 	return (
 		<div
-			className={classNames(styles.special, disabled && styles.hoverSpecial)}
+			className={classNames(
+				styles.special,
+				disabled && styles.hoverSpecial,
+				className,
+			)}
 			style={{ ...style, opacity: !disabled ? 0.5 : 1 }}
 			onClick={(disabled && onClick) || initHandler}>
 			{icon && (
