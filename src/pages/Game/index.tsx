@@ -80,7 +80,7 @@ const Game: FC = () => {
 		});
 		if (isMobileDevice()) {
 			document.documentElement.requestFullscreen();
-			screen.orientation.lock('landscape');
+			(window.screen.orientation as any).lock('landscape');
 		}
 
 		resizeHandler(tableRef);
