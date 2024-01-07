@@ -121,6 +121,33 @@
 	}
 }
 
+@media screen and (max-width: 800px) {
+	.special {
+		min-width: 100px;
+		width: 100px;
+		height: 35px;
+
+		font-size: 8px;
+
+		.icon {
+			width: 35px;
+			min-width: 35px;
+			font-size: 18px;
+		}
+
+		.rightWrapper {
+			.center {
+				.number {
+					height: 20px;
+
+					font-size: 10px;
+					padding-bottom: 8px;
+				}
+			}
+		}
+	}
+}
+
 .hoverSpecial {
 	&:hover {
 		background: linear-gradient(

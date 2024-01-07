@@ -101,7 +101,7 @@ const GameFooter: FC<IGameFooter> = ({
 			<div
 				className={styles.footer}
 				style={{
-					height: (windowWidth < 1100 && '65px') || '65px',
+					height: (windowWidth < 800 && '35px') || '65px',
 				}}>
 				{!isReady && (
 					<div className={styles.readyWrapper}>
@@ -127,14 +127,7 @@ const GameFooter: FC<IGameFooter> = ({
 									maxWidth: '300px',
 									textAlign: 'center',
 								}}>
-								<div
-									style={{
-										width: '100%',
-										height: '100%',
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'center',
-									}}>
+								<div className={styles.gameButtonsWrapper}>
 									{windowWidth >= 1100 && (
 										<div>
 											<input
