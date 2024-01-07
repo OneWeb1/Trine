@@ -82,7 +82,7 @@ const Table: FC<ITable> = ({
 	);
 	const isWriteReadyState = useRef<boolean>(false);
 
-	const h = window.innerHeight;
+	// const h = window.innerHeight;
 
 	const reverseIds = [0, 1, 2, 9, 10];
 
