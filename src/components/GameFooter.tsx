@@ -111,7 +111,7 @@ const GameFooter: FC<IGameFooter> = ({
 							title='Готовий'
 							onClick={() => {
 								setPercent((bid / maxBid) * 10000);
-								setRaiseSum(bid);
+								setRaiseSum(bid * 2);
 								readyHandler();
 							}}
 						/>
