@@ -10,7 +10,7 @@ interface IButtonFunction {
 	text: string;
 	number: number;
 	disabled: boolean;
-	className: string;
+	className?: string;
 	onClick: () => void;
 }
 
