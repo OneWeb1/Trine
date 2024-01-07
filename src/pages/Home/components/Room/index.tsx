@@ -208,7 +208,7 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 					)}
 					{!hideName && (
 						<div
-							style={{ marginRight: '5px' }}
+							style={{ marginRight: '0px' }}
 							className={styles.buttonJoinFlex}
 							onClick={joinRoomHandler}>
 							<MdPersonAddAlt1 />
