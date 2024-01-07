@@ -20,6 +20,7 @@ interface IGameFooter {
 	fullBid: number;
 	maxBid: number;
 	loading: boolean;
+	isResetValue: boolean;
 	readyHandler: () => void;
 }
 
@@ -30,6 +31,7 @@ const GameFooter: FC<IGameFooter> = ({
 	joinTax,
 	fullBid,
 	maxBid,
+	isResetValue,
 	bid,
 	loading,
 }) => {
@@ -43,7 +45,6 @@ const GameFooter: FC<IGameFooter> = ({
 	const supportHandler = async () => {
 		await AdminService.do({ action: 'support' });
 	};
-
 	const raiseHandler = async () => {
 		console.log({ raiseSum, raiseSumDouble: Math.round(raiseSum / 2) });
 		await AdminService.do({ action: 'raise', sum: Math.round(raiseSum) });
@@ -90,6 +91,10 @@ const GameFooter: FC<IGameFooter> = ({
 	}, [loading]);
 
 	useEffect(() => {
+		if (bid === joinTax) {
+			setPercent((bid / maxBid) * 10000);
+			setRaiseSum(bid * 2);
+		}
 		if (rangeRef.current)
 			changePercent({
 				target: { value: rangeRef.current.value },
@@ -110,8 +115,6 @@ const GameFooter: FC<IGameFooter> = ({
 							disabled={true}
 							title='Готовий'
 							onClick={() => {
-								setPercent((bid / maxBid) * 10000);
-								setRaiseSum(bid * 2);
 								readyHandler();
 							}}
 						/>
