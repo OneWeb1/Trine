@@ -122,3 +122,10 @@
 		}
 	}
 }
+
+@media screen and (min-width: 1200px) and (orientation: landscape) {
+	.page {
+		min-height: 100vh;
+		height: max-content;
+	}
+}
