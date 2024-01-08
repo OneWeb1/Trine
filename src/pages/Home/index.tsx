@@ -65,7 +65,7 @@ const Home: FC = () => {
 	const initData = async () => {
 		try {
 			const { data } = await AdminService.getMeProfile();
-			if (typeof data.avatar_id !== 'number') addStandartAvatar();
+			if (typeof data.avatar_id !== 'string') addStandartAvatar();
 			dispatch(setAccount(data));
 			await getPublickRooms();
 
