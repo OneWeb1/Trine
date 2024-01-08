@@ -23,7 +23,6 @@ const Accounts: FC = () => {
 	const {
 		visibleMenuAccountSettings,
 		menuAccountSettingsPosition: menuPosition,
-		updateAccounts,
 	} = useSelector((state: CustomRootState) => state.app);
 	const [profiles, setProfiles] = useState<AdminProfileResponse[]>([]);
 	const [offset] = useState<number>(0);
