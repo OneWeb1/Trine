@@ -1,7 +1,7 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, MouseEvent, useRef } from 'react';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './../../stylesheet/styles/Admin.module.scss';
 import AdminHeader from '../../components/AdminHeader';
@@ -10,8 +10,10 @@ import Rooms from './Rooms';
 import ModalCreateRoom from '../../components/modals/ModalCreateRoom';
 import ModalChangeBalance from '../../components/modals/ModalChangeBalance';
 import LeftMenu from './LeftMenu';
+import { setVisibleBurgerMenu } from '../../store/slices/app.slice';
 
 const Admin: FC = () => {
+	const dispatch = useDispatch();
 	const { visibleModal, visibleBurgerMenu } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
@@ -19,16 +21,28 @@ const Admin: FC = () => {
 		localStorage.getItem('tab') || 'accounts',
 	);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+	const menuWrapperRef = useRef<HTMLDivElement>(null);
 
 	const display = visibleBurgerMenu ? 'flex' : 'none';
 
+	const hideBurgerMenu = (e: MouseEvent) => {
+		if (!menuWrapperRef.current) return;
+		if (e.target instanceof Node) {
+			if (menuWrapperRef.current === e.target) {
+				dispatch(setVisibleBurgerMenu(false));
+			}
+		}
+	};
+
 	const tabAccountsHandler = () => {
 		setTab('accounts');
+		dispatch(setVisibleBurgerMenu(false));
 		localStorage.setItem('tab', 'accounts');
 	};
 
 	const tabRoomsHandler = () => {
 		setTab('rooms');
+		dispatch(setVisibleBurgerMenu(false));
 		localStorage.setItem('tab', 'rooms');
 	};
 
@@ -48,7 +62,11 @@ const Admin: FC = () => {
 		<>
 			<div className={styles.page}>
 				<AdminHeader />
-				<div className={styles.menuWrapper} style={{ display }}>
+				<div
+					className={styles.menuWrapper}
+					ref={menuWrapperRef}
+					style={{ display }}
+					onClick={e => hideBurgerMenu(e)}>
 					<LeftMenu
 						className={styles.mobileMenu}
 						tab={tab}
