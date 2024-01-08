@@ -12,6 +12,26 @@ interface ITreeCards {
 	style?: CSSProperties;
 }
 
+interface ICardImage {
+	src: string;
+	className: string;
+	style: CSSProperties;
+	isLoaded: boolean;
+	onLoad: () => void;
+}
+
+const CardImage: FC<ICardImage> = ({ src, className, isLoaded, onLoad }) => {
+	return (
+		<img
+			onLoad={onLoad}
+			style={{ transform: 'rotate(-5deg)', zIndex: 0, display: isLoaded ? 'flex', 'none' }}
+			className={className}
+			src={`${src}`}
+			alt='card'
+		/>
+	);
+};
+
 const TreeCards: FC<ITreeCards> = ({ cards, number, visible, style }) => {
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 	const type = (cards?.length === 3 && 'svg') || 'jpg';
@@ -38,24 +58,27 @@ const TreeCards: FC<ITreeCards> = ({ cards, number, visible, style }) => {
 				className={styles.cardsNumber}>
 				{number}
 			</div>
-			<div style={{ display: isLoaded ? 'flex' : 'none', marginLeft: '-50px' }}>
-				<img
+			<div style={{ opacity: isLoaded ? 1 : 0, marginLeft: '-50px' }}>
+				<CardImage
 					style={{ transform: 'rotate(-5deg)', zIndex: 0 }}
 					className={styles.card}
 					src={`${baseCardsUrl}/${cardsItem[0]}.${type}`}
-					alt='card'
+					isLoaded={isLoaded}
+					onLoad={loadImage}
 				/>
-				<img
+				<CardImage
 					style={{ transform: 'translateY(-2px)', zIndex: 1 }}
 					className={styles.card}
 					src={`${baseCardsUrl}/${cardsItem[1]}.${type}`}
-					alt='card'
+					isLoaded={isLoaded}
+					onLoad={loadImage}
 				/>
-				<img
+				<CardImage
 					style={{ transform: 'rotate(5deg)', zIndex: 2 }}
 					className={styles.card}
 					src={`${baseCardsUrl}/${cardsItem[2]}.${type}`}
-					alt='card'
+					isLoaded={isLoaded}
+					onLoad={loadImage}
 				/>
 			</div>
 		</div>
