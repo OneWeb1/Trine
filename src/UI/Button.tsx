@@ -8,11 +8,19 @@ interface IButton {
 	style?: CSSProperties;
 	value: string;
 	background?: string;
+	className?: string;
 	resize?: boolean;
 	onClick: () => void;
 }
 
-const Button: FC<IButton> = ({ style, value, background, resize, onClick }) => {
+const Button: FC<IButton> = ({
+	style,
+	value,
+	background,
+	className,
+	resize,
+	onClick,
+}) => {
 	const timeRef = useRef<number>(new Date().getTime());
 	const isResize = resize || false;
 	const styleProps = style || {};
@@ -30,6 +38,7 @@ const Button: FC<IButton> = ({ style, value, background, resize, onClick }) => {
 		<div
 			className={classNames(
 				!style || isResize === false ? styles.button : styles.cutButton,
+				className,
 			)}
 			style={buttonStyles}
 			onClick={() => handler()}>

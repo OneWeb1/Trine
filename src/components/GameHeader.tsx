@@ -129,7 +129,11 @@ const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
 						{(!isFullScreen && <MdOutlineFullscreen />) || <MdFullscreenExit />}
 					</div>
 					<div
-						style={{ position: 'absolute', marginTop: '120px', right: '20px' }}
+						style={{
+							position: 'absolute',
+							marginTop: '120px',
+							marginLeft: '45px',
+						}}
 						className={styles.visibleHeader}
 						onClick={handleVisibleHeader}>
 						{(isVisibleHeader && <BiArrowToTop />) || <BiSolidArrowFromTop />}

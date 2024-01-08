@@ -15,6 +15,7 @@
 		top: 50px;
 		z-index: 10000;
 		background-color: #090f1e67;
+		display: none;
 	}
 
 	.leftMenu {
@@ -45,7 +46,7 @@
 				}
 
 				&:hover {
-					background: linear-gradient(45deg, #1e41b6, #17328b);
+					background: linear-gradient(45deg, #1e42b685, #17328b8c);
 				}
 
 				span {
@@ -55,6 +56,10 @@
 
 			.tabActive {
 				background: linear-gradient(45deg, #264cc8, #1a3383);
+
+				&:hover {
+					background: linear-gradient(45deg, #264cc8, #1a3383);
+				}
 			}
 		}
 	}
@@ -62,6 +67,11 @@
 	.wrapper {
 		flex: 1 1 100%;
 		display: flex;
+
+		.decMenu {
+			display: flex;
+			margin-left: 0px;
+		}
 
 		.rightMenu {
 			background-color: rgba(0, 0, 0, 0.067);
@@ -82,12 +92,15 @@
 }
 
 @media screen and (max-width: 1300px) {
+	.menuWrapper {
+		display: block;
+	}
 	.mobileMenu {
 		position: fixed;
 		top: 50px;
 		padding-top: 50px;
 		z-index: 1000000;
-		display: flex;
+		display: block;
 	}
 	.wrapper {
 		.decMenu {
@@ -98,6 +111,15 @@
 
 @media screen and (max-width: 500px) {
 	.page {
+		.leftMenu {
+			.menu {
+				.item {
+					span {
+						font-size: 15px;
+					}
+				}
+			}
+		}
 		.wrapper {
 			.rightMenu {
 				padding: 0 10px;
@@ -119,6 +141,10 @@
 				.item {
 					max-width: 280px;
 					width: 100%;
+
+					span {
+						font-size: 14px;
+					}
 				}
 			}
 		}

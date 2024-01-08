@@ -23,9 +23,10 @@ const Admin: FC = () => {
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const menuWrapperRef = useRef<HTMLDivElement>(null);
 
-	const display = visibleBurgerMenu ? 'flex' : 'none';
+	const display = windowWidth < 1300 && visibleBurgerMenu ? 'flex' : 'none';
 
 	const hideBurgerMenu = (e: MouseEvent) => {
+		if (windowWidth > 1300) return;
 		if (!menuWrapperRef.current) return;
 		if (e.target instanceof Node) {
 			if (menuWrapperRef.current === e.target) {
@@ -36,13 +37,13 @@ const Admin: FC = () => {
 
 	const tabAccountsHandler = () => {
 		setTab('accounts');
-		dispatch(setVisibleBurgerMenu(false));
+		if (windowWidth < 1300) dispatch(setVisibleBurgerMenu(false));
 		localStorage.setItem('tab', 'accounts');
 	};
 
 	const tabRoomsHandler = () => {
 		setTab('rooms');
-		dispatch(setVisibleBurgerMenu(false));
+		if (windowWidth < 1300) dispatch(setVisibleBurgerMenu(false));
 		localStorage.setItem('tab', 'rooms');
 	};
 
@@ -68,6 +69,7 @@ const Admin: FC = () => {
 					style={{ display }}
 					onClick={e => hideBurgerMenu(e)}>
 					<LeftMenu
+						name='m'
 						className={styles.mobileMenu}
 						tab={tab}
 						tabAccountsHandler={tabAccountsHandler}
@@ -77,6 +79,7 @@ const Admin: FC = () => {
 
 				<div className={styles.wrapper}>
 					<LeftMenu
+						name='d'
 						className={styles.decMenu}
 						tab={tab}
 						tabAccountsHandler={tabAccountsHandler}

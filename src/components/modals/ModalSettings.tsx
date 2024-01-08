@@ -1,5 +1,7 @@
 import { FC, useState } from 'react';
 
+import classNames from 'classnames';
+
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccount, setVisibleModal } from '../../store/slices/app.slice';
@@ -13,7 +15,7 @@ import AdminService from '../../services/AdminService';
 
 const ModalSettings: FC = () => {
 	const dispatch = useDispatch();
-	const { account, avatars } = useSelector(
+	const { account, avatars, baseIconPath } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [name, setName] = useState<string | number>(account.nickname);
@@ -25,6 +27,10 @@ const ModalSettings: FC = () => {
 	const [newPassword, setNewPassword] = useState<string | number>('');
 
 	const [isVisibleInput, setIsVisibleInput] = useState<boolean>(false);
+
+	const [selectAvatarId, setSelectAvatarId] = useState<string>(
+		account.avatar_id,
+	);
 
 	const changePassword = () => {
 		setIsVisibleInput(!isVisibleInput);
@@ -38,6 +44,9 @@ const ModalSettings: FC = () => {
 		const $password = String(password);
 		const $currentPassword = String(currentPassword);
 		const $newPassword = String(newPassword);
+		if (account.avatar_id !== selectAvatarId) {
+			await AdminService.changeAvatar(Number(selectAvatarId));
+		}
 		if (name !== account.nickname) {
 			await AdminService.changeNickname(String(name));
 		}
@@ -62,12 +71,26 @@ const ModalSettings: FC = () => {
 		dispatch(setVisibleModal('h'));
 	};
 
+	const selectAvatar = (id: string) => {
+		setSelectAvatarId(id);
+	};
+
 	return (
 		<Modal title='Налаштування' score={`#${account.id}`}>
 			<div className={styles.subtitle}>Аватарки</div>
-			{avatars.map(avatar => (
-				<div>{avatar}</div>
-			))}
+			<div className={styles.avatars}>
+				{avatars.map(avatar => (
+					<div
+						className={classNames(
+							styles.avatar,
+							avatar === account.avatar_id && styles.currentSelectAvatar,
+							avatar === selectAvatarId && styles.selectAvatar,
+						)}
+						onClick={() => selectAvatar(avatar)}>
+						<img src={`${baseIconPath}/avatar/${avatar}`} alt='avatar' />
+					</div>
+				))}
+			</div>
 
 			<div className={styles.subtitle}>Особисті дані</div>
 			<Input

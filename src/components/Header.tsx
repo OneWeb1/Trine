@@ -115,6 +115,24 @@ const Header: FC = () => {
 										styles.menuArrowMob,
 								)}
 								style={{ left: (windowWidth >= 600 && '-145px') || '-234px' }}>
+								{account.is_admin && (
+									<Link to='/admin'>
+										<div className={styles.item} id='item'>
+											Админ панель
+										</div>
+									</Link>
+								)}
+								{windowWidth < 600 && (
+									<div
+										className={styles.item}
+										id='item'
+										onClick={() => {
+											dispatch(setVisibleModal('dp'));
+											setIsVisibleDropDownMenu(false);
+										}}>
+										Поповнення рахунку
+									</div>
+								)}
 								<div
 									className={styles.item}
 									id='item'

@@ -27,20 +27,29 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 			localStorage.getItem('account_settings') || '{balance:0, id: -1}',
 		),
 	);
+	const [currentBalance, setCurrentBalance] = useState<number>(account.balance);
+	const w = window.innerWidth > 400;
+
 	const changeBalance = async () => {
 		if (!String(balance).replace(/\D/gi, '').length) return;
 		await AdminService.changeBalance(
 			account.id,
-			account.balance + Number(balance),
+			currentBalance + Number(balance),
 		);
 		dispatch(setVisibleModal('h'));
+		dispatch(setUpdateAccounts());
+	};
+
+	const resetBalance = async () => {
+		await AdminService.changeBalance(account.id, 0);
+		setCurrentBalance(0);
 		dispatch(setUpdateAccounts());
 	};
 
 	return (
 		<Modal title={title}>
 			<div style={{ fontWeight: '600', marginBottom: '10px' }}>
-				Поточний баланс: {account.balance} ₴
+				Поточний баланс: {currentBalance} ₴
 			</div>
 			<Input
 				type='number'
@@ -61,8 +70,23 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 				</p>
 				<p>Для того щоб зняти кошти з балансу, введіть сумму меншу за нуль.</p>
 			</div>
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					flexDirection: w ? 'row' : 'column',
+				}}>
+				<Button
+					style={{
+						marginRight: w ? '10px' : '0px',
+						marginBottom: w ? '0' : '10px',
+					}}
+					value='Обнулити баланс'
+					onClick={resetBalance}
+				/>
 
-			<Button value='Змінити баланс' onClick={changeBalance} />
+				<Button value='Змінити баланс' onClick={changeBalance} />
+			</div>
 		</Modal>
 	);
 };

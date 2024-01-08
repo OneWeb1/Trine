@@ -40,6 +40,12 @@
 	}
 }
 
+@media screen and (max-width: 450px) {
+	.cutButton {
+		max-height: 35px;
+	}
+}
+
 .buttonIcon {
 	background: transparent;
 	border: 1px solid #d9dadd;
