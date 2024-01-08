@@ -31,10 +31,7 @@ import { AxiosError } from 'axios';
 
 import styles from './../../stylesheet/styles/Home.module.scss';
 
-import {
-	ProfileMeResponce,
-	PublicRoomResponce,
-} from '../../models/responce/AdminResponce';
+import { PublicRoomResponce } from '../../models/responce/AdminResponce';
 
 const Home: FC = () => {
 	const dispatch = useDispatch();
