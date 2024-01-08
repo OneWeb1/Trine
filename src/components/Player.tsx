@@ -152,7 +152,7 @@ const Player: FC<IPlayer> = ({
 										width: '170px',
 										transform: 'scale(.2)',
 									}}
-									cards={['fb', 'fb', 'fb', 'jpg']}
+									cards={['fb', 'fb', 'fb']}
 								/>
 							</div>
 						</div>
