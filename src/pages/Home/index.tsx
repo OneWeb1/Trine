@@ -55,15 +55,6 @@ const Home: FC = () => {
 		setPublicRooms(data);
 	};
 
-	const getAvatars = async () => {
-		try {
-			const { data } = await AdminService.getAvatars();
-			return data;
-		} catch (e) {
-			console.log(e);
-		}
-	};
-
 	const addStandartAvatar = async () => {
 		const { data } = await AdminService.getAvatars();
 
