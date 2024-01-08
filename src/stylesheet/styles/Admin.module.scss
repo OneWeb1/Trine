@@ -66,10 +66,11 @@
 		.rightMenu {
 			background-color: rgba(0, 0, 0, 0.067);
 			flex: 0 1 100%;
+			min-height: calc(100vh - 50px);
 			padding-top: 0px;
 			padding: 0px 20px;
 			color: #fff;
-
+			overflow: hidden;
 			// background-color: rgb(23, 31, 48);
 		}
 	}
