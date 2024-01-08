@@ -32,6 +32,7 @@ interface IState {
 	gameParamId: string;
 	baseIconPath: string;
 	visibleMenuAccountSettings: boolean;
+	balance: number;
 	updateAccounts: number;
 	lastPlayerNumber: number;
 	updatePublicRooms: number;
@@ -57,6 +58,7 @@ const initialState: IState = {
 	visibleHeaderMenu: false,
 	visibleBurgerMenu: false,
 	visibleMenuAccountSettings: false,
+	balance: 0,
 	updateAccounts: 1,
 	lastPlayerNumber: 0,
 	updatePublicRooms: 1,
@@ -117,6 +119,9 @@ const appSlice = createSlice({
 		setVisibleBurgerMenu(state, action) {
 			state.visibleBurgerMenu = action.payload;
 		},
+		setBalance(state, action) {
+			state.balance = action.payload;
+		},
 		setVisibleMenuAccountSettings(state, action) {
 			state.visibleMenuAccountSettings = action.payload;
 		},
@@ -166,6 +171,7 @@ export const {
 	setVisibleBurgerMenu,
 	setVisibleMenuAccountSettings,
 	setMenuAccountSettingsPosition,
+	setBalance,
 	setAccount,
 	setLastPlayerNumber,
 	setUpdateAccounts,

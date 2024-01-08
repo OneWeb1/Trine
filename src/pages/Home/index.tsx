@@ -66,10 +66,13 @@ const Home: FC = () => {
 	};
 
 	const initData = async () => {
-		let data = {} as ProfileMeResponce;
 		try {
-			const responce = await AdminService.getMeProfile();
-			data = responce.data;
+			const { data } = await AdminService.getMeProfile();
+			if (typeof data.avatar_id !== 'number') addStandartAvatar();
+			dispatch(setAccount(data));
+			await getPublickRooms();
+
+			setLoading(false);
 		} catch (e: any) {
 			if (isAxiosError(e) && e.response && e.response.status === 401) {
 				localStorage.removeItem('token');
@@ -77,12 +80,6 @@ const Home: FC = () => {
 				dispatch(setIsAuth(false));
 			}
 		}
-
-		if (!data.avatar_id) addStandartAvatar();
-		dispatch(setAccount(data));
-		await getPublickRooms();
-
-		setLoading(false);
 	};
 
 	useEffect(() => {
