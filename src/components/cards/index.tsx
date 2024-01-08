@@ -24,7 +24,11 @@ const CardImage: FC<ICardImage> = ({ src, className, isLoaded, onLoad }) => {
 	return (
 		<img
 			onLoad={onLoad}
-			style={{ transform: 'rotate(-5deg)', zIndex: 0, display: isLoaded ? 'flex', 'none' }}
+			style={{
+				transform: 'rotate(-5deg)',
+				zIndex: 0,
+				display: isLoaded ? 'flex' : 'none',
+			}}
 			className={className}
 			src={`${src}`}
 			alt='card'
