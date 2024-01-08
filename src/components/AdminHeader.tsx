@@ -1,25 +1,38 @@
 import { FC } from 'react';
 
 import { TbUserPentagon } from 'react-icons/tb';
+import { GrMenu } from 'react-icons/gr';
 
 import { RootState as CustomRootState } from '../store/rootReducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setVisibleBurgerMenu } from '../store/slices/app.slice';
 
 import adminLogo from './../../public/assets/admin-logo.png';
 
 import styles from './../stylesheet/styles-components/AdminHeader.module.scss';
 
 const AdminHeader: FC = () => {
-	const { account, baseIconPath } = useSelector(
+	const dispatch = useDispatch();
+	const { account, visibleBurgerMenu, baseIconPath } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
+
+	const visibleBurger = () => {
+		dispatch(setVisibleBurgerMenu(!visibleBurgerMenu));
+	};
+
 	return (
 		<div className={styles.header}>
-			<div className={styles.logoWrapper}>
-				<div className={styles.logo}>
-					<img src={adminLogo} alt='Logo' />
+			<div className={styles.leftWrapper}>
+				<div className={styles.burgerMenu} onClick={visibleBurger}>
+					<GrMenu />
 				</div>
-				<div className={styles.logoText}>Admin Panel</div>
+				<div className={styles.logoWrapper}>
+					<div className={styles.logo}>
+						<img src={adminLogo} alt='Logo' />
+					</div>
+					<div className={styles.logoText}>Admin Panel</div>
+				</div>
 			</div>
 
 			<div className={styles.avatar}>

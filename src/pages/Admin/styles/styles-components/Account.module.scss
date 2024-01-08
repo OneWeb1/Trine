@@ -28,7 +28,6 @@
 
 		.id {
 			width: 80px;
-			min-width: 80px;
 		}
 		.profileWrapper {
 			display: flex;
@@ -67,6 +66,11 @@
 				.email {
 					font-weight: 400;
 					color: #184cb5;
+
+					overflow: hidden;
+					max-width: 200px;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 			}
 		}
@@ -79,7 +83,6 @@
 		justify-content: space-between;
 
 		.balance {
-			min-width: 150px;
 			width: 150px;
 		}
 
@@ -91,6 +94,7 @@
 		.settings {
 			position: relative;
 			max-width: 40px;
+			min-width: 40px;
 			width: 40px;
 			height: 40px;
 			display: flex;
@@ -105,6 +109,132 @@
 				border: 1px solid rgb(31, 44, 64);
 				border-radius: 10px;
 			}
+		}
+	}
+}
+
+@media screen and (max-width: 950px) {
+	.leftWrapper {
+		.id {
+			max-width: 50px;
+			min-width: 50px;
+			font-size: 12px;
+		}
+	}
+
+	.rightWrapper {
+		max-width: 200px;
+
+		.dateWrapper {
+			display: none;
+		}
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.leftWrapper {
+		max-width: 300px;
+
+		.id {
+			text-align: center;
+			margin-right: 10px;
+		}
+
+		.profileWrapper {
+			.content {
+				.name {
+					font-size: 12px;
+				}
+				.email {
+					max-width: 100px;
+					width: 100px;
+					font-size: 10px;
+				}
+			}
+		}
+	}
+
+	.rightWrapper {
+		max-width: 140px;
+		width: 140px;
+		.balance {
+			max-width: 100px;
+			min-width: 100px;
+			background-origin: red;
+			width: 100px;
+			font-size: 12px;
+		}
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.leftWrapper {
+		max-width: 200px;
+
+		.profileWrapper {
+			.content {
+				.name {
+					overflow: hidden;
+					max-width: 130px;
+					width: 130px;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+			}
+		}
+	}
+
+	.rightWrapper {
+		.balance {
+			font-size: 10px;
+		}
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.tableItem {
+		height: 45px;
+		padding: 0 10px;
+	}
+
+	.leftWrapper {
+		.profileWrapper {
+			.avatar {
+				display: none;
+			}
+
+			.content {
+				.email {
+					max-width: 130px;
+					width: 130px;
+				}
+			}
+		}
+
+		.id {
+			font-size: 9px;
+		}
+	}
+
+	.rightWrapper {
+		max-width: 100px;
+		.balance {
+			overflow: hidden;
+			max-width: 60px;
+			min-width: 60px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+}
+
+@media screen and (max-width: 340px) {
+	.rightWrapper {
+		min-width: 40px;
+		max-width: 40px;
+		width: 40px;
+		.balance {
+			display: none;
 		}
 	}
 }

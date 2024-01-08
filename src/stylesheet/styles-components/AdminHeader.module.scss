@@ -6,15 +6,32 @@
 	align-items: center;
 	justify-content: space-between;
 
-	.logoWrapper {
+	.leftWrapper {
 		display: flex;
 		align-items: center;
-		.logo {
+
+		.burgerMenu {
+			width: 40px;
+			height: 40px;
+			display: none;
+			align-items: center;
+			justify-content: center;
+			font-size: 22px;
+			color: #fff;
 			margin-right: 10px;
 		}
-		.logoText {
-			font-size: 22px;
-			font-weight: 600;
+
+		.logoWrapper {
+			display: flex;
+			align-items: center;
+
+			.logo {
+				margin-right: 10px;
+			}
+			.logoText {
+				font-size: 22px;
+				font-weight: 600;
+			}
 		}
 	}
 
@@ -41,6 +58,44 @@
 				height: 100%;
 				border-radius: 50px;
 			}
+		}
+	}
+}
+
+@media screen and (max-width: 1300px) {
+	.header {
+		.leftWrapper {
+			.burgerMenu {
+				display: flex;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.header {
+		padding: 0 10px;
+
+		.leftWrapper {
+			.burgerMenu {
+				font-size: 20px;
+			}
+			.logoWrapper {
+				.logo {
+					img {
+						width: 20px;
+						height: 20px;
+					}
+				}
+				.logoText {
+					font-size: 12px;
+				}
+			}
+		}
+
+		.avatar {
+			width: 30px;
+			height: 30px;
 		}
 	}
 }

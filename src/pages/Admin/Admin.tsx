@@ -3,24 +3,24 @@ import { FC, useState, useEffect } from 'react';
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useSelector } from 'react-redux';
 
-import classNames from 'classnames';
-
-import { MdManageAccounts } from 'react-icons/md';
-import { MdRoomPreferences } from 'react-icons/md';
-
 import styles from './../../stylesheet/styles/Admin.module.scss';
 import AdminHeader from '../../components/AdminHeader';
 import Accounts from './Accounts';
 import Rooms from './Rooms';
 import ModalCreateRoom from '../../components/modals/ModalCreateRoom';
 import ModalChangeBalance from '../../components/modals/ModalChangeBalance';
+import LeftMenu from './LeftMenu';
 
 const Admin: FC = () => {
-	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
+	const { visibleModal, visibleBurgerMenu } = useSelector(
+		(state: CustomRootState) => state.app,
+	);
 	const [tab, setTab] = useState<string>(
 		localStorage.getItem('tab') || 'accounts',
 	);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+
+	const display = visibleBurgerMenu ? 'flex' : 'none';
 
 	const tabAccountsHandler = () => {
 		setTab('accounts');
@@ -48,29 +48,22 @@ const Admin: FC = () => {
 		<>
 			<div className={styles.page}>
 				<AdminHeader />
+				<div className={styles.menuWrapper} style={{ display }}>
+					<LeftMenu
+						className={styles.mobileMenu}
+						tab={tab}
+						tabAccountsHandler={tabAccountsHandler}
+						tabRoomsHandler={tabRoomsHandler}
+					/>
+				</div>
+
 				<div className={styles.wrapper}>
-					<div className={styles.leftMenu}>
-						<div className={styles.menu}>
-							<div
-								className={classNames(
-									styles.item,
-									tab === 'accounts' && styles.tabActive,
-								)}
-								onClick={tabAccountsHandler}>
-								<MdManageAccounts style={{ marginRight: '10px' }} />
-								<span>Аккаунти</span>
-							</div>
-							<div
-								className={classNames(
-									styles.item,
-									tab === 'rooms' && styles.tabActive,
-								)}
-								onClick={tabRoomsHandler}>
-								<MdRoomPreferences style={{ marginRight: '10px' }} />
-								<span>Кімнати</span>
-							</div>
-						</div>
-					</div>
+					<LeftMenu
+						className={styles.decMenu}
+						tab={tab}
+						tabAccountsHandler={tabAccountsHandler}
+						tabRoomsHandler={tabRoomsHandler}
+					/>
 					<div className={styles.rightMenu}>
 						{tab === 'accounts' && <Accounts />}
 						{tab === 'rooms' && <Rooms hideName={windowWidth < 900} />}

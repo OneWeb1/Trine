@@ -23,6 +23,7 @@ interface IState {
 	ready: boolean;
 	defeat: boolean;
 	visibleHeaderMenu: boolean;
+	visibleBurgerMenu: boolean;
 	check: { visible: boolean; id: number };
 	visibleStateMessage: IVisibleStateMessage;
 	gameAction: { state: string; prevState: string };
@@ -54,6 +55,7 @@ const initialState: IState = {
 	gameAction: { state: '', prevState: '' },
 	visibleModal: '',
 	visibleHeaderMenu: false,
+	visibleBurgerMenu: false,
 	visibleMenuAccountSettings: false,
 	updateAccounts: 1,
 	lastPlayerNumber: 0,
@@ -112,6 +114,9 @@ const appSlice = createSlice({
 		setVisibleHeaderMenu(state, action) {
 			state.visibleHeaderMenu = action.payload;
 		},
+		setVisibleBurgerMenu(state, action) {
+			state.visibleBurgerMenu = action.payload;
+		},
 		setVisibleMenuAccountSettings(state, action) {
 			state.visibleMenuAccountSettings = action.payload;
 		},
@@ -158,6 +163,7 @@ export const {
 	setGameState,
 	setVisibleStateMessage,
 	setVisibleHeaderMenu,
+	setVisibleBurgerMenu,
 	setVisibleMenuAccountSettings,
 	setMenuAccountSettingsPosition,
 	setAccount,

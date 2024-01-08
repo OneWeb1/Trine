@@ -48,7 +48,11 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	return (
 		<div className={styles.roomsWrapper}>
 			<div className={styles.header}>
-				<div className={styles.title}>Кімнати</div>
+				<div
+					className={styles.title}
+					style={{ fontSize: window.innerWidth < 600 ? '14px' : '18px' }}>
+					Кімнати
+				</div>
 				<Button
 					style={{ width: '200px', height: '40px', fontSize: '14px' }}
 					value='Створити кімнату'

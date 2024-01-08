@@ -59,7 +59,11 @@ const Accounts: FC = () => {
 		<>
 			<div className={styles.tableWrapper}>
 				<div className={styles.header}>
-					<div className={styles.title}>Аккаунти</div>
+					<div
+						className={styles.title}
+						style={{ fontSize: window.innerWidth < 600 ? '12px' : '18px' }}>
+						Аккаунти
+					</div>
 				</div>
 				<div
 					className={styles.tableHeader}
@@ -69,28 +73,17 @@ const Accounts: FC = () => {
 						borderRadius: '10px',
 					}}>
 					<div style={{ display: 'flex', alignItems: 'center' }}>
-						<div style={{ width: '80px' }}>ID</div>
+						<div className={styles.idColumn}>ID</div>
 						<div>Обліковий запис</div>
 					</div>
-					<div
-						style={{
-							width: '450px',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'space-between',
-						}}>
-						<div style={{ maxWidth: '150px', width: '150px' }}>Баланс</div>
-						<div style={{ maxWidth: '150px', width: '150px' }}>
+					<div className={styles.rightWrapper}>
+						<div className={styles.balanceColumn}>Баланс</div>
+						<div
+							className={styles.dateCreated}
+							style={{ maxWidth: '150px', width: '150px' }}>
 							Дата створення
 						</div>
-						<div
-							style={{
-								maxWidth: '40px',
-								width: '40px',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-							}}>
+						<div className={styles.iconWrapper}>
 							<MdOutlineSettingsEthernet />
 						</div>
 					</div>
