@@ -1,5 +1,7 @@
 import { FC, useState, useRef, useEffect } from 'react';
 
+import useOrientation from '../hooks/useOrientation';
+
 import { MdOutlineFullscreen } from 'react-icons/md';
 import { MdFullscreenExit } from 'react-icons/md';
 import { BiArrowToTop } from 'react-icons/bi';
@@ -16,11 +18,11 @@ import { setAccount } from '../store/slices/app.slice';
 import { VscDebugStepBack } from 'react-icons/vsc';
 // import { RiSettings3Line } from 'react-icons/ri';
 
+import AdminService from '../services/AdminService';
+
 import fishka from './../../public/assets/fishka.png';
 
 import styles from './../stylesheet/styles-components/GameHeader.module.scss';
-import AdminService from '../services/AdminService';
-import useOrientation from '../hooks/useOrientation';
 
 interface IGameHeader {
 	isFullScreen: boolean;
@@ -69,7 +71,9 @@ const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
 			intervalRef.current = setInterval(async () => {
 				try {
 					const { data } = await AdminService.getMeProfile();
-					dispatch(setAccount(data));
+					if (data && Object.keys(data).length) {
+						dispatch(setAccount(data));
+					}
 				} catch (e) {
 					console.log(e);
 				}

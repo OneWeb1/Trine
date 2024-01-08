@@ -26,11 +26,12 @@ const LeftMenu: FC<ILeftMenu> = ({
 	const { visibleBurgerMenu } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
-	// const opacity = visibleBurgerMenu ? 1 : 0;
-	const left = visibleBurgerMenu ? 0 : '-340px';
+	const left = visibleBurgerMenu ? '0' : '-340px';
 
 	return (
-		<div className={classNames(styles.leftMenu, className)} style={{ left }}>
+		<div
+			className={classNames(styles.leftMenu, className)}
+			style={{ marginLeft: left }}>
 			<div className={styles.menu}>
 				<div
 					className={classNames(

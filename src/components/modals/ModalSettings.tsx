@@ -54,7 +54,9 @@ const ModalSettings: FC = () => {
 		}
 
 		const { data } = await AdminService.getMeProfile();
-		dispatch(setAccount(data));
+		if (data && Object.keys(data).length) {
+			dispatch(setAccount(data));
+		}
 		dispatch(setVisibleModal('h'));
 	};
 
