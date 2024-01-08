@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useRef } from 'react';
 
 import { RootState as CustomRootState } from '../../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,7 +27,10 @@ const Accounts: FC = () => {
 	} = useSelector((state: CustomRootState) => state.app);
 	const [profiles, setProfiles] = useState<AdminProfileResponse[]>([]);
 	const [offset] = useState<number>(0);
-	const [limit] = useState<number>(10);
+	const [limit] = useState<number>(50);
+
+	const intervalRef = useRef<number>(0);
+
 	const getProfiles = async () => {
 		const { data } = await AdminService.getProfiles(offset, limit);
 		setProfiles(data);
@@ -50,10 +53,14 @@ const Accounts: FC = () => {
 	};
 
 	useEffect(() => {
-		setTimeout(() => {
+		intervalRef.current = setInterval(() => {
 			getProfiles();
-		}, 500);
-	}, [updateAccounts]);
+		}, 1000);
+
+		return () => {
+			if (intervalRef.current) clearInterval(intervalRef.current);
+		};
+	}, []);
 
 	return (
 		<>

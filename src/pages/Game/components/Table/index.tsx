@@ -343,7 +343,7 @@ const Table: FC<ITable> = ({
 									<span
 										className={styles.taxNumber}
 										style={{ marginLeft: '3px', fontWeight: '600' }}>
-										{(roomState.bank * 0.05).toFixed(1)}
+										{(roomState.bank * 0.03).toFixed(2)}
 									</span>
 								</div>
 								<FishkaItem value={roomState.bank} />
