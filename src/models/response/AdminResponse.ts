@@ -1,4 +1,4 @@
-export interface AdminProfileResponce {
+export interface AdminProfileResponse {
 	id: number;
 	nickname: string;
 	avatar_id: string;
@@ -9,7 +9,7 @@ export interface AdminProfileResponce {
 	verified: boolean;
 }
 
-export interface CreatePublicRoomResponce {
+export interface CreatePublicRoomResponse {
 	name?: string;
 	max_players: number;
 	join_tax: number;
@@ -30,7 +30,7 @@ export interface IPlayerRoom {
 	me: false;
 }
 
-export interface PublicRoomResponce {
+export interface PublicRoomResponse {
 	name: string;
 	id: string;
 	tax: number;
@@ -53,7 +53,7 @@ export interface CreatePublicRoomParams {
 	max_bid: string;
 }
 
-export interface ProfileMeResponce {
+export interface ProfileMeResponse {
 	id: number;
 	nickname: string;
 	avatar_id: string;

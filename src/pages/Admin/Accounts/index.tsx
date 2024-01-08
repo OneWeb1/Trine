@@ -15,7 +15,7 @@ import MenuAccountSettings from '../../../components/menu/MenuAccountSettings';
 import AdminService from '../../../services/AdminService';
 
 import styles from './../styles/Accounts.module.scss';
-import { AdminProfileResponce } from '../../../models/responce/AdminResponce';
+import { AdminProfileResponse } from '../../../models/response/AdminResponse';
 import Account from './components/Account';
 
 const Accounts: FC = () => {
@@ -25,7 +25,7 @@ const Accounts: FC = () => {
 		menuAccountSettingsPosition: menuPosition,
 		updateAccounts,
 	} = useSelector((state: CustomRootState) => state.app);
-	const [profiles, setProfiles] = useState<AdminProfileResponce[]>([]);
+	const [profiles, setProfiles] = useState<AdminProfileResponse[]>([]);
 	const [offset] = useState<number>(0);
 	const [limit] = useState<number>(10);
 	const getProfiles = async () => {

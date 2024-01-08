@@ -11,12 +11,12 @@ import {
 
 import { HiOutlineDotsVertical } from 'react-icons/hi';
 
-import { AdminProfileResponce } from '../../../../models/responce/AdminResponce';
+import { AdminProfileResponse } from '../../../../models/response/AdminResponse';
 
 import styles from './../../styles/styles-components/Account.module.scss';
 
 interface IAccount {
-	profile: AdminProfileResponce;
+	profile: AdminProfileResponse;
 }
 
 const Account: FC<IAccount> = ({ profile }) => {

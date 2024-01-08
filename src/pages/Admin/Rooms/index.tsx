@@ -9,7 +9,7 @@ import Room from '../../Home/components/Room';
 import styles from './../styles/Rooms.module.scss';
 import Button from '../../../UI/Button';
 
-import { PublicRoomResponce } from '../../../models/responce/AdminResponce';
+import { PublicRoomResponse } from '../../../models/response/AdminResponse';
 
 import AdminService from '../../../services/AdminService';
 
@@ -24,7 +24,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	const { updatePublicRooms } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
-	const [publicRooms, setPublicRooms] = useState<PublicRoomResponce[]>([]);
+	const [publicRooms, setPublicRooms] = useState<PublicRoomResponse[]>([]);
 	const isHideName = !hideName === false ? false : true;
 
 	const w = window.innerWidth > 500;
@@ -69,7 +69,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 				<div></div>
 			</div>
 			<div className={styles.rooms}>
-				{publicRooms.map((room: PublicRoomResponce, idx) => (
+				{publicRooms.map((room: PublicRoomResponse, idx) => (
 					<Room
 						key={idx}
 						room={room}

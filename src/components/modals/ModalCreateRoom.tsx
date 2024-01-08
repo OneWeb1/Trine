@@ -8,7 +8,7 @@ import Modal from './Modal';
 import Input from '../../UI/Input';
 import Button from '../../UI/Button';
 import AdminService from '../../services/AdminService';
-import { CreatePublicRoomParams } from '../../models/responce/AdminResponce';
+import { CreatePublicRoomParams } from '../../models/response/AdminResponse';
 
 interface IModalCreateRoom {
 	title: string;

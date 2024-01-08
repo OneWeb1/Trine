@@ -23,7 +23,7 @@
 
 // import AdminService from '../../services/AdminService';
 
-// import { PublicRoomResponce } from '../../models/responce/AdminResponce';
+// import { PublicRoomResponse } from '../../models/response/AdminResponse';
 // import { IPlayerRoom } from '../Admin/interfaces';
 
 // import { assets, resizeHandler, getRoomIndexPosition } from './utils';
@@ -35,8 +35,8 @@
 // 	const { joinRoom, isAction, gameAction, check } = useSelector(
 // 		(state: CustomRootState) => state.app,
 // 	);
-// 	const [roomState, setRoomState] = useState<PublicRoomResponce>(
-// 		{} as PublicRoomResponce,
+// 	const [roomState, setRoomState] = useState<PublicRoomResponse>(
+// 		{} as PublicRoomResponse,
 // 	);
 
 // 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
@@ -53,8 +53,8 @@
 // 	// const [lastId, setLastId] = useState<number>(-1);
 // 	const lastMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 // 	const currentMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
-// 	const roomResultStateRef = useRef<PublicRoomResponce>(
-// 		{} as PublicRoomResponce,
+// 	const roomResultStateRef = useRef<PublicRoomResponse>(
+// 		{} as PublicRoomResponse,
 // 	);
 // 	const tableRef = useRef<HTMLDivElement>(null);
 // 	const timeoutRef = useRef<number | null>(null);
@@ -114,9 +114,9 @@
 // 			requestStateTime.current = new Date().getTime();
 // 		} else return;
 
-// 		const responce = await AdminService.getPublicRoomByState(joinRoom.id);
-// 		if (!responce) return;
-// 		const room = (responce.data && responce.data) || joinRoom;
+// 		const response = await AdminService.getPublicRoomByState(joinRoom.id);
+// 		if (!response) return;
+// 		const room = (response.data && response.data) || joinRoom;
 
 // 		if (
 // 			(room.state === 'player_recruitment' || room.state === 'result') &&
@@ -331,7 +331,7 @@
 // 					isHide={false}
 // 					sum={roomResultStateRef.current.bank * 0.95}
 // 					onClick={() => {
-// 						roomResultStateRef.current = {} as PublicRoomResponce;
+// 						roomResultStateRef.current = {} as PublicRoomResponse;
 // 						dispatch(setGameAction({ state: '' }));
 // 					}}
 // 				/>

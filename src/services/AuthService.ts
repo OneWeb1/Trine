@@ -1,10 +1,10 @@
-import { AuthResponce } from '../models/responce/AuthResponce';
+import { AuthResponse } from '../models/response/AuthResponse';
 import $api from '../http';
 import { AxiosResponse } from 'axios';
 
 export default class AuthService {
-	static async login(formData: FormData): Promise<AxiosResponse<AuthResponce>> {
-		return $api.post<AuthResponce>('/auth/signin', formData, {
+	static async login(formData: FormData): Promise<AxiosResponse<AuthResponse>> {
+		return $api.post<AuthResponse>('/auth/signin', formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},
@@ -13,15 +13,15 @@ export default class AuthService {
 
 	static async registration(
 		formData: FormData,
-	): Promise<AxiosResponse<AuthResponce>> {
-		return $api.post<AuthResponce>('/auth/signup', formData, {
+	): Promise<AxiosResponse<AuthResponse>> {
+		return $api.post<AuthResponse>('/auth/signup', formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},
 		});
 	}
-	static async prolong(token: string): Promise<AxiosResponse<AuthResponce>> {
-		return $api.post<AuthResponce>(
+	static async prolong(token: string): Promise<AxiosResponse<AuthResponse>> {
+		return $api.post<AuthResponse>(
 			`/auth/prolong?token=${token}`,
 			// { token },
 			{

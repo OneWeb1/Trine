@@ -12,8 +12,8 @@ import Button from '../../UI/Button';
 import AdminService from '../../services/AdminService';
 import {
 	// IPlayerRoom,
-	ProfileMeResponce,
-} from '../../models/responce/AdminResponce';
+	ProfileMeResponse,
+} from '../../models/response/AdminResponse';
 
 interface IModalChangeBalance {
 	title: string;
@@ -22,7 +22,7 @@ interface IModalChangeBalance {
 const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 	const dispatch = useDispatch();
 	const [balance, setBalance] = useState<string | number>(0);
-	const [account] = useState<ProfileMeResponce>(
+	const [account] = useState<ProfileMeResponse>(
 		JSON.parse(
 			localStorage.getItem('account_settings') || '{balance:0, id: -1}',
 		),

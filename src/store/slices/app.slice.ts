@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-	AdminProfileResponce,
-	PublicRoomResponce,
-} from '../../models/responce/AdminResponce';
+	AdminProfileResponse,
+	PublicRoomResponse,
+} from '../../models/response/AdminResponse';
 
 interface IMenuAccountSettingsPosition {
 	x: number;
@@ -16,6 +16,7 @@ interface IVisibleStateMessage {
 }
 
 interface IState {
+	avatars: string[];
 	isAuth: boolean;
 	isSubmit: boolean;
 	isAction: boolean;
@@ -36,13 +37,14 @@ interface IState {
 	updateAccounts: number;
 	lastPlayerNumber: number;
 	updatePublicRooms: number;
-	account: AdminProfileResponce;
+	account: AdminProfileResponse;
 	menuAccountSettingsPosition: IMenuAccountSettingsPosition;
-	joinRoom: PublicRoomResponce;
-	roomState: PublicRoomResponce;
-	roomResultState: PublicRoomResponce;
+	joinRoom: PublicRoomResponse;
+	roomState: PublicRoomResponse;
+	roomResultState: PublicRoomResponse;
 }
 const initialState: IState = {
+	avatars: JSON.parse(localStorage.getItem('avatars') || '[]'),
 	baseIconPath: 'https://trynka-backend.onrender.com',
 	isAuth: (localStorage.getItem('token') && true) || false,
 	isAction: JSON.parse(localStorage.getItem('isAction') || 'false'),
@@ -64,13 +66,13 @@ const initialState: IState = {
 	updatePublicRooms: 1,
 	account:
 		JSON.parse(localStorage.getItem('account') || '{}') ||
-		({} as AdminProfileResponce),
+		({} as AdminProfileResponse),
 	menuAccountSettingsPosition: { x: 0, y: 0 },
 	joinRoom:
 		JSON.parse(localStorage.getItem('joinRoom') || '{}') ||
-		({} as PublicRoomResponce),
-	roomState: {} as PublicRoomResponce,
-	roomResultState: {} as PublicRoomResponce,
+		({} as PublicRoomResponse),
+	roomState: {} as PublicRoomResponse,
+	roomResultState: {} as PublicRoomResponse,
 	gameParamId: '',
 };
 
@@ -78,6 +80,9 @@ const appSlice = createSlice({
 	name: 'app',
 	initialState: initialState,
 	reducers: {
+		setAvatars(state, action) {
+			state.avatars = action.payload;
+		},
 		setIsAuth(state, action) {
 			state.isAuth = action.payload;
 		},
@@ -157,6 +162,7 @@ const appSlice = createSlice({
 });
 
 export const {
+	setAvatars,
 	setVisibleModal,
 	setIsSubmit,
 	setIsAction,

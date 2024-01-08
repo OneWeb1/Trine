@@ -9,6 +9,7 @@ import {
 	setAccount,
 	setIsAuth,
 	setIsAction,
+	setAvatars,
 } from '../../store/slices/app.slice';
 
 import ModalCreateRoom from '../../components/modals/ModalCreateRoom';
@@ -31,12 +32,14 @@ import { AxiosError } from 'axios';
 
 import styles from './../../stylesheet/styles/Home.module.scss';
 
-import { PublicRoomResponce } from '../../models/responce/AdminResponce';
+import { PublicRoomResponse } from '../../models/response/AdminResponse';
 
 const Home: FC = () => {
 	const dispatch = useDispatch();
-	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
-	const [publicRooms, setPublicRooms] = useState<PublicRoomResponce[]>([]);
+	const { visibleModal, avatars } = useSelector(
+		(state: CustomRootState) => state.app,
+	);
+	const [publicRooms, setPublicRooms] = useState<PublicRoomResponse[]>([]);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const [update, setUpdate] = useState<number>(1);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -52,8 +55,19 @@ const Home: FC = () => {
 		setPublicRooms(data);
 	};
 
+	const getAvatars = async () => {
+		try {
+			const { data } = await AdminService.getAvatars();
+			return data;
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	const addStandartAvatar = async () => {
 		const { data } = await AdminService.getAvatars();
+
+		if (!data) return;
 		const id = Math.floor(Math.random() * (data.length - 0));
 		await AdminService.changeAvatar(id);
 	};
@@ -67,6 +81,13 @@ const Home: FC = () => {
 			const { data } = await AdminService.getMeProfile();
 			if (typeof data.avatar_id !== 'string') addStandartAvatar();
 			dispatch(setAccount(data));
+			if (!avatars.length) {
+				const response = await AdminService.getAvatars();
+
+				if (!response.data) return;
+				dispatch(setAvatars(response.data));
+			}
+
 			await getPublickRooms();
 
 			setLoading(false);

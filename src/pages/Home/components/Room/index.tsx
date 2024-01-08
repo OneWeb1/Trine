@@ -17,13 +17,13 @@ import Button from '../../../../UI/Button';
 import GameService from '../../../../services/GameService';
 import AdminService from '../../../../services/AdminService';
 
-import { PublicRoomResponce } from '../../../../models/responce/AdminResponce';
+import { PublicRoomResponse } from '../../../../models/response/AdminResponse';
 
 import styles from './Room.module.scss';
 import { IPlayerRoom } from '../../../Admin/interfaces';
 
 interface IRoom {
-	room: PublicRoomResponce;
+	room: PublicRoomResponse;
 	offset?: number;
 	isDelete?: boolean;
 	hideName?: boolean;

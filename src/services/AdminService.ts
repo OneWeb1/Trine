@@ -1,9 +1,9 @@
 import {
-	AdminProfileResponce,
+	AdminProfileResponse,
 	CreatePublicRoomParams,
-	ProfileMeResponce,
-	PublicRoomResponce,
-} from '../models/responce/AdminResponce';
+	ProfileMeResponse,
+	PublicRoomResponse,
+} from '../models/response/AdminResponse';
 import $api from '../http';
 import { AxiosResponse } from 'axios';
 
@@ -11,16 +11,16 @@ export default class AdminService {
 	static async getProfiles(
 		offset: number,
 		limit: number,
-	): Promise<AxiosResponse<AdminProfileResponce[]>> {
-		return $api.get<AdminProfileResponce[]>('/admin/profile/', {
+	): Promise<AxiosResponse<AdminProfileResponse[]>> {
+		return $api.get<AdminProfileResponse[]>('/admin/profile/', {
 			params: { offset, limit },
 		});
 	}
 
 	static async getProfileById(
 		id: string,
-	): Promise<AxiosResponse<AdminProfileResponce>> {
-		return $api.get<AdminProfileResponce>(`/admin/profile/${id}`, {
+	): Promise<AxiosResponse<AdminProfileResponse>> {
+		return $api.get<AdminProfileResponse>(`/admin/profile/${id}`, {
 			params: { id },
 		});
 	}
@@ -40,18 +40,18 @@ export default class AdminService {
 		return $api.post<string>(`/room/leave`);
 	}
 
-	static async getPublicRooms(): Promise<AxiosResponse<PublicRoomResponce[]>> {
-		return $api.get<PublicRoomResponce[]>('/room/');
+	static async getPublicRooms(): Promise<AxiosResponse<PublicRoomResponse[]>> {
+		return $api.get<PublicRoomResponse[]>('/room/');
 	}
 	static async getPublicRoomByState(
 		id: string,
-	): Promise<AxiosResponse<PublicRoomResponce> | null> {
+	): Promise<AxiosResponse<PublicRoomResponse> | null> {
 		if (typeof id !== 'string') return null;
-		return $api.get<PublicRoomResponce>(`/room/${id}`);
+		return $api.get<PublicRoomResponse>(`/room/${id}`);
 	}
 
-	static async getMeProfile(): Promise<AxiosResponse<ProfileMeResponce>> {
-		return $api.get<ProfileMeResponce>('/profile/me');
+	static async getMeProfile(): Promise<AxiosResponse<ProfileMeResponse>> {
+		return $api.get<ProfileMeResponse>('/profile/me');
 	}
 
 	static async getAvatars(): Promise<AxiosResponse<string[]>> {
@@ -85,23 +85,23 @@ export default class AdminService {
 
 	static async createPublicRoom(
 		params: CreatePublicRoomParams,
-	): Promise<AxiosResponse<PublicRoomResponce>> {
+	): Promise<AxiosResponse<PublicRoomResponse>> {
 		const nameInUrl = `/room/create?max_players=${params.max_players}&join_tax=${params.join_tax}&max_bid=${params.max_bid}&name=${params.name}`;
 		const nameNotUrl = `/room/create?max_players=${params.max_players}&join_tax=${params.join_tax}&max_bid=${params.max_bid}`;
 		const url = (params.name && nameInUrl) || nameNotUrl;
-		return $api.post<PublicRoomResponce>(url);
+		return $api.post<PublicRoomResponse>(url);
 	}
 
 	static async do(params: {
 		action: string;
 		sum?: number;
-	}): Promise<AxiosResponse<PublicRoomResponce>> {
+	}): Promise<AxiosResponse<PublicRoomResponse>> {
 		const query =
 			(params.action === 'raise' && {
 				params: { sum: params.sum },
 			}) ||
 			{};
-		return $api.post<PublicRoomResponce>(
+		return $api.post<PublicRoomResponse>(
 			`/room/do/${params.action}`,
 			null,
 			query,

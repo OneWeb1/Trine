@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import FishkaItem from './FishkaItem';
 import TreeCards from './cards';
 
-import { IPlayerRoom } from '../models/responce/AdminResponce';
+import { IPlayerRoom } from '../models/response/AdminResponse';
 
 import styles from './../stylesheet/styles-components/Players.module.scss';
 import AdminService from '../services/AdminService';

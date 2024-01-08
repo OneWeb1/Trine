@@ -1,9 +1,9 @@
 import { RefObject } from 'react';
 
 import {
-	PublicRoomResponce,
+	PublicRoomResponse,
 	IPlayerRoom,
-} from '../../models/responce/AdminResponce';
+} from '../../models/response/AdminResponse';
 
 const assets = [
 	'0',
@@ -86,7 +86,7 @@ const getRoomIndexPosition = (length: number): number[] => {
 	return position.slice(0, length).sort((a, b) => a - b);
 };
 
-const sortPlayerRelative = (stateRoom: PublicRoomResponce): IPlayerRoom[] => {
+const sortPlayerRelative = (stateRoom: PublicRoomResponse): IPlayerRoom[] => {
 	const players = [] as IPlayerRoom[];
 	let isAdd = false;
 	stateRoom.players.forEach(player => {

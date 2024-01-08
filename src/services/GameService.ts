@@ -1,12 +1,12 @@
 import { AxiosResponse } from 'axios';
 import $api from '../http';
 
-import { PublicRoomResponce } from '../models/responce/AdminResponce';
+import { PublicRoomResponse } from '../models/response/AdminResponse';
 
 export default class GameService {
 	static async joinRoom(
 		id: string,
-	): Promise<AxiosResponse<PublicRoomResponce>> {
-		return $api.post<PublicRoomResponce>(`/room/join?id=${id}`);
+	): Promise<AxiosResponse<PublicRoomResponse>> {
+		return $api.post<PublicRoomResponse>(`/room/join?id=${id}`);
 	}
 }

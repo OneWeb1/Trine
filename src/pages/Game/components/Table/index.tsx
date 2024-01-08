@@ -33,13 +33,13 @@ import AdminService from '../../../../services/AdminService';
 import { IPlayerRoom } from '../../../Admin/interfaces';
 
 import styles from './Table.module.scss';
-import { PublicRoomResponce } from '../../../../models/responce/AdminResponce';
+import { PublicRoomResponse } from '../../../../models/response/AdminResponse';
 import GameService from '../../../../services/GameService';
 // import GameService from '../../../../services/GameService';
 
 interface ITable {
-	roomState: PublicRoomResponce;
-	setRoomState: Dispatch<SetStateAction<PublicRoomResponce>>;
+	roomState: PublicRoomResponse;
+	setRoomState: Dispatch<SetStateAction<PublicRoomResponse>>;
 	setLoading: Dispatch<SetStateAction<boolean>>;
 	ready: boolean;
 	setReady: Dispatch<SetStateAction<boolean>>;
@@ -162,7 +162,7 @@ const Table: FC<ITable> = ({
 		}
 	};
 
-	const writeStates = (room: PublicRoomResponce) => {
+	const writeStates = (room: PublicRoomResponse) => {
 		if (Object.keys(recruitmentStateRef.current).length < room.players.length) {
 			room.players.forEach(player => {
 				const { state, id } = player;
@@ -176,7 +176,7 @@ const Table: FC<ITable> = ({
 		}
 	};
 
-	const showReadyMessage = (room: PublicRoomResponce) => {
+	const showReadyMessage = (room: PublicRoomResponse) => {
 		room.players.forEach(player => {
 			const prevState = recruitmentStateRef.current[player.id];
 			if (
@@ -218,9 +218,9 @@ const Table: FC<ITable> = ({
 			requestStateTime.current = new Date().getTime();
 		} else return;
 
-		const responce = await AdminService.getPublicRoomByState(joinRoom.id);
-		if (!responce) return;
-		const room = (responce.data && responce.data) || joinRoom;
+		const response = await AdminService.getPublicRoomByState(joinRoom.id);
+		if (!response) return;
+		const room = (response.data && response.data) || joinRoom;
 
 		if (
 			(room.state === 'player_recruitment' || room.state === 'result') &&
@@ -339,7 +339,7 @@ const Table: FC<ITable> = ({
 						<div className={styles.screenCenter}>
 							<div className={styles.displayWrapper}>
 								<div className={styles.tax}>
-									Налог (5%){' '}
+									Налог (3%){' '}
 									<span
 										className={styles.taxNumber}
 										style={{ marginLeft: '3px', fontWeight: '600' }}>

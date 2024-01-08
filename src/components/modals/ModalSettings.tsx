@@ -13,7 +13,9 @@ import AdminService from '../../services/AdminService';
 
 const ModalSettings: FC = () => {
 	const dispatch = useDispatch();
-	const { account } = useSelector((state: CustomRootState) => state.app);
+	const { account, avatars } = useSelector(
+		(state: CustomRootState) => state.app,
+	);
 	const [name, setName] = useState<string | number>(account.nickname);
 	const [email, setEmail] = useState<string | number>(account.email);
 	const [password, setPassword] = useState<string | number>(
@@ -62,6 +64,11 @@ const ModalSettings: FC = () => {
 
 	return (
 		<Modal title='Налаштування' score={`#${account.id}`}>
+			<div className={styles.subtitle}>Аватарки</div>
+			{avatars.map(avatar => (
+				<div>{avatar}</div>
+			))}
+
 			<div className={styles.subtitle}>Особисті дані</div>
 			<Input
 				type='text'
