@@ -86,14 +86,14 @@ const Game: FC = () => {
 
 	useEffect(() => {
 		if (isMobileDevice()) {
-			(window.screen.orientation as any).lock('landscape');
+			// (window.screen.orientation as any).lock('landscape');
 			orientationChange();
 			window.addEventListener('orientationchange', orientationChange);
 		}
 		window.addEventListener('resize', resizeHandler.bind(null, tableRef));
 		return () => {
 			if (isMobileDevice()) {
-				document.exitFullscreen();
+				// document.exitFullscreen();
 				window.addEventListener('orientationchange', orientationChange);
 			}
 		};
