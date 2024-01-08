@@ -62,7 +62,7 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 				style={{
 					margin: '10px 0px 20px 0px',
 					fontWeight: '500',
-					fontSize: '13px',
+					fontSize: '11px',
 					color: 'green',
 				}}>
 				<p style={{ marginBottom: '5px' }}>
