@@ -13,10 +13,10 @@ interface ITreeCards {
 }
 
 const TreeCards: FC<ITreeCards> = ({ cards, number, visible, style }) => {
-	const type = (cards?.length === 3 && 'svg') || 'jpg';
+	const type = (cards?.length === 3 && 'jpg') || 'jpg';
 	const cardsItem = cards && cards.length ? cards : ['fb', 'fb', 'fb'];
 
-	const baseCardsUrl = './assets/cards';
+	const baseCardsUrl = './assets/cards-load';
 
 	const cssStyle = (style && {
 		...style,
