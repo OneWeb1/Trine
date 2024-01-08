@@ -51,9 +51,7 @@
 
 .tableItems {
 	width: 100%;
-	height: 700px;
-	overflow-y: scroll;
-	padding-bottom: 200px;
+	min-height: 100vh;
 	&::scrollbar-track {
 		display: none;
 	}
