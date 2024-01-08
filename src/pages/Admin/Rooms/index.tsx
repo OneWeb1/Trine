@@ -27,6 +27,8 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	const [publicRooms, setPublicRooms] = useState<PublicRoomResponce[]>([]);
 	const isHideName = !hideName === false ? false : true;
 
+	const w = window.innerWidth > 500;
+
 	const getPublickRooms = async () => {
 		const { data } = await AdminService.getPublicRooms();
 		if (!data) return;
@@ -54,7 +56,11 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 					Кімнати
 				</div>
 				<Button
-					style={{ width: '200px', height: '40px', fontSize: '14px' }}
+					style={{
+						width: w ? '200px' : '140px',
+						height: '40px',
+						fontSize: w ? '14px' : '11px',
+					}}
 					value='Створити кімнату'
 					onClick={() => dispatch(setVisibleModal('cpr'))}
 				/>
