@@ -25,8 +25,7 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 		const box = menuRef.current.getBoundingClientRect();
 		const left = x - box.width + 40;
 		const top = y + 50;
-		// console.log({ top, height: window.innerHeight });
-		// if (top > window.innerHeight - 100) top -= 100;
+
 		menuRef.current.style.left = `${left}px`;
 		menuRef.current.style.top = `${top}px`;
 		setVisible(true);
@@ -35,13 +34,21 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 	return (
 		<div className={styles.menuWrapper} onClick={hideMenu}>
 			<div
+				style={{
+					opacity: (visible && 1) || 0,
+				}}
 				className={styles.menu}
-				ref={menuRef}
-				style={{ opacity: (visible && 1) || 0 }}>
-				<div className={styles.item} onClick={changeBalance}>
+				ref={menuRef}>
+				<div
+					style={{ fontSize: window.innerWidth > 500 ? '14px' : '12px' }}
+					className={styles.item}
+					onClick={changeBalance}>
 					Змінити баланс
 				</div>
-				<div className={styles.item} onClick={removeAccount}>
+				<div
+					style={{ fontSize: window.innerWidth > 500 ? '14px' : '12px' }}
+					className={styles.item}
+					onClick={removeAccount}>
 					Видалити аккаунт
 				</div>
 			</div>
