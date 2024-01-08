@@ -86,7 +86,6 @@ const Game: FC = () => {
 
 	useEffect(() => {
 		if (isMobileDevice()) {
-			// document.documentElement.requestFullscreen();
 			(window.screen.orientation as any).lock('landscape');
 			orientationChange();
 			window.addEventListener('orientationchange', orientationChange);
