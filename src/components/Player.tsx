@@ -257,14 +257,14 @@ const Player: FC<IPlayer> = ({
 				<div className={styles.cards}>
 					{!isVisibleCards && (
 						<TreeCards
-							style={{ marginTop: '-10px', marginLeft: '30px' }}
+							style={{ marginTop: '-25px', marginLeft: '50px' }}
 							visible={true}
 							cards={['fb', 'fb', 'fb']}
 						/>
 					)}
 					{isVisibleCards && (
 						<TreeCards
-							style={{ marginTop: '-10px', marginLeft: '30px' }}
+							style={{ marginTop: '-25px', marginLeft: '50px' }}
 							visible={isVisibleCards}
 							cards={cards}
 							number={player.cards_sum}
