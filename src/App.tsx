@@ -14,7 +14,7 @@ import Game from './pages/Game';
 import Admin from './pages/Admin/Admin';
 
 import NotFound from './pages/NotFound';
-import TestPage from './pages/TestPage';
+// import TestPage from './pages/TestPage';
 
 const App = () => {
 	const { isAuth, account } = useSelector(
@@ -40,7 +40,7 @@ const App = () => {
 								<Route path='/admin' element={<Admin />}></Route>
 							)}
 
-							<Route path='/test' element={<TestPage />}></Route>
+							{/* <Route path='/test' element={<TestPage />}></Route> */}
 						</>
 					)}
 					<Route path='*' element={<NotFound />}></Route>
