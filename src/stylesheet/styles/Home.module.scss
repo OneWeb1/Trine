@@ -1,7 +1,6 @@
 .page {
 	width: 100%;
-	min-height: 100vh;
-	min-height: 600px;
+	height: fit-content;
 	// background-color: #090f1e;
 	background-color: #090f1e;
 
@@ -9,11 +8,11 @@
 	padding-bottom: 0px;
 	flex-direction: column;
 	display: flex;
+	overflow-y: scroll;
 }
 
 .contentWrapper {
 	flex: 1 1 100%;
-	max-height: calc(100vh - 110px);
 	border-radius: 10px;
 	background: #0e1628;
 	// padding: 30px 0px;
