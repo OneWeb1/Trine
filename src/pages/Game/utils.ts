@@ -78,7 +78,7 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 		}
 	});
 	if (window.innerHeight < 300) {
-		table.style.transform = `scale(${0.35}) rotate(${0}deg)`;
+		table.style.transform = `scale(${0.35}) rotate(${0}deg) translateY(-50px)`;
 	} else table.style.transform = `scale(${scale}) rotate(${deg}deg)`;
 };
 
