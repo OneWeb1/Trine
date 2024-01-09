@@ -1,0 +1,96 @@
+.paginationWrapper {
+	width: 400px;
+	display: flex;
+
+	margin: 0px auto;
+	margin-top: 35px;
+
+	.button {
+		width: 40px;
+		height: 40px;
+		margin-right: 5px;
+		border-radius: 10px;
+		border: 1px solid rgb(43, 53, 84);
+		color: #fff;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: 0.2s;
+		cursor: pointer;
+
+		&:first-child {
+			border: 1px solid transparent;
+		}
+
+		&:last-child {
+			margin-right: 0;
+			border: 1px solid transparent;
+		}
+
+		&:hover {
+			background-color: rgba(43, 53, 84, 0.2);
+			transform: scale(0.98);
+		}
+	}
+
+	.activeButton {
+		background-color: rgba(43, 53, 84, 0.6);
+
+		&:hover {
+			background-color: rgba(43, 53, 84, 0.6);
+		}
+	}
+
+	.buttonDots {
+		border: 1px solid transparent;
+		padding-top: 15px;
+
+		&:hover {
+			background-color: transparent;
+			transform: none;
+			cursor: default;
+		}
+	}
+
+	.disabled {
+		opacity: 0.3;
+		&:hover {
+			background-color: transparent;
+			transform: none;
+			cursor: default;
+		}
+	}
+}
+
+@media screen and (max-width: 450px) {
+	.paginationWrapper {
+		width: 310px;
+
+		.button {
+			// width: 30px;
+			// height: 30px;
+			// font-size: 10px;
+		}
+
+		.buttonDots {
+			width: 5px;
+		}
+	}
+}
+
+@media screen and (max-width: 350px) {
+	.paginationWrapper {
+		width: 250px;
+
+		.button {
+			width: 30px;
+			height: 30px;
+			border-radius: 4px;
+			font-size: 10px;
+		}
+
+		.buttonDots {
+			width: 5px;
+		}
+	}
+}

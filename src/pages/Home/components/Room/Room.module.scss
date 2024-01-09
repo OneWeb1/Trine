@@ -13,6 +13,7 @@
 	font-weight: 500;
 	opacity: 0.95;
 	transition: 0.3s;
+	border: 1px solid rgb(18, 20, 31);
 
 	&:hover {
 		opacity: 1;
@@ -20,7 +21,7 @@
 	}
 
 	&:last-child {
-		// margin-bottom: 280px;
+		margin-bottom: 0px;
 	}
 
 	.leftWrapper,

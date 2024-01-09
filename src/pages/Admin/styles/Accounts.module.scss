@@ -51,7 +51,8 @@
 
 .tableItems {
 	width: 100%;
-	min-height: 100vh;
+	min-height: calc(60px * 8);
+	height: calc(60px * 8);
 	&::scrollbar-track {
 		display: none;
 	}

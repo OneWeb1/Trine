@@ -39,16 +39,10 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 				}}
 				className={styles.menu}
 				ref={menuRef}>
-				<div
-					style={{ fontSize: window.innerWidth > 500 ? '14px' : '12px' }}
-					className={styles.item}
-					onClick={changeBalance}>
+				<div className={styles.item} onClick={changeBalance}>
 					Змінити баланс
 				</div>
-				<div
-					style={{ fontSize: window.innerWidth > 500 ? '14px' : '12px' }}
-					className={styles.item}
-					onClick={removeAccount}>
+				<div className={styles.item} onClick={removeAccount}>
 					Видалити аккаунт
 				</div>
 			</div>

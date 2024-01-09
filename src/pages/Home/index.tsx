@@ -33,6 +33,7 @@ import { AxiosError } from 'axios';
 import styles from './../../stylesheet/styles/Home.module.scss';
 
 import { PublicRoomResponse } from '../../models/response/AdminResponse';
+import Pagination from '../../components/Pagination';
 
 const Home: FC = () => {
 	const dispatch = useDispatch();
@@ -149,16 +150,21 @@ const Home: FC = () => {
 								/>
 							)}
 						</div>
-						<div className={styles.publicRooms}>
-							{!publicRooms.length && (
-								<div className={styles.empty}>
-									Список кімнат порожній. <br /> Для створення публічних кімнат
-									звяжіться з нашими менеджерами
-								</div>
-							)}
-							{publicRooms.map((room, idx) => (
-								<Room key={idx} room={room} hideName={windowWidth > 450} />
-							))}
+						<div>
+							<div className={styles.publicRooms}>
+								{!publicRooms.length && (
+									<div className={styles.empty}>
+										Список кімнат порожній. <br /> Для створення публічних
+										кімнат звяжіться з нашими менеджерами
+									</div>
+								)}
+								{publicRooms.map((room, idx) => (
+									<Room key={idx} room={room} hideName={windowWidth > 450} />
+								))}
+							</div>
+							<div style={{ padding: '0px 10px' }}>
+								<Pagination numbers={10} workPages={1} />
+							</div>
 						</div>
 					</div>
 				</div>

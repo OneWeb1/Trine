@@ -11,6 +11,7 @@ import {
 import { MdOutlineSettingsEthernet } from 'react-icons/md';
 
 import MenuAccountSettings from '../../../components/menu/MenuAccountSettings';
+import Pagination from '../../../components/Pagination';
 
 import AdminService from '../../../services/AdminService';
 
@@ -94,10 +95,15 @@ const Accounts: FC = () => {
 						</div>
 					</div>
 				</div>
-				<div className={styles.tableItems}>
-					{profiles.map((profile, idx) => (
-						<Account key={idx} profile={profile} />
-					))}
+				<div>
+					<div className={styles.tableItems}>
+						{profiles.map((profile, idx) => (
+							<Account key={idx} profile={profile} />
+						))}
+					</div>
+					<div style={{ padding: '0px 10px', paddingTop: '10px' }}>
+						<Pagination numbers={10} workPages={1} />
+					</div>
 				</div>
 			</div>
 			{visibleMenuAccountSettings && (
