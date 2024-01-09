@@ -39,6 +39,18 @@ input:after {
 	user-select: initial;
 }
 
+img {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	display: inline;
+	max-width: 100%;
+	height: auto;
+	filter: none;
+	transform: none;
+	object-fit: cover;
+}
+
 .flex-center {
 	position: fixed;
 	width: 100%;
