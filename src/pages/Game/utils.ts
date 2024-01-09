@@ -77,8 +77,13 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 			deg = angle;
 		}
 	});
-	if (window.innerHeight < 300) {
+	if (window.innerHeight < 300 && window.innerWidth > 700) {
 		table.style.transform = `scale(${0.32}) rotate(${0}deg) translateY(-121px)`;
+	} else if (window.innerHeight < 301 && window.innerWidth < 700) {
+		console.log(777);
+		table.style.transform = `scale(${0.32}) rotate(${0}deg) translateY(0px)`;
+	} else if (window.innerHeight < 420 && window.innerHeight < 1200) {
+		table.style.transform = `scale(${0.45}) rotate(${0}deg)`;
 	} else table.style.transform = `scale(${scale}) rotate(${deg}deg)`;
 };
 
