@@ -37,6 +37,7 @@ interface IState {
 	updateAccounts: number;
 	lastPlayerNumber: number;
 	updatePublicRooms: number;
+	accountsLength: number;
 	account: AdminProfileResponse;
 	menuAccountSettingsPosition: IMenuAccountSettingsPosition;
 	joinRoom: PublicRoomResponse;
@@ -64,6 +65,7 @@ const initialState: IState = {
 	updateAccounts: 1,
 	lastPlayerNumber: 0,
 	updatePublicRooms: 1,
+	accountsLength: JSON.parse(localStorage.getItem('accounts-length') || '0'),
 	account:
 		JSON.parse(localStorage.getItem('account') || '{}') ||
 		({} as AdminProfileResponse),
@@ -136,6 +138,9 @@ const appSlice = createSlice({
 		setUpdatePublickRooms(state) {
 			state.updatePublicRooms++;
 		},
+		setAccountsLength(state, action) {
+			state.accountsLength = action.payload;
+		},
 		setAccount(state, action) {
 			state.account = action.payload;
 			localStorage.setItem('account', JSON.stringify(action.payload));
@@ -182,6 +187,7 @@ export const {
 	setLastPlayerNumber,
 	setUpdateAccounts,
 	setUpdatePublickRooms,
+	setAccountsLength,
 	setIsAuth,
 	setJoinRoom,
 	setRoomState,

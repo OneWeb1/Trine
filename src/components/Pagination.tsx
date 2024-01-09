@@ -1,4 +1,4 @@
-import { FC, useState, CSSProperties, ReactNode } from 'react';
+import { FC, useState, useEffect, CSSProperties, ReactNode } from 'react';
 
 import classNames from 'classnames';
 
@@ -10,6 +10,8 @@ import styles from './../stylesheet/styles-components/Pagination.module.scss';
 interface IPagination {
 	numbers: number;
 	workPages: number;
+	current?: number;
+	changePage?: (pageNumber: number) => void;
 }
 
 interface IButton {
@@ -39,11 +41,17 @@ const Button: FC<IButton> = ({
 	);
 };
 
-const Pagination: FC<IPagination> = ({ numbers, workPages }) => {
+const Pagination: FC<IPagination> = ({
+	numbers,
+	workPages,
+	current,
+	changePage,
+}) => {
 	const buttons = new Array(numbers).fill(1).map((_, idx) => idx + 1);
 
-	const [currentPageNumber, setCurrentPageNumber] = useState<number>(1);
-
+	const [currentPageNumber, setCurrentPageNumber] = useState<number>(
+		current || 1,
+	);
 	const [fixVisibleNumber] = useState<number>(5);
 	const [minNumber, setMinNumber] = useState<number>(2);
 	const [maxNumber, setMaxNumber] = useState<number>(fixVisibleNumber);
@@ -59,6 +67,7 @@ const Pagination: FC<IPagination> = ({ numbers, workPages }) => {
 
 	const changePageNumber = (pageNumber: number) => {
 		setCurrentPageNumber(pageNumber);
+		if (changePage) changePage(pageNumber);
 		if (pageNumber === numbers) {
 			setMinNumber(numbers - fixVisibleNumber);
 			setMaxNumber(numbers - 1);
@@ -83,6 +92,8 @@ const Pagination: FC<IPagination> = ({ numbers, workPages }) => {
 		} else if (pageNumber > numbers - fixVisibleNumber + 1) {
 			setMinNumber(numbers - fixVisibleNumber);
 			setMaxNumber(numbers - 1);
+			console.log({ numbers });
+			console.log(buttons.slice(numbers - fixVisibleNumber, numbers - 1));
 			setVisibleButtons(buttons.slice(numbers - fixVisibleNumber, numbers - 1));
 		}
 	};
@@ -93,9 +104,12 @@ const Pagination: FC<IPagination> = ({ numbers, workPages }) => {
 		if (currentPageNumber > maxNumber && n === 1) return;
 
 		setCurrentPageNumber(currentPageNumber + n);
-		console.log(currentPageNumber + n);
 		changePageNumber(currentPageNumber + n);
 	};
+
+	useEffect(() => {
+		changePageNumber(currentPageNumber);
+	}, []);
 
 	return (
 		<div className={styles.paginationWrapper}>

@@ -6,6 +6,7 @@ import {
 	setVisibleModal,
 	setVisibleMenuAccountSettings,
 	setUpdateAccounts,
+	setAccountsLength,
 } from '../../../store/slices/app.slice';
 
 import { MdOutlineSettingsEthernet } from 'react-icons/md';
@@ -18,22 +19,37 @@ import AdminService from '../../../services/AdminService';
 import styles from './../styles/Accounts.module.scss';
 import { AdminProfileResponse } from '../../../models/response/AdminResponse';
 import Account from './components/Account';
+import Spinner from '../../../components/spinner';
 
 const Accounts: FC = () => {
 	const dispatch = useDispatch();
 	const {
 		visibleMenuAccountSettings,
 		menuAccountSettingsPosition: menuPosition,
+		updateAccounts,
 	} = useSelector((state: CustomRootState) => state.app);
 	const [profiles, setProfiles] = useState<AdminProfileResponse[]>([]);
-	const [offset] = useState<number>(0);
-	const [limit] = useState<number>(50);
 
-	const intervalRef = useRef<number>(0);
+	const [pagesNumber, setPagesNumber] = useState<number>(
+		JSON.parse(localStorage.getItem('accounts-length') || '0'),
+	);
+	const [limit] = useState<number>(1);
+	const [loading, setLoading] = useState<boolean>(false);
+
+	const offsetRef = useRef<number>(
+		JSON.parse(localStorage.getItem('accounts-offset') || '0'),
+	);
 
 	const getProfiles = async () => {
-		const { data } = await AdminService.getProfiles(offset, limit);
-		setProfiles(data);
+		if (typeof offsetRef.current !== 'number') return;
+		try {
+			const { data } = await AdminService.getProfiles(offsetRef.current, limit);
+			console.log(data);
+			setProfiles(data);
+			setLoading(true);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	const changeBalance = () => {
@@ -48,18 +64,42 @@ const Accounts: FC = () => {
 		dispatch(setUpdateAccounts());
 	};
 
+	const getAllProfiles = async () => {
+		try {
+			const { data } = await AdminService.getProfiles(0, 100000);
+			dispatch(setAccountsLength(data.length));
+			setPagesNumber(Math.ceil(data.length / limit));
+			localStorage.setItem('accounts-length', String(data.length));
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	const changePage = (pageNumber: number) => {
+		const lastOffset = JSON.parse(
+			localStorage.getItem('accounts-offset') || '0',
+		);
+
+		const offset = (pageNumber - 1) * limit;
+		if (offset === lastOffset) return;
+		offsetRef.current = offset;
+		setProfiles([]);
+		setLoading(false);
+		getProfiles();
+		localStorage.setItem('accounts-offset', JSON.stringify(offset));
+		localStorage.setItem('accounts-page', JSON.stringify(pageNumber));
+	};
+
 	const hideMenu = () => {
 		dispatch(setVisibleMenuAccountSettings(false));
 	};
 
 	useEffect(() => {
-		intervalRef.current = setInterval(() => {
-			getProfiles();
-		}, 1000);
+		getProfiles();
+	}, [updateAccounts]);
 
-		return () => {
-			if (intervalRef.current) clearInterval(intervalRef.current);
-		};
+	useEffect(() => {
+		getAllProfiles();
 	}, []);
 
 	return (
@@ -97,12 +137,24 @@ const Accounts: FC = () => {
 				</div>
 				<div>
 					<div className={styles.tableItems}>
-						{profiles.map((profile, idx) => (
-							<Account key={idx} profile={profile} />
-						))}
+						{!loading && (
+							<div className={styles.flexCenter}>
+								<Spinner />
+							</div>
+						)}
+						{loading &&
+							profiles.map((profile, idx) => (
+								<Account key={idx} profile={profile} />
+							))}
 					</div>
+
 					<div style={{ padding: '0px 10px', paddingTop: '10px' }}>
-						<Pagination numbers={10} workPages={1} />
+						<Pagination
+							numbers={pagesNumber > 10 ? pagesNumber : 10}
+							workPages={!pagesNumber ? 1 : pagesNumber}
+							current={JSON.parse(localStorage.getItem('accounts-page') || '0')}
+							changePage={changePage}
+						/>
 					</div>
 				</div>
 			</div>
