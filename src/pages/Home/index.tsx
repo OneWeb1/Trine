@@ -4,13 +4,7 @@ import Spinner from '../../components/spinner';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	setVisibleModal,
-	setAccount,
-	setIsAuth,
-	setIsAction,
-	setAvatars,
-} from '../../store/slices/app.slice';
+import { setVisibleModal, setAccount } from '../../store/slices/app.slice';
 
 import ModalCreateRoom from '../../components/modals/ModalCreateRoom';
 import ModalJoinToCode from '../../components/modals/ModalJoinToCode';
@@ -25,26 +19,27 @@ import Header from '../../components/Header';
 import Button from '../../UI/Button';
 
 import Room from './components/Room';
+import Pagination from '../../components/Pagination';
 
 import AdminService from '../../services/AdminService';
-
-import { AxiosError } from 'axios';
 
 import styles from './../../stylesheet/styles/Home.module.scss';
 
 import { PublicRoomResponse } from '../../models/response/AdminResponse';
-import Pagination from '../../components/Pagination';
-
 const Home: FC = () => {
 	const dispatch = useDispatch();
-	const { visibleModal, avatars } = useSelector(
-		(state: CustomRootState) => state.app,
-	);
+	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
 	const [publicRooms, setPublicRooms] = useState<PublicRoomResponse[]>([]);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const [update, setUpdate] = useState<number>(1);
 	const [loading, setLoading] = useState<boolean>(true);
-
+	const [pagesNumber, setPagesNumber] = useState<number>(
+		JSON.parse(localStorage.getItem('home-rooms-length') || '0'),
+	);
+	const [limit] = useState<number>(8);
+	const [offset, setOffset] = useState<number>(0);
+	const sliceRooms = publicRooms.slice(offset, offset + limit);
+	console.log({ pagesNumber });
 	const intervalRef = useRef<number | null>(null);
 
 	const joinToCodeHandler = () => {
@@ -54,42 +49,33 @@ const Home: FC = () => {
 	const getPublickRooms = async () => {
 		const { data } = await AdminService.getPublicRooms();
 		setPublicRooms(data);
+		setPagesNumber(Math.ceil(data.length / limit));
+		localStorage.setItem(
+			'home-rooms-length',
+			JSON.stringify(Math.ceil(data.length / limit)),
+		);
 	};
 
 	const addStandartAvatar = async () => {
 		const { data } = await AdminService.getAvatars();
-
-		if (!data) return;
 		const id = Math.floor(Math.random() * (data.length - 0));
 		await AdminService.changeAvatar(id);
 	};
 
-	const isAxiosError = (error: any): error is AxiosError => {
-		return error.isAxiosError === true;
+	const initData = async () => {
+		const { data } = await AdminService.getMeProfile();
+		if (!data.avatar_id) addStandartAvatar();
+		dispatch(setAccount(data));
+		await getPublickRooms();
+
+		setLoading(false);
 	};
 
-	const initData = async () => {
-		try {
-			const { data } = await AdminService.getMeProfile();
-			if (typeof data.avatar_id !== 'string') addStandartAvatar();
-			dispatch(setAccount(data));
-			if (!avatars.length) {
-				const response = await AdminService.getAvatars();
-
-				if (!response.data) return;
-				dispatch(setAvatars(response.data));
-			}
-
-			await getPublickRooms();
-
-			setLoading(false);
-		} catch (e: any) {
-			if (isAxiosError(e) && e.response && e.response.status === 401) {
-				localStorage.removeItem('token');
-				localStorage.removeItem('prolong_token');
-				dispatch(setIsAuth(false));
-			}
-		}
+	const changePage = (currentPage: number) => {
+		const offset = (currentPage - 1) * limit;
+		setOffset(offset);
+		setLoading(false);
+		localStorage.setItem('admin-room-page', JSON.stringify(currentPage));
 	};
 
 	useEffect(() => {
@@ -100,7 +86,7 @@ const Home: FC = () => {
 		if (!intervalRef.current) {
 			intervalRef.current = setInterval(() => {
 				setUpdate(prev => prev + 1);
-			}, 1000);
+			}, 3000);
 		}
 
 		window.addEventListener('resize', handleResize);
@@ -111,18 +97,9 @@ const Home: FC = () => {
 		initData();
 
 		return () => {
-			// if (intervalRef.current) clearInterval(intervalRef.current);
 			window.removeEventListener('resize', handleResize);
 		};
 	}, [update]);
-
-	useEffect(() => {
-		const leave = async () => {
-			await AdminService.roomLeave();
-		};
-		dispatch(setIsAction(false));
-		leave();
-	}, []);
 
 	return (
 		<>
@@ -152,18 +129,25 @@ const Home: FC = () => {
 						</div>
 						<div>
 							<div className={styles.publicRooms}>
-								{!publicRooms.length && (
+								{loading && !publicRooms.length && (
 									<div className={styles.empty}>
 										Список кімнат порожній. <br /> Для створення публічних
 										кімнат звяжіться з нашими менеджерами
 									</div>
 								)}
-								{publicRooms.map((room, idx) => (
+								{sliceRooms.map((room, idx) => (
 									<Room key={idx} room={room} hideName={windowWidth > 450} />
 								))}
 							</div>
-							<div style={{ padding: '0px 10px' }}>
-								<Pagination numbers={10} workPages={1} />
+							<div style={{ padding: '0px 10px', paddingTop: '10px' }}>
+								<Pagination
+									numbers={pagesNumber > 10 ? pagesNumber : 10}
+									workPages={!pagesNumber ? 1 : pagesNumber}
+									current={JSON.parse(
+										localStorage.getItem('admin-room-page') || '0',
+									)}
+									changePage={changePage}
+								/>
 							</div>
 						</div>
 					</div>
@@ -201,7 +185,5 @@ const Home: FC = () => {
 		</>
 	);
 };
-
-// sss
 
 export default Home;

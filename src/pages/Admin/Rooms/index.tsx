@@ -14,6 +14,7 @@ import { PublicRoomResponse } from '../../../models/response/AdminResponse';
 import AdminService from '../../../services/AdminService';
 
 import styles from './../styles/Rooms.module.scss';
+import Spinner from '../../../components/spinner';
 
 interface ISettingsRooms {
 	hideName?: boolean;
@@ -27,6 +28,14 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 		(state: CustomRootState) => state.app,
 	);
 	const [publicRooms, setPublicRooms] = useState<PublicRoomResponse[]>([]);
+	const [pagesNumber, setPagesNumber] = useState<number>(
+		JSON.parse(localStorage.getItem('rooms-length') || '0'),
+	);
+	const [limit] = useState<number>(1);
+	const [offset, setOffset] = useState<number>(0);
+	const [loading, setLoading] = useState<boolean>(false);
+	const sliceRooms = publicRooms.slice(offset, offset + limit);
+
 	const isHideName = !hideName === false ? false : true;
 
 	const w = window.innerWidth > 500;
@@ -34,7 +43,20 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	const getPublickRooms = async () => {
 		const { data } = await AdminService.getPublicRooms();
 		if (!data) return;
+		setPagesNumber(Math.ceil(data.length));
 		setPublicRooms(data);
+		if (!loading) setLoading(true);
+		localStorage.setItem(
+			'rooms-length',
+			JSON.stringify(Math.ceil(data.length)),
+		);
+	};
+
+	const changePage = (currentPage: number) => {
+		const offset = (currentPage - 1) * limit;
+		setOffset(offset);
+		setLoading(false);
+		localStorage.setItem('admin-room-page', JSON.stringify(currentPage));
 	};
 
 	useEffect(() => {
@@ -73,17 +95,23 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 
 			<div>
 				<div className={styles.rooms}>
-					{publicRooms.map((room: PublicRoomResponse, idx) => (
-						<Room
-							key={idx}
-							room={room}
-							offset={400}
-							hideName={isHideName}
-							isDelete={true}
-						/>
-					))}
+					{!loading && (
+						<div className={styles.flexCenter}>
+							<Spinner />
+						</div>
+					)}
+					{loading &&
+						sliceRooms.map((room: PublicRoomResponse, idx) => (
+							<Room
+								key={idx}
+								room={room}
+								offset={400}
+								hideName={isHideName}
+								isDelete={true}
+							/>
+						))}
 
-					{!publicRooms.length && (
+					{loading && !publicRooms.length && (
 						<div className={styles.emptyWrapper}>
 							<div className={styles.wrapper}>
 								<div className={styles.title}>
@@ -100,7 +128,12 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 					)}
 				</div>
 				<div style={{ padding: '0px 10px', paddingTop: '10px' }}>
-					<Pagination numbers={10} workPages={1} />
+					<Pagination
+						numbers={pagesNumber > 10 ? pagesNumber : 10}
+						workPages={!pagesNumber ? 1 : pagesNumber}
+						current={JSON.parse(localStorage.getItem('admin-room-page') || '0')}
+						changePage={changePage}
+					/>
 				</div>
 			</div>
 		</div>
