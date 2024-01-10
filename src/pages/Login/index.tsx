@@ -24,6 +24,7 @@ const Login: FC = () => {
 	const [password, setPassword] = useState<string | number>('');
 	const [isChecked, setIsChecked] = useState<boolean>(false);
 	const [isError, setIsError] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const login = async () => {
 		const formData = new FormData();
@@ -31,6 +32,7 @@ const Login: FC = () => {
 		formData.append('password', String(password));
 
 		if (String(email).length > 5 && String(password).length > 3) {
+			setIsLoading(false);
 			try {
 				const { data } = await AuthService.login(formData);
 				dispatch(setIsSubmit(true));
@@ -40,6 +42,7 @@ const Login: FC = () => {
 				dispatch(setIsAuth(true));
 				return <Navigate to='/' />;
 			} catch (e) {
+				setIsLoading(true);
 				setIsError(true);
 			}
 		} else setIsError(true);
@@ -88,7 +91,19 @@ const Login: FC = () => {
 
 						<div className={styles.subtitle}>Вхід за допомогою:</div>
 						<ButtonIcon value='Google' onClick={() => {}} />
-						<Button value='Увійти' onClick={login} />
+						<Button onClick={login}>
+							Увійти
+							{!isLoading && (
+								<div
+									style={{
+										position: 'absolute',
+										marginLeft: '70px',
+										marginTop: '-6px',
+									}}>
+									<Spinner style={{ transform: 'scale(.25)' }} />
+								</div>
+							)}
+						</Button>
 						<div className={styles.isAccount}>
 							Ще немає аккаунту?{' '}
 							<CustomLink value='Зареєструватися' to='/registration' />

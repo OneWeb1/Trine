@@ -39,13 +39,12 @@ const Home: FC = () => {
 	const isRequestRef = useRef<boolean>(true);
 	const [updateRooms, setUpdateRooms] = useState<number>(1);
 	const [pagesNumber, setPagesNumber] = useState<number>(
-		JSON.parse(localStorage.getItem('home-rooms-length') || '0'),
+		JSON.parse(localStorage.getItem('home-room-page') || '0'),
 	);
 	const [limit] = useState<number>(8);
-	const offsetRef = useRef<number>(0);
+	const offsetRef = useRef<number>((pagesNumber - 1) * limit);
 	const loadingRooms = useRef<boolean>(false);
 	const intervalRef = useRef<number | null>(null);
-
 	const joinToCodeHandler = () => {
 		dispatch(setVisibleModal('jc'));
 	};
@@ -61,10 +60,10 @@ const Home: FC = () => {
 		setUpdateRooms(prev => prev + 1);
 		if (isUpdate) {
 			isRequestRef.current = true;
-			setTimeout(() => {
-				if (!loadingRooms.current) loadingRooms.current = true;
-			}, 1500);
 		}
+		setTimeout(() => {
+			if (!loadingRooms.current) loadingRooms.current = true;
+		}, 1500);
 		localStorage.setItem('home-rooms-length', JSON.stringify(data.pages));
 	};
 
@@ -88,13 +87,13 @@ const Home: FC = () => {
 			localStorage.getItem('home-room-page') || '1',
 		);
 		const offset = (page - 1) * limit;
-		if (currentPage === offset) return;
+		if (currentPage === page) return;
 		loadingRooms.current = false;
 		isRequestRef.current = false;
 		setUpdateRooms(prev => prev + 1);
 		offsetRef.current = offset;
 		getPublickRooms(true, true);
-		localStorage.setItem('home-room-page', JSON.stringify(currentPage));
+		localStorage.setItem('home-room-page', JSON.stringify(page));
 	};
 
 	useEffect(() => {

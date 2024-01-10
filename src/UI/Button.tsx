@@ -1,4 +1,4 @@
-import { FC, useRef, CSSProperties } from 'react';
+import { FC, useRef, CSSProperties, ReactNode } from 'react';
 
 import classNames from 'classnames';
 
@@ -6,10 +6,11 @@ import styles from './../stylesheet/styles-ui/Button.module.scss';
 
 interface IButton {
 	style?: CSSProperties;
-	value: string;
+	value?: string;
 	background?: string;
 	className?: string;
 	resize?: boolean;
+	children: ReactNode;
 	onClick: () => void;
 }
 
@@ -19,6 +20,7 @@ const Button: FC<IButton> = ({
 	background,
 	className,
 	resize,
+	children,
 	onClick,
 }) => {
 	const timeRef = useRef<number>(new Date().getTime());
@@ -42,7 +44,7 @@ const Button: FC<IButton> = ({
 			)}
 			style={buttonStyles}
 			onClick={() => handler()}>
-			{value}
+			{value || children}
 		</div>
 	);
 };

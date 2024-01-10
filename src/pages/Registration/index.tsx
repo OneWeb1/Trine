@@ -22,11 +22,13 @@ const Registration: FC = () => {
 	const [isChecked, setIsChecked] = useState<boolean>(false);
 	const [isError, setIsError] = useState<boolean>(false);
 
+	const [isLoading, setIsLoading] = useState<boolean>(true);
+
 	const registerUser = async () => {
 		const formData = new FormData();
 		formData.append('email', String(email));
 		formData.append('password', String(password));
-
+		setIsLoading(true);
 		try {
 			const { data } = await AuthService.registration(formData);
 			dispatch(setIsSubmit(true));
@@ -35,6 +37,7 @@ const Registration: FC = () => {
 			localStorage.setItem('password', String(password));
 			dispatch(setIsAuth(true));
 		} catch (e) {
+			setIsLoading(true);
 			setIsError(true);
 			setTimeout(() => {
 				setIsError(false);
@@ -78,7 +81,19 @@ const Registration: FC = () => {
 
 						<div className={styles.subtitle}>Реєстрація за допомогою:</div>
 						<ButtonIcon value='Google' onClick={() => {}} />
-						<Button value='Зареєструватися' onClick={registerUser} />
+						<Button onClick={registerUser}>
+							Зареєструватися
+							{isLoading && (
+								<div
+									style={{
+										position: 'absolute',
+										marginLeft: '145px',
+										marginTop: '-6px',
+									}}>
+									<Spinner style={{ transform: 'scale(.25)' }} />
+								</div>
+							)}
+						</Button>
 
 						<div className={styles.isAccount}>
 							Чи вже є аккаунт? <CustomLink value='Увійти' to='/login' />
