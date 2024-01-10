@@ -28,7 +28,7 @@ const Registration: FC = () => {
 		const formData = new FormData();
 		formData.append('email', String(email));
 		formData.append('password', String(password));
-		setIsLoading(true);
+		setIsLoading(false);
 		try {
 			const { data } = await AuthService.registration(formData);
 			dispatch(setIsSubmit(true));
