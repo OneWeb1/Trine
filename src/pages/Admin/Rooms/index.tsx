@@ -9,7 +9,7 @@ import Room from '../../Home/components/Room';
 import Button from '../../../UI/Button';
 import Pagination from '../../../components/Pagination';
 
-import { PublicRoomResponse } from '../../../models/response/AdminResponse';
+import { RoomsResponse } from '../../../models/response/AdminResponse';
 
 import AdminService from '../../../services/AdminService';
 
@@ -24,27 +24,25 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	const dispatch = useDispatch();
 	const [update, setUpdate] = useState<number>(1);
 	const intervalRef = useRef<number | null>(null);
-	const { updatePublicRooms } = useSelector(
-		(state: CustomRootState) => state.app,
-	);
-	const [publicRooms, setPublicRooms] = useState<PublicRoomResponse[]>([]);
+	const { updateRoom } = useSelector((state: CustomRootState) => state.app);
+	const [room, setRoom] = useState<RoomsResponse[]>([]);
 	const [pagesNumber, setPagesNumber] = useState<number>(
 		JSON.parse(localStorage.getItem('rooms-length') || '0'),
 	);
 	const [limit] = useState<number>(9);
 	const [offset, setOffset] = useState<number>(0);
 	const [loading, setLoading] = useState<boolean>(false);
-	const sliceRooms = publicRooms.slice(offset, offset + limit);
+	const sliceRooms = room.slice(offset, offset + limit);
 
 	const isHideName = !hideName === false ? false : true;
 
 	const w = window.innerWidth > 500;
 
 	const getPublickRooms = async () => {
-		const { data } = await AdminService.getPublicRooms();
+		const { data } = await AdminService.getRooms();
 		if (!data) return;
 		setPagesNumber(Math.ceil(data.length / limit));
-		setPublicRooms(data);
+		setRoom(data);
 		if (!loading) setLoading(true);
 		localStorage.setItem(
 			'rooms-length',
@@ -69,7 +67,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 			}, 3000);
 			setUpdate(prev => prev + 1);
 		}
-	}, [updatePublicRooms, update]);
+	}, [updateRoom, update]);
 
 	return (
 		<div className={styles.roomsWrapper}>
@@ -101,7 +99,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 						</div>
 					)}
 					{loading &&
-						sliceRooms.map((room: PublicRoomResponse, idx) => (
+						sliceRooms.map((room: RoomsResponse, idx) => (
 							<Room
 								key={idx}
 								room={room}
@@ -111,7 +109,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 							/>
 						))}
 
-					{loading && !publicRooms.length && (
+					{loading && !room.length && (
 						<div className={styles.emptyWrapper}>
 							<div className={styles.wrapper}>
 								<div className={styles.title}>

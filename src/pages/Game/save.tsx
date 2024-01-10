@@ -23,10 +23,10 @@
 
 // import AdminService from '../../services/AdminService';
 
-// import { PublicRoomResponse } from '../../models/response/AdminResponse';
+// import { RoomsResponse } from '../../models/response/AdminResponse';
 // import { IPlayerRoom } from '../Admin/interfaces';
 
-// import { assets, resizeHandler, getRoomIndexPosition } from './utils';
+// import { assets, resizeHandler, getRoomsIndexPosition } from './utils';
 // import styles from './../../stylesheet/styles/Game.module.scss';
 
 // const Game: FC = () => {
@@ -35,8 +35,8 @@
 // 	const { joinRoom, isAction, gameAction, check } = useSelector(
 // 		(state: CustomRootState) => state.app,
 // 	);
-// 	const [roomState, setRoomState] = useState<PublicRoomResponse>(
-// 		{} as PublicRoomResponse,
+// 	const [roomState, setRoomState] = useState<RoomsResponse>(
+// 		{} as RoomsResponse,
 // 	);
 
 // 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
@@ -53,8 +53,8 @@
 // 	// const [lastId, setLastId] = useState<number>(-1);
 // 	const lastMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
 // 	const currentMovePlayerRef = useRef<IPlayerRoom>({} as IPlayerRoom);
-// 	const roomResultStateRef = useRef<PublicRoomResponse>(
-// 		{} as PublicRoomResponse,
+// 	const roomResultStateRef = useRef<RoomsResponse>(
+// 		{} as RoomsResponse,
 // 	);
 // 	const tableRef = useRef<HTMLDivElement>(null);
 // 	const timeoutRef = useRef<number | null>(null);
@@ -66,7 +66,7 @@
 // 		if (timeoutRef.current) return;
 
 // 		timeoutRef.current = setInterval(async () => {
-// 			await getRoomState();
+// 			await getRoomsState();
 // 		}, 1000);
 // 	};
 
@@ -107,7 +107,7 @@
 // 		}
 // 	};
 
-// 	const getRoomState = async () => {
+// 	const getRoomsState = async () => {
 // 		const diffRequestTime =
 // 			(new Date().getTime() - requestStateTime.current) / 1000;
 // 		if (diffRequestTime > 5) {
@@ -173,7 +173,7 @@
 // 			}, 3000);
 // 		}
 // 		setPlayers(room.players);
-// 		setPos(getRoomIndexPosition(room.players.length));
+// 		setPos(getRoomsIndexPosition(room.players.length));
 // 		setRoomState(room);
 // 		setUpdate(prev => (prev += 1));
 // 	};
@@ -218,7 +218,7 @@
 
 // 	useEffect(() => {
 // 		(async () => {
-// 			await getRoomState();
+// 			await getRoomsState();
 // 			setUpdate(1);
 // 			stopPolling();
 // 			startPolling();
@@ -331,7 +331,7 @@
 // 					isHide={false}
 // 					sum={roomResultStateRef.current.bank * 0.95}
 // 					onClick={() => {
-// 						roomResultStateRef.current = {} as PublicRoomResponse;
+// 						roomResultStateRef.current = {} as RoomsResponse;
 // 						dispatch(setGameAction({ state: '' }));
 // 					}}
 // 				/>

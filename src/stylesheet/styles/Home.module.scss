@@ -9,6 +9,10 @@
 	flex-direction: column;
 	display: flex;
 	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 .contentWrapper {
@@ -41,7 +45,7 @@
 		margin-bottom: 15px;
 	}
 
-	.publicRooms {
+	.room {
 		flex: 1 1 100%;
 		min-height: calc(62px * 8);
 		height: calc(62px * 8);

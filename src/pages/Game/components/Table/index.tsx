@@ -26,20 +26,20 @@ import {
 import Player from '../../../../components/Player';
 import FishkaItem from '../../../../components/FishkaItem';
 
-import { resizeHandler, getRoomIndexPosition } from './../../utils';
+import { resizeHandler, getRoomsIndexPosition } from './../../utils';
 
 import AdminService from '../../../../services/AdminService';
 
 import { IPlayerRoom } from '../../../Admin/interfaces';
 
 import styles from './Table.module.scss';
-import { PublicRoomResponse } from '../../../../models/response/AdminResponse';
+import { RoomsResponse } from '../../../../models/response/AdminResponse';
 import GameService from '../../../../services/GameService';
 // import GameService from '../../../../services/GameService';
 
 interface ITable {
-	roomState: PublicRoomResponse;
-	setRoomState: Dispatch<SetStateAction<PublicRoomResponse>>;
+	roomState: RoomsResponse;
+	setRoomState: Dispatch<SetStateAction<RoomsResponse>>;
 	setLoading: Dispatch<SetStateAction<boolean>>;
 	ready: boolean;
 	setReady: Dispatch<SetStateAction<boolean>>;
@@ -90,7 +90,7 @@ const Table: FC<ITable> = ({
 		if (timeoutRef.current) return;
 
 		timeoutRef.current = setInterval(async () => {
-			await getRoomState();
+			await getRoomsState();
 		}, 1000);
 	};
 
@@ -162,7 +162,7 @@ const Table: FC<ITable> = ({
 		}
 	};
 
-	const writeStates = (room: PublicRoomResponse) => {
+	const writeStates = (room: RoomsResponse) => {
 		if (Object.keys(recruitmentStateRef.current).length < room.players.length) {
 			room.players.forEach(player => {
 				const { state, id } = player;
@@ -176,7 +176,7 @@ const Table: FC<ITable> = ({
 		}
 	};
 
-	const showReadyMessage = (room: PublicRoomResponse) => {
+	const showReadyMessage = (room: RoomsResponse) => {
 		room.players.forEach(player => {
 			const prevState = recruitmentStateRef.current[player.id];
 			if (
@@ -211,7 +211,7 @@ const Table: FC<ITable> = ({
 		return states[state];
 	};
 
-	const getRoomState = async () => {
+	const getRoomsState = async () => {
 		const diffRequestTime =
 			(new Date().getTime() - requestStateTime.current) / 1000;
 		if (diffRequestTime > 1) {
@@ -271,7 +271,7 @@ const Table: FC<ITable> = ({
 			}, 3000);
 		}
 		setPlayers(room.players);
-		setPos(getRoomIndexPosition(room.players.length));
+		setPos(getRoomsIndexPosition(room.players.length));
 		setRoomState(room);
 		setUpdate(prev => (prev += 1));
 	};
@@ -296,7 +296,7 @@ const Table: FC<ITable> = ({
 
 	useEffect(() => {
 		(async () => {
-			await getRoomState();
+			await getRoomsState();
 			setUpdate(1);
 			stopPolling();
 			startPolling();

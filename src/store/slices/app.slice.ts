@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
 	AdminProfileResponse,
-	PublicRoomResponse,
+	RoomsResponse,
 } from '../../models/response/AdminResponse';
 
 interface IMenuAccountSettingsPosition {
@@ -36,13 +36,13 @@ interface IState {
 	balance: number;
 	updateAccounts: number;
 	lastPlayerNumber: number;
-	updatePublicRooms: number;
+	updateRoom: number;
 	accountsLength: number;
 	account: AdminProfileResponse;
 	menuAccountSettingsPosition: IMenuAccountSettingsPosition;
-	joinRoom: PublicRoomResponse;
-	roomState: PublicRoomResponse;
-	roomResultState: PublicRoomResponse;
+	joinRoom: RoomsResponse;
+	roomState: RoomsResponse;
+	roomResultState: RoomsResponse;
 }
 const initialState: IState = {
 	avatars: JSON.parse(localStorage.getItem('avatars') || '[]'),
@@ -64,7 +64,7 @@ const initialState: IState = {
 	balance: 0,
 	updateAccounts: 1,
 	lastPlayerNumber: 0,
-	updatePublicRooms: 1,
+	updateRoom: 1,
 	accountsLength: JSON.parse(localStorage.getItem('accounts-length') || '0'),
 	account:
 		JSON.parse(localStorage.getItem('account') || '{}') ||
@@ -72,9 +72,9 @@ const initialState: IState = {
 	menuAccountSettingsPosition: { x: 0, y: 0 },
 	joinRoom:
 		JSON.parse(localStorage.getItem('joinRoom') || '{}') ||
-		({} as PublicRoomResponse),
-	roomState: {} as PublicRoomResponse,
-	roomResultState: {} as PublicRoomResponse,
+		({} as RoomsResponse),
+	roomState: {} as RoomsResponse,
+	roomResultState: {} as RoomsResponse,
 	gameParamId: '',
 };
 
@@ -136,7 +136,7 @@ const appSlice = createSlice({
 			state.updateAccounts++;
 		},
 		setUpdatePublickRooms(state) {
-			state.updatePublicRooms++;
+			state.updateRoom++;
 		},
 		setAccountsLength(state, action) {
 			state.accountsLength = action.payload;

@@ -25,35 +25,47 @@ import AdminService from '../../services/AdminService';
 
 import styles from './../../stylesheet/styles/Home.module.scss';
 
-import { PublicRoomResponse } from '../../models/response/AdminResponse';
+import {
+	// RoomsPageDataResponse,
+	RoomsResponse,
+} from '../../models/response/AdminResponse';
 const Home: FC = () => {
 	const dispatch = useDispatch();
 	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
-	const [publicRooms, setPublicRooms] = useState<PublicRoomResponse[]>([]);
+	const [rooms, setRooms] = useState<RoomsResponse[]>([]);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 	const [update, setUpdate] = useState<number>(1);
 	const [loading, setLoading] = useState<boolean>(true);
+	const isRequestRef = useRef<boolean>(true);
+	const [updateRooms, setUpdateRooms] = useState<number>(1);
 	const [pagesNumber, setPagesNumber] = useState<number>(
 		JSON.parse(localStorage.getItem('home-rooms-length') || '0'),
 	);
 	const [limit] = useState<number>(8);
-	const [offset, setOffset] = useState<number>(0);
-	const sliceRooms = publicRooms.slice(offset, offset + limit);
-	console.log({ pagesNumber });
+	const offsetRef = useRef<number>(0);
+	const loadingRooms = useRef<boolean>(false);
 	const intervalRef = useRef<number | null>(null);
 
 	const joinToCodeHandler = () => {
 		dispatch(setVisibleModal('jc'));
 	};
 
-	const getPublickRooms = async () => {
-		const { data } = await AdminService.getPublicRooms();
-		setPublicRooms(data);
-		setPagesNumber(Math.ceil(data.length / limit));
-		localStorage.setItem(
-			'home-rooms-length',
-			JSON.stringify(Math.ceil(data.length / limit)),
-		);
+	const getPublickRooms = async (isRequest: boolean, isUpdate?: boolean) => {
+		if (!isRequest) return;
+		const { data } = await AdminService.getRooms({
+			offset: offsetRef.current,
+			limit,
+		});
+		setRooms(data.items);
+		setPagesNumber(data.pages);
+		setUpdateRooms(prev => prev + 1);
+		if (isUpdate) {
+			isRequestRef.current = true;
+			setTimeout(() => {
+				if (!loadingRooms.current) loadingRooms.current = true;
+			}, 1500);
+		}
+		localStorage.setItem('home-rooms-length', JSON.stringify(data.pages));
 	};
 
 	const addStandartAvatar = async () => {
@@ -66,15 +78,22 @@ const Home: FC = () => {
 		const { data } = await AdminService.getMeProfile();
 		if (!data.avatar_id) addStandartAvatar();
 		dispatch(setAccount(data));
-		await getPublickRooms();
+		setLoading(true);
 
-		setLoading(false);
+		await getPublickRooms(isRequestRef.current);
 	};
 
-	const changePage = (currentPage: number) => {
-		const offset = (currentPage - 1) * limit;
-		setOffset(offset);
-		setLoading(false);
+	const changePage = (page: number) => {
+		const currentPage = JSON.parse(
+			localStorage.getItem('home-room-page') || '1',
+		);
+		const offset = (page - 1) * limit;
+		if (currentPage === offset) return;
+		loadingRooms.current = false;
+		isRequestRef.current = false;
+		setUpdateRooms(prev => prev + 1);
+		offsetRef.current = offset;
+		getPublickRooms(true, true);
 		localStorage.setItem('home-room-page', JSON.stringify(currentPage));
 	};
 
@@ -95,7 +114,6 @@ const Home: FC = () => {
 		localStorage.removeItem('ready');
 
 		initData();
-
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
@@ -128,17 +146,32 @@ const Home: FC = () => {
 							)}
 						</div>
 						<div>
-							<div className={styles.publicRooms}>
-								{loading && !publicRooms.length && (
-									<div className={styles.empty}>
-										Список кімнат порожній. <br /> Для створення публічних
-										кімнат звяжіться з нашими менеджерами
-									</div>
-								)}
-								{sliceRooms.map((room, idx) => (
-									<Room key={idx} room={room} hideName={windowWidth > 450} />
-								))}
-							</div>
+							{updateRooms && (
+								<div className={styles.room}>
+									{(!loadingRooms.current ||
+										(loadingRooms.current && !rooms.length)) && (
+										<div className={styles.empty}>
+											{!loadingRooms.current && <Spinner />}
+											{loadingRooms.current && !rooms.length && (
+												<div>
+													Список кімнат порожній. <br /> Для створення публічних
+													кімнат звяжіться з нашими менеджерами{' '}
+												</div>
+											)}
+										</div>
+									)}
+
+									{loadingRooms.current &&
+										rooms.map((room, idx) => (
+											<Room
+												key={idx}
+												room={room}
+												hideName={windowWidth > 450}
+											/>
+										))}
+								</div>
+							)}
+
 							<div style={{ padding: '0px 10px', paddingTop: '10px' }}>
 								<Pagination
 									numbers={pagesNumber > 10 ? pagesNumber : 10}
@@ -177,7 +210,7 @@ const Home: FC = () => {
 			)}
 			{visibleModal === 'mr' && <ModalMyRooms />}
 
-			{loading && (
+			{!loading && (
 				<div className='flex-center'>
 					<Spinner />
 				</div>

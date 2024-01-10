@@ -9,7 +9,7 @@ export interface AdminProfileResponse {
 	verified: boolean;
 }
 
-export interface CreatePublicRoomResponse {
+export interface CreateRoomsResponse {
 	name?: string;
 	max_players: number;
 	join_tax: number;
@@ -30,7 +30,7 @@ export interface IPlayerRoom {
 	me: false;
 }
 
-export interface PublicRoomResponse {
+export interface RoomsResponse {
 	name: string;
 	id: string;
 	tax: number;
@@ -44,6 +44,13 @@ export interface PublicRoomResponse {
 	template: boolean;
 	creator_id: number;
 	state: string;
+}
+
+export interface RoomsPageDataResponse {
+	pages: number;
+	page: number;
+	items_count: number;
+	items: RoomsResponse[];
 }
 
 export interface CreatePublicRoomParams {

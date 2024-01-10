@@ -44,7 +44,6 @@ const GameFooter: FC<IGameFooter> = ({
 		await AdminService.do({ action: 'support' });
 	};
 	const raiseHandler = async () => {
-		console.log({ raiseSum, raiseSumDouble: Math.round(raiseSum / 2) });
 		await AdminService.do({ action: 'raise', sum: Math.round(raiseSum) });
 		setRaiseSum(raiseSum * 2);
 		setPercent((raiseSum / maxBid) * 10000);
@@ -68,7 +67,7 @@ const GameFooter: FC<IGameFooter> = ({
 			newRaiseSum;
 		if (!newRaiseSum || fullBid > maxBid) setPercent(0);
 		else setPercent(value);
-		console.log({ value });
+
 		setRaiseSum(newRaiseSum);
 	};
 

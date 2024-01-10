@@ -1,7 +1,7 @@
 import { RefObject } from 'react';
 
 import {
-	PublicRoomResponse,
+	RoomsResponse,
 	IPlayerRoom,
 } from '../../models/response/AdminResponse';
 
@@ -80,20 +80,19 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 	if (window.innerHeight < 300 && window.innerWidth > 700) {
 		table.style.transform = `scale(${0.32}) rotate(${0}deg) translateY(-121px)`;
 	} else if (window.innerHeight < 301 && window.innerWidth < 700) {
-		console.log(777);
 		table.style.transform = `scale(${0.32}) rotate(${0}deg) translateY(0px)`;
 	} else if (window.innerHeight < 420 && window.innerHeight < 1200) {
 		table.style.transform = `scale(${0.45}) rotate(${0}deg)`;
 	} else table.style.transform = `scale(${scale}) rotate(${deg}deg)`;
 };
 
-const getRoomIndexPosition = (length: number): number[] => {
+const getRoomsIndexPosition = (length: number): number[] => {
 	const position = [0, 7, 4, 2, 9, 5, 6, 3, 8, 1, 10];
 
 	return position.slice(0, length).sort((a, b) => a - b);
 };
 
-const sortPlayerRelative = (stateRoom: PublicRoomResponse): IPlayerRoom[] => {
+const sortPlayerRelative = (stateRoom: RoomsResponse): IPlayerRoom[] => {
 	const players = [] as IPlayerRoom[];
 	let isAdd = false;
 	stateRoom.players.forEach(player => {
@@ -108,4 +107,4 @@ const sortPlayerRelative = (stateRoom: PublicRoomResponse): IPlayerRoom[] => {
 	return players;
 };
 // ..//
-export { assets, resizeHandler, getRoomIndexPosition, sortPlayerRelative };
+export { assets, resizeHandler, getRoomsIndexPosition, sortPlayerRelative };

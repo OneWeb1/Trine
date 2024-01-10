@@ -21,7 +21,7 @@ import Spinner from '../../components/spinner';
 
 import AdminService from '../../services/AdminService';
 
-import { PublicRoomResponse } from '../../models/response/AdminResponse';
+import { RoomsResponse } from '../../models/response/AdminResponse';
 import { IPlayerRoom } from '../Admin/interfaces';
 
 import { assets, resizeHandler } from './utils';
@@ -32,8 +32,8 @@ const Game: FC = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { gameAction } = useSelector((state: CustomRootState) => state.app);
-	const [roomState, setRoomState] = useState<PublicRoomResponse>(
-		{} as PublicRoomResponse,
+	const [roomState, setRoomState] = useState<RoomsResponse>(
+		{} as RoomsResponse,
 	);
 
 	const [mePlayer, setMePlayer] = useState<IPlayerRoom>({} as IPlayerRoom);
@@ -174,7 +174,7 @@ const Game: FC = () => {
 					isWin={true}
 					sum={Math.floor(roomState.bank * 0.97)}
 					onClick={() => {
-						setRoomResultState({} as PublicRoomResponse);
+						setRoomResultState({} as RoomsResponse);
 						dispatch(setGameAction({ state: '' }));
 					}}
 				/>

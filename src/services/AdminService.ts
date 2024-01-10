@@ -2,7 +2,8 @@ import {
 	AdminProfileResponse,
 	CreatePublicRoomParams,
 	ProfileMeResponse,
-	PublicRoomResponse,
+	RoomsPageDataResponse,
+	RoomsResponse,
 } from '../models/response/AdminResponse';
 import $api from '../http';
 import { AxiosResponse } from 'axios';
@@ -40,14 +41,22 @@ export default class AdminService {
 		return $api.post<string>(`/room/leave`);
 	}
 
-	static async getPublicRooms(): Promise<AxiosResponse<PublicRoomResponse[]>> {
-		return $api.get<PublicRoomResponse[]>('/room/');
+	static async getRooms({
+		offset,
+		limit,
+	}: {
+		offset: number;
+		limit: number;
+	}): Promise<AxiosResponse<RoomsPageDataResponse>> {
+		return $api.get<RoomsPageDataResponse>(
+			`/room?offset=${offset}&limit=${limit}`,
+		);
 	}
 	static async getPublicRoomByState(
 		id: string,
-	): Promise<AxiosResponse<PublicRoomResponse> | null> {
+	): Promise<AxiosResponse<RoomsResponse> | null> {
 		if (typeof id !== 'string') return null;
-		return $api.get<PublicRoomResponse>(`/room/${id}`);
+		return $api.get<RoomsResponse>(`/room/${id}`);
 	}
 
 	static async getMeProfile(): Promise<AxiosResponse<ProfileMeResponse>> {
@@ -85,26 +94,22 @@ export default class AdminService {
 
 	static async createPublicRoom(
 		params: CreatePublicRoomParams,
-	): Promise<AxiosResponse<PublicRoomResponse>> {
+	): Promise<AxiosResponse<RoomsResponse>> {
 		const nameInUrl = `/room/create?max_players=${params.max_players}&join_tax=${params.join_tax}&max_bid=${params.max_bid}&name=${params.name}`;
 		const nameNotUrl = `/room/create?max_players=${params.max_players}&join_tax=${params.join_tax}&max_bid=${params.max_bid}`;
 		const url = (params.name && nameInUrl) || nameNotUrl;
-		return $api.post<PublicRoomResponse>(url);
+		return $api.post<RoomsResponse>(url);
 	}
 
 	static async do(params: {
 		action: string;
 		sum?: number;
-	}): Promise<AxiosResponse<PublicRoomResponse>> {
+	}): Promise<AxiosResponse<RoomsResponse>> {
 		const query =
 			(params.action === 'raise' && {
 				params: { sum: params.sum },
 			}) ||
 			{};
-		return $api.post<PublicRoomResponse>(
-			`/room/do/${params.action}`,
-			null,
-			query,
-		);
+		return $api.post<RoomsResponse>(`/room/do/${params.action}`, null, query);
 	}
 }
