@@ -39,15 +39,12 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	const w = window.innerWidth > 500;
 
 	const getPublickRooms = async () => {
-		const { data } = await AdminService.getRooms();
+		const { data } = await AdminService.getRooms({ offset, limit });
 		if (!data) return;
-		setPagesNumber(Math.ceil(data.length / limit));
-		setRoom(data);
+		setPagesNumber(data.pages);
+		setRoom(data.items);
 		if (!loading) setLoading(true);
-		localStorage.setItem(
-			'rooms-length',
-			JSON.stringify(Math.ceil(data.length / limit)),
-		);
+		localStorage.setItem('rooms-length', JSON.stringify(data.pages));
 	};
 
 	const changePage = (currentPage: number) => {
