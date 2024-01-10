@@ -33,7 +33,7 @@ const Accounts: FC = () => {
 	const [pagesNumber, setPagesNumber] = useState<number>(
 		JSON.parse(localStorage.getItem('accounts-length') || '0'),
 	);
-	const [limit] = useState<number>(1);
+	const [limit] = useState<number>(8);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const offsetRef = useRef<number>(
