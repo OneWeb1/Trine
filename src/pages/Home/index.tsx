@@ -39,7 +39,7 @@ const Home: FC = () => {
 	const isRequestRef = useRef<boolean>(true);
 	const [updateRooms, setUpdateRooms] = useState<number>(1);
 	const [pagesNumber, setPagesNumber] = useState<number>(
-		JSON.parse(localStorage.getItem('home-room-page') || '0'),
+		JSON.parse(localStorage.getItem('home-room-page') || '1'),
 	);
 	const [limit] = useState<number>(8);
 	const offsetRef = useRef<number>((pagesNumber - 1) * limit);
@@ -63,7 +63,7 @@ const Home: FC = () => {
 		}
 		setTimeout(() => {
 			if (!loadingRooms.current) loadingRooms.current = true;
-		}, 1500);
+		}, 0);
 		localStorage.setItem('home-rooms-length', JSON.stringify(data.pages));
 	};
 

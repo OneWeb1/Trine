@@ -19,6 +19,7 @@ import styles from './../styles/Accounts.module.scss';
 import { AdminProfileResponse } from '../../../models/response/AdminResponse';
 import Account from './components/Account';
 import Spinner from '../../../components/spinner';
+import InputSearch from '../../../UI/InputSearch';
 
 const Accounts: FC = () => {
 	const dispatch = useDispatch();
@@ -34,6 +35,11 @@ const Accounts: FC = () => {
 	);
 	const [limit] = useState<number>(8);
 	const [loading, setLoading] = useState<boolean>(false);
+	const [searchProfile, setSearchProfile] =
+		useState<AdminProfileResponse | null>(null);
+
+	const [searchId, setSearchId] = useState<string>('');
+	const [isNotFound, setIsNotFound] = useState(false);
 
 	const offsetRef = useRef<number>(
 		JSON.parse(localStorage.getItem('accounts-offset') || '0'),
@@ -86,9 +92,37 @@ const Accounts: FC = () => {
 		getProfiles();
 	}, [updateAccounts]);
 
-	// useEffect(() => {
-	// 	getAllProfiles();
-	// }, []);
+	useEffect(() => {
+		const profileId = parseInt(searchId);
+		if (searchId.length) {
+			setIsNotFound(true);
+		} else {
+			setIsNotFound(false);
+		}
+
+		if (!isNaN(profileId)) {
+			setLoading(false);
+		} else {
+			setLoading(true);
+		}
+		const Debounce = setTimeout(async () => {
+			try {
+				if (profileId === 0 || profileId) {
+					const { data } = await AdminService.getProfileById(profileId);
+					setSearchProfile(data);
+					setLoading(true);
+				} else {
+					setSearchProfile(null);
+				}
+			} catch (e) {
+				console.log('CATCH');
+				setSearchProfile(null);
+				setLoading(true);
+				console.log(e);
+			}
+		}, 500);
+		return () => clearTimeout(Debounce);
+	}, [searchId]);
 
 	return (
 		<>
@@ -99,6 +133,12 @@ const Accounts: FC = () => {
 						style={{ fontSize: window.innerWidth < 600 ? '12px' : '18px' }}>
 						Аккаунти
 					</div>
+
+					<InputSearch
+						value={searchId}
+						placeholder='Пошук по ID аккаунту'
+						onChange={setSearchId}
+					/>
 				</div>
 				<div
 					className={styles.tableHeader}
@@ -130,10 +170,25 @@ const Accounts: FC = () => {
 								<Spinner />
 							</div>
 						)}
+
+						{loading && searchProfile && (
+							<div style={{ display: !searchId ? 'none' : 'flex' }}>
+								<Account key={0} profile={searchProfile} />
+							</div>
+						)}
 						{loading &&
+							!searchId &&
 							profiles.map((profile, idx) => (
 								<Account key={idx} profile={profile} />
 							))}
+
+						{!searchProfile && isNotFound && searchId && (
+							<div
+								style={{ display: !loading ? 'none' : 'flex' }}
+								className={styles.flexCenter}>
+								Аккаунта з таким ID не існує
+							</div>
+						)}
 					</div>
 
 					<div style={{ padding: '0px 10px', paddingTop: '10px' }}>

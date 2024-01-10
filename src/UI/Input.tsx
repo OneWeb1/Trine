@@ -7,7 +7,7 @@ import styles from './../stylesheet/styles-ui/Input.module.scss';
 
 interface IInput {
 	type: string;
-	label: string;
+	label?: string;
 	placeholder: string;
 	value?: number | string;
 	readOnly?: boolean | null;
@@ -28,7 +28,7 @@ const Input: FC<IInput> = ({
 	const [visiblePassword, setVisiblePassword] = useState<boolean>(false);
 	return (
 		<div className={styles.inputWrapper}>
-			<div className={styles.label}>{label}</div>
+			{label && <div className={styles.label}>{label}</div>}
 
 			{children ? (
 				<div className={styles.flexInput}>

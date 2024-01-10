@@ -31,14 +31,13 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	);
 	const [limit] = useState<number>(9);
 	const [offset, setOffset] = useState<number>(
-		(JSON.parse(localStorage.getItem('admin-room-page') || '0') - 1) * limit,
+		(JSON.parse(localStorage.getItem('admin-room-page') || '1') - 1) * limit,
 	);
 	const loadingRef = useRef<boolean>(false);
 
 	const isHideName = !hideName === false ? false : true;
 
 	const w = window.innerWidth > 500;
-
 	const getPublickRooms = async () => {
 		const { data } = await AdminService.getRooms({ offset, limit });
 		if (!data) return;
@@ -131,7 +130,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 					<Pagination
 						numbers={pagesNumber > 10 ? pagesNumber : 10}
 						workPages={!pagesNumber ? 1 : pagesNumber}
-						current={JSON.parse(localStorage.getItem('admin-room-page') || '0')}
+						current={JSON.parse(localStorage.getItem('admin-room-page') || '1')}
 						changePage={changePage}
 					/>
 				</div>

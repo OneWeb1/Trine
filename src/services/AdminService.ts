@@ -20,10 +20,10 @@ export default class AdminService {
 	}
 
 	static async getProfileById(
-		id: string,
+		id: number,
 	): Promise<AxiosResponse<AdminProfileResponse>> {
 		return $api.get<AdminProfileResponse>(`/admin/profile/${id}`, {
-			params: { id },
+			// params: { id },
 		});
 	}
 
