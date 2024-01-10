@@ -83,7 +83,7 @@ const Registration: FC = () => {
 						<ButtonIcon value='Google' onClick={() => {}} />
 						<Button onClick={registerUser}>
 							Зареєструватися
-							{isLoading && (
+							{!isLoading && (
 								<div
 									style={{
 										position: 'absolute',

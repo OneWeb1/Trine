@@ -10,7 +10,7 @@ interface IButton {
 	background?: string;
 	className?: string;
 	resize?: boolean;
-	children: ReactNode;
+	children?: ReactNode;
 	onClick: () => void;
 }
 
