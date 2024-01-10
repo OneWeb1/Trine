@@ -31,7 +31,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	const [pagesNumber, setPagesNumber] = useState<number>(
 		JSON.parse(localStorage.getItem('rooms-length') || '0'),
 	);
-	const [limit] = useState<number>(1);
+	const [limit] = useState<number>(9);
 	const [offset, setOffset] = useState<number>(0);
 	const [loading, setLoading] = useState<boolean>(false);
 	const sliceRooms = publicRooms.slice(offset, offset + limit);
@@ -43,12 +43,12 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	const getPublickRooms = async () => {
 		const { data } = await AdminService.getPublicRooms();
 		if (!data) return;
-		setPagesNumber(Math.ceil(data.length));
+		setPagesNumber(Math.ceil(data.length / limit));
 		setPublicRooms(data);
 		if (!loading) setLoading(true);
 		localStorage.setItem(
 			'rooms-length',
-			JSON.stringify(Math.ceil(data.length)),
+			JSON.stringify(Math.ceil(data.length / limit)),
 		);
 	};
 

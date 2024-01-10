@@ -75,7 +75,7 @@ const Home: FC = () => {
 		const offset = (currentPage - 1) * limit;
 		setOffset(offset);
 		setLoading(false);
-		localStorage.setItem('admin-room-page', JSON.stringify(currentPage));
+		localStorage.setItem('home-room-page', JSON.stringify(currentPage));
 	};
 
 	useEffect(() => {
@@ -144,7 +144,7 @@ const Home: FC = () => {
 									numbers={pagesNumber > 10 ? pagesNumber : 10}
 									workPages={!pagesNumber ? 1 : pagesNumber}
 									current={JSON.parse(
-										localStorage.getItem('admin-room-page') || '0',
+										localStorage.getItem('home-room-page') || '0',
 									)}
 									changePage={changePage}
 								/>
