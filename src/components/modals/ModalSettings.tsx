@@ -1,10 +1,14 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import classNames from 'classnames';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAccount, setVisibleModal } from '../../store/slices/app.slice';
+import {
+	setAccount,
+	setAvatars,
+	setVisibleModal,
+} from '../../store/slices/app.slice';
 
 import Modal from './Modal';
 import Input from '../../UI/Input';
@@ -74,6 +78,20 @@ const ModalSettings: FC = () => {
 	const selectAvatar = (id: string) => {
 		setSelectAvatarId(id);
 	};
+
+	useEffect(() => {
+		const getAvatars = async () => {
+			try {
+				const { data: avatars } = await AdminService.getAvatars();
+				dispatch(setAvatars(avatars));
+			} catch (e) {
+				console.log(e);
+			}
+		};
+		if (!avatars.length) {
+			getAvatars();
+		}
+	}, []);
 
 	return (
 		<Modal title='Налаштування' score={`#${account.id}`}>
