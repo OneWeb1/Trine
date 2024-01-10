@@ -6,7 +6,6 @@ import {
 	setVisibleModal,
 	setVisibleMenuAccountSettings,
 	setUpdateAccounts,
-	setAccountsLength,
 } from '../../../store/slices/app.slice';
 
 import { MdOutlineSettingsEthernet } from 'react-icons/md';
@@ -44,8 +43,8 @@ const Accounts: FC = () => {
 		if (typeof offsetRef.current !== 'number') return;
 		try {
 			const { data } = await AdminService.getProfiles(offsetRef.current, limit);
-			console.log(data);
-			setProfiles(data);
+			setProfiles(data.items);
+			setPagesNumber(data.pages);
 			setLoading(true);
 		} catch (e) {
 			console.log(e);
@@ -62,17 +61,6 @@ const Accounts: FC = () => {
 		const account = JSON.parse(storageAccount);
 		AdminService.removeProfileById(account.id);
 		dispatch(setUpdateAccounts());
-	};
-
-	const getAllProfiles = async () => {
-		try {
-			const { data } = await AdminService.getProfiles(0, 100000);
-			dispatch(setAccountsLength(data.length));
-			setPagesNumber(Math.ceil(data.length / limit));
-			localStorage.setItem('accounts-length', String(data.length));
-		} catch (e) {
-			console.log(e);
-		}
 	};
 
 	const changePage = (pageNumber: number) => {
@@ -98,9 +86,9 @@ const Accounts: FC = () => {
 		getProfiles();
 	}, [updateAccounts]);
 
-	useEffect(() => {
-		getAllProfiles();
-	}, []);
+	// useEffect(() => {
+	// 	getAllProfiles();
+	// }, []);
 
 	return (
 		<>

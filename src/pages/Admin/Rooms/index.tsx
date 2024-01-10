@@ -25,14 +25,15 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	const [update, setUpdate] = useState<number>(1);
 	const intervalRef = useRef<number | null>(null);
 	const { updateRoom } = useSelector((state: CustomRootState) => state.app);
-	const [room, setRoom] = useState<RoomsResponse[]>([]);
+	const [rooms, setRooms] = useState<RoomsResponse[]>([]);
 	const [pagesNumber, setPagesNumber] = useState<number>(
-		JSON.parse(localStorage.getItem('rooms-length') || '0'),
+		JSON.parse(localStorage.getItem('room-pages-length') || '1'),
 	);
 	const [limit] = useState<number>(9);
-	const [offset, setOffset] = useState<number>(0);
-	const [loading, setLoading] = useState<boolean>(false);
-	const sliceRooms = room.slice(offset, offset + limit);
+	const [offset, setOffset] = useState<number>(
+		(JSON.parse(localStorage.getItem('admin-room-page') || '0') - 1) * limit,
+	);
+	const loadingRef = useRef<boolean>(false);
 
 	const isHideName = !hideName === false ? false : true;
 
@@ -42,18 +43,22 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 		const { data } = await AdminService.getRooms({ offset, limit });
 		if (!data) return;
 		setPagesNumber(data.pages);
-		setRoom(data.items);
-		if (!loading) setLoading(true);
-		localStorage.setItem('rooms-length', JSON.stringify(data.pages));
+		setRooms(data.items);
+		if (!loadingRef.current) loadingRef.current = true;
+		localStorage.setItem('room-pages-length', JSON.stringify(data.pages));
 	};
 
-	const changePage = (currentPage: number) => {
-		const offset = (currentPage - 1) * limit;
+	const changePage = (page: number) => {
+		const currentPage = JSON.parse(
+			localStorage.getItem('admin-room-page') || '1',
+		);
+		if (currentPage === page) return;
+
+		const offset = (page - 1) * limit;
 		setOffset(offset);
-		setLoading(false);
-		localStorage.setItem('admin-room-page', JSON.stringify(currentPage));
+		loadingRef.current = false;
+		localStorage.setItem('admin-room-page', JSON.stringify(page));
 	};
-
 	useEffect(() => {
 		setTimeout(() => {
 			getPublickRooms();
@@ -90,13 +95,13 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 
 			<div>
 				<div className={styles.rooms}>
-					{!loading && (
+					{!loadingRef.current && (
 						<div className={styles.flexCenter}>
 							<Spinner />
 						</div>
 					)}
-					{loading &&
-						sliceRooms.map((room: RoomsResponse, idx) => (
+					{loadingRef.current &&
+						rooms.map((room: RoomsResponse, idx) => (
 							<Room
 								key={idx}
 								room={room}
@@ -106,7 +111,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 							/>
 						))}
 
-					{loading && !room.length && (
+					{loadingRef.current && !rooms.length && (
 						<div className={styles.emptyWrapper}>
 							<div className={styles.wrapper}>
 								<div className={styles.title}>

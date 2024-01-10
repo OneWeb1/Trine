@@ -70,3 +70,10 @@ export interface ProfileMeResponse {
 	balance: number;
 	verified: false;
 }
+
+export interface ProfilesPageDataResponse {
+	pages: number;
+	page: number;
+	items_count: number;
+	items: ProfileMeResponse[];
+}

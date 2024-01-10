@@ -2,6 +2,7 @@ import {
 	AdminProfileResponse,
 	CreatePublicRoomParams,
 	ProfileMeResponse,
+	ProfilesPageDataResponse,
 	RoomsPageDataResponse,
 	RoomsResponse,
 } from '../models/response/AdminResponse';
@@ -12,8 +13,8 @@ export default class AdminService {
 	static async getProfiles(
 		offset: number,
 		limit: number,
-	): Promise<AxiosResponse<AdminProfileResponse[]>> {
-		return $api.get<AdminProfileResponse[]>('/admin/profile/', {
+	): Promise<AxiosResponse<ProfilesPageDataResponse>> {
+		return $api.get<ProfilesPageDataResponse>('/admin/profile/', {
 			params: { offset, limit },
 		});
 	}
