@@ -13,7 +13,7 @@
 			top: 5px;
 			left: 5px;
 			background-color: rgba(0, 0, 0, 0.5);
-			border-radius: 10px;
+			border-radius: 100px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -47,7 +47,7 @@
 	}
 
 	.anim {
-		animation: moved 3s linear infinite;
+		// animation: moved 3s linear infinite;
 		box-shadow: 0px 0px 20px #00ff7b;
 	}
 
@@ -55,7 +55,7 @@
 		position: relative;
 		width: 90px;
 		height: 90px;
-		border-radius: 10px;
+		border-radius: 100px;
 		overflow: hidden;
 		margin-bottom: 5px;
 
@@ -68,23 +68,31 @@
 			img {
 				width: 100%;
 				height: 100%;
-				border-radius: 10px;
+				border-radius: 100px;
 			}
 		}
 	}
 
 	.name {
 		position: absolute;
-		max-width: 140px;
-		width: 140px;
+		max-width: 100px;
+		width: 100px;
+		height: 30px;
+		margin-top: -20px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		font-weight: 700;
 		font-size: 16px;
 		text-align: center;
-		margin-left: -25px;
+		margin-left: -5px;
 		color: #ffffff;
+		border-radius: 10px;
+		background-color: #00183d;
+		border: 2px solid #011027;
 	}
 
 	.timeLoader {

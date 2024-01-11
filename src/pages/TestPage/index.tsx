@@ -1,20 +1,14 @@
 import { FC } from 'react';
 
-import ModalAfterGame from '../../components/modals/ModalAfterGame';
+// import ModalAfterGame from '../../components/modals/ModalAfterGame';
 
 import styles from './TestPage.module.scss';
+import CircleTimer from '../../components/timer';
 
 const TestPage: FC = () => {
 	return (
 		<div className={styles.page}>
-			<ModalAfterGame
-				title='Ви виграли'
-				message='Сума виграшу'
-				isHide={false}
-				isWin={true}
-				sum={500}
-				onClick={() => {}}
-			/>
+			<CircleTimer />
 		</div>
 	);
 };

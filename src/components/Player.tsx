@@ -14,6 +14,7 @@ import { IPlayerRoom } from '../models/response/AdminResponse';
 
 import styles from './../stylesheet/styles-components/Players.module.scss';
 import AdminService from '../services/AdminService';
+import CircleTimer from './timer';
 // import { setVisibleStateMessage } from '../store/slices/app.slice';
 
 interface IPlayer {
@@ -128,6 +129,8 @@ const Player: FC<IPlayer> = ({
 		if (!blockedRePositionRef.current) setPosition();
 	});
 
+	console.log(player.time_for_move);
+
 	return (
 		<div
 			className={styles.player}
@@ -168,6 +171,9 @@ const Player: FC<IPlayer> = ({
 					</>
 				)}
 				<div ref={avatarRef} className={styles.avatarWrapper}>
+					{(player.state === 'move' || player.me) &&
+						player.time_for_move > 0 && <CircleTimer />}
+
 					{!player.cards.includes('*') && !player.me && (
 						<div
 							style={{
@@ -194,7 +200,9 @@ const Player: FC<IPlayer> = ({
 						style={{
 							marginTop: '5px',
 						}}>
-						{/* {player.state === 'move' && <div className={styles.timeLoader}></div>} */}
+						{/* {player.state === 'move' && (
+							// <div className={styles.timeLoader}></div>
+						)} */}
 
 						<div
 							className={styles.border}

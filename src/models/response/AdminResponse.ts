@@ -28,6 +28,7 @@ export interface IPlayerRoom {
 	last_move: string;
 	last_polling_time: number;
 	me: false;
+	time_for_move: number;
 }
 
 export interface RoomsResponse {

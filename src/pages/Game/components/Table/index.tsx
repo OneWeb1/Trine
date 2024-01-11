@@ -109,6 +109,7 @@ const Table: FC<ITable> = ({
 		if (roomState.state === 'bidding') {
 			isWriteReadyState.current = false;
 		}
+
 		roomState.players.forEach(player => {
 			if (
 				player.me &&
@@ -185,7 +186,6 @@ const Table: FC<ITable> = ({
 			) {
 				playersReadyRef.current.push(player.id);
 				delete recruitmentStateRef.current[player.id];
-				console.log(player.nickname, 'Готовий');
 				dispatch(
 					setVisibleStateMessage({
 						visible: true,
@@ -242,6 +242,9 @@ const Table: FC<ITable> = ({
 		if (!room.players) return;
 		room.players.forEach(async player => {
 			if (player.me) {
+				if (player.time_for_move < 0) {
+					await AdminService.do({ action: 'drop' });
+				}
 				setMePlayer(player);
 			}
 		});
@@ -257,7 +260,6 @@ const Table: FC<ITable> = ({
 				player => player.id === lastMovePlayerRef.current.id,
 			)?.last_move;
 			const moveMessageText = translateStateToMessage(String(lastMove));
-			console.log({ moveMessageText });
 			if (!moveMessageText) return;
 			dispatch(
 				setVisibleStateMessage({

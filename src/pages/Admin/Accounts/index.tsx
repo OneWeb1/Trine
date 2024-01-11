@@ -115,7 +115,6 @@ const Accounts: FC = () => {
 					setSearchProfile(null);
 				}
 			} catch (e) {
-				console.log('CATCH');
 				setSearchProfile(null);
 				setLoading(true);
 				console.log(e);
@@ -152,7 +151,9 @@ const Accounts: FC = () => {
 						<div>Обліковий запис</div>
 					</div>
 					<div className={styles.rightWrapper}>
-						<div className={styles.balanceColumn}>Баланс</div>
+						<div style={{ width: '150px' }} className={styles.balanceColumn}>
+							Баланс
+						</div>
 						<div
 							className={styles.dateCreated}
 							style={{ maxWidth: '150px', width: '150px' }}>

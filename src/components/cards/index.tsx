@@ -15,7 +15,7 @@ interface ITreeCards {
 const TreeCards: FC<ITreeCards> = ({ cards, number, visible, style }) => {
 	const type = 'png';
 	const cardsItem = cards && cards.length ? cards : ['fb', 'fb', 'fb'];
-	console.log(cards);
+
 	const baseCardsUrl = './assets/cards-png';
 
 	const cssStyle = (style && {

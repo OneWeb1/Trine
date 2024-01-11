@@ -1,0 +1,76 @@
+.circleProgress_wrapper {
+	position: absolute;
+	left: -17.5px;
+	top: -35px;
+	width: calc(96px * 1.3);
+	height: calc(96px * 1.3);
+	color: #fff;
+	margin: 16px auto;
+	text-align: center;
+	line-height: 3rem;
+}
+.right {
+	right: 0;
+}
+.wrapper {
+	position: absolute;
+	width: calc(48px * 1.3);
+	height: calc(96px * 1.3);
+	top: 0;
+	overflow: hidden;
+}
+.circleProgress {
+	width: calc(70.4px * 1.3);
+	height: calc(70.4px * 1.3);
+	border: calc(12.8px * 1.3) solid #ff0000;
+	border-radius: 50%;
+	box-sizing: content-box;
+	position: absolute;
+	top: 0;
+}
+.rightcircle {
+	border-top: calc(12.8px * 1.3) solid #00ff80;
+	border-right: calc(12.8px * 1.3) solid #00ff80;
+	right: 0;
+}
+.leftcircle {
+	border-bottom: calc(12.8px * 1.3) solid #00ff80;
+	border-left: calc(12.8px * 1.3) solid #00ff80;
+	left: 0;
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+.right_cartoon {
+	-webkit-animation: circleProgressLoad_right 22s linear infinite forwards;
+	animation: circleProgressLoad_right 22s linear infinite forwards;
+}
+.left_cartoon {
+	-webkit-animation: circleProgressLoad_left 22s linear infinite forwards;
+	animation: circleProgressLoad_left 22s linear infinite forwards;
+}
+
+@keyframes circleProgressLoad_right {
+	0% {
+		-webkit-transform: rotate(46deg);
+		transform: rotate(46deg);
+	}
+
+	50%,
+	to {
+		-webkit-transform: rotate(-136deg);
+		transform: rotate(-136deg);
+	}
+}
+
+@keyframes circleProgressLoad_left {
+	0%,
+	50% {
+		-webkit-transform: rotate(46deg);
+		transform: rotate(46deg);
+	}
+
+	to {
+		-webkit-transform: rotate(-136deg);
+		transform: rotate(-136deg);
+	}
+}
