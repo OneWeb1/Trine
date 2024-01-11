@@ -41,12 +41,12 @@
 	transform: rotate(90deg);
 }
 .right_cartoon {
-	-webkit-animation: circleProgressLoad_right 22s linear infinite forwards;
-	animation: circleProgressLoad_right 22s linear infinite forwards;
+	-webkit-animation: circleProgressLoad_right 20s linear infinite forwards;
+	animation: circleProgressLoad_right 20s linear infinite forwards;
 }
 .left_cartoon {
-	-webkit-animation: circleProgressLoad_left 22s linear infinite forwards;
-	animation: circleProgressLoad_left 22s linear infinite forwards;
+	-webkit-animation: circleProgressLoad_left 20s linear infinite forwards;
+	animation: circleProgressLoad_left 20s linear infinite forwards;
 }
 
 @keyframes circleProgressLoad_right {
