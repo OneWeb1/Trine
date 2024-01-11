@@ -44,13 +44,26 @@ const GameFooter: FC<IGameFooter> = ({
 		await AdminService.do({ action: 'support' });
 	};
 	const raiseHandler = async () => {
-		await AdminService.do({ action: 'raise', sum: Math.round(raiseSum) });
-		setRaiseSum(raiseSum * 2);
-		setPercent((raiseSum / maxBid) * 10000);
+		try {
+			const { data } = await AdminService.do({
+				action: 'raise',
+				sum: Math.round(raiseSum),
+			});
+			setRaiseSum(raiseSum * 2);
+			setPercent((raiseSum / maxBid) * 10000);
+			if (data) return true;
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	const dropHandler = async () => {
-		await AdminService.do({ action: 'drop' });
+		try {
+			const { data } = await AdminService.do({ action: 'drop' });
+			if (data) return true;
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	const changePercent = (e: ChangeEvent<HTMLInputElement>) => {
@@ -110,8 +123,9 @@ const GameFooter: FC<IGameFooter> = ({
 						<ButtonSpecial
 							className={styles.buttonReady}
 							disabled={true}
+							wait={true}
 							title='Готовий'
-							onClick={() => {
+							onClick={async () => {
 								readyHandler();
 							}}
 						/>
@@ -162,6 +176,7 @@ const GameFooter: FC<IGameFooter> = ({
 												/>
 											}
 											disabled={raiseSum === 0 ? raiseSum !== 0 : isEnable}
+											wait={false}
 											onClick={raiseHandler}
 										/>
 										<ButtonSpecial
@@ -172,6 +187,7 @@ const GameFooter: FC<IGameFooter> = ({
 											title='Підтримати'
 											number={bid}
 											disabled={isEnable}
+											wait={false}
 											onClick={supportHandler}
 										/>
 										<ButtonSpecial
@@ -182,6 +198,7 @@ const GameFooter: FC<IGameFooter> = ({
 											}
 											iconCenter={true}
 											disabled={isEnable}
+											wait={true}
 											onClick={dropHandler}
 										/>
 									</div>

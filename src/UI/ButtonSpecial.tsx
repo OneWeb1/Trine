@@ -1,8 +1,9 @@
-import { CSSProperties, FC, ReactNode } from 'react';
+import { FC, useState, ReactNode, CSSProperties } from 'react';
 
 import classNames from 'classnames';
 
 import styles from './../stylesheet/styles-ui/Button.module.scss';
+import Spinner from '../components/spinner';
 
 interface IButtonSpecial {
 	title: string;
@@ -11,6 +12,7 @@ interface IButtonSpecial {
 	disabled: boolean;
 	style?: CSSProperties;
 	className?: string;
+	wait?: boolean;
 	iconCenter?: boolean;
 	icon?: ReactNode;
 	onClick?: () => void;
@@ -23,11 +25,22 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 	icon,
 	style,
 	className,
+	wait,
 	iconCenter,
 	numberVisible,
 	onClick,
 }) => {
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const initHandler = () => {};
+	const interceptorHandler = async () => {
+		setIsLoading(true);
+		if (onClick) {
+			onClick();
+		}
+		if (wait === false) {
+			setIsLoading(false);
+		}
+	};
 
 	const wm450 = window.innerWidth < 450;
 
@@ -39,7 +52,7 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 				className,
 			)}
 			style={{ ...style, opacity: !disabled ? 0.5 : 1 }}
-			onClick={(disabled && onClick) || initHandler}>
+			onClick={(disabled && interceptorHandler) || initHandler}>
 			{icon && (
 				<div
 					className={styles.icon}
@@ -56,10 +69,22 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 						style={{
 							paddingTop: numberVisible !== false ? '12px' : '2px',
 						}}>
-						{title}
+						{(isLoading && wait && (
+							<div style={{ marginTop: '-10px' }}>
+								<Spinner />
+							</div>
+						)) ||
+							title}
 					</div>
 					{number && numberVisible !== false && (
-						<div className={styles.number}>{number}</div>
+						<div className={styles.number}>
+							{(wait === false && isLoading && (
+								<div style={{ marginTop: '-10px' }}>
+									<Spinner />
+								</div>
+							)) ||
+								number}
+						</div>
 					)}
 				</div>
 			</div>

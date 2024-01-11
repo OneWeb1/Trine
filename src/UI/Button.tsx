@@ -1,8 +1,9 @@
-import { FC, useRef, CSSProperties, ReactNode } from 'react';
+import { FC, useState, useRef, CSSProperties, ReactNode } from 'react';
 
 import classNames from 'classnames';
 
 import styles from './../stylesheet/styles-ui/Button.module.scss';
+import Spinner from '../components/spinner';
 
 interface IButton {
 	style?: CSSProperties;
@@ -23,6 +24,7 @@ const Button: FC<IButton> = ({
 	children,
 	onClick,
 }) => {
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const timeRef = useRef<number>(new Date().getTime());
 	const isResize = resize || false;
 	const styleProps = style || {};
@@ -31,6 +33,8 @@ const Button: FC<IButton> = ({
 	const handler = () => {
 		const date = new Date().getTime();
 		if (date - timeRef.current > 100) {
+			console.log('click');
+			setIsLoading(true);
 			onClick();
 			timeRef.current = date;
 		}
@@ -44,7 +48,7 @@ const Button: FC<IButton> = ({
 			)}
 			style={buttonStyles}
 			onClick={() => handler()}>
-			{value || children}
+			{(isLoading && <Spinner />) || value || children}
 		</div>
 	);
 };

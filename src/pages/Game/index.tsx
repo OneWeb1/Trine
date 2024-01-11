@@ -51,7 +51,8 @@ const Game: FC = () => {
 
 	const readyHandler = async () => {
 		try {
-			await AdminService.roomIsReady(true);
+			const { data } = await AdminService.roomIsReady(true);
+			if (data) return true;
 		} catch (e) {
 			console.log(e);
 		}
