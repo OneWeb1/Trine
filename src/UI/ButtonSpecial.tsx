@@ -70,7 +70,7 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 							paddingTop: numberVisible !== false ? '12px' : '2px',
 						}}>
 						{(isLoading && wait && (
-							<div style={{ marginTop: '-10px' }}>
+							<div className={styles.flexSpinner}>
 								<Spinner />
 							</div>
 						)) ||
@@ -79,7 +79,7 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 					{number && numberVisible !== false && (
 						<div className={styles.number}>
 							{(wait === false && isLoading && (
-								<div style={{ marginTop: '-10px' }}>
+								<div className={styles.flexSpinner}>
 									<Spinner />
 								</div>
 							)) ||
