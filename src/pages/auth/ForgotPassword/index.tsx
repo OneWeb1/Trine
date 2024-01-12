@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
 
 import { RootState as CustomRootState } from '../../../store/rootReducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { setIsAuth, setIsSubmit } from '../../../store/slices/app.slice';
+import { useSelector } from 'react-redux';
+// import { setIsAuth, setIsSubmit } from '../../../store/slices/app.slice';
 // import AuthService from '../../../services/AuthService';
 
 // import { Navigate } from 'react-router-dom';
@@ -11,13 +11,13 @@ import Input from '../../../UI/Input';
 
 import styles from './../../../stylesheet/styles/Auth.module.scss';
 import Spinner from '../../../components/spinner';
-import AdminService from '../../../services/AdminService';
+// import AdminService from '../../../services/AdminService';
 import AuthService from '../../../services/AuthService';
 
 // da
 
 const ForgotPassword: FC = () => {
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const { isSubmit } = useSelector((state: CustomRootState) => state.app);
 	const [email, setEmail] = useState<string | number>('');
 	const [isError, setIsError] = useState<boolean>(false);

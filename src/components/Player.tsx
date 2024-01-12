@@ -137,6 +137,7 @@ const Player: FC<IPlayer> = ({
 			ref={ref}
 			style={{
 				display: (index === 0 && 'flex') || '',
+				marginLeft: player.me ? '15px' : '0px',
 				// opacity: player.state === 'defeat' ? 0.3 : 1,
 			}}>
 			<div>
@@ -251,7 +252,7 @@ const Player: FC<IPlayer> = ({
 										position: 'absolute',
 										left: '0',
 										top: '-10px',
-										width: '170px',
+										width: '180px',
 										transform: 'scale(.2)',
 									}}
 									cards={['fb', 'fb', 'fb', 'jpg']}
@@ -265,14 +266,14 @@ const Player: FC<IPlayer> = ({
 				<div className={styles.cards}>
 					{!isVisibleCards && (
 						<TreeCards
-							style={{ marginTop: '-25px', marginLeft: '50px' }}
+							style={{ width: '180px', marginTop: '-25px', marginLeft: '50px' }}
 							visible={true}
 							cards={['fb', 'fb', 'fb']}
 						/>
 					)}
 					{isVisibleCards && (
 						<TreeCards
-							style={{ marginTop: '-25px', marginLeft: '50px' }}
+							style={{ width: '180px', marginTop: '-25px', marginLeft: '50px' }}
 							visible={isVisibleCards}
 							cards={cards}
 							number={player.cards_sum}
