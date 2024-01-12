@@ -27,7 +27,7 @@ import AdminService from '../../../../services/AdminService';
 import { RoomsResponse } from '../../../../models/response/AdminResponse';
 
 import styles from './Room.module.scss';
-import { IPlayerRoom, IPublicRoom } from '../../../Admin/interfaces';
+import { IPlayerRoom } from '../../../Admin/interfaces';
 
 interface IRoom {
 	room: RoomsResponse;
