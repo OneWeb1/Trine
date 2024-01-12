@@ -95,6 +95,7 @@ const Accounts: FC = () => {
 		const account = JSON.parse(storageAccount);
 		AdminService.removeProfileById(account.id);
 		dispatch(setUpdateAccounts());
+		// location.reload();
 	};
 
 	const changePage = (pageNumber: number) => {

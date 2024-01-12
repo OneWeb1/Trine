@@ -20,6 +20,17 @@ export default class AuthService {
 			},
 		});
 	}
+
+	static async recoveryPassword(
+		formData: FormData,
+	): Promise<AxiosResponse<string>> {
+		return $api.post<string>('/auth/recovery', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		});
+	}
+
 	static async prolong(token: string): Promise<AxiosResponse<AuthResponse>> {
 		return $api.post<AuthResponse>(
 			`/auth/prolong?token=${token}`,

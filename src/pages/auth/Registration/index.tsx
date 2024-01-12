@@ -1,18 +1,18 @@
-import { FC, useState } from 'react';
+import { FC, useState, useRef } from 'react';
 
-import { RootState as CustomRootState } from '../../store/rootReducer';
+import { RootState as CustomRootState } from '../../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsAuth, setIsSubmit } from '../../store/slices/app.slice';
-import AuthService from '../../services/AuthService';
+import { setIsAuth, setIsSubmit } from '../../../store/slices/app.slice';
+import AuthService from '../../../services/AuthService';
 
-import CheckBoxLabel from '../../UI/CheckBoxLabel';
-import CustomLink from '../../UI/CustomLink';
-import ButtonIcon from '../../UI/ButtonIcon';
-import Button from '../../UI/Button';
-import Input from '../../UI/Input';
-import Spinner from '../../components/spinner';
+import CheckBoxLabel from '../../../UI/CheckBoxLabel';
+import CustomLink from '../../../UI/CustomLink';
+import ButtonIcon from '../../../UI/ButtonIcon';
+import Button from '../../../UI/Button';
+import Input from '../../../UI/Input';
+import Spinner from '../../../components/spinner';
 
-import styles from './../../stylesheet/styles/Auth.module.scss';
+import styles from './../../../stylesheet/styles/Auth.module.scss';
 
 const Registration: FC = () => {
 	const dispatch = useDispatch();
@@ -24,11 +24,14 @@ const Registration: FC = () => {
 
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
+	const timeoutRef = useRef<number>(0);
+
 	const registerUser = async () => {
 		const formData = new FormData();
 		formData.append('email', String(email));
 		formData.append('password', String(password));
 		setIsLoading(false);
+
 		try {
 			const { data } = await AuthService.registration(formData);
 			dispatch(setIsSubmit(true));
@@ -39,11 +42,14 @@ const Registration: FC = () => {
 		} catch (e) {
 			setIsLoading(true);
 			setIsError(true);
-			setTimeout(() => {
+			if (timeoutRef.current) clearTimeout(timeoutRef.current);
+			timeoutRef.current = setTimeout(() => {
 				setIsError(false);
 			}, 2000);
 		}
 	};
+
+	console.log(isLoading);
 
 	return (
 		<>
@@ -81,9 +87,9 @@ const Registration: FC = () => {
 
 						<div className={styles.subtitle}>Реєстрація за допомогою:</div>
 						<ButtonIcon value='Google' onClick={() => {}} />
-						<Button onClick={registerUser}>
+						<Button loading={isLoading} onClick={registerUser}>
 							Зареєструватися
-							{!isLoading && (
+							{/* {!isLoading && (
 								<div
 									style={{
 										position: 'absolute',
@@ -92,7 +98,7 @@ const Registration: FC = () => {
 									}}>
 									<Spinner style={{ transform: 'scale(.25)' }} />
 								</div>
-							)}
+							)} */}
 						</Button>
 
 						<div className={styles.isAccount}>

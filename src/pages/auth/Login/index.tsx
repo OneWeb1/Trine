@@ -1,19 +1,19 @@
 import { FC, useState } from 'react';
 
-import { RootState as CustomRootState } from '../../store/rootReducer';
+import { RootState as CustomRootState } from '../../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsAuth, setIsSubmit } from '../../store/slices/app.slice';
-import AuthService from './../../services/AuthService';
+import { setIsAuth, setIsSubmit } from '../../../store/slices/app.slice';
+import AuthService from '../../../services/AuthService';
 
 import { Navigate } from 'react-router-dom';
-import CheckBoxLabel from '../../UI/CheckBoxLabel';
-import CustomLink from '../../UI/CustomLink';
-import ButtonIcon from '../../UI/ButtonIcon';
-import Button from '../../UI/Button';
-import Input from '../../UI/Input';
+import CheckBoxLabel from '../../../UI/CheckBoxLabel';
+import CustomLink from '../../../UI/CustomLink';
+import ButtonIcon from '../../../UI/ButtonIcon';
+import Button from '../../../UI/Button';
+import Input from '../../../UI/Input';
 
-import styles from './../../stylesheet/styles/Auth.module.scss';
-import Spinner from '../../components/spinner';
+import styles from './../../../stylesheet/styles/Auth.module.scss';
+import Spinner from '../../../components/spinner';
 
 // da
 
@@ -88,7 +88,8 @@ const Login: FC = () => {
 								isChecked={isChecked}
 								setIsChecked={setIsChecked}
 							/>
-							<span className={styles.forgot}>Забули пароль?</span>
+							{/* <span className={styles.forgot}>Забули пароль?</span> */}
+							<CustomLink value='Забули пароль?' to='/forgot_password' />
 						</div>
 
 						<div className={styles.subtitle}>Вхід за допомогою:</div>

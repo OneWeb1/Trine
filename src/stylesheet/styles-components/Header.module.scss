@@ -121,16 +121,21 @@
 					align-items: center;
 					font-size: 13px;
 					margin-bottom: 2px;
-					padding: 0 15px;
+					padding: 0 5px;
 					cursor: pointer;
 					border-radius: 10px;
 
 					&:hover {
-						background: #f6f4f4;
+						background: #dbdedf;
 					}
 
 					&:last-child {
 						margin-bottom: 0px;
+					}
+
+					.menuIcon {
+						font-size: 16px;
+						margin-right: 5px;
 					}
 				}
 			}

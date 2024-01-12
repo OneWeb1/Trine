@@ -5,6 +5,11 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import { TbUserPentagon } from 'react-icons/tb';
+import { MdOutlineAdminPanelSettings } from 'react-icons/md';
+import { GiPayMoney } from 'react-icons/gi';
+import { BiMoneyWithdraw } from 'react-icons/bi';
+import { IoSettingsOutline } from 'react-icons/io5';
+import { CiLogout } from 'react-icons/ci';
 
 import { RootState as CustomRootState } from '../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -118,6 +123,9 @@ const Header: FC = () => {
 								{account.is_admin && (
 									<Link to='/admin'>
 										<div className={styles.item} id='item'>
+											<MdOutlineAdminPanelSettings
+												className={styles.menuIcon}
+											/>{' '}
 											Админ панель
 										</div>
 									</Link>
@@ -130,6 +138,7 @@ const Header: FC = () => {
 											dispatch(setVisibleModal('dp'));
 											setIsVisibleDropDownMenu(false);
 										}}>
+										<GiPayMoney className={styles.menuIcon} />
 										Поповнення рахунку
 									</div>
 								)}
@@ -140,7 +149,8 @@ const Header: FC = () => {
 										dispatch(setVisibleModal('vp'));
 										setIsVisibleDropDownMenu(false);
 									}}>
-									Виведення коштів
+									<BiMoneyWithdraw className={styles.menuIcon} /> Виведення
+									коштів
 								</div>
 								<div
 									className={styles.item}
@@ -149,7 +159,7 @@ const Header: FC = () => {
 										dispatch(setVisibleModal('s'));
 										setIsVisibleDropDownMenu(false);
 									}}>
-									Налаштування
+									<IoSettingsOutline className={styles.menuIcon} /> Налаштування
 								</div>
 								<Link
 									to='/login'
@@ -160,7 +170,7 @@ const Header: FC = () => {
 										}, 0)
 									}>
 									<div className={styles.item} id='item'>
-										Вийти
+										<CiLogout className={styles.menuIcon} /> Вийти
 									</div>
 								</Link>
 							</div>
