@@ -15,7 +15,14 @@ interface IVisibleStateMessage {
 	id: number;
 }
 
+interface IStats {
+	title: string;
+	values: string[];
+	numbers: number[];
+}
+
 interface IState {
+	stats: IStats;
 	avatars: string[];
 	isAuth: boolean;
 	isSubmit: boolean;
@@ -32,7 +39,7 @@ interface IState {
 	visibleModal: string;
 	gameParamId: string;
 	baseIconPath: string;
-	visibleMenuAccountSettings: boolean;
+	visibleMenuAccountSettings: string;
 	balance: number;
 	updateAccounts: number;
 	lastPlayerNumber: number;
@@ -45,6 +52,7 @@ interface IState {
 	roomResultState: RoomsResponse;
 }
 const initialState: IState = {
+	stats: {} as IStats,
 	avatars: JSON.parse(localStorage.getItem('avatars') || '[]'),
 	baseIconPath: 'https://trynka-backend.onrender.com',
 	isAuth: (localStorage.getItem('token') && true) || false,
@@ -60,7 +68,7 @@ const initialState: IState = {
 	visibleModal: '',
 	visibleHeaderMenu: false,
 	visibleBurgerMenu: false,
-	visibleMenuAccountSettings: false,
+	visibleMenuAccountSettings: 'hide',
 	balance: 0,
 	updateAccounts: 1,
 	lastPlayerNumber: 0,
@@ -82,6 +90,9 @@ const appSlice = createSlice({
 	name: 'app',
 	initialState: initialState,
 	reducers: {
+		setStats(state, action) {
+			state.stats = action.payload;
+		},
 		setAvatars(state, action) {
 			state.avatars = action.payload;
 		},
@@ -167,6 +178,7 @@ const appSlice = createSlice({
 });
 
 export const {
+	setStats,
 	setAvatars,
 	setVisibleModal,
 	setIsSubmit,

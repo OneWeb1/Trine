@@ -97,7 +97,25 @@
 			margin: 0px 25px;
 		}
 
-		.delete {
+		.buttonJoinFlex {
+			width: 35px;
+			height: 35px;
+			min-width: 35px;
+			min-height: 35px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 10px;
+			border: 2px solid #2d3d59;
+			transition: 0.4s;
+			cursor: pointer;
+
+			&:hover {
+				background: #2d3d59;
+			}
+		}
+
+		.settings {
 			width: 33px;
 			height: 33px;
 			border-radius: 10px;
@@ -111,26 +129,9 @@
 			cursor: pointer;
 
 			&:hover {
-				border: 1px solid rgb(255, 0, 0);
-				background: rgba(255, 0, 0, 0.2);
+				border: 1px solid #2d3d59;
+				background: #2d3d595b;
 			}
 		}
-	}
-}
-
-.buttonJoinFlex {
-	width: 35px;
-	height: 35px;
-	min-width: 35px;
-	min-height: 35px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 10px;
-	border: 2px solid #2d3d59;
-	transition: 0.4s;
-
-	&:hover {
-		background: #2d3d59;
 	}
 }

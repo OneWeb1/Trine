@@ -177,6 +177,7 @@ const Header: FC = () => {
 								maxWidth: '130px',
 							}}
 							value='Поповнити'
+							noLoading={true}
 							onClick={payHandler}
 						/>
 					)}

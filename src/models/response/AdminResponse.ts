@@ -78,3 +78,14 @@ export interface ProfilesPageDataResponse {
 	items_count: number;
 	items: ProfileMeResponse[];
 }
+
+export interface PlayerStatisticsResponse {
+	won_times: number;
+	defeat_times: number;
+}
+
+export interface RoomStatisticsResponse {
+	max_bank: 0;
+	total_bank: 0;
+	round_count: 0;
+}

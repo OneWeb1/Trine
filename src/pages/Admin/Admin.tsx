@@ -11,10 +11,11 @@ import ModalCreateRoom from '../../components/modals/ModalCreateRoom';
 import ModalChangeBalance from '../../components/modals/ModalChangeBalance';
 import LeftMenu from './LeftMenu';
 import { setVisibleBurgerMenu } from '../../store/slices/app.slice';
+import ModalStatistics from '../../components/modals/ModalStatistics';
 
 const Admin: FC = () => {
 	const dispatch = useDispatch();
-	const { visibleModal, visibleBurgerMenu } = useSelector(
+	const { visibleModal, visibleBurgerMenu, stats } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [tab, setTab] = useState<string>(
@@ -95,6 +96,7 @@ const Admin: FC = () => {
 				<ModalCreateRoom title='Створити публічну кімнату' type='public' />
 			)}
 			{visibleModal === 'cb' && <ModalChangeBalance title='Зміна балансу' />}
+			{visibleModal === 'ss' && <ModalStatistics stats={stats} />}
 		</>
 	);
 };

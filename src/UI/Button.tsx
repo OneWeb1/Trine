@@ -10,7 +10,9 @@ interface IButton {
 	value?: string;
 	background?: string;
 	className?: string;
+	noLoading?: boolean;
 	resize?: boolean;
+	loading?: boolean;
 	children?: ReactNode;
 	onClick: () => void;
 }
@@ -21,6 +23,8 @@ const Button: FC<IButton> = ({
 	background,
 	className,
 	resize,
+	noLoading,
+	loading,
 	children,
 	onClick,
 }) => {
@@ -34,7 +38,7 @@ const Button: FC<IButton> = ({
 		const date = new Date().getTime();
 		if (date - timeRef.current > 100) {
 			console.log('click');
-			setIsLoading(true);
+			if (!noLoading) setIsLoading(true);
 			onClick();
 			timeRef.current = date;
 		}
@@ -48,7 +52,13 @@ const Button: FC<IButton> = ({
 			)}
 			style={buttonStyles}
 			onClick={() => handler()}>
-			{(isLoading && <Spinner />) || value || children}
+			{loading === false ? (
+				<Spinner style={{ marginTop: '-12px', marginLeft: '-10px' }} />
+			) : isLoading && !loading ? (
+				<Spinner style={{ marginTop: '-12px', marginLeft: '-10px' }} />
+			) : (
+				value || children
+			)}
 		</div>
 	);
 };

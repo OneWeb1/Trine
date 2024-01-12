@@ -21,14 +21,12 @@ interface IAccount {
 
 const Account: FC<IAccount> = ({ profile }) => {
 	const dispatch = useDispatch();
-	const { visibleMenuAccountSettings, baseIconPath } = useSelector(
-		(state: CustomRootState) => state.app,
-	);
+	const { baseIconPath } = useSelector((state: CustomRootState) => state.app);
 	const settingsRef = useRef<HTMLDivElement | null>(null);
 
 	const visibleMenu = () => {
 		if (!settingsRef.current) return;
-		dispatch(setVisibleMenuAccountSettings(!visibleMenuAccountSettings));
+		dispatch(setVisibleMenuAccountSettings('account-settings'));
 		localStorage.setItem('account_settings', JSON.stringify(profile));
 
 		const box = settingsRef.current.getBoundingClientRect();

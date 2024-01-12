@@ -6,6 +6,7 @@ import {
 	setVisibleModal,
 	setVisibleMenuAccountSettings,
 	setUpdateAccounts,
+	setStats,
 } from '../../../store/slices/app.slice';
 
 import { MdOutlineSettingsEthernet } from 'react-icons/md';
@@ -16,7 +17,10 @@ import Pagination from '../../../components/Pagination';
 import AdminService from '../../../services/AdminService';
 
 import styles from './../styles/Accounts.module.scss';
-import { AdminProfileResponse } from '../../../models/response/AdminResponse';
+import {
+	AdminProfileResponse,
+	IPlayerRoom,
+} from '../../../models/response/AdminResponse';
 import Account from './components/Account';
 import Spinner from '../../../components/spinner';
 import InputSearch from '../../../UI/InputSearch';
@@ -61,6 +65,30 @@ const Accounts: FC = () => {
 		dispatch(setVisibleModal('cb'));
 	};
 
+	const getStats = async () => {
+		const storageAccount = localStorage.getItem('account_settings');
+		if (!storageAccount) return;
+		const account: IPlayerRoom = JSON.parse(storageAccount);
+		const { data } = await AdminService.getPlayerStatistics(account.id);
+		dispatch(
+			setStats({
+				title: `Статистика гравця`,
+				values: [
+					'Кількість зіграних раундів',
+					'Кількість виграних раундів',
+					'Кількість програних раундів',
+					account.nickname,
+				],
+				numbers: [
+					data.defeat_times + data.won_times,
+					data.won_times,
+					data.defeat_times,
+				],
+			}),
+		);
+		dispatch(setVisibleModal('ss'));
+	};
+
 	const removeAccount = () => {
 		const storageAccount = localStorage.getItem('account_settings');
 		if (!storageAccount) return;
@@ -85,7 +113,7 @@ const Accounts: FC = () => {
 	};
 
 	const hideMenu = () => {
-		dispatch(setVisibleMenuAccountSettings(false));
+		dispatch(setVisibleMenuAccountSettings('hide'));
 	};
 
 	useEffect(() => {
@@ -119,7 +147,7 @@ const Accounts: FC = () => {
 				setLoading(true);
 				console.log(e);
 			}
-		}, 500);
+		}, 1000);
 		return () => clearTimeout(Debounce);
 	}, [searchId]);
 
@@ -202,12 +230,12 @@ const Accounts: FC = () => {
 					</div>
 				</div>
 			</div>
-			{visibleMenuAccountSettings && (
+			{visibleMenuAccountSettings === 'account-settings' && (
 				<MenuAccountSettings
 					x={menuPosition.x}
 					y={menuPosition.y}
-					changeBalance={changeBalance}
-					removeAccount={removeAccount}
+					values={['Змінити баланс', 'Статистика', 'Видалити']}
+					handlers={[changeBalance, getStats, removeAccount]}
 					hideMenu={hideMenu}
 				/>
 			)}

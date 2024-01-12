@@ -5,16 +5,16 @@ import styles from './../../stylesheet/styles-components/menu/MenuAccountSetting
 interface IMenuAccountSettings {
 	x: number;
 	y: number;
-	changeBalance: () => void;
-	removeAccount: () => void;
+	values: string[];
+	handlers: Array<() => void>;
 	hideMenu?: () => void;
 }
 
 const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 	x,
 	y,
-	changeBalance,
-	removeAccount,
+	values,
+	handlers,
 	hideMenu,
 }) => {
 	const [visible, setVisible] = useState<boolean>(false);
@@ -24,7 +24,11 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 		if (!menuRef.current) return;
 		const box = menuRef.current.getBoundingClientRect();
 		const left = x - box.width + 40;
-		const top = y + 50;
+		let top = y + 50;
+
+		if (top + box.height > window.innerHeight) {
+			top = y - box.height - 5;
+		}
 
 		menuRef.current.style.left = `${left}px`;
 		menuRef.current.style.top = `${top}px`;
@@ -36,15 +40,15 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 			<div
 				style={{
 					opacity: (visible && 1) || 0,
+					height: values.length * 35 + 20 + values.length * 5 - 5,
 				}}
 				className={styles.menu}
 				ref={menuRef}>
-				<div className={styles.item} onClick={changeBalance}>
-					Змінити баланс
-				</div>
-				<div className={styles.item} onClick={removeAccount}>
-					Видалити аккаунт
-				</div>
+				{values.map((value, idx) => (
+					<div className={styles.item} onClick={handlers[idx]}>
+						{value}
+					</div>
+				))}
 			</div>
 		</div>
 	);

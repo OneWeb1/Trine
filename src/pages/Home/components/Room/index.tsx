@@ -7,12 +7,19 @@ import {
 	setUpdatePublickRooms,
 	setJoinRoom,
 	setGameAction,
+	setVisibleMenuAccountSettings,
+	setMenuAccountSettingsPosition,
+	setVisibleModal,
+	setStats,
 } from '../../../../store/slices/app.slice';
 
-import { MdDeleteOutline } from 'react-icons/md';
+// import { MdDeleteOutline } from 'react-icons/md';
 import { MdPersonAddAlt1 } from 'react-icons/md';
+// import { IoStatsChart } from 'react-icons/io5';
+import { HiOutlineDotsVertical } from 'react-icons/hi';
 
 import Button from '../../../../UI/Button';
+import MenuAccountSettings from '../../../../components/menu/MenuAccountSettings';
 
 import GameService from '../../../../services/GameService';
 import AdminService from '../../../../services/AdminService';
@@ -20,7 +27,7 @@ import AdminService from '../../../../services/AdminService';
 import { RoomsResponse } from '../../../../models/response/AdminResponse';
 
 import styles from './Room.module.scss';
-import { IPlayerRoom } from '../../../Admin/interfaces';
+import { IPlayerRoom, IPublicRoom } from '../../../Admin/interfaces';
 
 interface IRoom {
 	room: RoomsResponse;
@@ -31,7 +38,12 @@ interface IRoom {
 
 const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 	const dispatch = useDispatch();
-	const { baseIconPath } = useSelector((state: CustomRootState) => state.app);
+	const {
+		visibleMenuAccountSettings,
+		menuAccountSettingsPosition: menuPosition,
+		baseIconPath,
+	} = useSelector((state: CustomRootState) => state.app);
+
 	const [windowWidth, setWindowWidth] = useState<number>(window.screen.width);
 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
 	const [playersNumber, setPlayersNumber] = useState<number>(0);
@@ -39,6 +51,8 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 	const [show, setShow] = useState<boolean>(false);
 
 	const dateRef = useRef<number>(new Date().getTime());
+	const settingsRef = useRef<HTMLDivElement | null>(null);
+
 	const joinRoomHandler = async () => {
 		if (localStorage.getItem('joinRoom')) return;
 		try {
@@ -51,7 +65,48 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 		}
 	};
 
+	const visibleMenu = () => {
+		if (!settingsRef.current) return;
+		dispatch(setVisibleMenuAccountSettings('room-settings'));
+		localStorage.setItem('room_settings', JSON.stringify(room));
+
+		const box = settingsRef.current.getBoundingClientRect();
+		dispatch(setMenuAccountSettingsPosition({ x: box.x, y: box.y }));
+	};
+
+	const hideMenu = () => {
+		dispatch(setVisibleMenuAccountSettings('hide'));
+	};
+
+	const getState = async () => {
+		const room: RoomsResponse = JSON.parse(
+			localStorage.getItem('room_settings') || '{id: -1}',
+		);
+		try {
+			const { data } = await AdminService.getRoomStatistics(room.id);
+			dispatch(
+				setStats({
+					title: `Статистика кімнати`,
+					values: [
+						'Кількість зіграних раундів',
+						'Максимальний банк',
+						'Сума банку всіх раундів',
+						room.id,
+					],
+					numbers: [data.round_count, data.max_bank, data.total_bank],
+				}),
+			);
+			dispatch(setVisibleModal('ss'));
+			console.log(data);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	const removeRoom = async () => {
+		const room = JSON.parse(
+			localStorage.getItem('room_settings') || '{id: -1}',
+		);
 		await AdminService.removeRoomById(room.id);
 		dispatch(setUpdatePublickRooms());
 	};
@@ -118,110 +173,130 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 
 	updateViewJoinPlayers();
 
+	// useEffect(() => {
+	// 	console.log(1);
+	// 	removeRoom();
+	// }, []);
+
 	return (
-		<div
-			className={styles.room}
-			style={{
-				padding: (windowWidth < 700 && ' 0px 10px 0px 10px') || ' 0px 10px',
-			}}>
-			<div className={styles.leftWrapper}>
-				{hideName && windowWidth > 700 && (
-					<div
-						style={{ maxWidth: (windowWidth < 850 && '100px') || '200px' }}
-						className={styles.name}>
-						{room.name}
-					</div>
-				)}
-				<div className={styles.playersWrapper}>
-					<div className={styles.players}>
-						{players.map((player, idx) => (
-							<div
-								key={idx}
-								style={{
-									zIndex: idx,
-									marginLeft: (idx !== 0 && left) || '0px',
-									marginRight:
-										(!(show && room.players.length - 1 - playersNumber > 0) &&
-											idx === players.length - 1 &&
-											'10px') ||
-										'0px',
-								}}
-								className={styles.playerProfile}>
-								<img
-									src={`${baseIconPath}/avatar/${player.avatar_id}`}
-									alt='player'
-								/>
-							</div>
-						))}
-						{show && room.players.length - 1 - playersNumber > 0 && (
-							<div
-								style={{
-									zIndex: 15,
-									marginLeft: left,
-									marginRight: '10px',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center',
-								}}
-								className={styles.playerProfile}>
-								{players[players.length - 1]?.avatar_id && (
-									<img
-										style={{ opacity: 0.1 }}
-										src={`${baseIconPath}/avatar/${
-											players[players.length - 1].avatar_id
-										}`}
-										alt='player'
-									/>
-								)}
-								<span
-									style={{
-										position: 'absolute',
-									}}>
-									+
-									{room.players.length > playersNumber &&
-										room.players.length - playersNumber - 1}
-								</span>
-							</div>
-						)}
-					</div>
-					<div className={styles.playersNumber}>
-						{room.players.length}/{room.max_players}
-					</div>
-				</div>
-			</div>
-			<div className={styles.rightWrapper}>
-				<div className={styles.startBet}>{room.join_tax}₴</div>
-				<Link to={`/game`}>
-					{hideName && (
-						<Button
-							style={{
-								padding: '9px 32px',
-								fontWeight: 500,
-								fontSize: '12px',
-								background: '',
-							}}
-							background='linear-gradient(180deg, #2C3756 0%, #1F2841 100%)'
-							resize={true}
-							value='Увійти'
-							onClick={joinRoomHandler}
-						/>
-					)}
-					{!hideName && (
+		<>
+			<div
+				className={styles.room}
+				style={{
+					padding: (windowWidth < 700 && ' 0px 10px 0px 10px') || ' 0px 10px',
+				}}>
+				<div className={styles.leftWrapper}>
+					{hideName && windowWidth > 700 && (
 						<div
-							style={{ marginRight: '0px' }}
-							className={styles.buttonJoinFlex}
-							onClick={joinRoomHandler}>
-							<MdPersonAddAlt1 />
+							style={{ maxWidth: (windowWidth < 850 && '100px') || '200px' }}
+							className={styles.name}>
+							{room.name}
 						</div>
 					)}
-				</Link>
-				{isDelete && (
-					<div className={styles.delete} onClick={removeRoom}>
-						<MdDeleteOutline />
+					<div className={styles.playersWrapper}>
+						<div className={styles.players}>
+							{players.map((player, idx) => (
+								<div
+									key={idx}
+									style={{
+										zIndex: idx,
+										marginLeft: (idx !== 0 && left) || '0px',
+										marginRight:
+											(!(show && room.players.length - 1 - playersNumber > 0) &&
+												idx === players.length - 1 &&
+												'10px') ||
+											'0px',
+									}}
+									className={styles.playerProfile}>
+									<img
+										src={`${baseIconPath}/avatar/${player.avatar_id}`}
+										alt='player'
+									/>
+								</div>
+							))}
+							{show && room.players.length - 1 - playersNumber > 0 && (
+								<div
+									style={{
+										zIndex: 15,
+										marginLeft: left,
+										marginRight: '10px',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}
+									className={styles.playerProfile}>
+									{players[players.length - 1]?.avatar_id && (
+										<img
+											style={{ opacity: 0.1 }}
+											src={`${baseIconPath}/avatar/${
+												players[players.length - 1].avatar_id
+											}`}
+											alt='player'
+										/>
+									)}
+									<span
+										style={{
+											position: 'absolute',
+										}}>
+										+
+										{room.players.length > playersNumber &&
+											room.players.length - playersNumber - 1}
+									</span>
+								</div>
+							)}
+						</div>
+						<div className={styles.playersNumber}>
+							{room.players.length}/{room.max_players}
+						</div>
 					</div>
-				)}
+				</div>
+				<div className={styles.rightWrapper}>
+					<div className={styles.startBet}>{room.join_tax}₴</div>
+					<Link to={`/game`}>
+						{hideName && (
+							<Button
+								style={{
+									padding: '9px 32px',
+									fontWeight: 500,
+									fontSize: '12px',
+									background: '',
+								}}
+								background='linear-gradient(180deg, #2C3756 0%, #1F2841 100%)'
+								resize={true}
+								value='Увійти'
+								onClick={joinRoomHandler}
+							/>
+						)}
+						{!hideName && (
+							<div
+								style={{ marginRight: '0px' }}
+								className={styles.buttonJoinFlex}
+								onClick={joinRoomHandler}>
+								<MdPersonAddAlt1 />
+							</div>
+						)}
+					</Link>
+
+					{isDelete && (
+						<div
+							ref={settingsRef}
+							className={styles.settings}
+							onClick={visibleMenu}>
+							<HiOutlineDotsVertical />
+						</div>
+					)}
+				</div>
 			</div>
-		</div>
+			{visibleMenuAccountSettings === 'room-settings' && (
+				<MenuAccountSettings
+					x={menuPosition.x}
+					y={menuPosition.y}
+					values={['Статистика', 'Видалити']}
+					handlers={[getState, removeRoom]}
+					hideMenu={hideMenu}
+				/>
+			)}
+		</>
 	);
 };
 

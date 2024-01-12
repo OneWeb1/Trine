@@ -60,7 +60,7 @@ const LeftMenu: FC<ILeftMenu> = ({
 					<MdRoomPreferences style={{ marginRight: '10px' }} />
 					<span>Кімнати</span>
 				</div>
-				<div
+				{/* <div
 					className={classNames(
 						styles.item,
 						tab === 'statistics' && styles.tabActive,
@@ -68,18 +68,18 @@ const LeftMenu: FC<ILeftMenu> = ({
 					onClick={tabAccountsHandler}>
 					<ImStatsBars style={{ marginRight: '10px' }} />
 					<span>Статистика</span>
-				</div>
-				<div
-					className={classNames(
-						styles.item,
-						tab === 'home' && styles.tabActive,
-					)}
-					onClick={tabAccountsHandler}>
-					<ImHome style={{ marginRight: '10px', fontSize: '20px' }} />
-					<Link to='/'>
+				</div> */}
+				<Link to='/'>
+					<div
+						className={classNames(
+							styles.item,
+							tab === 'home' && styles.tabActive,
+						)}
+						onClick={tabAccountsHandler}>
+						<ImHome style={{ marginRight: '10px', fontSize: '20px' }} />
 						<span>На головну</span>
-					</Link>
-				</div>
+					</div>
+				</Link>
 			</div>
 		</div>
 	);

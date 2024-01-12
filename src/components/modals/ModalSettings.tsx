@@ -141,6 +141,7 @@ const ModalSettings: FC = () => {
 					}}
 					resize={true}
 					value={(!isVisibleInput && 'Змінити') || 'Скасувати'}
+					noLoading={true}
 					onClick={changePassword}
 				/>
 			</Input>

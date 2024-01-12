@@ -4,6 +4,8 @@
 	position: relative;
 	width: 40px;
 	height: 40px;
+	margin-left: -14px;
+	margin-top: -14px;
 	transform: scale(0.3);
 }
 .lds-spinner div {

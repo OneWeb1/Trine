@@ -71,7 +71,7 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 						}}>
 						{(isLoading && wait && (
 							<div className={styles.flexSpinner}>
-								<Spinner />
+								<Spinner style={{ marginLeft: '0px', marginTop: '0px' }} />
 							</div>
 						)) ||
 							title}
@@ -80,7 +80,7 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 						<div className={styles.number}>
 							{(wait === false && isLoading && (
 								<div className={styles.flexSpinner}>
-									<Spinner />
+									<Spinner style={{ marginLeft: '0px', marginTop: '0px' }} />
 								</div>
 							)) ||
 								number}

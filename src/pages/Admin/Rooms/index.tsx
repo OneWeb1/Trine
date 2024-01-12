@@ -85,6 +85,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 						fontSize: w ? '14px' : '11px',
 					}}
 					value='Створити кімнату'
+					noLoading={true}
 					onClick={() => dispatch(setVisibleModal('cpr'))}
 				/>
 			</div>
@@ -120,6 +121,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 								<Button
 									style={{ width: '250px', margin: '50px auto' }}
 									value='Створити кімнату'
+									noLoading={true}
 									onClick={() => dispatch(setVisibleModal('cpr'))}
 								/>
 							</div>

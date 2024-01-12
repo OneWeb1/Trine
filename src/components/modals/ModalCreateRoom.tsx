@@ -41,6 +41,12 @@ const ModalCreateRoom: FC<IModalCreateRoom> = ({ title, type }) => {
 		dispatch(setUpdatePublickRooms());
 	};
 
+	// useState(() => {
+	// 	for (let i = 0; i < 1000; i++) {
+	// 		createPublicRoom();
+	// 	}
+	// }, []);
+
 	const createPrivateRoom = async () => {};
 
 	const createRoom =

@@ -49,6 +49,8 @@ const Login: FC = () => {
 		setTimeout(() => {
 			setIsError(false);
 		}, 2000);
+
+		console.log({ isLoading });
 	};
 
 	return (
@@ -91,9 +93,9 @@ const Login: FC = () => {
 
 						<div className={styles.subtitle}>Вхід за допомогою:</div>
 						<ButtonIcon value='Google' onClick={() => {}} />
-						<Button onClick={login}>
+						<Button loading={isLoading} onClick={login}>
 							Увійти
-							{!isLoading && (
+							{/* {!isLoading && (
 								<div
 									style={{
 										position: 'absolute',
@@ -102,7 +104,7 @@ const Login: FC = () => {
 									}}>
 									<Spinner style={{ transform: 'scale(.25)' }} />
 								</div>
-							)}
+							)} */}
 						</Button>
 						<div className={styles.isAccount}>
 							Ще немає аккаунту?{' '}

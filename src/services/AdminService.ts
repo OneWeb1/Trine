@@ -1,8 +1,10 @@
 import {
 	AdminProfileResponse,
 	CreatePublicRoomParams,
+	PlayerStatisticsResponse,
 	ProfileMeResponse,
 	ProfilesPageDataResponse,
+	RoomStatisticsResponse,
 	RoomsPageDataResponse,
 	RoomsResponse,
 } from '../models/response/AdminResponse';
@@ -22,9 +24,19 @@ export default class AdminService {
 	static async getProfileById(
 		id: number,
 	): Promise<AxiosResponse<AdminProfileResponse>> {
-		return $api.get<AdminProfileResponse>(`/admin/profile/${id}`, {
-			// params: { id },
-		});
+		return $api.get<AdminProfileResponse>(`/admin/profile/${id}`);
+	}
+
+	static async getPlayerStatistics(
+		id: number,
+	): Promise<AxiosResponse<PlayerStatisticsResponse>> {
+		return $api.get(`/stat/player/${id}`);
+	}
+
+	static async getRoomStatistics(
+		id: string,
+	): Promise<AxiosResponse<RoomStatisticsResponse>> {
+		return $api.get(`/stat/room/${id}`);
 	}
 
 	static async removeProfileById(id: number): Promise<AxiosResponse<string>> {

@@ -139,6 +139,7 @@ const Home: FC = () => {
 										minHeight: '35px',
 									}}
 									resize={true}
+									noLoading={true}
 									value='Приєднатися за кодом'
 									onClick={joinToCodeHandler}
 								/>
