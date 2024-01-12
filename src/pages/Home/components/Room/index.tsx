@@ -194,6 +194,9 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 						</div>
 					)}
 					<div className={styles.playersWrapper}>
+						<div className={styles.playersNumber}>
+							{room.players.length}/{room.max_players}
+						</div>
 						<div className={styles.players}>
 							{players.map((player, idx) => (
 								<div
@@ -245,13 +248,13 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 								</div>
 							)}
 						</div>
-						<div className={styles.playersNumber}>
-							{room.players.length}/{room.max_players}
-						</div>
 					</div>
 				</div>
 				<div className={styles.rightWrapper}>
-					<div className={styles.startBet}>{room.join_tax}₴</div>
+					<div className={styles.betWrapper}>
+						<div className={styles.bet}>min: {room.join_tax}₴</div>
+						<div className={styles.bet}>max: {room.max_bid}₴</div>
+					</div>
 					<Link to={`/game`}>
 						{hideName && (
 							<Button

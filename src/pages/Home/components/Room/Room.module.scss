@@ -88,6 +88,7 @@
 				font-size: 13px;
 				background: #2c3756;
 				padding: 7px 11px;
+				margin-right: 10px;
 			}
 		}
 	}
@@ -95,6 +96,13 @@
 	.rightWrapper {
 		.startBet {
 			margin: 0px 25px;
+		}
+
+		.betWrapper {
+			padding-right: 10px;
+			text-align: right;
+			background-color: #151d31;
+			font-size: 10px;
 		}
 
 		.buttonJoinFlex {
