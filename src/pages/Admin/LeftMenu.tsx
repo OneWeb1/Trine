@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import { MdManageAccounts } from 'react-icons/md';
 import { MdRoomPreferences } from 'react-icons/md';
-import { ImStatsBars } from 'react-icons/im';
+// import { ImStatsBars } from 'react-icons/im';
 import { ImHome } from 'react-icons/im';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
