@@ -220,7 +220,7 @@ const Player: FC<IPlayer> = ({
 						<div
 							style={{
 								position: 'absolute',
-								zIndex: '100000',
+								zIndex: '0',
 								cursor: 'pointer',
 							}}
 							className={styles.checkWrapper}>
