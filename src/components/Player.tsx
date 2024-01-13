@@ -201,10 +201,6 @@ const Player: FC<IPlayer> = ({
 						style={{
 							marginTop: '5px',
 						}}>
-						{/* {player.state === 'move' && (
-							// <div className={styles.timeLoader}></div>
-						)} */}
-
 						<div
 							className={styles.border}
 							style={{
@@ -220,8 +216,11 @@ const Player: FC<IPlayer> = ({
 						</div>
 					</div>
 					{isMeMove && lastId === player.id && (
-						<div className={styles.checkWrapper}>
-							<div className={styles.checkButton} onClick={doCheckCards}>
+						<div
+							style={{ cursor: 'pointer' }}
+							className={styles.checkWrapper}
+							onClick={doCheckCards}>
+							<div className={styles.checkButton}>
 								<GiCardExchange />
 							</div>
 						</div>
