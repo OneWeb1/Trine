@@ -133,6 +133,7 @@ const Player: FC<IPlayer> = ({
 
 	return (
 		<div
+			onClick={isMeMove && lastId === player.id ? doCheckCards : () => {}}
 			className={styles.player}
 			ref={ref}
 			style={{
@@ -217,9 +218,12 @@ const Player: FC<IPlayer> = ({
 					</div>
 					{isMeMove && lastId === player.id && (
 						<div
-							style={{ cursor: 'pointer' }}
-							className={styles.checkWrapper}
-							onClick={doCheckCards}>
+							style={{
+								position: 'absolute',
+								zIndex: '100000',
+								cursor: 'pointer',
+							}}
+							className={styles.checkWrapper}>
 							<div className={styles.checkButton}>
 								<GiCardExchange />
 							</div>
