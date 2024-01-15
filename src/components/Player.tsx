@@ -137,7 +137,7 @@ const Player: FC<IPlayer> = ({
 			style={{
 				display: (index === 0 && 'flex') || '',
 				marginLeft: player.me ? '15px' : '0px',
-				// opacity: player.state === 'defeat' ? 0.3 : 1,
+				opacity: player.state === 'defeat' ? 0.5 : 1,
 			}}>
 			<div>
 				{reverse && (
@@ -147,16 +147,18 @@ const Player: FC<IPlayer> = ({
 							style={{ marginTop: (!player.last_move && '0px') || '0px' }}>
 							<FishkaItem isPlayer={true} value={player.full_bid} />
 							<div className={styles.icon}>
-								<TreeCards
-									style={{
-										position: 'absolute',
-										left: '0',
-										top: '-10px',
-										width: '170px',
-										transform: 'scale(.2)',
-									}}
-									cards={['fb', 'fb', 'fb']}
-								/>
+								{!player.me && player.state !== 'defeat' && (
+									<TreeCards
+										style={{
+											position: 'absolute',
+											left: '0',
+											top: '-10px',
+											width: '170px',
+											transform: 'scale(.2)',
+										}}
+										cards={['fb', 'fb', 'fb']}
+									/>
+								)}
 							</div>
 						</div>
 						{/* {(player.last_move || player.state === 'idle') && ( */}
@@ -250,16 +252,18 @@ const Player: FC<IPlayer> = ({
 						<div className={styles.info} style={{ marginTop: '5px' }}>
 							<FishkaItem isPlayer={true} value={player.full_bid} />
 							<div className={styles.icon}>
-								<TreeCards
-									style={{
-										position: 'absolute',
-										left: '0',
-										top: '-10px',
-										width: '180px',
-										transform: 'scale(.2)',
-									}}
-									cards={['fb', 'fb', 'fb', 'jpg']}
-								/>
+								{!player.me && player.state !== 'defeat' && (
+									<TreeCards
+										style={{
+											position: 'absolute',
+											left: '0',
+											top: '-10px',
+											width: '180px',
+											transform: 'scale(.2)',
+										}}
+										cards={['fb', 'fb', 'fb', 'jpg']}
+									/>
+								)}
 							</div>
 						</div>
 					</>

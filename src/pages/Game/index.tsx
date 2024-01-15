@@ -102,27 +102,7 @@ const Game: FC = () => {
 	}, []);
 
 	resizeHandler(tableRef);
-	if (gameAction.state === 'won') {
-		console.log('...Render');
-		return (
-			<>
-				{gameAction.state === 'won' && (
-					<ModalAfterGame
-						title='Ви виграли'
-						message='Сума виграшу:'
-						isWin={true}
-						sum={Math.floor(roomState.bank * 0.97)}
-						isHide={false}
-						onClick={() => {
-							console.log(555);
-							setRoomResultState({} as RoomsResponse);
-							dispatch(setGameAction({ state: '' }));
-						}}
-					/>
-				)}
-			</>
-		);
-	}
+
 	return (
 		<>
 			<Helmet>
@@ -181,6 +161,21 @@ const Game: FC = () => {
 
 			{roomState.state === 'starting' && (
 				<ModalTimer timer={roomState.time_to_start} />
+			)}
+
+			{gameAction.state === 'won' && (
+				<ModalAfterGame
+					title='Ви виграли'
+					message='Сума виграшу:'
+					isWin={true}
+					sum={Math.floor(roomState.bank * 0.97)}
+					isHide={false}
+					onClick={() => {
+						console.log(555);
+						setRoomResultState({} as RoomsResponse);
+						dispatch(setGameAction({ state: '' }));
+					}}
+				/>
 			)}
 			{/* {gameAction.state === 'defeat' && (
 				<ModalAfterGame
