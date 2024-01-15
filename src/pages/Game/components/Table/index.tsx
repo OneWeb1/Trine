@@ -111,11 +111,7 @@ const Table: FC<ITable> = ({
 		}
 
 		roomState.players.forEach(player => {
-			if (
-				player.me &&
-				!isActionRef.current &&
-				(player.state === 'won' || player.state === 'defeat')
-			) {
+			if (player.me && !isActionRef.current && player.state === 'won') {
 				isActionRef.current = true;
 				isWriteReadyState.current = true;
 				playersReadyRef.current = [] as number[];

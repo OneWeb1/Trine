@@ -45,6 +45,7 @@ export interface RoomsResponse {
 	template: boolean;
 	creator_id: number;
 	state: string;
+	time_to_start: number;
 }
 
 export interface RoomsPageDataResponse {

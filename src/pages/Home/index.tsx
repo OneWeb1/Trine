@@ -55,15 +55,18 @@ const Home: FC = () => {
 			offset: offsetRef.current,
 			limit,
 		});
+
 		setRooms(data.items);
 		setPagesNumber(data.pages);
 		setUpdateRooms(prev => prev + 1);
 		if (isUpdate) {
 			isRequestRef.current = true;
 		}
-		setTimeout(() => {
-			if (!loadingRooms.current) loadingRooms.current = true;
-		}, 0);
+		// setTimeout(() => {
+		if (!loadingRooms.current) {
+			loadingRooms.current = true;
+		}
+		// }, 0);
 		localStorage.setItem('home-rooms-length', JSON.stringify(data.pages));
 	};
 
@@ -78,7 +81,6 @@ const Home: FC = () => {
 		if (!data.avatar_id) addStandartAvatar();
 		dispatch(setAccount(data));
 		setLoading(true);
-
 		await getPublickRooms(isRequestRef.current);
 	};
 

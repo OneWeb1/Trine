@@ -17,12 +17,15 @@ const ModalAfterGame: FC<IModalAfterGame> = ({
 	value,
 	message,
 	isWin,
-	// isHide,
+	isHide,
 	sum,
 	onClick,
 }) => {
 	return (
-		<Modal title={title} styleNode={{ background: 'rgba(255,255,255,.6)' }}>
+		<Modal
+			title={title}
+			isHide={isHide}
+			styleNode={{ background: 'rgba(255,255,255,.6)' }}>
 			<div
 				style={{
 					marginBottom: '10px',

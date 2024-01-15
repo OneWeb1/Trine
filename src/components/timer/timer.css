@@ -1,76 +1,26 @@
-.circleProgress_wrapper {
+.svg_timer {
 	position: absolute;
-	left: -17.5px;
-	top: -35px;
-	width: calc(96px * 1.3);
-	height: calc(96px * 1.3);
-	color: #fff;
-	margin: 16px auto;
-	text-align: center;
-	line-height: 3rem;
+	top: 50%;
+	left: 50%;
+	transform: translate(-57%, -50%);
+	background-color: rgb(255, 0, 0);
+	border-radius: 100px;
+	transition: 0.3;
 }
-.right {
-	right: 0;
-}
-.wrapper {
+.timer {
 	position: absolute;
-	width: calc(48px * 1.3);
-	height: calc(96px * 1.3);
-	top: 0;
-	overflow: hidden;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	transform: scale(0.5);
 }
-.circleProgress {
-	width: calc(70.4px * 1.3);
-	height: calc(70.4px * 1.3);
-	border: calc(12.8px * 1.3) solid #ff0000;
-	border-radius: 50%;
-	box-sizing: content-box;
+.c1 {
 	position: absolute;
-	top: 0;
-}
-.rightcircle {
-	border-top: calc(12.8px * 1.3) solid #00ff80;
-	border-right: calc(12.8px * 1.3) solid #00ff80;
-	right: 0;
-}
-.leftcircle {
-	border-bottom: calc(12.8px * 1.3) solid #00ff80;
-	border-left: calc(12.8px * 1.3) solid #00ff80;
-	left: 0;
-	-webkit-transform: rotate(90deg);
-	transform: rotate(90deg);
-}
-.right_cartoon {
-	-webkit-animation: circleProgressLoad_right 20s linear infinite forwards;
-	animation: circleProgressLoad_right 20s linear infinite forwards;
-}
-.left_cartoon {
-	-webkit-animation: circleProgressLoad_left 20s linear infinite forwards;
-	animation: circleProgressLoad_left 20s linear infinite forwards;
-}
-
-@keyframes circleProgressLoad_right {
-	0% {
-		-webkit-transform: rotate(46deg);
-		transform: rotate(46deg);
-	}
-
-	50%,
-	to {
-		-webkit-transform: rotate(-136deg);
-		transform: rotate(-136deg);
-	}
-}
-
-@keyframes circleProgressLoad_left {
-	0%,
-	50% {
-		-webkit-transform: rotate(46deg);
-		transform: rotate(46deg);
-	}
-
-	to {
-		-webkit-transform: rotate(-136deg);
-		transform: rotate(-136deg);
-	}
+	top: 50%;
+	left: 50%;
+	stroke-width: 1.3em;
+	stroke: #00ff88;
+	stroke-dasharray: 600;
+	stroke-linecap: round;
+	transform: translate(100%, 0%) rotate(90deg);
 }

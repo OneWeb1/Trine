@@ -129,8 +129,6 @@ const Player: FC<IPlayer> = ({
 		if (!blockedRePositionRef.current) setPosition();
 	});
 
-	console.log(player.time_for_move);
-
 	return (
 		<div
 			onClick={isMeMove && lastId === player.id ? doCheckCards : () => {}}
@@ -174,7 +172,9 @@ const Player: FC<IPlayer> = ({
 				)}
 				<div ref={avatarRef} className={styles.avatarWrapper}>
 					{(player.state === 'move' || player.me) &&
-						player.time_for_move > 0 && <CircleTimer />}
+						player.time_for_move > 0 && (
+							<CircleTimer startTime={20} currentTime={player.time_for_move} />
+						)}
 
 					{!player.cards.includes('*') && !player.me && (
 						<div
@@ -232,7 +232,7 @@ const Player: FC<IPlayer> = ({
 				</div>
 
 				<div className={styles.name}>
-					{(player.me && 'Я') || player.nickname}
+					{(player.me && 'Ви') || player.nickname}
 				</div>
 
 				{!reverse && (

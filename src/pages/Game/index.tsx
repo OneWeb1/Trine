@@ -27,6 +27,7 @@ import { IPlayerRoom } from '../Admin/interfaces';
 import { assets, resizeHandler } from './utils';
 import styles from './../../stylesheet/styles/Game.module.scss';
 import Button from '../../UI/Button';
+import ModalTimer from '../../components/modals/ModalTimer';
 
 const Game: FC = () => {
 	const dispatch = useDispatch();
@@ -101,7 +102,27 @@ const Game: FC = () => {
 	}, []);
 
 	resizeHandler(tableRef);
-
+	if (gameAction.state === 'won') {
+		console.log('...Render');
+		return (
+			<>
+				{gameAction.state === 'won' && (
+					<ModalAfterGame
+						title='Ви виграли'
+						message='Сума виграшу:'
+						isWin={true}
+						sum={Math.floor(roomState.bank * 0.97)}
+						isHide={false}
+						onClick={() => {
+							console.log(555);
+							setRoomResultState({} as RoomsResponse);
+							dispatch(setGameAction({ state: '' }));
+						}}
+					/>
+				)}
+			</>
+		);
+	}
 	return (
 		<>
 			<Helmet>
@@ -157,7 +178,11 @@ const Game: FC = () => {
 					)}
 				</div>
 			)}
-			{gameAction.state === 'defeat' && (
+
+			{roomState.state === 'starting' && (
+				<ModalTimer timer={roomState.time_to_start} />
+			)}
+			{/* {gameAction.state === 'defeat' && (
 				<ModalAfterGame
 					title='Ви програли'
 					message='Сума програшу:'
@@ -167,19 +192,8 @@ const Game: FC = () => {
 						dispatch(setGameAction({ state: '' }));
 					}}
 				/>
-			)}
-			{gameAction.state === 'won' && (
-				<ModalAfterGame
-					title='Ви виграли'
-					message='Сума виграшу:'
-					isWin={true}
-					sum={Math.floor(roomState.bank * 0.97)}
-					onClick={() => {
-						setRoomResultState({} as RoomsResponse);
-						dispatch(setGameAction({ state: '' }));
-					}}
-				/>
-			)}
+			)} */}
+
 			{gameAction.state === 'room-not-found' && (
 				<ModalAfterGame
 					title='Повідомлення'

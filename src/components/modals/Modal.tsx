@@ -19,6 +19,7 @@ const Modal: FC<IModal> = ({ title, score, isHide, children, styleNode }) => {
 	const dispatch = useDispatch();
 	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
 	const hideModal = () => {
+		console.log({ isHide });
 		if (isHide !== false) dispatch(setVisibleModal('h'));
 	};
 	return (

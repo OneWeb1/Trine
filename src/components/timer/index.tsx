@@ -1,28 +1,34 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 
 import './timer.css';
 // import styles from './timer.module.scss';
 
-const CircleTimer: FC = () => {
-	const [time, setTime] = useState<number>(10);
+interface CircleTimer {
+	startTime: number;
+	currentTime: number;
+}
 
+const CircleTimer: FC<CircleTimer> = ({ startTime, currentTime }) => {
+	const d = 600;
+
+	const offset = (d / startTime) * (startTime - (currentTime | 0));
+	console.log({ offset });
 	useEffect(() => {
-		const timer = setInterval(function () {
-			setTime(prev => (prev <= 0 ? 10 : prev - 1));
-		}, 1000);
+		const timer = setInterval(function () {}, 1000);
 
 		return () => clearInterval(timer);
 	}, []);
 
 	return (
-		<div className='circleProgress_wrapper'>
-			<div className='wrapper right'>
-				<div className='circleProgress rightcircle right_cartoon'></div>
-			</div>
-			<div className='wrapper left'>
-				<div className='circleProgress leftcircle left_cartoon'></div>
-			</div>
-			<span id='timer'>{time}</span>
+		<div className='timer'>
+			<svg width='200' height='200' className='svg_timer'>
+				<circle
+					style={{ strokeDashoffset: offset }}
+					className='c1'
+					cx='100'
+					cy='100'
+					r='100'></circle>
+			</svg>
 		</div>
 	);
 };
