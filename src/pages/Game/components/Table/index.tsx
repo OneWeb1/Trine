@@ -91,7 +91,7 @@ const Table: FC<ITable> = ({
 
 		timeoutRef.current = setInterval(async () => {
 			await getRoomsState();
-		}, 1000);
+		}, 500);
 	};
 
 	const stopPolling = () => {
