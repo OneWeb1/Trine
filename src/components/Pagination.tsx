@@ -92,8 +92,7 @@ const Pagination: FC<IPagination> = ({
 		} else if (pageNumber > numbers - fixVisibleNumber + 1) {
 			setMinNumber(numbers - fixVisibleNumber);
 			setMaxNumber(numbers - 1);
-			console.log({ numbers });
-			console.log(buttons.slice(numbers - fixVisibleNumber, numbers - 1));
+		
 			setVisibleButtons(buttons.slice(numbers - fixVisibleNumber, numbers - 1));
 		}
 	};

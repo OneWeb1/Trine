@@ -63,12 +63,19 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 		[900, 800, 0.5],
 		[800, 700, 0.45],
 		[700, 600, 0.42],
-		[600, 500, 0.35],
-		[500, 400, 0.3],
-		[400, 300, 0.45, -90],
-		[300, 200, 0.3, -90],
-		[260, 160, 0.1, -90],
+		[600, 500, 0.5],
+		[500, 400, 0.5],
+		[400, 300, 0.5],
+		[300, 200, 0.38],
+		[260, 160, 0.34],
 	];
+
+	//  [600, 500, 0.4, -90],
+	// 	[500, 400, 0.4, -90],
+	// 	[400, 300, 0.38, -90],
+	// 	[300, 200, 0.38, -90],
+	// 	[260, 160, 0.34, -90],
+
 	screens.forEach(screen => {
 		const [max, min, zoom, d] = screen;
 		if (screenWidth <= max && screenWidth >= min) {
@@ -77,7 +84,10 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 			deg = angle;
 		}
 	});
-	if (window.innerHeight < 300 && window.innerWidth > 700) {
+
+	if (screenWidth <= 600 && window.innerHeight > 500) {
+		table.style.transform = `scale(${scale}) rotate(${0}deg)`;
+	} else if (window.innerHeight < 300 && window.innerWidth > 700) {
 		table.style.transform = `scale(${0.32}) rotate(${0}deg) translateY(-121px)`;
 	} else if (window.innerHeight < 301 && window.innerWidth < 700) {
 		table.style.transform = `scale(${0.32}) rotate(${0}deg) translateY(0px)`;

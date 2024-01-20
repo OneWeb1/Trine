@@ -26,7 +26,7 @@ import {
 import Player from '../../../../components/Player';
 import FishkaItem from '../../../../components/FishkaItem';
 
-import { resizeHandler, getRoomsIndexPosition } from './../../utils';
+import { resizeHandler, getRoomsIndexPosition } from '../../utils';
 
 import AdminService from '../../../../services/AdminService';
 
@@ -36,7 +36,7 @@ import styles from './Table.module.scss';
 import { RoomsResponse } from '../../../../models/response/AdminResponse';
 import GameService from '../../../../services/GameService';
 
-interface ITable {
+interface IPortraitTable {
 	roomState: RoomsResponse;
 	setRoomState: Dispatch<SetStateAction<RoomsResponse>>;
 	setLoading: Dispatch<SetStateAction<boolean>>;
@@ -49,7 +49,7 @@ interface ITable {
 	tableRef: RefObject<HTMLDivElement>;
 }
 
-const Table: FC<ITable> = ({
+const PortraitTable: FC<IPortraitTable> = ({
 	roomState,
 	setRoomState,
 	setLoading,
@@ -84,8 +84,6 @@ const Table: FC<ITable> = ({
 	// const h = window.innerHeight;
 
 	const reverseIds = [0, 1, 2, 9, 10];
-
-	console.log(reverseIds);
 
 	const startPolling = () => {
 		if (timeoutRef.current) return;
@@ -338,7 +336,7 @@ const Table: FC<ITable> = ({
 						<div className={styles.screenCenter}>
 							<div className={styles.displayWrapper}>
 								<div className={styles.tax}>
-									Налог (3%){' '}
+									Налог (9%){' '}
 									<span
 										className={styles.taxNumber}
 										style={{ marginLeft: '3px', fontWeight: '600' }}>
@@ -355,6 +353,6 @@ const Table: FC<ITable> = ({
 	);
 };
 
-const memoTable = memo(Table);
+const memoTable = memo(PortraitTable);
 
 export default memoTable;

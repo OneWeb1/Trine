@@ -15,6 +15,7 @@ import {
 import GameHeader from '../../components/GameHeader';
 import GameFooter from '../../components/GameFooter';
 import Table from './components/Table';
+import PortraitTable from './components/PortraitTable';
 
 import ModalAfterGame from '../../components/modals/ModalAfterGame';
 import Spinner from '../../components/spinner';
@@ -130,6 +131,20 @@ const Game: FC = () => {
 						isFullScreen={isFullScreen}
 						handleFullScreen={handleFullScreen}
 					/>
+					{window.innerWidth <= 600 && window.innerHeight > 500 && (
+						<PortraitTable
+							roomState={roomState}
+							setRoomState={setRoomState}
+							ready={ready}
+							setReady={setReady}
+							setLoading={setLoading}
+							mePlayer={mePlayer}
+							setMePlayer={setMePlayer}
+							setUpdate={setUpdate}
+							setOpacity={setOpacity}
+							tableRef={tableRef}
+						/>
+					)}
 					<Table
 						roomState={roomState}
 						setRoomState={setRoomState}
@@ -203,7 +218,7 @@ const Game: FC = () => {
 				/>
 			)}
 
-			{!isLandscape && (
+			{/* {!isLandscape && (
 				<div
 					style={{
 						position: 'fixed',
@@ -229,7 +244,7 @@ const Game: FC = () => {
 						</Link>
 					</div>
 				</div>
-			)}
+			)} */}
 		</>
 	);
 };

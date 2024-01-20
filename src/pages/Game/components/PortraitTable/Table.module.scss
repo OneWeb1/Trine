@@ -1,0 +1,103 @@
+.tableWrapper {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	// background: linear-gradient(180deg, #141c30 0%, #121a2d 100%);
+	// background: #141c30;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	.table {
+		position: relative;
+		border-radius: 300px;
+		background: #000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0px 3px 7px 0px rgba(255, 255, 255, 0.71) inset,
+			0px 0px 50px 0px #000;
+		min-width: 530px;
+		width: 530px; //1270px;
+		height: 1000px; //670px;
+		transform: scale(0.8);
+	}
+
+	.tableBorder {
+		width: 496px; //1220px;;
+		height: 976px; //620px;
+		border-radius: 300px;
+		background: #770707;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		box-shadow: 0px -5px 41px 0px rgba(255, 255, 255, 0.4);
+
+		.tableField {
+			width: 490px; //1200px;
+			height: 960px; //600px;
+			border-radius: 300px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: radial-gradient(50% 50% at 50% 50%, #f00 0%, #c40000 100%);
+
+			box-shadow: 0px 0px 126px 0px #000 inset;
+
+			.screenCenter {
+				position: relative;
+				width: 200px; //752px;
+				height: 160px; //298px;
+				margin-top: 35px;
+				border: 2px solid #b89b9b;
+				border-radius: 0px 0px 70px 70px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.tax {
+					position: absolute;
+					width: 250px;
+					height: 40px;
+					top: -20px;
+					left: 50%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					background: #da0000;
+					transform: translateX(-50%);
+					color: #fff;
+					border: 2px solid #b89b9b;
+					border-radius: 50px;
+				}
+
+				.display {
+					position: relative;
+					width: 50px;
+					height: 30px;
+					background: linear-gradient(#63360b, #422a0e);
+					border-radius: 10px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: #fff;
+					font-size: 16px;
+					font-weight: 600;
+
+					.fishka {
+						position: absolute;
+						width: 20px;
+						height: 20px;
+						border-radius: 50px;
+						left: -10px;
+						top: 5px;
+					}
+				}
+			}
+		}
+	}
+}

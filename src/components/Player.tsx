@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { CSSProperties, FC, useEffect, useRef, memo } from 'react';
 
 import classNames from 'classnames';
 
@@ -53,6 +53,11 @@ const Player: FC<IPlayer> = ({
 	const { visible, message, id } = visibleStateMessage;
 	const visibleMessage = visible && player.id === id;
 
+	const indexes = [1, 2, 3, 4, 5];
+	const isReverseCards = indexes.includes(index);
+
+	const isMobile = window.innerWidth <= 600 && window.innerHeight >= 500;
+
 	const doCheckCards = async () => {
 		try {
 			await AdminService.do({ action: 'check' });
@@ -68,8 +73,9 @@ const Player: FC<IPlayer> = ({
 		const nbw = ref.current.parentElement.clientWidth;
 		const nbh = ref.current.parentElement.clientHeight;
 		const bw = ref.current.clientWidth;
+		const bh = ref.current.clientHeight;
 
-		const position = {
+		const landscapePlayersPosition = {
 			t: [
 				{ top: -40, left: nbw * 0.2 - bw / 2 },
 				{ top: -40, left: nbw * 0.4 - bw / 2 },
@@ -91,25 +97,86 @@ const Player: FC<IPlayer> = ({
 			],
 		};
 
-		const positions = [
-			position.b[1],
-			position.b[0],
-			position.l[1],
-			position.l[0],
-			position.t[0],
-			position.t[1],
-			position.t[2],
-			position.t[3],
-			position.r[0],
-			position.r[1],
-			position.b[2],
+		const portraitPlayersPositions = {
+			l: [
+				{ left: -40, top: nbh * 0.2 - bh / 2 },
+				{ left: -40, top: nbh * 0.4 - bh / 2 },
+				{ left: -40, top: nbh * 0.6 - bh / 2 },
+				{ left: -40, top: nbh * 0.8 - bh / 2 },
+			],
+			r: [
+				{ left: nbw - 55, top: nbh * 0.2 - bh / 2 },
+				{ left: nbw - 55, top: nbh * 0.4 - bh / 2 },
+				{ left: nbw - 55, top: nbh * 0.6 - bh / 2 },
+				{ left: nbw - 55, top: nbh * 0.8 - bh / 2 },
+			],
+			t: [
+				{ left: nbw * 0.15, top: -10 },
+				{ left: nbw * 0.85 - nbw * 0.15, top: -10 },
+			],
+			b: [{ left: nbw * 0.5 - bw / 2, top: nbh + 20 - bh / 2 }],
+		};
+
+		const landscapePosition = [
+			landscapePlayersPosition.b[1],
+			landscapePlayersPosition.b[0],
+			landscapePlayersPosition.l[1],
+			landscapePlayersPosition.l[0],
+			landscapePlayersPosition.t[0],
+			landscapePlayersPosition.t[1],
+			landscapePlayersPosition.t[2],
+			landscapePlayersPosition.t[3],
+			landscapePlayersPosition.r[0],
+			landscapePlayersPosition.r[1],
+			landscapePlayersPosition.b[2],
 		];
+
+		const portraitPosition = [
+			portraitPlayersPositions.b[0],
+			portraitPlayersPositions.l[3],
+			portraitPlayersPositions.l[2],
+			portraitPlayersPositions.l[1],
+			portraitPlayersPositions.l[0],
+			portraitPlayersPositions.t[0],
+			portraitPlayersPositions.t[1],
+			portraitPlayersPositions.r[0],
+			portraitPlayersPositions.r[1],
+			portraitPlayersPositions.r[2],
+			portraitPlayersPositions.r[3],
+		];
+
+		const positions = isMobile ? portraitPosition : landscapePosition;
 
 		ref.current.style.left = positions[index].left + 'px';
 		ref.current.style.top =
 			(!reverse && positions[index].top + 'px') ||
 			positions[index].top - 70 + 'px';
 	};
+
+	const rightPlayersId = [6, 7, 8, 9, 10];
+	const isRightPlayer = rightPlayersId.includes(index);
+
+	const pStyle = {
+		position: 'absolute',
+		left: !isRightPlayer ? '90px' : '-140px',
+		top: '100px',
+	};
+
+	const prStyle = {
+		position: 'absolute',
+		left:
+			isRightPlayer && index !== 6
+				? '-140px'
+				: index === 5
+				? '40px'
+				: index === 6
+				? '-90px'
+				: '90px',
+		top: index === 5 || index === 6 ? '150px' : '60px',
+	};
+
+	const portraitStyle = isMobile && index ? pStyle : {};
+	const portraitRightStyle = isMobile ? prStyle : {};
 
 	const handleResize = () => {
 		if (!blockedRePositionRef.current) blockedRePositionRef.current = true;
@@ -144,14 +211,19 @@ const Player: FC<IPlayer> = ({
 					<>
 						<div
 							className={styles.info}
-							style={{ marginTop: (!player.last_move && '0px') || '0px' }}>
-							<FishkaItem isPlayer={true} value={player.full_bid} />
+							style={{
+								marginTop: (!player.last_move && '0px') || '0px',
+								...portraitStyle,
+							}}>
+							<div style={{ marginLeft: '50px' }}>
+								<FishkaItem isPlayer={true} value={player.full_bid} />
+							</div>
 							<div className={styles.icon}>
 								{!player.me && player.state !== 'defeat' && (
 									<TreeCards
 										style={{
 											position: 'absolute',
-											left: '0',
+											left: !isRightPlayer ? '-120px' : '50px',
 											top: '-10px',
 											width: '170px',
 											transform: 'scale(.2)',
@@ -249,14 +321,22 @@ const Player: FC<IPlayer> = ({
 							{message}
 						</div>
 						{/* )} */}
-						<div className={styles.info} style={{ marginTop: '5px' }}>
-							<FishkaItem isPlayer={true} value={player.full_bid} />
+						<div
+							className={styles.info}
+							style={{
+								marginTop: '5px',
+								marginLeft: !isMobile ? '-80px' : '',
+								...portraitRightStyle,
+							}}>
+							<div style={{ marginLeft: '50px' }}>
+								<FishkaItem isPlayer={true} value={player.full_bid} />
+							</div>
 							<div className={styles.icon}>
 								{!player.me && player.state !== 'defeat' && (
 									<TreeCards
 										style={{
 											position: 'absolute',
-											left: '0',
+											left: !isRightPlayer ? '-120px' : '50px',
 											top: '-10px',
 											width: '180px',
 											transform: 'scale(.2)',
@@ -292,6 +372,8 @@ const Player: FC<IPlayer> = ({
 	);
 };
 
-export default Player;
+const memoPlayer = memo(Player);
+
+export default memoPlayer;
 
 //

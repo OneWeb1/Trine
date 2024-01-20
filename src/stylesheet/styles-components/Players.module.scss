@@ -3,6 +3,7 @@
 	z-index: 1000;
 	color: #fff;
 	transition: 0.5s;
+	display: flex;
 
 	.avatarWrapper {
 		position: relative;
@@ -123,8 +124,12 @@
 
 	.info {
 		position: relative;
-		max-width: 0px;
+		// width: 190px;
 		display: flex;
+		flex-direction: row;
+		// flex-direction: column-reverse;
+		flex-wrap: wrap-reverse;
+
 		align-items: center;
 		margin-top: 20px;
 		margin-left: -25px;
