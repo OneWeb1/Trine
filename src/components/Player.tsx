@@ -1,4 +1,4 @@
-import { CSSProperties, FC, useEffect, useRef, memo } from 'react';
+import { FC, useEffect, useRef, memo } from 'react';
 
 import classNames from 'classnames';
 
@@ -54,7 +54,7 @@ const Player: FC<IPlayer> = ({
 	const visibleMessage = visible && player.id === id;
 
 	const indexes = [1, 2, 3, 4, 5];
-	const isReverseCards = indexes.includes(index);
+	// const isReverseCards = indexes.includes(index);
 
 	const isMobile = window.innerWidth <= 600 && window.innerHeight >= 500;
 
@@ -375,5 +375,3 @@ const Player: FC<IPlayer> = ({
 const memoPlayer = memo(Player);
 
 export default memoPlayer;
-
-//

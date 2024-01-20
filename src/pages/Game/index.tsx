@@ -1,6 +1,6 @@
 import { FC, useState, useRef, useEffect } from 'react';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
@@ -27,7 +27,7 @@ import { IPlayerRoom } from '../Admin/interfaces';
 
 import { assets, resizeHandler } from './utils';
 import styles from './../../stylesheet/styles/Game.module.scss';
-import Button from '../../UI/Button';
+// import Button from '../../UI/Button';
 import ModalTimer from '../../components/modals/ModalTimer';
 
 const Game: FC = () => {
@@ -47,9 +47,11 @@ const Game: FC = () => {
 	const [opacity, setOpacity] = useState<number>(0);
 
 	const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
-	const [isLandscape, setIsLandscape] = useState<boolean>(true);
+	// const [setIsLandscape] = useState<boolean>(true);
 
 	const tableRef = useRef<HTMLDivElement>(null);
+
+	const isMobile = window.innerWidth <= 600 && window.innerHeight > 500;
 
 	const readyHandler = async () => {
 		try {
@@ -73,33 +75,33 @@ const Game: FC = () => {
 		resizeHandler(tableRef);
 	};
 
-	const orientationChange = () => {
-		if (window.orientation === 90 || window.orientation === -90) {
-			setIsLandscape(true);
-		} else {
-			setIsLandscape(false);
-		}
-	};
+	// const orientationChange = () => {
+	// 	if (window.orientation === 90 || window.orientation === -90) {
+	// 		setIsLandscape(true);
+	// 	} else {
+	// 		setIsLandscape(false);
+	// 	}
+	// };
 
-	function isMobileDevice() {
-		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-			navigator.userAgent,
-		);
-	}
+	// function isMobileDevice() {
+	// 	return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+	// 		navigator.userAgent,
+	// 	);
+	// }
 
 	useEffect(() => {
-		if (isMobileDevice()) {
-			// (window.screen.orientation as any).lock('landscape');
-			orientationChange();
-			window.addEventListener('orientationchange', orientationChange);
-		}
+		// if (isMobileDevice()) {
+		// 	// (window.screen.orientation as any).lock('landscape');
+		// 	orientationChange();
+		// 	window.addEventListener('orientationchange', orientationChange);
+		// }
 		window.addEventListener('resize', resizeHandler.bind(null, tableRef));
-		return () => {
-			if (isMobileDevice()) {
-				// document.exitFullscreen();
-				window.addEventListener('orientationchange', orientationChange);
-			}
-		};
+		// return () => {
+		// 	if (isMobileDevice()) {
+		// 		// document.exitFullscreen();
+		// 		window.addEventListener('orientationchange', orientationChange);
+		// 	}
+		// };
 	}, []);
 
 	resizeHandler(tableRef);
@@ -131,7 +133,7 @@ const Game: FC = () => {
 						isFullScreen={isFullScreen}
 						handleFullScreen={handleFullScreen}
 					/>
-					{window.innerWidth <= 600 && window.innerHeight > 500 && (
+					{isMobile && (
 						<PortraitTable
 							roomState={roomState}
 							setRoomState={setRoomState}
