@@ -53,7 +53,7 @@ const Player: FC<IPlayer> = ({
 	const { visible, message, id } = visibleStateMessage;
 	const visibleMessage = visible && player.id === id;
 
-	const indexes = [1, 2, 3, 4, 5];
+	// const indexes = [1, 2, 3, 4, 5];
 	// const isReverseCards = indexes.includes(index);
 
 	const isMobile = window.innerWidth <= 600 && window.innerHeight >= 500;
