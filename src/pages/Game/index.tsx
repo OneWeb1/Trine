@@ -188,7 +188,6 @@ const Game: FC = () => {
 					sum={Math.floor(roomState.bank * 0.97)}
 					isHide={false}
 					onClick={() => {
-						console.log(555);
 						setRoomResultState({} as RoomsResponse);
 						dispatch(setGameAction({ state: '' }));
 					}}

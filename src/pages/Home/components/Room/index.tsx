@@ -97,7 +97,6 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 				}),
 			);
 			dispatch(setVisibleModal('ss'));
-			console.log(data);
 		} catch (e) {
 			console.log(e);
 		}

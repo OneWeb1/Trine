@@ -13,7 +13,6 @@ const CircleTimer: FC<CircleTimer> = ({ style, startTime, currentTime }) => {
 	const d = 600;
 
 	const offset = (d / startTime) * (startTime - (currentTime | 0));
-	console.log({ offset });
 	useEffect(() => {
 		const timer = setInterval(function () {}, 1000);
 

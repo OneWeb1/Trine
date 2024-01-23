@@ -7,8 +7,6 @@ interface IModalTimer {
 }
 
 const ModalTimer: FC<IModalTimer> = ({ timer }) => {
-	console.log({ timer });
-
 	return (
 		<div className={styles.modalTimer}>
 			<div className={styles.title}>Гра скоро розпочнеться!</div>

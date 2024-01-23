@@ -142,7 +142,8 @@ const GameFooter: FC<IGameFooter> = ({
 							<div
 								style={{
 									margin: '0 auto',
-									maxWidth: '300px',
+									maxWidth: window.innerWidth > 340 ? '300px' : '240px',
+									// padding: window.innerWidth < 340 ? '0px' : '0px 15px',
 									textAlign: 'center',
 								}}>
 								<div className={styles.gameButtonsWrapper}>

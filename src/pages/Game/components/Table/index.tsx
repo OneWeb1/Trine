@@ -85,8 +85,6 @@ const Table: FC<ITable> = ({
 
 	const reverseIds = [0, 1, 2, 9, 10];
 
-	console.log(reverseIds);
-
 	const startPolling = () => {
 		if (timeoutRef.current) return;
 

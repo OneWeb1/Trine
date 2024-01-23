@@ -68,7 +68,7 @@
 	}
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 950px) {
 	.footer {
 		bottom: 15px;
 	}
@@ -145,5 +145,11 @@
 
 	.x2 {
 		display: none;
+	}
+}
+
+@media screen and (max-width: 340px) {
+	.flexContainer {
+		padding: 0;
 	}
 }

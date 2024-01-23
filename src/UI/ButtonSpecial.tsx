@@ -26,7 +26,6 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 	style,
 	className,
 	wait,
-	iconCenter,
 	numberVisible,
 	onClick,
 }) => {
@@ -42,8 +41,6 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 		}
 	};
 
-	const wm450 = window.innerWidth < 450;
-
 	return (
 		<div
 			className={classNames(
@@ -53,16 +50,8 @@ const ButtonSpecial: FC<IButtonSpecial> = ({
 			)}
 			style={{ ...style, opacity: !disabled ? 0.5 : 1 }}
 			onClick={(disabled && interceptorHandler) || initHandler}>
-			{icon && (
-				<div
-					className={styles.icon}
-					style={{ marginTop: (wm450 && iconCenter && '-8px') || '0px' }}>
-					{icon}
-				</div>
-			)}
-			<div
-				className={styles.rightWrapper}
-				style={{ display: (wm450 && iconCenter && 'none') || 'flex' }}>
+			{icon && <div className={styles.icon}>{icon}</div>}
+			<div className={styles.rightWrapper}>
 				<div className={styles.center}>
 					<div
 						className={styles.text}
