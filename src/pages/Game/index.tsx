@@ -51,10 +51,6 @@ const Game: FC = () => {
 
 	const tableRef = useRef<HTMLDivElement>(null);
 
-	const isMobile = window.innerWidth <= 600 && window.innerHeight > 500;
-
-	console.log({ isMobile });
-
 	const readyHandler = async () => {
 		try {
 			const { data } = await AdminService.roomIsReady(true);
@@ -92,18 +88,7 @@ const Game: FC = () => {
 	// }
 
 	useEffect(() => {
-		// if (isMobileDevice()) {
-		// 	// (window.screen.orientation as any).lock('landscape');
-		// 	orientationChange();
-		// 	window.addEventListener('orientationchange', orientationChange);
-		// }
 		window.addEventListener('resize', resizeHandler.bind(null, tableRef));
-		// return () => {
-		// 	if (isMobileDevice()) {
-		// 		// document.exitFullscreen();
-		// 		window.addEventListener('orientationchange', orientationChange);
-		// 	}
-		// };
 	}, []);
 
 	resizeHandler(tableRef);
@@ -135,21 +120,6 @@ const Game: FC = () => {
 						isFullScreen={isFullScreen}
 						handleFullScreen={handleFullScreen}
 					/>
-
-					{/* {isMobile ? (
-						<PortraitTable
-							roomState={roomState}
-							setRoomState={setRoomState}
-							ready={ready}
-							setReady={setReady}
-							setLoading={setLoading}
-							mePlayer={mePlayer}
-							setMePlayer={setMePlayer}
-							setUpdate={setUpdate}
-							setOpacity={setOpacity}
-							tableRef={tableRef}
-						/>
-					) : ( */}
 					<Table
 						roomState={roomState}
 						setRoomState={setRoomState}
@@ -162,7 +132,6 @@ const Game: FC = () => {
 						setOpacity={setOpacity}
 						tableRef={tableRef}
 					/>
-					{/* )} */}
 					{!loading && (
 						<GameFooter
 							isEnable={

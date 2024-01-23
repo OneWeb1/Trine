@@ -85,8 +85,6 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 		}
 	});
 
-	console.log({ scale, table });
-
 	if (screenWidth <= 600 && window.innerHeight > 500) {
 		table.style.transform = `scale(${scale}) rotate(${0}deg)`;
 	} else if (window.innerHeight < 300 && window.innerWidth > 700) {
