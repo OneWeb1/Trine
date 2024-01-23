@@ -247,7 +247,11 @@ const Player: FC<IPlayer> = ({
 				<div ref={avatarRef} className={styles.avatarWrapper}>
 					{(player.state === 'move' || player.me) &&
 						player.time_for_move > 0 && (
-							<CircleTimer startTime={20} currentTime={player.time_for_move} />
+							<CircleTimer
+								style={{ marginLeft: player.me ? '-10.5px' : '0px' }}
+								startTime={20}
+								currentTime={player.time_for_move}
+							/>
 						)}
 
 					{!player.cards.includes('*') && !player.me && (
