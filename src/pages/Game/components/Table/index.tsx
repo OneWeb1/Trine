@@ -23,8 +23,10 @@ import {
 	setRoomResultState,
 } from '../../../../store/slices/app.slice';
 
+import LandscapeTable from './LandscapeTable';
+import MobilePortraitTable from './MobilePortraitTable';
 import Player from '../../../../components/Player';
-import FishkaItem from '../../../../components/FishkaItem';
+// import FishkaItem from '../../../../components/FishkaItem';
 
 import { resizeHandler, getRoomsIndexPosition } from './../../utils';
 
@@ -32,7 +34,7 @@ import AdminService from '../../../../services/AdminService';
 
 import { IPlayerRoom } from '../../../Admin/interfaces';
 
-import styles from './Table.module.scss';
+// import styles from './Table.module.scss';
 import { RoomsResponse } from '../../../../models/response/AdminResponse';
 import GameService from '../../../../services/GameService';
 
@@ -68,6 +70,7 @@ const Table: FC<ITable> = ({
 	);
 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
 	const [pos, setPos] = useState<number[]>([]);
+
 	const recruitmentStateRef = useRef<{ [key: number]: string }>(
 		{} as { [key: number]: string },
 	);
@@ -80,6 +83,8 @@ const Table: FC<ITable> = ({
 		JSON.parse(localStorage.getItem('isAction') || 'false'),
 	);
 	const isWriteReadyState = useRef<boolean>(false);
+
+	const isMobile = window.innerWidth <= 600 && window.innerHeight > 500;
 
 	// const h = window.innerHeight;
 
@@ -313,43 +318,46 @@ const Table: FC<ITable> = ({
 	});
 
 	return (
-		<div style={{ marginTop: '-20px' }} className={styles.tableWrapper}>
-			<div className={styles.table} ref={tableRef}>
-				{players.map((player, idx) => (
-					<Player
-						key={idx}
-						cards={mePlayer.cards}
-						player={player}
-						reverse={reverseIds.includes(pos[idx])}
-						isMeMove={mePlayer.state === 'move'}
-						isVisibleCards={roomState.state === 'bidding'}
-						isReady={ready}
-						check={check}
-						bet={player.last_bid}
-						lastId={getLastId()}
-						index={pos[idx]}
-					/>
-				))}
-
-				<div className={styles.tableBorder}>
-					<div className={styles.tableField}>
-						<div className={styles.screenCenter}>
-							<div className={styles.displayWrapper}>
-								<div className={styles.tax}>
-									Налог (3%){' '}
-									<span
-										className={styles.taxNumber}
-										style={{ marginLeft: '3px', fontWeight: '600' }}>
-										{(roomState.bank * 0.03).toFixed(2)}
-									</span>
-								</div>
-								<FishkaItem value={roomState.bank} />
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<>
+			{isMobile && (
+				<MobilePortraitTable tableRef={tableRef} roomState={roomState}>
+					{players.map((player, idx) => (
+						<Player
+							key={idx}
+							cards={mePlayer.cards}
+							player={player}
+							reverse={reverseIds.includes(pos[idx])}
+							isMeMove={mePlayer.state === 'move'}
+							isVisibleCards={roomState.state === 'bidding'}
+							isReady={ready}
+							check={check}
+							bet={player.last_bid}
+							lastId={getLastId()}
+							index={pos[idx]}
+						/>
+					))}
+				</MobilePortraitTable>
+			)}
+			{!isMobile && (
+				<LandscapeTable tableRef={tableRef} roomState={roomState}>
+					{players.map((player, idx) => (
+						<Player
+							key={idx}
+							cards={mePlayer.cards}
+							player={player}
+							reverse={reverseIds.includes(pos[idx])}
+							isMeMove={mePlayer.state === 'move'}
+							isVisibleCards={roomState.state === 'bidding'}
+							isReady={ready}
+							check={check}
+							bet={player.last_bid}
+							lastId={getLastId()}
+							index={pos[idx]}
+						/>
+					))}
+				</LandscapeTable>
+			)}
+		</>
 	);
 };
 

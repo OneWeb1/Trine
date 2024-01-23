@@ -15,7 +15,7 @@ import {
 import GameHeader from '../../components/GameHeader';
 import GameFooter from '../../components/GameFooter';
 import Table from './components/Table';
-import PortraitTable from './components/PortraitTable';
+// import PortraitTable from './components/PortraitTable';
 
 import ModalAfterGame from '../../components/modals/ModalAfterGame';
 import Spinner from '../../components/spinner';
@@ -52,6 +52,8 @@ const Game: FC = () => {
 	const tableRef = useRef<HTMLDivElement>(null);
 
 	const isMobile = window.innerWidth <= 600 && window.innerHeight > 500;
+
+	console.log({ isMobile });
 
 	const readyHandler = async () => {
 		try {
@@ -133,7 +135,8 @@ const Game: FC = () => {
 						isFullScreen={isFullScreen}
 						handleFullScreen={handleFullScreen}
 					/>
-					{isMobile && (
+
+					{/* {isMobile ? (
 						<PortraitTable
 							roomState={roomState}
 							setRoomState={setRoomState}
@@ -146,7 +149,7 @@ const Game: FC = () => {
 							setOpacity={setOpacity}
 							tableRef={tableRef}
 						/>
-					)}
+					) : ( */}
 					<Table
 						roomState={roomState}
 						setRoomState={setRoomState}
@@ -159,6 +162,7 @@ const Game: FC = () => {
 						setOpacity={setOpacity}
 						tableRef={tableRef}
 					/>
+					{/* )} */}
 					{!loading && (
 						<GameFooter
 							isEnable={
