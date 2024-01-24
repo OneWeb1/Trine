@@ -144,12 +144,40 @@
 	}
 
 	.x2 {
-		display: none;
+		// display: none;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.range {
+		width: 130px;
+		height: 10px;
+		margin-right: 0px;
+		margin-top: 5px;
+
+		&::-webkit-slider-thumb {
+			height: 18px;
+			width: 18px;
+			border-radius: 6px;
+		}
 	}
 }
 
 @media screen and (max-width: 340px) {
 	.flexContainer {
 		padding: 0;
+	}
+
+	.range {
+		width: 90px;
+		height: 9px;
+		margin-right: 0px;
+		margin-top: 5px;
+
+		&::-webkit-slider-thumb {
+			height: 15px;
+			width: 15px;
+			border-radius: 6px;
+		}
 	}
 }

@@ -143,6 +143,8 @@ const GameFooter: FC<IGameFooter> = ({
 								style={{
 									margin: '0 auto',
 									maxWidth: window.innerWidth > 340 ? '300px' : '240px',
+									display: 'flex',
+									flexDirection: 'column',
 									// padding: window.innerWidth < 340 ? '0px' : '0px 15px',
 									textAlign: 'center',
 								}}>
@@ -166,7 +168,7 @@ const GameFooter: FC<IGameFooter> = ({
 										style={{
 											maxWidth: '600px',
 											width: '550px',
-											marginTop: windowWidth < 700 ? '-10px' : '0px',
+											marginTop: windowWidth < 700 ? '-40px' : '0px',
 										}}
 										className={
 											(windowWidth < 1100 && styles.buttonFlex) ||
@@ -274,6 +276,90 @@ const GameFooter: FC<IGameFooter> = ({
 										</div>
 									)}
 								</div>
+								{windowWidth <= 700 && (
+									<div
+										style={{ paddingLeft: '4px' }}
+										className={styles.gameButtonsWrapper}>
+										<div>
+											<input
+												style={{ opacity: percent === 0 ? 0.5 : 1 }}
+												type='range'
+												ref={rangeRef}
+												disabled={percent === 0 ? false : !isEnable}
+												className={styles.range}
+												min={0}
+												max={10000}
+												value={percent}
+												onChange={e => changePercent(e)}
+											/>
+										</div>
+
+										<div
+											style={{
+												marginLeft: windowWidth < 1150 ? '7px' : '20px',
+												display: 'flex',
+											}}>
+											<ButtonFunction
+												className={styles.x2}
+												text='x2'
+												number={multiplay(bid, 2)}
+												disabled={
+													maxBid - bid < multiplay(bid, 2)
+														? maxBid - bid > multiplay(bid, 2)
+														: isEnable
+												}
+												onClick={() => {
+													let sum = multiplay(bid, 2);
+													if (sum < bid * 2) sum = bid * 2;
+													setRaiseSum(sum);
+													setPercent((sum / maxBid) * 10000);
+												}}
+											/>
+											<ButtonFunction
+												text='x5'
+												number={multiplay(bid, 5)}
+												disabled={
+													maxBid - bid < multiplay(bid, 5)
+														? maxBid - bid > multiplay(bid, 5)
+														: isEnable
+												}
+												onClick={() => {
+													let sum = multiplay(bid, 5);
+													if (sum < bid * 2) sum = bid * 5;
+													setRaiseSum(sum);
+													setPercent((sum / maxBid) * 10000);
+												}}
+											/>
+											<ButtonFunction
+												text='x10'
+												number={multiplay(bid, 10)}
+												disabled={
+													maxBid - bid < multiplay(bid, 10)
+														? maxBid - bid > multiplay(bid, 10)
+														: isEnable
+												}
+												onClick={() => {
+													let sum = multiplay(joinTax, 10);
+													if (sum < bid * 2) sum = bid * 10;
+													setRaiseSum(sum);
+													setPercent((sum / maxBid) * 10000);
+												}}
+											/>
+											<ButtonFunction
+												text='MAX'
+												number={maxBid - bid}
+												disabled={
+													maxBid - bid === 0 ? maxBid - bid !== 0 : isEnable
+												}
+												onClick={() => {
+													const sum = maxBid - bid;
+													setRaiseSum(sum);
+													setPercent((sum / maxBid) * 10000);
+												}}
+											/>
+										</div>
+									</div>
+								)}
 							</div>
 						</div>
 					)}
