@@ -20,22 +20,6 @@ const LandscapeTable: FC<ILandscapeTable> = ({
 		<div style={{ marginTop: '-20px' }} className={styles.tableWrapper}>
 			<div className={styles.table} ref={tableRef}>
 				{children}
-				{/* {players.map((player, idx) => (
-					<Player
-						key={idx}
-						cards={mePlayer.cards}
-						player={player}
-						reverse={reverseIds.includes(pos[idx])}
-						isMeMove={mePlayer.state === 'move'}
-						isVisibleCards={roomState.state === 'bidding'}
-						isReady={ready}
-						check={check}
-						bet={player.last_bid}
-						lastId={getLastId()}
-						index={pos[idx]}
-					/>
-				))} */}
-
 				<div className={styles.tableBorder}>
 					<div className={styles.tableField}>
 						<div className={styles.screenCenter}>

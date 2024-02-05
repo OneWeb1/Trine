@@ -7,7 +7,8 @@ import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	setGameAction,
-	setRoomResultState,
+	// setRoomResultState,
+	setRefreshBottomMenu,
 	// setVisibleStateMessage,
 	// setIsAction,
 } from '../../store/slices/app.slice';
@@ -33,7 +34,9 @@ import ModalTimer from '../../components/modals/ModalTimer';
 const Game: FC = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { gameAction } = useSelector((state: CustomRootState) => state.app);
+	const { gameAction, refreshBottomMenu, isEnable } = useSelector(
+		(state: CustomRootState) => state.app,
+	);
 	const [roomState, setRoomState] = useState<RoomsResponse>(
 		{} as RoomsResponse,
 	);
@@ -54,6 +57,7 @@ const Game: FC = () => {
 	const readyHandler = async () => {
 		try {
 			const { data } = await AdminService.roomIsReady(true);
+			setRefreshBottomMenu();
 			if (data) return true;
 		} catch (e) {
 			console.log(e);
@@ -132,7 +136,7 @@ const Game: FC = () => {
 						setOpacity={setOpacity}
 						tableRef={tableRef}
 					/>
-					{!loading && (
+					{!loading && refreshBottomMenu && (
 						<GameFooter
 							isEnable={
 								mePlayer.state === 'move' && roomState.state === 'bidding'
@@ -153,7 +157,7 @@ const Game: FC = () => {
 				<ModalTimer timer={roomState.time_to_start} />
 			)}
 
-			{gameAction.state === 'won' && (
+			{/* {gameAction.state === 'won' && (
 				<ModalAfterGame
 					title='Ви виграли'
 					message='Сума виграшу:'
@@ -165,7 +169,7 @@ const Game: FC = () => {
 						dispatch(setGameAction({ state: '' }));
 					}}
 				/>
-			)}
+			)} */}
 			{/* {gameAction.state === 'defeat' && (
 				<ModalAfterGame
 					title='Ви програли'

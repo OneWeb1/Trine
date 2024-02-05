@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import FishkaItem from './FishkaItem';
 import TreeCards from './cards';
 
-import { IPlayerRoom } from '../models/response/AdminResponse';
+import { IPlayerRoom, RoomsResponse } from '../models/response/AdminResponse';
 
 import styles from './../stylesheet/styles-components/Players.module.scss';
 import AdminService from '../services/AdminService';
@@ -25,6 +25,7 @@ interface IPlayer {
 	isReady: boolean;
 	isVisibleCards: boolean;
 	check: { visible: boolean; id: number };
+	roomState: RoomsResponse;
 	lastId: number;
 	isMeMove: boolean;
 	bet: number;
@@ -35,9 +36,10 @@ const Player: FC<IPlayer> = ({
 	player,
 	reverse,
 	isMeMove,
-	// isReady,
+	isReady,
 	isVisibleCards,
 	// check,
+	roomState,
 	lastId,
 	cards,
 	index,
@@ -53,10 +55,10 @@ const Player: FC<IPlayer> = ({
 	const { visible, message, id } = visibleStateMessage;
 	const visibleMessage = visible && player.id === id;
 
-	// const indexes = [1, 2, 3, 4, 5];
 	// const isReverseCards = indexes.includes(index);
 
 	const isMobile = window.innerWidth <= 600 && window.innerHeight >= 500;
+	const isLeftItem = !isMobile && [9, 10].includes(index);
 
 	const doCheckCards = async () => {
 		try {
@@ -175,6 +177,8 @@ const Player: FC<IPlayer> = ({
 		top: index === 5 || index === 6 ? '150px' : '60px',
 	};
 
+	const isOffsetTimer = [1, 2, 9, 10].includes(index) && isMobile;
+
 	const portraitStyle = isMobile && index ? pStyle : {};
 	const portraitRightStyle = isMobile ? prStyle : {};
 
@@ -196,9 +200,10 @@ const Player: FC<IPlayer> = ({
 		if (!blockedRePositionRef.current) setPosition();
 	});
 
+	console.log({ name: player.nickname, isRightPlayer, reverse });
+
 	return (
 		<div
-			onClick={isMeMove && lastId === player.id ? doCheckCards : () => {}}
 			className={styles.player}
 			ref={ref}
 			style={{
@@ -209,52 +214,89 @@ const Player: FC<IPlayer> = ({
 			<div>
 				{reverse && (
 					<>
-						<div
-							className={styles.info}
-							style={{
-								marginTop: (!player.last_move && '0px') || '0px',
-								...portraitStyle,
-							}}>
-							<div style={{ marginLeft: '50px' }}>
-								<FishkaItem isPlayer={true} value={player.full_bid} />
+						{isVisibleCards && (
+							<div
+								className={styles.info}
+								style={{
+									marginTop: (!player.last_move && '0px') || '0px',
+									marginLeft: isLeftItem ? '-75px' : '',
+									...portraitStyle,
+								}}>
+								<div style={{ marginLeft: '50px' }}>
+									<FishkaItem isPlayer={true} value={player.full_bid} />
+								</div>
+								<div className={styles.icon}>
+									{!player.me && player.state !== 'defeat' && (
+										<TreeCards
+											style={{
+												position: 'absolute',
+												left: !isRightPlayer ? '-120px' : '50px',
+												top: '-10px',
+												width: '170px',
+												transform: 'scale(.2)',
+											}}
+											cards={['fb', 'fb', 'fb']}
+										/>
+									)}
+								</div>
 							</div>
-							<div className={styles.icon}>
-								{!player.me && player.state !== 'defeat' && (
-									<TreeCards
-										style={{
-											position: 'absolute',
-											left: !isRightPlayer ? '-120px' : '50px',
-											top: '-10px',
-											width: '170px',
-											transform: 'scale(.2)',
-										}}
-										cards={['fb', 'fb', 'fb']}
-									/>
-								)}
-							</div>
-						</div>
+						)}
+
 						{/* {(player.last_move || player.state === 'idle') && ( */}
 						<div
 							className={styles.viewState}
 							style={{
+								opacity: 0,
+							}}>
+							{message}
+						</div>
+						<div
+							className={styles.viewState}
+							style={{
+								position: 'absolute',
+								zIndex: '1000',
 								opacity: visibleMessage ? 1 : 0,
-								marginBottom: '0px',
+								marginTop: '75px',
+								marginLeft: '-50px',
 							}}>
 							{message}
 						</div>
 					</>
 				)}
-				<div ref={avatarRef} className={styles.avatarWrapper}>
+				<div
+					style={{
+						// marginRight: reverse ? '40px' : '0px',
+						// marginLeft: reverse ? '0px' : '40px',
+						marginTop: reverse ? '20px' : '0px',
+					}}
+					ref={avatarRef}
+					className={styles.avatarWrapper}>
+					<div
+						style={{ display: roomState.state === 'result' ? 'block' : 'none' }}
+						className={styles.moneyInfo}>
+						{player.state === 'defeat'
+							? `-${player.full_bid}`
+							: `+${roomState.bank - roomState.bank * 0.03}`}
+					</div>
 					{(player.state === 'move' || player.me) &&
 						player.time_for_move > 0 && (
 							<CircleTimer
-								style={{ marginLeft: player.me ? '-10.5px' : '0px' }}
+								style={{
+									marginLeft:
+										!reverse || isOffsetTimer
+											? '7px'
+											: isLeftItem
+											? '7px'
+											: player.me
+											? '-11px'
+											: '-10px',
+								}}
 								startTime={20}
 								currentTime={player.time_for_move}
 							/>
 						)}
 
-					{!player.cards.includes('*') && !player.me && (
+					{!player.cards.includes('*') && !isReady && !player.me && (
 						<div
 							style={{
 								position: 'absolute',
@@ -302,7 +344,11 @@ const Player: FC<IPlayer> = ({
 								cursor: 'pointer',
 							}}
 							className={styles.checkWrapper}>
-							<div className={styles.checkButton}>
+							<div
+								className={styles.checkButton}
+								onClick={
+									isMeMove && lastId === player.id ? doCheckCards : () => {}
+								}>
 								<GiCardExchange />
 							</div>
 						</div>
@@ -319,49 +365,66 @@ const Player: FC<IPlayer> = ({
 						<div
 							className={styles.viewState}
 							style={{
+								position: 'absolute',
 								opacity: visibleMessage ? 1 : 0,
-								marginTop: '28px',
+								marginTop: '-40px',
+								marginLeft: '-50px',
 							}}>
 							{message}
 						</div>
 						{/* )} */}
-						<div
-							className={styles.info}
-							style={{
-								marginTop: '5px',
-								marginLeft: !isMobile ? '-80px' : '',
-								...portraitRightStyle,
-							}}>
-							<div style={{ marginLeft: '50px' }}>
-								<FishkaItem isPlayer={true} value={player.full_bid} />
+						{isVisibleCards && (
+							<div
+								className={styles.info}
+								style={{
+									marginTop: '50px',
+									marginLeft: isMobile ? '-80px' : '0px',
+									...portraitRightStyle,
+								}}>
+								<div
+									style={{
+										marginLeft: !isMobile
+											? '-30px'
+											: index !== 5
+											? '100px'
+											: '55px',
+										marginTop: isMobile ? '-60px' : '0px',
+									}}>
+									<FishkaItem isPlayer={true} value={player.full_bid} />
+								</div>
+								<div className={styles.icon}>
+									{!player.me && player.state !== 'defeat' && (
+										<TreeCards
+											style={{
+												position: 'absolute',
+												left:
+													isMobile && !isRightPlayer
+														? '-120px'
+														: isMobile
+														? '100px'
+														: '-30px',
+												top: isMobile ? '-45px' : '-12px',
+												width: '180px',
+												transform: 'scale(.2)',
+											}}
+											cards={['fb', 'fb', 'fb', 'jpg']}
+										/>
+									)}
+								</div>
 							</div>
-							<div className={styles.icon}>
-								{!player.me && player.state !== 'defeat' && (
-									<TreeCards
-										style={{
-											position: 'absolute',
-											left: !isRightPlayer ? '-120px' : '50px',
-											top: '-10px',
-											width: '180px',
-											transform: 'scale(.2)',
-										}}
-										cards={['fb', 'fb', 'fb', 'jpg']}
-									/>
-								)}
-							</div>
-						</div>
+						)}
 					</>
 				)}
 			</div>
 			{index === 0 && (
 				<div className={styles.cards}>
-					{!isVisibleCards && (
+					{/* {!isVisibleCards && (
 						<TreeCards
 							style={{ width: '180px', marginTop: '-25px', marginLeft: '30px' }}
 							visible={true}
 							cards={['fb', 'fb', 'fb']}
 						/>
-					)}
+					)} */}
 					{isVisibleCards && (
 						<TreeCards
 							style={{ width: '180px', marginTop: '-25px', marginLeft: '30px' }}

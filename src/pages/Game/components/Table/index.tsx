@@ -21,6 +21,7 @@ import {
 	// setCheck,
 	// setIsAction,
 	setRoomResultState,
+	setIsEnable,
 } from '../../../../store/slices/app.slice';
 
 import LandscapeTable from './LandscapeTable';
@@ -239,6 +240,10 @@ const Table: FC<ITable> = ({
 			localStorage.removeItem('ready');
 		}
 
+		if (mePlayer.state !== 'move') {
+			dispatch(setIsEnable(true));
+		}
+
 		if (!room.players) return;
 		room.players.forEach(async player => {
 			if (player.me) {
@@ -331,6 +336,7 @@ const Table: FC<ITable> = ({
 							isVisibleCards={roomState.state === 'bidding'}
 							isReady={ready}
 							check={check}
+							roomState={roomState}
 							bet={player.last_bid}
 							lastId={getLastId()}
 							index={pos[idx]}
@@ -350,6 +356,7 @@ const Table: FC<ITable> = ({
 							isVisibleCards={roomState.state === 'bidding'}
 							isReady={ready}
 							check={check}
+							roomState={roomState}
 							bet={player.last_bid}
 							lastId={getLastId()}
 							index={pos[idx]}

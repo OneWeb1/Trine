@@ -85,19 +85,22 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 		}
 	});
 
+	const custDeg = '0deg';
+
 	if (screenWidth <= 600 && window.innerHeight > 500) {
-		table.style.transform = `scale(${scale}) rotate(${0}deg)`;
+		table.style.transform = `scale(${scale}) perspective(900px) rotateX(${custDeg})`;
 	} else if (window.innerHeight < 300 && window.innerWidth > 700) {
-		table.style.transform = `scale(${0.32}) rotate(${0}deg) translateY(-121px)`;
+		table.style.transform = `scale(${0.32}) perspective(900px) rotateX(${custDeg}) translateY(-121px)`;
 	} else if (window.innerHeight < 301 && window.innerWidth < 700) {
-		table.style.transform = `scale(${0.32}) rotate(${0}deg) translateY(0px)`;
+		table.style.transform = `scale(${0.32}) perspective(900px) rotateX(${custDeg}) translateY(0px)`;
 	} else if (window.innerHeight < 420 && window.innerHeight < 1200) {
-		table.style.transform = `scale(${0.45}) rotate(${0}deg)`;
-	} else table.style.transform = `scale(${scale}) rotate(${deg}deg)`;
+		table.style.transform = `scale(${0.45}) perspective(900px) rotateX(${custDeg})`;
+	} else
+		table.style.transform = `scale(${scale}) perspective(900px) rotateX(${custDeg})`;
 };
 
 const getRoomsIndexPosition = (length: number): number[] => {
-	const position = [0, 7, 4, 2, 9, 5, 6, 3, 8, 1, 10];
+	const position = [0, 8, 4, 2, 9, 5, 6, 3, 8, 1, 10];
 
 	return position.slice(0, length).sort((a, b) => a - b);
 };

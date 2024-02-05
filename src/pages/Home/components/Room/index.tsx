@@ -153,9 +153,10 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 			(dateRef.current - new Date().getTime()) / 1000,
 		);
 
-		if (diffTime > 2) {
+		if (diffTime >= 1) {
 			initPlayers();
 			handleResize();
+
 			dateRef.current = new Date().getTime();
 		}
 	};
@@ -171,7 +172,6 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 	}, [windowWidth]);
 
 	updateViewJoinPlayers();
-
 	// useEffect(() => {
 	// 	console.log(1);
 	// 	removeRoom();
@@ -301,5 +301,4 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 		</>
 	);
 };
-
 export default Room;

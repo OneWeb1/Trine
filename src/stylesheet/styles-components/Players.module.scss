@@ -7,6 +7,15 @@
 
 	.avatarWrapper {
 		position: relative;
+
+		.moneyInfo {
+			position: absolute;
+			font-size: 28px;
+			left: 50%;
+			transform: translateX(-50%);
+			margin-top: -38px;
+		}
+
 		.checkWrapper {
 			position: absolute;
 			width: 80px;
@@ -110,16 +119,20 @@
 	}
 
 	.viewState {
-		width: 120px;
-		height: 30px;
+		width: 95px;
+		height: 25px;
 		margin-top: 5px;
 		border-radius: 4px;
+		font-size: 12px;
+		font-weight: 600;
+		text-transform: uppercase;
 		border: 1px solid #d47822;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		margin-left: -15px;
-		background: rgba(91, 48, 8, 0.63);
+		background: rgba(91, 48, 8, 1);
+		z-index: 10000000;
 	}
 
 	.info {

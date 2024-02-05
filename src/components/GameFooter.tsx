@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, ChangeEvent, useRef } from 'react';
 
-// import { useDispatch } from 'react-redux';
-// import { setGameAction } from '../store/slices/app.slice';
+import { useDispatch } from 'react-redux';
+import { setIsEnable } from '../store/slices/app.slice';
 
 import { MdDoubleArrow } from 'react-icons/md';
 
@@ -33,17 +33,20 @@ const GameFooter: FC<IGameFooter> = ({
 	bid,
 	loading,
 }) => {
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 	const [percent, setPercent] = useState<number>(0);
 	const [raiseSum, setRaiseSum] = useState<number>(Number(bid) * 2);
 
 	const rangeRef = useRef<HTMLInputElement>(null);
 	const multiplay = (sum: number, x: number) => sum * x;
+
 	const supportHandler = async () => {
+		dispatch(setIsEnable(false));
 		await AdminService.do({ action: 'support' });
 	};
 	const raiseHandler = async () => {
+		dispatch(setIsEnable(false));
 		try {
 			const { data } = await AdminService.do({
 				action: 'raise',
@@ -58,6 +61,7 @@ const GameFooter: FC<IGameFooter> = ({
 	};
 
 	const dropHandler = async () => {
+		dispatch(setIsEnable(false));
 		try {
 			const { data } = await AdminService.do({ action: 'drop' });
 			if (data) return true;
@@ -168,7 +172,7 @@ const GameFooter: FC<IGameFooter> = ({
 										style={{
 											maxWidth: '600px',
 											width: '550px',
-											marginTop: windowWidth < 700 ? '-40px' : '0px',
+											marginTop: windowWidth < 700 ? '-20px' : '0px',
 										}}
 										className={
 											(windowWidth < 1100 && styles.buttonFlex) ||
@@ -278,7 +282,7 @@ const GameFooter: FC<IGameFooter> = ({
 								</div>
 								{windowWidth <= 700 && (
 									<div
-										style={{ paddingLeft: '4px' }}
+										style={{ paddingLeft: '4px', marginTop: '4px' }}
 										className={styles.gameButtonsWrapper}>
 										<div>
 											<input

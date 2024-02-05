@@ -27,6 +27,7 @@ interface IState {
 	isAuth: boolean;
 	isSubmit: boolean;
 	isAction: boolean;
+	isEnable: boolean;
 	isPlayerResize: boolean;
 	ready: boolean;
 	defeat: boolean;
@@ -45,6 +46,7 @@ interface IState {
 	lastPlayerNumber: number;
 	updateRoom: number;
 	accountsLength: number;
+	refreshBottomMenu: number;
 	account: AdminProfileResponse;
 	menuAccountSettingsPosition: IMenuAccountSettingsPosition;
 	joinRoom: RoomsResponse;
@@ -54,9 +56,10 @@ interface IState {
 const initialState: IState = {
 	stats: {} as IStats,
 	avatars: JSON.parse(localStorage.getItem('avatars') || '[]'),
-	baseIconPath: 'https://trynka-backend.onrender.com',
+	baseIconPath: 'https://trine-game.online',
 	isAuth: (localStorage.getItem('token') && true) || false,
 	isAction: JSON.parse(localStorage.getItem('isAction') || 'false'),
+	isEnable: true,
 	isPlayerResize: false,
 	isSubmit: false,
 	ready: JSON.parse(localStorage.getItem('ready') || 'false'),
@@ -73,6 +76,7 @@ const initialState: IState = {
 	updateAccounts: 1,
 	lastPlayerNumber: 0,
 	updateRoom: 1,
+	refreshBottomMenu: 1,
 	accountsLength: JSON.parse(localStorage.getItem('accounts-length') || '0'),
 	account:
 		JSON.parse(localStorage.getItem('account') || '{}') ||
@@ -104,6 +108,9 @@ const appSlice = createSlice({
 		},
 		setIsAction(state, action) {
 			state.isAction = action.payload;
+		},
+		setIsEnable(state, action) {
+			state.isEnable = action.payload;
 		},
 		setIsPlayerResize(state, action) {
 			state.isPlayerResize = action.payload;
@@ -149,6 +156,9 @@ const appSlice = createSlice({
 		setUpdatePublickRooms(state) {
 			state.updateRoom++;
 		},
+		setRefreshBottomMenu(state) {
+			state.refreshBottomMenu++;
+		},
 		setAccountsLength(state, action) {
 			state.accountsLength = action.payload;
 		},
@@ -183,6 +193,7 @@ export const {
 	setVisibleModal,
 	setIsSubmit,
 	setIsAction,
+	setIsEnable,
 	setIsPlayerResize,
 	setReady,
 	setDefeat,
@@ -199,6 +210,7 @@ export const {
 	setLastPlayerNumber,
 	setUpdateAccounts,
 	setUpdatePublickRooms,
+	setRefreshBottomMenu,
 	setAccountsLength,
 	setIsAuth,
 	setJoinRoom,
