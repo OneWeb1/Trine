@@ -2,9 +2,15 @@ import { FC, useRef, useState, useEffect } from 'react';
 
 import Spinner from '../../components/spinner';
 
+import { useNavigate } from 'react-router-dom';
+
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { setVisibleModal, setAccount } from '../../store/slices/app.slice';
+import {
+	setVisibleModal,
+	setJoinRoom,
+	setAccount,
+} from '../../store/slices/app.slice';
 
 import ModalCreateRoom from '../../components/modals/ModalCreateRoom';
 import ModalJoinToCode from '../../components/modals/ModalJoinToCode';
@@ -29,7 +35,9 @@ import {
 	// RoomsPageDataResponse,
 	RoomsResponse,
 } from '../../models/response/AdminResponse';
+import GameService from '../../services/GameService';
 const Home: FC = () => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
 	const [rooms, setRooms] = useState<RoomsResponse[]>([]);
@@ -45,7 +53,7 @@ const Home: FC = () => {
 	const offsetRef = useRef<number>((pagesNumber - 1) * limit);
 	const loadingRooms = useRef<boolean>(false);
 	const intervalRef = useRef<number | null>(null);
-	const joinToCodeHandler = () => {
+	const joinToCodeHandler = async () => {
 		dispatch(setVisibleModal('jc'));
 	};
 
