@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, useRef } from 'react';
 
 import { RootState as CustomRootState } from '../../../../store/rootReducer';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	setUpdatePublickRooms,
@@ -37,6 +37,7 @@ interface IRoom {
 }
 
 const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const {
 		visibleMenuAccountSettings,
@@ -54,14 +55,15 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 	const settingsRef = useRef<HTMLDivElement | null>(null);
 
 	const joinRoomHandler = async () => {
-		if (localStorage.getItem('joinRoom')) return;
 		try {
 			const { data } = await GameService.joinRoom(room.id);
 			if (localStorage.getItem('joinRoom')) return;
 			dispatch(setJoinRoom(data));
+			navigate(`/game/${data.id}`);
 			localStorage.setItem('joinRoom', JSON.stringify(data));
 		} catch (e) {
-			dispatch(setGameAction({ state: 'room-not-found' }));
+			localStorage.removeItem('joinRoom');
+			// joinRoomHandler();
 		}
 	};
 
@@ -254,30 +256,29 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 						<div className={styles.bet}>min: {room.join_tax}₴</div>
 						<div className={styles.bet}>max: {room.max_bid}₴</div>
 					</div>
-					<Link to={`/game`}>
-						{hideName && (
-							<Button
-								style={{
-									padding: '9px 32px',
-									fontWeight: 500,
-									fontSize: '12px',
-									background: '',
-								}}
-								background='linear-gradient(180deg, #2C3756 0%, #1F2841 100%)'
-								resize={true}
-								value='Увійти'
-								onClick={joinRoomHandler}
-							/>
-						)}
-						{!hideName && (
-							<div
-								style={{ marginRight: '0px' }}
-								className={styles.buttonJoinFlex}
-								onClick={joinRoomHandler}>
-								<MdPersonAddAlt1 />
-							</div>
-						)}
-					</Link>
+					{hideName && (
+						<Button
+							style={{
+								padding: '9px 32px',
+								fontWeight: 500,
+								fontSize: '12px',
+								background: '',
+							}}
+							background='linear-gradient(180deg, #2C3756 0%, #1F2841 100%)'
+							resize={true}
+							value='Увійти'
+							loading={true}
+							onClick={joinRoomHandler}
+						/>
+					)}
+					{!hideName && (
+						<div
+							style={{ marginRight: '0px' }}
+							className={styles.buttonJoinFlex}
+							onClick={joinRoomHandler}>
+							<MdPersonAddAlt1 />
+						</div>
+					)}
 
 					{isDelete && (
 						<div

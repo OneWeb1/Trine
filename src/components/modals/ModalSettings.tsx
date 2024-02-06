@@ -99,6 +99,7 @@ const ModalSettings: FC = () => {
 			<div className={styles.avatars}>
 				{avatars.map(avatar => (
 					<div
+						key={Math.random()}
 						className={classNames(
 							styles.avatar,
 							avatar === account.avatar_id && styles.currentSelectAvatar,

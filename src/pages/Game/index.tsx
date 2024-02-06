@@ -1,6 +1,6 @@
 import { FC, useState, useRef, useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
@@ -9,6 +9,7 @@ import {
 	setGameAction,
 	// setRoomResultState,
 	setRefreshBottomMenu,
+	setJoinRoom,
 	// setVisibleStateMessage,
 	// setIsAction,
 } from '../../store/slices/app.slice';
@@ -30,11 +31,13 @@ import { assets, resizeHandler } from './utils';
 import styles from './../../stylesheet/styles/Game.module.scss';
 // import Button from '../../UI/Button';
 import ModalTimer from '../../components/modals/ModalTimer';
+import GameService from '../../services/GameService';
 
 const Game: FC = () => {
+	const { id } = useParams();
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { gameAction, refreshBottomMenu, isEnable } = useSelector(
+	const { gameAction, refreshBottomMenu } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [roomState, setRoomState] = useState<RoomsResponse>(
@@ -91,9 +94,37 @@ const Game: FC = () => {
 	// 	);
 	// }
 
+	const getRooms = async () => {
+		const { data } = await AdminService.getRooms({
+			offset: 0,
+			limit: 10000000,
+		});
+		const joinRoom = JSON.parse(localStorage.getItem('joinRoom') || '{}');
+		const openRoom = Object.keys(joinRoom).length
+			? data.items.find(room => room.id === joinRoom.id)
+			: data.items.find(room => room.id === id);
+
+		if (!Object.keys(joinRoom).length && openRoom) {
+			const { data } = await GameService.joinRoom(openRoom.id);
+			dispatch(setJoinRoom(data));
+			localStorage.setItem('joinRoom', JSON.stringify(data));
+			return;
+		}
+
+		if (openRoom && openRoom.id === id) {
+			console.log({ id });
+		} else if (!openRoom || (openRoom && openRoom.id !== id)) {
+			navigate(`/game/${id}/not-found`);
+		}
+	};
+
 	useEffect(() => {
 		window.addEventListener('resize', resizeHandler.bind(null, tableRef));
 	}, []);
+
+	useEffect(() => {
+		getRooms();
+	});
 
 	resizeHandler(tableRef);
 
@@ -112,7 +143,7 @@ const Game: FC = () => {
 			</Helmet>
 
 			{loading && (
-				<div className='flex-center'>
+				<div className='flex-center loading-fg'>
 					<Spinner />
 				</div>
 			)}

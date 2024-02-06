@@ -24,7 +24,7 @@ const ModalStatistics: FC<IModalStatistics> = ({ stats }) => {
 			{values.map((value, idx) => {
 				if (idx === values.length - 1) return;
 				return (
-					<div style={{ marginBottom: '5px' }}>
+					<div key={idx} style={{ marginBottom: '5px' }}>
 						{value}: <span style={{ fontWeight: 600 }}>{numbers[idx]}</span>
 					</div>
 				);

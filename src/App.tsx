@@ -39,7 +39,7 @@ const App = () => {
 							<Route path='/' element={<Home />}></Route>
 							<Route path='/registration' element={<Navigate to='/' />}></Route>
 							<Route path='/login' element={<Navigate to='/' />}></Route>
-							<Route path='/game' element={<Game />}></Route>
+							<Route path='/game/:id' element={<Game />}></Route>
 							{account.is_admin && (
 								<Route path='/admin' element={<Admin />}></Route>
 							)}

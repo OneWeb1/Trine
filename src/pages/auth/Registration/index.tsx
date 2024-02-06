@@ -49,8 +49,6 @@ const Registration: FC = () => {
 		}
 	};
 
-	console.log(isLoading);
-
 	return (
 		<>
 			{isSubmit && (

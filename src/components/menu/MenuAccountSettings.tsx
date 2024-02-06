@@ -45,7 +45,7 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 				className={styles.menu}
 				ref={menuRef}>
 				{values.map((value, idx) => (
-					<div className={styles.item} onClick={handlers[idx]}>
+					<div key={idx} className={styles.item} onClick={handlers[idx]}>
 						{value}
 					</div>
 				))}

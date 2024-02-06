@@ -98,6 +98,10 @@ const Home: FC = () => {
 		localStorage.setItem('home-room-page', JSON.stringify(page));
 	};
 
+	const leave = async () => {
+		await AdminService.roomLeave();
+	};
+
 	useEffect(() => {
 		const handleResize = () => {
 			setWindowWidth(window.innerWidth);
@@ -110,9 +114,12 @@ const Home: FC = () => {
 		}
 
 		window.addEventListener('resize', handleResize);
-
-		localStorage.removeItem('joinRoom');
-		localStorage.removeItem('ready');
+		const joinRoom = JSON.parse(localStorage.getItem('joinRoom') || '{}');
+		if (Object.keys(joinRoom).length) {
+			leave();
+			localStorage.removeItem('joinRoom');
+			localStorage.removeItem('ready');
+		}
 
 		initData();
 		return () => {

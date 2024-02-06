@@ -1,4 +1,10 @@
-import { FC, useState, useEffect, CSSProperties, ReactNode } from 'react';
+import React, {
+	FC,
+	useState,
+	useEffect,
+	CSSProperties,
+	ReactNode,
+} from 'react';
 
 import classNames from 'classnames';
 
@@ -92,7 +98,7 @@ const Pagination: FC<IPagination> = ({
 		} else if (pageNumber > numbers - fixVisibleNumber + 1) {
 			setMinNumber(numbers - fixVisibleNumber);
 			setMaxNumber(numbers - 1);
-		
+
 			setVisibleButtons(buttons.slice(numbers - fixVisibleNumber, numbers - 1));
 		}
 	};
@@ -122,9 +128,9 @@ const Pagination: FC<IPagination> = ({
 				<IoIosArrowBack />
 			</div>
 			{visibleButtons.map((number, idx) => (
-				<>
+				<React.Fragment key={idx}>
 					{idx === 0 && (
-						<>
+						<div key={idx}>
 							<Button
 								className={classNames(
 									styles.button,
@@ -141,7 +147,7 @@ const Pagination: FC<IPagination> = ({
 									...
 								</div>
 							)}
-						</>
+						</div>
 					)}
 
 					<Button
@@ -174,7 +180,7 @@ const Pagination: FC<IPagination> = ({
 							{buttons[buttons.length - 1]}
 						</Button>
 					)}
-				</>
+				</React.Fragment>
 			))}
 			<Button
 				style={{

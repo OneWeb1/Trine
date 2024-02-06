@@ -37,7 +37,6 @@ const Button: FC<IButton> = ({
 	const handler = () => {
 		const date = new Date().getTime();
 		if (date - timeRef.current > 100) {
-			console.log('click');
 			if (!noLoading) setIsLoading(true);
 			onClick();
 			timeRef.current = date;

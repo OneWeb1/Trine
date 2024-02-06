@@ -200,8 +200,6 @@ const Player: FC<IPlayer> = ({
 		if (!blockedRePositionRef.current) setPosition();
 	});
 
-	console.log({ name: player.nickname, isRightPlayer, reverse });
-
 	return (
 		<div
 			className={styles.player}

@@ -235,10 +235,10 @@ const Table: FC<ITable> = ({
 			showReadyMessage(room);
 		}
 
-		if (room.template) {
-			localStorage.removeItem('joinRoom');
-			localStorage.removeItem('ready');
-		}
+		// if (room.template) {
+		// 	localStorage.removeItem('joinRoom');
+		// 	localStorage.removeItem('ready');
+		// }
 
 		if (mePlayer.state !== 'move') {
 			dispatch(setIsEnable(true));
