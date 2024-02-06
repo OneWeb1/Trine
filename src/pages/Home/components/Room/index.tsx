@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setUpdatePublickRooms,
 	setJoinRoom,
-	setGameAction,
+	// setGameAction,
 	setVisibleMenuAccountSettings,
 	setMenuAccountSettingsPosition,
 	setVisibleModal,

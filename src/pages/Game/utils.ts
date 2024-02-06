@@ -70,12 +70,6 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 		[260, 160, 0.34],
 	];
 
-	//  [600, 500, 0.4, -90],
-	// 	[500, 400, 0.4, -90],
-	// 	[400, 300, 0.38, -90],
-	// 	[300, 200, 0.38, -90],
-	// 	[260, 160, 0.34, -90],
-
 	screens.forEach(screen => {
 		const [max, min, zoom, d] = screen;
 		if (screenWidth <= max && screenWidth >= min) {
@@ -119,5 +113,5 @@ const sortPlayerRelative = (stateRoom: RoomsResponse): IPlayerRoom[] => {
 
 	return players;
 };
-// ..//
+
 export { assets, resizeHandler, getRoomsIndexPosition, sortPlayerRelative };

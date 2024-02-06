@@ -2,13 +2,13 @@ import { FC, useRef, useState, useEffect } from 'react';
 
 import Spinner from '../../components/spinner';
 
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	setVisibleModal,
-	setJoinRoom,
+	// setJoinRoom,
 	setAccount,
 } from '../../store/slices/app.slice';
 
@@ -35,9 +35,9 @@ import {
 	// RoomsPageDataResponse,
 	RoomsResponse,
 } from '../../models/response/AdminResponse';
-import GameService from '../../services/GameService';
+// import GameService from '../../services/GameService';
 const Home: FC = () => {
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
 	const [rooms, setRooms] = useState<RoomsResponse[]>([]);
