@@ -99,20 +99,18 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 							<div className={styles.item}>
 								<div className={styles.value}>Активних кімнат</div>
 								<div className={styles.count}>
-									{Math.abs(Number(roomsCount?.active_rooms_count))}
+									{roomsCount?.player_recruitment}
 								</div>
 							</div>
-							<div className={styles.item}>
+							{/* <div className={styles.item}>
 								<div className={styles.value}>Неактивні кімнат</div>
 								<div className={styles.count}>
-									{Math.abs(Number(roomsCount?.inactive_rooms_count))}
+									{roomsCount?.inactive_rooms_count}
 								</div>
-							</div>
+							</div> */}
 							<div className={styles.item}>
 								<div className={styles.value}>Всі кімни</div>
-								<div className={styles.count}>
-									{Math.abs(Number(roomsCount?.rooms_count))}
-								</div>
+								<div className={styles.count}>{roomsCount?.rooms_count}</div>
 							</div>
 						</div>
 					</div>

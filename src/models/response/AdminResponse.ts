@@ -93,7 +93,7 @@ export interface RoomStatisticsResponse {
 }
 
 export interface RoomsCountResponse {
-	active_rooms_count: number;
-	inactive_rooms_count: number;
+	player_recruitment: number;
+	// inactive_rooms_count: number;
 	rooms_count: number;
 }
