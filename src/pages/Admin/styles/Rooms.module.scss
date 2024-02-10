@@ -33,7 +33,7 @@
 				.menu {
 					position: absolute;
 					top: 50px;
-					left: -50%;
+					left: 0px;
 					width: 200px;
 					display: none;
 					padding: 10px 0;
@@ -94,4 +94,35 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+@media screen and (min-width: 501px) {
+	.roomsWrapper {
+		.header {
+			.buttonsGroup {
+				.roomsInfo {
+					.menu {
+						left: 0px;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.roomsWrapper {
+		.header {
+			.buttonsGroup {
+				.roomsInfo {
+					.menu {
+						position: fixed;
+						left: inherit;
+						top: 120px;
+						right: 10px;
+					}
+				}
+			}
+		}
+	}
 }
