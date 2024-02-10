@@ -84,7 +84,7 @@ const LandscapeTable: FC<ILandscapeTable> = ({
 														src='/assets/fishka.png'
 														alt='fishka'
 													/>
-													15
+													{Math.floor(roomState.bank / 2)}
 												</span>
 											</div>
 										)}
