@@ -20,7 +20,7 @@ import Table from './components/Table';
 // import PortraitTable from './components/PortraitTable';
 
 import ModalAfterGame from '../../components/modals/ModalAfterGame';
-import Spinner from '../../components/spinner';
+// import Spinner from '../../components/spinner';
 
 import AdminService from '../../services/AdminService';
 
