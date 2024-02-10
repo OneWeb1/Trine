@@ -11,6 +11,7 @@ export interface IPlayerRoom {
 	last_polling_time: number;
 	me: false;
 	time_for_move: number;
+	fight: boolean;
 }
 
 export interface IPublicRoom {
@@ -25,4 +26,5 @@ export interface IPublicRoom {
 	template: boolean;
 	creator_id: number;
 	state: string;
+	fight?: boolean;
 }

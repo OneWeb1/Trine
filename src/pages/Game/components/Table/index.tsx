@@ -27,7 +27,6 @@ import {
 import LandscapeTable from './LandscapeTable';
 import MobilePortraitTable from './MobilePortraitTable';
 import Player from '../../../../components/Player';
-// import FishkaItem from '../../../../components/FishkaItem';
 
 import { resizeHandler, getRoomsIndexPosition } from './../../utils';
 
@@ -35,7 +34,6 @@ import AdminService from '../../../../services/AdminService';
 
 import { IPlayerRoom } from '../../../Admin/interfaces';
 
-// import styles from './Table.module.scss';
 import { RoomsResponse } from '../../../../models/response/AdminResponse';
 import GameService from '../../../../services/GameService';
 
@@ -85,6 +83,10 @@ const Table: FC<ITable> = ({
 	);
 	const isWriteReadyState = useRef<boolean>(false);
 
+	const storageJoinRoom = Object.keys(
+		JSON.parse(localStorage.getItem('joinRoom') || '{}'),
+	).length;
+
 	const isMobile = window.innerWidth <= 600 && window.innerHeight > 500;
 
 	// const h = window.innerHeight;
@@ -113,6 +115,10 @@ const Table: FC<ITable> = ({
 		}
 		if (roomState.state === 'bidding') {
 			isWriteReadyState.current = false;
+		}
+
+		if (!roomState.players.length && storageJoinRoom) {
+			reJoinRoom();
 		}
 
 		roomState.players.forEach(player => {
@@ -218,14 +224,14 @@ const Table: FC<ITable> = ({
 		if (diffRequestTime > 1) {
 			requestStateTime.current = new Date().getTime();
 		} else return;
-
 		const response = await AdminService.getPublicRoomByState(joinRoom.id);
 		if (!response) return;
 		const room = (response.data && response.data) || joinRoom;
-
+		// if (!players[0]) reJoinRoom();
 		if (
 			(room.state === 'player_recruitment' || room.state === 'result') &&
 			!room.players.some(player => player.me) &&
+			room.players.length &&
 			room.players[0].state !== 'ready'
 		) {
 			reJoinRoom();
@@ -275,7 +281,7 @@ const Table: FC<ITable> = ({
 			);
 			setTimeout(() => {
 				dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
-			}, 3000);
+			}, 0);
 		}
 		setPlayers(room.players);
 		setPos(getRoomsIndexPosition(room.players.length));
@@ -311,7 +317,7 @@ const Table: FC<ITable> = ({
 			setTimeout(() => {
 				setLoading(false);
 				setOpacity(1);
-			}, 5000);
+			}, 3000);
 		})();
 
 		return () => stopPolling();

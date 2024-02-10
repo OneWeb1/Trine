@@ -10,10 +10,10 @@
 
 		.moneyInfo {
 			position: absolute;
-			font-size: 28px;
+			font-size: 20px;
 			left: 50%;
 			transform: translateX(-50%);
-			margin-top: -38px;
+			margin-top: -32px;
 		}
 
 		.checkWrapper {
@@ -63,6 +63,7 @@
 
 	.avatar {
 		position: relative;
+		min-width: 90px;
 		width: 90px;
 		height: 90px;
 		border-radius: 100px;

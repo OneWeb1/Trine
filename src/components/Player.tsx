@@ -181,6 +181,10 @@ const Player: FC<IPlayer> = ({
 
 	const portraitStyle = isMobile && index ? pStyle : {};
 	const portraitRightStyle = isMobile ? prStyle : {};
+	const isSpectate =
+		(isVisibleCards || roomState.state === 'bidding') &&
+		!player.me &&
+		player.state === 'spectate';
 
 	const handleResize = () => {
 		if (!blockedRePositionRef.current) blockedRePositionRef.current = true;
@@ -205,7 +209,7 @@ const Player: FC<IPlayer> = ({
 			className={styles.player}
 			ref={ref}
 			style={{
-				display: (index === 0 && 'flex') || '',
+				display: index === 0 ? 'flex' : isSpectate ? 'none' : '',
 				marginLeft: player.me ? '15px' : '0px',
 				opacity: player.state === 'defeat' ? 0.5 : 1,
 			}}>
@@ -240,7 +244,6 @@ const Player: FC<IPlayer> = ({
 							</div>
 						)}
 
-						{/* {(player.last_move || player.state === 'idle') && ( */}
 						<div
 							className={styles.viewState}
 							style={{
@@ -263,8 +266,6 @@ const Player: FC<IPlayer> = ({
 				)}
 				<div
 					style={{
-						// marginRight: reverse ? '40px' : '0px',
-						// marginLeft: reverse ? '0px' : '40px',
 						marginTop: reverse ? '20px' : '0px',
 					}}
 					ref={avatarRef}
@@ -272,9 +273,9 @@ const Player: FC<IPlayer> = ({
 					<div
 						style={{ display: roomState.state === 'result' ? 'block' : 'none' }}
 						className={styles.moneyInfo}>
-						{player.state === 'defeat'
-							? `-${player.full_bid}`
-							: `+${roomState.bank - roomState.bank * 0.03}`}
+						{player.state === 'defeat' && `-${Math.floor(player.full_bid)}`}
+						{player.state === 'won' &&
+							`+${Math.floor(roomState.bank - roomState.bank * 0.03)}`}
 					</div>
 					{(player.state === 'move' || player.me) &&
 						player.time_for_move > 0 && (
@@ -385,7 +386,7 @@ const Player: FC<IPlayer> = ({
 											? '-30px'
 											: index !== 5
 											? '100px'
-											: '55px',
+											: '100px',
 										marginTop: isMobile ? '-60px' : '0px',
 									}}>
 									<FishkaItem isPlayer={true} value={player.full_bid} />
@@ -397,6 +398,8 @@ const Player: FC<IPlayer> = ({
 												position: 'absolute',
 												left:
 													isMobile && !isRightPlayer
+														? '-75px'
+														: index === 5
 														? '-120px'
 														: isMobile
 														? '100px'
@@ -416,13 +419,13 @@ const Player: FC<IPlayer> = ({
 			</div>
 			{index === 0 && (
 				<div className={styles.cards}>
-					{/* {!isVisibleCards && (
+					{!isVisibleCards && (
 						<TreeCards
-							style={{ width: '180px', marginTop: '-25px', marginLeft: '30px' }}
-							visible={true}
+							style={{ width: '180px', marginTop: '-25px', marginLeft: '60px' }}
+							visible={false}
 							cards={['fb', 'fb', 'fb']}
 						/>
-					)} */}
+					)}
 					{isVisibleCards && (
 						<TreeCards
 							style={{ width: '180px', marginTop: '-25px', marginLeft: '30px' }}

@@ -3,6 +3,7 @@ import {
 	CreatePublicRoomParams,
 	PlayerStatisticsResponse,
 	ProfileMeResponse,
+	RoomsCountResponse,
 	ProfilesPageDataResponse,
 	RoomStatisticsResponse,
 	RoomsPageDataResponse,
@@ -25,6 +26,10 @@ export default class AdminService {
 		id: number,
 	): Promise<AxiosResponse<AdminProfileResponse>> {
 		return $api.get<AdminProfileResponse>(`/admin/profile/${id}`);
+	}
+
+	static async getRoomsCount(): Promise<AxiosResponse<RoomsCountResponse>> {
+		return $api.get(`/admin/rooms-count`);
 	}
 
 	static async getPlayerStatistics(

@@ -126,7 +126,7 @@ const Header: FC = () => {
 											<MdOutlineAdminPanelSettings
 												className={styles.menuIcon}
 											/>{' '}
-											Админ панель
+											Адмін панель
 										</div>
 									</Link>
 								)}

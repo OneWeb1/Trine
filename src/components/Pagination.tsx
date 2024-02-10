@@ -117,7 +117,7 @@ const Pagination: FC<IPagination> = ({
 	}, []);
 
 	return (
-		<div className={styles.paginationWrapper}>
+		<div key={Math.random()} className={styles.paginationWrapper}>
 			<div
 				style={{
 					cursor: (isDal && 'not-allowed') || 'pointer',
@@ -130,7 +130,7 @@ const Pagination: FC<IPagination> = ({
 			{visibleButtons.map((number, idx) => (
 				<React.Fragment key={idx}>
 					{idx === 0 && (
-						<div key={idx}>
+						<React.Fragment key={idx}>
 							<Button
 								className={classNames(
 									styles.button,
@@ -147,7 +147,7 @@ const Pagination: FC<IPagination> = ({
 									...
 								</div>
 							)}
-						</div>
+						</React.Fragment>
 					)}
 
 					<Button

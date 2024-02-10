@@ -22,13 +22,15 @@ const ModalCreateRoom: FC<IModalCreateRoom> = ({ title, type }) => {
 	const [startBet, setStartBet] = useState<number | string>(10);
 	const [maxBet, setMaxBet] = useState<number | string>(10);
 
-	if (Number(numberPlayers) < 2) setNumberPlayers(2);
-	if (Number(numberPlayers) > 11) setNumberPlayers(11);
 	if (Number(startBet) > 1000) setStartBet(1000);
 
 	const createPublicRoom = async () => {
+		const playersCount =
+			Number(numberPlayers) > 11 || Number(numberPlayers) < 2
+				? 11
+				: numberPlayers;
 		const params: CreatePublicRoomParams = {
-			max_players: String(numberPlayers),
+			max_players: String(playersCount),
 			join_tax: String(startBet),
 			max_bid: String(maxBet),
 		};

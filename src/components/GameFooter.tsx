@@ -11,10 +11,12 @@ import ButtonSpecial from '../UI/ButtonSpecial';
 import styles from './../stylesheet/styles-components/GameFooter.module.scss';
 import ButtonFunction from '../UI/ButtonFunction';
 import AdminService from '../services/AdminService';
+import { IPlayerRoom } from '../models/response/AdminResponse';
 
 interface IGameFooter {
 	isReady?: boolean;
 	isEnable: boolean;
+	mePlayer: IPlayerRoom;
 	joinTax: number;
 	bid: number;
 	fullBid: number;
@@ -27,6 +29,7 @@ const GameFooter: FC<IGameFooter> = ({
 	readyHandler,
 	isReady,
 	isEnable,
+	mePlayer,
 	joinTax,
 	fullBid,
 	maxBid,
@@ -62,9 +65,13 @@ const GameFooter: FC<IGameFooter> = ({
 
 	const dropHandler = async () => {
 		dispatch(setIsEnable(false));
+
 		try {
 			const { data } = await AdminService.do({ action: 'drop' });
-			if (data) return true;
+
+			if (data) {
+				return true;
+			}
 		} catch (e) {
 			console.log(e);
 		}
@@ -125,10 +132,11 @@ const GameFooter: FC<IGameFooter> = ({
 				{!isReady && (
 					<div className={styles.readyWrapper}>
 						<ButtonSpecial
+							style={{ minWidth: '200px' }}
 							className={styles.buttonReady}
 							disabled={true}
 							wait={true}
-							title='Готовий'
+							title={mePlayer.state === 'out' ? 'Вступити до свари' : 'Готовий'}
 							onClick={async () => {
 								readyHandler();
 							}}
@@ -209,7 +217,7 @@ const GameFooter: FC<IGameFooter> = ({
 											}
 											iconCenter={true}
 											disabled={isEnable}
-											wait={true}
+											wait={mePlayer.state === 'move'}
 											onClick={dropHandler}
 										/>
 									</div>

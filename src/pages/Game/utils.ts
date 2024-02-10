@@ -81,8 +81,10 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 
 	const custDeg = '0deg';
 
-	if (screenWidth <= 600 && window.innerHeight > 500) {
-		table.style.transform = `scale(${scale}) perspective(900px) rotateX(${custDeg})`;
+	if (screenWidth <= 600 && window.innerHeight < 670) {
+		table.style.transform = `scale(${0.35}) perspective(900px) rotateX(${custDeg})`;
+	} else if (screenWidth <= 600 && window.innerHeight < 750) {
+		table.style.transform = `scale(${0.45}) perspective(900px) rotateX(${custDeg})`;
 	} else if (window.innerHeight < 300 && window.innerWidth > 700) {
 		table.style.transform = `scale(${0.32}) perspective(900px) rotateX(${custDeg}) translateY(-121px)`;
 	} else if (window.innerHeight < 301 && window.innerWidth < 700) {
@@ -94,7 +96,7 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 };
 
 const getRoomsIndexPosition = (length: number): number[] => {
-	const position = [0, 8, 4, 2, 9, 5, 6, 3, 8, 1, 10];
+	const position = [0, 3, 4, 2, 9, 5, 6, 3, 8, 1, 10];
 
 	return position.slice(0, length).sort((a, b) => a - b);
 };

@@ -1,5 +1,7 @@
 import { FC, useRef, useEffect, useState } from 'react';
 
+import { IoMdStats } from 'react-icons/io';
+
 import { RootState as CustomRootState } from '../../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { setVisibleModal } from '../../../store/slices/app.slice';
@@ -9,7 +11,10 @@ import Room from '../../Home/components/Room';
 import Button from '../../../UI/Button';
 import Pagination from '../../../components/Pagination';
 
-import { RoomsResponse } from '../../../models/response/AdminResponse';
+import {
+	RoomsCountResponse,
+	RoomsResponse,
+} from '../../../models/response/AdminResponse';
 
 import AdminService from '../../../services/AdminService';
 
@@ -33,6 +38,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 	const [offset, setOffset] = useState<number>(
 		(JSON.parse(localStorage.getItem('admin-room-page') || '1') - 1) * limit,
 	);
+	const [roomsCount, setRoomsCount] = useState<RoomsCountResponse | null>(null);
 	const loadingRef = useRef<boolean>(false);
 
 	const isHideName = !hideName === false ? false : true;
@@ -47,6 +53,12 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 		localStorage.setItem('room-pages-length', JSON.stringify(data.pages));
 	};
 
+	const getRoomsCount = async () => {
+		const { data } = await AdminService.getRoomsCount();
+		console.log(data);
+		setRoomsCount(data);
+	};
+
 	const changePage = (page: number) => {
 		const currentPage = JSON.parse(
 			localStorage.getItem('admin-room-page') || '1',
@@ -59,6 +71,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 		localStorage.setItem('admin-room-page', JSON.stringify(page));
 	};
 	useEffect(() => {
+		getRoomsCount();
 		setTimeout(() => {
 			getPublickRooms();
 		}, 100);
@@ -78,16 +91,42 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 					style={{ fontSize: window.innerWidth < 600 ? '14px' : '18px' }}>
 					Кімнати
 				</div>
-				<Button
-					style={{
-						width: w ? '200px' : '140px',
-						height: '40px',
-						fontSize: w ? '14px' : '11px',
-					}}
-					value='Створити кімнату'
-					noLoading={true}
-					onClick={() => dispatch(setVisibleModal('cpr'))}
-				/>
+				<div className={styles.buttonsGroup}>
+					<div className={styles.roomsInfo}>
+						<IoMdStats />
+
+						<div className={styles.menu}>
+							<div className={styles.item}>
+								<div className={styles.value}>Активних кімнат</div>
+								<div className={styles.count}>
+									{Math.abs(Number(roomsCount?.active_rooms_count))}
+								</div>
+							</div>
+							<div className={styles.item}>
+								<div className={styles.value}>Неактивні кімнат</div>
+								<div className={styles.count}>
+									{Math.abs(Number(roomsCount?.inactive_rooms_count))}
+								</div>
+							</div>
+							<div className={styles.item}>
+								<div className={styles.value}>Всі кімни</div>
+								<div className={styles.count}>
+									{Math.abs(Number(roomsCount?.rooms_count))}
+								</div>
+							</div>
+						</div>
+					</div>
+					<Button
+						style={{
+							width: w ? '160px' : '140px',
+							height: '35px',
+							fontSize: w ? '12px' : '11px',
+						}}
+						value='Створити кімнату'
+						noLoading={true}
+						onClick={() => dispatch(setVisibleModal('cpr'))}
+					/>
+				</div>
 			</div>
 			<div className={styles.header}>
 				<div></div>

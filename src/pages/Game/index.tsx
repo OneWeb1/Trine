@@ -32,6 +32,7 @@ import styles from './../../stylesheet/styles/Game.module.scss';
 // import Button from '../../UI/Button';
 import ModalTimer from '../../components/modals/ModalTimer';
 import GameService from '../../services/GameService';
+import Loader from '../../components/loader';
 
 const Game: FC = () => {
 	const { id } = useParams();
@@ -80,26 +81,13 @@ const Game: FC = () => {
 		resizeHandler(tableRef);
 	};
 
-	// const orientationChange = () => {
-	// 	if (window.orientation === 90 || window.orientation === -90) {
-	// 		setIsLandscape(true);
-	// 	} else {
-	// 		setIsLandscape(false);
-	// 	}
-	// };
-
-	// function isMobileDevice() {
-	// 	return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-	// 		navigator.userAgent,
-	// 	);
-	// }
-
 	const getRooms = async () => {
 		const { data } = await AdminService.getRooms({
 			offset: 0,
-			limit: 10000000,
+			limit: 10000,
 		});
 		const joinRoom = JSON.parse(localStorage.getItem('joinRoom') || '{}');
+		if (joinRoom) await AdminService.roomLeave();
 		const openRoom = Object.keys(joinRoom).length
 			? data.items.find(room => room.id === joinRoom.id)
 			: data.items.find(room => room.id === id);
@@ -111,9 +99,7 @@ const Game: FC = () => {
 			return;
 		}
 
-		if (openRoom && openRoom.id === id) {
-			console.log({ id });
-		} else if (!openRoom || (openRoom && openRoom.id !== id)) {
+		if (!openRoom || (openRoom && openRoom.id !== id)) {
 			navigate(`/game/${id}/not-found`);
 		}
 	};
@@ -124,7 +110,7 @@ const Game: FC = () => {
 
 	useEffect(() => {
 		getRooms();
-	});
+	}, []);
 
 	resizeHandler(tableRef);
 
@@ -144,7 +130,7 @@ const Game: FC = () => {
 
 			{loading && (
 				<div className='flex-center loading-fg'>
-					<Spinner />
+					<Loader />
 				</div>
 			)}
 			{update && (
@@ -174,6 +160,7 @@ const Game: FC = () => {
 							}
 							isReady={ready}
 							joinTax={Number(roomState.join_tax)}
+							mePlayer={mePlayer}
 							maxBid={Number(roomState.max_bid)}
 							bid={Number(roomState.bid)}
 							fullBid={mePlayer.full_bid}
@@ -226,34 +213,6 @@ const Game: FC = () => {
 					}}
 				/>
 			)}
-
-			{/* {!isLandscape && (
-				<div
-					style={{
-						position: 'fixed',
-						top: 0,
-						left: 0,
-						zIndex: 10000,
-						background: '#090f1e',
-					}}
-					className={styles.flex}>
-					<div>
-						Гра не підтримує портретний режим. Для того щоб продовжити гру
-						поверніться в альбомний режим або покиньте кімнату.
-						<Link to='/'>
-							<Button
-								style={{
-									maxWidth: '180px',
-									margin: '20px auto',
-									padding: '5px 20px',
-								}}
-								value='Покинути кімнату'
-								onClick={() => {}}
-							/>
-						</Link>
-					</div>
-				</div>
-			)} */}
 		</>
 	);
 };

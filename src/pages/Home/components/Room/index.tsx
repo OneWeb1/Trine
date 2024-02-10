@@ -54,17 +54,28 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 	const dateRef = useRef<number>(new Date().getTime());
 	const settingsRef = useRef<HTMLDivElement | null>(null);
 
-	const joinRoomHandler = async () => {
-		try {
-			const { data } = await GameService.joinRoom(room.id);
-			if (localStorage.getItem('joinRoom')) return;
-			dispatch(setJoinRoom(data));
-			navigate(`/game/${data.id}`);
-			localStorage.setItem('joinRoom', JSON.stringify(data));
-		} catch (e) {
-			localStorage.removeItem('joinRoom');
-			// joinRoomHandler();
-		}
+	const joinRoomHandler = () => {
+		// let joinCount = 0;
+
+		const join = async () => {
+			try {
+				const { data } = await GameService.joinRoom(room.id);
+				console.log(data);
+				if (localStorage.getItem('joinRoom')) return;
+				dispatch(setJoinRoom(data));
+				navigate(`/game/${data.id}`);
+				localStorage.setItem('joinRoom', JSON.stringify(data));
+			} catch (e) {
+				console.log('You not playing!!!');
+				await AdminService.roomIsReady(true);
+				// await AdminService.roomLeave();
+				localStorage.removeItem('joinRoom');
+				// if (joinCount < 5) join();
+			}
+			// joinCount++;
+		};
+
+		join();
 	};
 
 	const visibleMenu = () => {

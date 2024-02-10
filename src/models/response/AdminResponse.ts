@@ -29,6 +29,7 @@ export interface IPlayerRoom {
 	last_polling_time: number;
 	me: false;
 	time_for_move: number;
+	fight: boolean;
 }
 
 export interface RoomsResponse {
@@ -89,4 +90,10 @@ export interface RoomStatisticsResponse {
 	max_bank: 0;
 	total_bank: 0;
 	round_count: 0;
+}
+
+export interface RoomsCountResponse {
+	active_rooms_count: number;
+	inactive_rooms_count: number;
+	rooms_count: number;
 }

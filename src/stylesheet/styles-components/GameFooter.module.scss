@@ -71,7 +71,7 @@
 
 @media screen and (max-width: 950px) {
 	.footer {
-		bottom: 15px;
+		bottom: 0px;
 	}
 	.readyWrapper {
 		position: absolute;
@@ -131,6 +131,9 @@
 }
 
 @media screen and (min-width: 401px) and (max-width: 900px) {
+	.footer {
+		bottom: 15px;
+	}
 	.range {
 		width: 160px;
 		height: 12px;
@@ -150,6 +153,9 @@
 }
 
 @media screen and (max-width: 700px) {
+	.footer {
+		bottom: 25px;
+	}
 	.range {
 		width: 151px;
 		height: 10px;
