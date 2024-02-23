@@ -55,7 +55,7 @@ const MobilePortraitTable: FC<IMobilePortraitTable> = ({
 									<div className={styles.swara}>
 										<div className={styles.title}>СВАРА</div>
 										{isWeldParty ? (
-											<div className={styles.text}>Ви берете участь свари</div>
+											<div className={styles.text}>Ви берете участь у сварі</div>
 										) : (
 											<div className={styles.text}>
 												Вступити до свари можна за{' '}

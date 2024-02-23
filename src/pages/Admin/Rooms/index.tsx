@@ -55,7 +55,6 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 
 	const getRoomsCount = async () => {
 		const { data } = await AdminService.getRoomsCount();
-		console.log(data);
 		setRoomsCount(data);
 	};
 

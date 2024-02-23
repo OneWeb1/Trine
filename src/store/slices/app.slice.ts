@@ -25,6 +25,7 @@ interface IState {
 	stats: IStats;
 	avatars: string[];
 	isAuth: boolean;
+	isRememberMe: boolean;
 	isSubmit: boolean;
 	isAction: boolean;
 	isEnable: boolean;
@@ -58,6 +59,7 @@ const initialState: IState = {
 	avatars: JSON.parse(localStorage.getItem('avatars') || '[]'),
 	baseIconPath: 'https://trine-game.online',
 	isAuth: (localStorage.getItem('token') && true) || false,
+	isRememberMe: JSON.parse(localStorage.getItem('isRememberMe') || 'false'),
 	isAction: JSON.parse(localStorage.getItem('isAction') || 'false'),
 	isEnable: true,
 	isPlayerResize: false,
@@ -101,6 +103,9 @@ const appSlice = createSlice({
 			state.avatars = action.payload;
 		},
 		setIsAuth(state, action) {
+			state.isAuth = action.payload;
+		},
+		setIsRememberMe(state, action) {
 			state.isAuth = action.payload;
 		},
 		setIsSubmit(state, action) {
@@ -213,6 +218,7 @@ export const {
 	setRefreshBottomMenu,
 	setAccountsLength,
 	setIsAuth,
+	setIsRememberMe,
 	setJoinRoom,
 	setRoomState,
 	setRoomResultState,

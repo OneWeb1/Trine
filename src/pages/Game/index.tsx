@@ -87,7 +87,7 @@ const Game: FC = () => {
 			limit: 10000,
 		});
 		const joinRoom = JSON.parse(localStorage.getItem('joinRoom') || '{}');
-		if (joinRoom) await AdminService.roomLeave();
+		// if (joinRoom) await AdminService.roomLeave();
 		const openRoom = Object.keys(joinRoom).length
 			? data.items.find(room => room.id === joinRoom.id)
 			: data.items.find(room => room.id === id);

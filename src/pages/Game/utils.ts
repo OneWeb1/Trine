@@ -69,7 +69,7 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 		[260, 160, 0.34],
 	];
 	let deg = 0;
-	console.log(deg);
+	if (deg) deg * deg;
 	screens.forEach(screen => {
 		const [max, min, zoom, d] = screen;
 		if (screenWidth <= max && screenWidth >= min) {

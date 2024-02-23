@@ -1,8 +1,5 @@
-import axios, { InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import AuthService from '../services/AuthService';
-
-// local: 193.202.118.219:5555
-// trynka-backend.onrender.com/api
 
 export const API_URL = `https://trine-game.online/api`;
 
@@ -12,47 +9,58 @@ const $api = axios.create({
 });
 
 $api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-	const token = localStorage.getItem('token');
-	const prolongToken = localStorage.getItem('prolong_token');
-
-	if (token && prolongToken) {
-		const decodedToken = decodeToken(token);
-		const currentTime = Date.now() / 1000;
-		if (decodedToken.exp && decodedToken.exp < currentTime) {
-			return refreshToken(prolongToken, config);
-		}
-	}
-
-	config.headers.Authorization = `Bearer ${token}`;
+	config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
 	return config;
 });
 
-function decodeToken(token: string) {
-	try {
-		const tokenPayload = token.split('.')[1];
-		return JSON.parse(atob(tokenPayload));
-	} catch (error) {
-		console.error('Ошибка при декодировании токена:', error);
-		return null;
-	}
-}
-
-async function refreshToken(
-	prolongToken: string,
-	config: InternalAxiosRequestConfig,
-) {
-	try {
-		const { data } = await AuthService.prolong(prolongToken);
-		localStorage.setItem('token', data.access_token);
-		localStorage.setItem('prolong_token', data.prolong_token);
-
-		config.headers.Authorization = `Bearer ${data.access_token}`;
-
+$api.interceptors.response.use(
+	(config: AxiosResponse) => {
 		return config;
-	} catch (error) {
-		console.error('Ошибка при обновлении токена:', error);
+	},
+	async error => {
+		const originRequest = error.config;
+
+		if (
+			error.response.status === 401 &&
+			originRequest &&
+			!originRequest._isRetry
+		) {
+			originRequest._isRetry = true;
+			try {
+				const prolongToken = localStorage.getItem('prolong_token');
+				const isRememberMe = JSON.parse(
+					localStorage.getItem('isRememberMe') || 'false',
+				);
+				if (!isRememberMe) {
+					logout();
+				}
+				const { data } = await AuthService.prolong(String(prolongToken));
+				localStorage.setItem('token', data.access_token);
+				localStorage.setItem('prolong_token', data.prolong_token);
+
+				if (!originRequest._retryCount) {
+					originRequest._retryCount = 1;
+				} else {
+					originRequest._retryCount++;
+				}
+				if (originRequest._retryCount <= 5) {
+					return $api.request(originRequest);
+				} else {
+					throw new Error('Використано максимальну кількість спроб');
+				}
+			} catch (e) {
+				console.error(e);
+				throw e;
+			}
+		}
 		throw error;
-	}
+	},
+);
+
+function logout() {
+	localStorage.removeItem('token');
+	localStorage.removeItem('prolong_token');
+	window.location.href = '/login';
 }
 
 export default $api;

@@ -60,7 +60,6 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 		const join = async () => {
 			try {
 				const { data } = await GameService.joinRoom(room.id);
-				console.log(data);
 				if (localStorage.getItem('joinRoom')) return;
 				dispatch(setJoinRoom(data));
 				navigate(`/game/${data.id}`);

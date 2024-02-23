@@ -2,7 +2,11 @@ import { FC, useState } from 'react';
 
 import { RootState as CustomRootState } from '../../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsAuth, setIsSubmit } from '../../../store/slices/app.slice';
+import {
+	setIsAuth,
+	setIsRememberMe,
+	setIsSubmit,
+} from '../../../store/slices/app.slice';
 import AuthService from '../../../services/AuthService';
 
 import { Navigate } from 'react-router-dom';
@@ -39,6 +43,8 @@ const Login: FC = () => {
 				localStorage.setItem('token', data.access_token);
 				localStorage.setItem('prolong_token', data.prolong_token);
 				localStorage.setItem('password', String(password));
+				localStorage.setItem('isRememberMe', String(isChecked));
+				dispatch(setIsRememberMe(isChecked));
 				dispatch(setIsAuth(true));
 				return <Navigate to='/' />;
 			} catch (e) {
@@ -49,8 +55,6 @@ const Login: FC = () => {
 		setTimeout(() => {
 			setIsError(false);
 		}, 2000);
-
-		console.log({ isLoading });
 	};
 
 	return (

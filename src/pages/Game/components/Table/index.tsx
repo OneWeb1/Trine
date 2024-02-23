@@ -317,7 +317,7 @@ const Table: FC<ITable> = ({
 			setTimeout(() => {
 				setLoading(false);
 				setOpacity(1);
-			}, 3000);
+			}, 5000);
 		})();
 
 		return () => stopPolling();
