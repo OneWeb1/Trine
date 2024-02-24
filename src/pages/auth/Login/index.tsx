@@ -96,20 +96,14 @@ const Login: FC = () => {
 							<CustomLink value='Забули пароль?' to='/forgot_password' />
 						</div>
 
-						<div className={styles.subtitle}>Вхід за допомогою:</div>
-						<ButtonIcon value='Google' onClick={() => {}} />
-						<Button loading={isLoading} onClick={login}>
+						{/* <div className={styles.subtitle}>Вхід за допомогою:</div>
+						<ButtonIcon value='Google' onClick={() => {}} /> */}
+
+						<Button
+							style={{ margin: '20px 0px 0px 0px' }}
+							loading={isLoading}
+							onClick={login}>
 							Увійти
-							{/* {!isLoading && (
-								<div
-									style={{
-										position: 'absolute',
-										marginLeft: '70px',
-										marginTop: '-6px',
-									}}>
-									<Spinner style={{ transform: 'scale(.25)' }} />
-								</div>
-							)} */}
 						</Button>
 						<div className={styles.isAccount}>
 							Ще немає аккаунту?{' '}

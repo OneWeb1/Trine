@@ -7,7 +7,7 @@ import AuthService from '../../../services/AuthService';
 
 import CheckBoxLabel from '../../../UI/CheckBoxLabel';
 import CustomLink from '../../../UI/CustomLink';
-import ButtonIcon from '../../../UI/ButtonIcon';
+// import ButtonIcon from '../../../UI/ButtonIcon';
 import Button from '../../../UI/Button';
 import Input from '../../../UI/Input';
 import Spinner from '../../../components/spinner';
@@ -83,20 +83,13 @@ const Registration: FC = () => {
 							/>
 						</div>
 
-						<div className={styles.subtitle}>Реєстрація за допомогою:</div>
-						<ButtonIcon value='Google' onClick={() => {}} />
-						<Button loading={isLoading} onClick={registerUser}>
+						{/* <div className={styles.subtitle}>Реєстрація за допомогою:</div>
+						<ButtonIcon value='Google' onClick={() => {}} /> */}
+						<Button
+							style={{ margin: '20px 0px 0px 0px' }}
+							loading={isLoading}
+							onClick={registerUser}>
 							Зареєструватися
-							{/* {!isLoading && (
-								<div
-									style={{
-										position: 'absolute',
-										marginLeft: '145px',
-										marginTop: '-6px',
-									}}>
-									<Spinner style={{ transform: 'scale(.25)' }} />
-								</div>
-							)} */}
 						</Button>
 
 						<div className={styles.isAccount}>
