@@ -178,6 +178,7 @@ const Player: FC<IPlayer> = ({
 	};
 
 	const isOffsetTimer = [1, 2, 9, 10].includes(index) && isMobile;
+	const isLeftPlayers = [1, 2, 3, 4].includes(index);
 
 	const portraitStyle = isMobile && index ? pStyle : {};
 	const portraitRightStyle = isMobile ? prStyle : {};
@@ -210,7 +211,16 @@ const Player: FC<IPlayer> = ({
 			ref={ref}
 			style={{
 				display: index === 0 ? 'flex' : isSpectate ? 'none' : '',
-				marginLeft: player.me ? '15px' : '0px',
+				marginLeft:
+					player.me && !isVisibleCards
+						? '4px'
+						: player.me
+						? '10px'
+						: isLeftPlayers
+						? '4px'
+						: '0px',
+				marginTop:
+					player.me && !isVisibleCards ? (isMobile ? '20px' : '50px') : '0px',
 				opacity: player.state === 'defeat' ? 0.5 : 1,
 			}}>
 			<div>
@@ -247,18 +257,13 @@ const Player: FC<IPlayer> = ({
 						<div
 							className={styles.viewState}
 							style={{
-								opacity: 0,
-							}}>
-							{message}
-						</div>
-						<div
-							className={styles.viewState}
-							style={{
 								position: 'absolute',
+								width: '100px',
 								zIndex: '1000',
 								opacity: visibleMessage ? 1 : 0,
-								marginTop: '75px',
-								marginLeft: '-50px',
+								marginTop: '85px',
+								marginLeft: '-5px',
+								// marginLeft: '-50px',
 							}}>
 							{message}
 						</div>
@@ -365,9 +370,11 @@ const Player: FC<IPlayer> = ({
 							className={styles.viewState}
 							style={{
 								position: 'absolute',
+								width: '100px',
 								opacity: visibleMessage ? 1 : 0,
-								marginTop: '-40px',
-								marginLeft: '-50px',
+								marginTop: '-30px',
+								marginLeft: '-5px',
+								// marginLeft: '-50px',
 							}}>
 							{message}
 						</div>
@@ -399,7 +406,7 @@ const Player: FC<IPlayer> = ({
 												left:
 													isMobile && !isRightPlayer
 														? '-75px'
-														: index === 5
+														: index === 5 && isMobile
 														? '-120px'
 														: isMobile
 														? '100px'
@@ -419,13 +426,6 @@ const Player: FC<IPlayer> = ({
 			</div>
 			{index === 0 && (
 				<div className={styles.cards}>
-					{!isVisibleCards && (
-						<TreeCards
-							style={{ width: '180px', marginTop: '-25px', marginLeft: '60px' }}
-							visible={false}
-							cards={['fb', 'fb', 'fb']}
-						/>
-					)}
 					{isVisibleCards && (
 						<TreeCards
 							style={{ width: '180px', marginTop: '-25px', marginLeft: '30px' }}

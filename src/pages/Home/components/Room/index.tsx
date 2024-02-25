@@ -192,123 +192,136 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 	return (
 		<>
 			<div
-				className={styles.room}
 				style={{
-					padding: (windowWidth < 700 && ' 0px 10px 0px 10px') || ' 0px 10px',
-				}}>
-				<div className={styles.leftWrapper}>
-					{hideName && windowWidth > 700 && (
-						<div
-							style={{ maxWidth: (windowWidth < 850 && '100px') || '200px' }}
-							className={styles.name}>
-							{room.name}
-						</div>
-					)}
-					<div className={styles.playersWrapper}>
-						<div className={styles.playersNumber}>
-							{room.players.length}/{room.max_players}
-						</div>
-						<div className={styles.players}>
-							{players.map((player, idx) => (
-								<div
-									key={idx}
-									style={{
-										zIndex: idx,
-										marginLeft: (idx !== 0 && left) || '0px',
-										marginRight:
-											(!(show && room.players.length - 1 - playersNumber > 0) &&
-												idx === players.length - 1 &&
-												'10px') ||
-											'0px',
-									}}
-									className={styles.playerProfile}>
-									<img
-										src={`${baseIconPath}/avatar/${player.avatar_id}`}
-										alt='player'
-									/>
-								</div>
-							))}
-							{show && room.players.length - 1 - playersNumber > 0 && (
-								<div
-									style={{
-										zIndex: 15,
-										marginLeft: left,
-										marginRight: '10px',
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'center',
-									}}
-									className={styles.playerProfile}>
-									{players[players.length - 1]?.avatar_id && (
+					padding: window.innerWidth < 850 ? '10px 0px 0px 0px' : '0px',
+				}}
+				className={styles.roomView}>
+				{windowWidth < 850 && (
+					<div style={{ marginBottom: '5px', paddingLeft: '10px' }}>
+						{room.name}
+					</div>
+				)}
+				<div
+					className={styles.room}
+					style={{
+						padding: (windowWidth < 700 && ' 0px 10px 0px 10px') || ' 0px 10px',
+					}}>
+					<div className={styles.leftWrapper}>
+						{windowWidth > 850 && (
+							<div
+								style={{ maxWidth: (windowWidth < 850 && '100px') || '200px' }}
+								className={styles.name}>
+								{room.name}
+							</div>
+						)}
+						<div className={styles.playersWrapper}>
+							<div className={styles.playersNumber}>
+								{room.players.length}/{room.max_players}
+							</div>
+							<div className={styles.players}>
+								{players.map((player, idx) => (
+									<div
+										key={idx}
+										style={{
+											zIndex: idx,
+											marginLeft: (idx !== 0 && left) || '0px',
+											marginRight:
+												(!(
+													show && room.players.length - 1 - playersNumber > 0
+												) &&
+													idx === players.length - 1 &&
+													'10px') ||
+												'0px',
+										}}
+										className={styles.playerProfile}>
 										<img
-											style={{ opacity: 0.1 }}
-											src={`${baseIconPath}/avatar/${
-												players[players.length - 1].avatar_id
-											}`}
+											src={`${baseIconPath}/avatar/${player.avatar_id}`}
 											alt='player'
 										/>
-									)}
-									<span
+									</div>
+								))}
+								{show && room.players.length - 1 - playersNumber > 0 && (
+									<div
 										style={{
-											position: 'absolute',
-										}}>
-										+
-										{room.players.length > playersNumber &&
-											room.players.length - playersNumber - 1}
-									</span>
-								</div>
-							)}
+											zIndex: 15,
+											marginLeft: left,
+											marginRight: '10px',
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+										}}
+										className={styles.playerProfile}>
+										{players[players.length - 1]?.avatar_id && (
+											<img
+												style={{ opacity: 0.1 }}
+												src={`${baseIconPath}/avatar/${
+													players[players.length - 1].avatar_id
+												}`}
+												alt='player'
+											/>
+										)}
+										<span
+											style={{
+												position: 'absolute',
+											}}>
+											+
+											{room.players.length > playersNumber &&
+												room.players.length - playersNumber - 1}
+										</span>
+									</div>
+								)}
+							</div>
 						</div>
 					</div>
-				</div>
-				<div className={styles.rightWrapper}>
-					<div className={styles.betWrapper}>
-						<div className={styles.bet}>min: {room.join_tax}₴</div>
-						<div className={styles.bet}>max: {room.max_bid}₴</div>
-					</div>
-					{hideName && (
-						<Button
-							style={{
-								padding: '9px 32px',
-								fontWeight: 500,
-								fontSize: '12px',
-								background: '',
-							}}
-							background='linear-gradient(180deg, #2C3756 0%, #1F2841 100%)'
-							resize={true}
-							value='Увійти'
-							loading={true}
-							onClick={joinRoomHandler}
-						/>
-					)}
-					{!hideName && (
-						<div
-							style={{ marginRight: '0px' }}
-							className={styles.buttonJoinFlex}
-							onClick={joinRoomHandler}>
-							<MdPersonAddAlt1 />
+					<div className={styles.rightWrapper}>
+						<div className={styles.betWrapper}>
+							<div className={styles.bet}>min: {room.join_tax}₴</div>
+							<div className={styles.bet}>max: {room.max_bid}₴</div>
 						</div>
-					)}
+						{hideName && (
+							<Button
+								style={{
+									padding: '9px 32px',
+									fontWeight: 500,
+									fontSize: '12px',
+									background: '',
+								}}
+								background='linear-gradient(180deg, #2C3756 0%, #1F2841 100%)'
+								resize={true}
+								value='Увійти'
+								loading={true}
+								onClick={joinRoomHandler}
+							/>
+						)}
+						{!hideName && (
+							<div
+								style={{ marginRight: '0px' }}
+								className={styles.buttonJoinFlex}
+								onClick={joinRoomHandler}>
+								<MdPersonAddAlt1 />
+							</div>
+						)}
 
-					{isDelete && (
-						<div
-							ref={settingsRef}
-							className={styles.settings}
-							onClick={visibleMenu}>
-							<HiOutlineDotsVertical />
-						</div>
-					)}
+						{isDelete && (
+							<div
+								ref={settingsRef}
+								className={styles.settings}
+								onClick={visibleMenu}>
+								<HiOutlineDotsVertical />
+							</div>
+						)}
+					</div>
 				</div>
+				{visibleMenuAccountSettings === 'room-settings' && (
+					<MenuAccountSettings
+						x={menuPosition.x}
+						y={menuPosition.y}
+						values={['Статистика', 'Видалити']}
+						handlers={[getState, removeRoom]}
+						hideMenu={hideMenu}
+					/>
+				)}
 			</div>
-			{visibleMenuAccountSettings === 'room-settings' && (
-				<MenuAccountSettings
-					x={menuPosition.x}
-					y={menuPosition.y}
-					values={['Статистика', 'Видалити']}
-					handlers={[getState, removeRoom]}
-					hideMenu={hideMenu}
-				/>
-			)}
 		</>
 	);
 };

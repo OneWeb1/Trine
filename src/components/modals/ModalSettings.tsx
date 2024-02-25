@@ -65,6 +65,8 @@ const ModalSettings: FC = () => {
 				return;
 			}
 		} else if ($currentPassword.length || $newPassword.length) {
+			alert('Password is not empty');
+			dispatch(setVisibleModal('h'));
 			throw new Error('Password is not empty');
 		}
 

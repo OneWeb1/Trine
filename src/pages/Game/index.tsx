@@ -123,7 +123,7 @@ const Game: FC = () => {
 						key={index}
 						rel='preload'
 						as='image'
-						href={`./assets/cards/${imageName}.svg`}
+						href={`/assets/cards/${imageName}.svg`}
 					/>
 				))}
 			</Helmet>

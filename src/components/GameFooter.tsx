@@ -51,13 +51,12 @@ const GameFooter: FC<IGameFooter> = ({
 	const raiseHandler = async () => {
 		dispatch(setIsEnable(false));
 		try {
-			const { data } = await AdminService.do({
+			await AdminService.do({
 				action: 'raise',
 				sum: Math.round(raiseSum),
 			});
 			setRaiseSum(raiseSum * 2);
 			setPercent((raiseSum / maxBid) * 10000);
-			if (data) return true;
 		} catch (e) {
 			console.log(e);
 		}
@@ -67,11 +66,7 @@ const GameFooter: FC<IGameFooter> = ({
 		dispatch(setIsEnable(false));
 
 		try {
-			const { data } = await AdminService.do({ action: 'drop' });
-
-			if (data) {
-				return true;
-			}
+			await AdminService.do({ action: 'drop' });
 		} catch (e) {
 			console.log(e);
 		}
@@ -128,6 +123,10 @@ const GameFooter: FC<IGameFooter> = ({
 				className={styles.footer}
 				style={{
 					height: (windowWidth < 800 && '35px') || '65px',
+					bottom: isEnable || !isReady ? '5px' : '-100px',
+					transition: '.5s',
+					transitionDelay: '.05s',
+					// opacity: isEnable || !isReady ? 1 : 0,
 				}}>
 				{!isReady && (
 					<div className={styles.readyWrapper}>

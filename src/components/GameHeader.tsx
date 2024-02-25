@@ -106,6 +106,7 @@ const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
 						<div
 							className={styles.name}
 							style={{
+								maxWidth: window.innerWidth < 500 ? '120px' : '',
 								fontSize: (wm750 && '10px') || '14px',
 								fontWeight: '600',
 							}}>

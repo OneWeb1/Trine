@@ -2,9 +2,9 @@
 	position: fixed;
 	width: 100%;
 	bottom: 10px;
-	z-index: 100;
-	bottom: 15px;
-
+	z-index: 100000;
+	bottom: 5px;
+	transition: 0.5s;
 	// background: linear-gradient(90deg, #0d1528 0%, #161e33 49.58%, #101729 100%);
 }
 
@@ -132,7 +132,7 @@
 
 @media screen and (min-width: 401px) and (max-width: 900px) {
 	.footer {
-		bottom: 15px;
+		bottom: 5px;
 	}
 	.range {
 		width: 160px;
@@ -154,7 +154,7 @@
 
 @media screen and (max-width: 700px) {
 	.footer {
-		bottom: 25px;
+		bottom: 5px;
 	}
 	.range {
 		width: 151px;

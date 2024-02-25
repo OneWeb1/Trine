@@ -62,7 +62,15 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 		const horZoom = window.innerWidth / landscapeTableWidth;
 		const horPadding = 150 * horZoom;
 		const vertPadding =
-			window.innerHeight > 800 ? 400 : window.innerHeight > 600 ? 300 : 250;
+			window.innerHeight > 650
+				? 260
+				: window.innerHeight > 400
+				? 140
+				: window.innerHeight > 300
+				? 90
+				: window.innerHeight < 250
+				? 50
+				: 70;
 		const maxScale = (window.innerHeight - vertPadding) / landscapeTableHeight;
 		let scale =
 			horZoom * landscapeTableWidth > window.innerWidth - horPadding
@@ -75,7 +83,7 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 	} else {
 		const horZoom = window.innerWidth / portraitTableWidth;
 		const vertPadding =
-			window.innerHeight > 800 ? 300 : window.innerHeight > 600 ? 180 : 250;
+			window.innerHeight > 800 ? 300 : window.innerHeight > 600 ? 140 : 100;
 		const horPadding = 90 * horZoom;
 		const maxScale = (window.innerHeight - vertPadding) / portraitTableHeight;
 
@@ -91,7 +99,7 @@ const resizeHandler = (tableRef: RefObject<HTMLDivElement>) => {
 };
 
 const getRoomsIndexPosition = (length: number): number[] => {
-	const position = [0, 7, 4, 2, 9, 5, 6, 3, 8, 1, 10];
+	const position = [0, 3, 4, 2, 9, 5, 6, 3, 8, 1, 10];
 
 	return position.slice(0, length).sort((a, b) => a - b);
 };

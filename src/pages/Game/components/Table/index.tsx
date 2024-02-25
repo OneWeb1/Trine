@@ -281,7 +281,7 @@ const Table: FC<ITable> = ({
 			);
 			setTimeout(() => {
 				dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
-			}, 0);
+			}, 3000);
 		}
 		setPlayers(room.players);
 		setPos(getRoomsIndexPosition(room.players.length));

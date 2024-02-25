@@ -19,7 +19,6 @@ $api.interceptors.response.use(
 	},
 	async error => {
 		const originRequest = error.config;
-
 		if (
 			error.response.status === 401 &&
 			originRequest &&
@@ -34,9 +33,15 @@ $api.interceptors.response.use(
 				if (!isRememberMe) {
 					logout();
 				}
-				const { data } = await AuthService.prolong(String(prolongToken));
-				localStorage.setItem('token', data.access_token);
-				localStorage.setItem('prolong_token', data.prolong_token);
+				try {
+					const { data } = await AuthService.prolong(String(prolongToken));
+					localStorage.setItem('token', data.access_token);
+					localStorage.setItem('prolong_token', data.prolong_token);
+				} catch (e) {
+					if (e.response.status === 403) {
+						logout();
+					}
+				}
 
 				if (!originRequest._retryCount) {
 					originRequest._retryCount = 1;

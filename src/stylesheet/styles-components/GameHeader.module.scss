@@ -52,11 +52,11 @@
 			.name {
 				font-size: 16px;
 				margin-bottom: 2px;
-				// max-width: 120px;
-				// width: 120px;
-				// overflow: hidden;
-				// text-overflow: ellipsis;
-				// white-space: nowrap;
+				max-width: 200px;
+				width: fit-content;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 			}
 
 			.chips {

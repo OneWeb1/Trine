@@ -28,7 +28,7 @@ const MobilePortraitTable: FC<IMobilePortraitTable> = ({
 	);
 
 	return (
-		<div style={{ marginTop: '-20px' }} className={styles.tableWrapper}>
+		<div className={styles.tableWrapper}>
 			<div className={styles.table} ref={tableRef}>
 				{children}
 
