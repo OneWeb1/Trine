@@ -1,4 +1,8 @@
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, {
+	AxiosError,
+	AxiosResponse,
+	InternalAxiosRequestConfig,
+} from 'axios';
 import AuthService from '../services/AuthService';
 
 export const API_URL = `https://trine-game.online/api`;
@@ -38,7 +42,7 @@ $api.interceptors.response.use(
 					localStorage.setItem('token', data.access_token);
 					localStorage.setItem('prolong_token', data.prolong_token);
 				} catch (e) {
-					if (e.response.status === 403) {
+					if (e instanceof AxiosError && e.response?.status === 403) {
 						logout();
 					}
 				}
