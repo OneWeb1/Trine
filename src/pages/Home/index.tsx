@@ -238,13 +238,11 @@ const Home: FC = () => {
 			)}
 			{visibleModal === 'mr' && <ModalMyRooms />}
 
-			{/* {!loading && (
-				<div
-					style={{ width: '100%', height: '500px' }}
-					className='flex-center'>
+			{!loading && (
+				<div style={{ width: '100%', height: '500px' }} className='flex-center'>
 					<Spinner />
 				</div>
-			)} */}
+			)}
 		</>
 	);
 };
