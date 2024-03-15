@@ -9,9 +9,9 @@ interface IModalTimer {
 const ModalTimer: FC<IModalTimer> = ({ timer }) => {
 	return (
 		<div className={styles.modalTimer}>
-			<div className={styles.title}>Гра скоро розпочнеться!</div>
-			<div className={styles.subtitle}>До початку раунду лишилося:</div>
-			<div className={styles.timer}>{timer}</div>
+			<div className={styles.timer}>
+				Гра розпочнеться через {timer} секунд...
+			</div>
 		</div>
 	);
 };

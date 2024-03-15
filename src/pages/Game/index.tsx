@@ -174,6 +174,7 @@ const Game: FC = () => {
 			{roomState.state === 'starting' && (
 				<ModalTimer timer={roomState.time_to_start} />
 			)}
+			{/* <ModalTimer timer={roomState.time_to_start} /> */}
 
 			{/* {gameAction.state === 'won' && (
 				<ModalAfterGame

@@ -168,7 +168,18 @@ const Home: FC = () => {
 									{(!loadingRooms.current ||
 										(loadingRooms.current && !rooms.length)) && (
 										<div className={styles.empty}>
-											{!loadingRooms.current && <Spinner />}
+											{!loadingRooms.current && (
+												<div
+													style={{
+														width: '100%',
+														height: '470px',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
+													<Spinner />
+												</div>
+											)}
 											{loadingRooms.current && !rooms.length && (
 												<div>
 													Список кімнат порожній. <br /> Для створення публічних
@@ -227,11 +238,13 @@ const Home: FC = () => {
 			)}
 			{visibleModal === 'mr' && <ModalMyRooms />}
 
-			{!loading && (
-				<div className='flex-center'>
+			{/* {!loading && (
+				<div
+					style={{ width: '100%', height: '500px' }}
+					className='flex-center'>
 					<Spinner />
 				</div>
-			)}
+			)} */}
 		</>
 	);
 };

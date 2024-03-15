@@ -123,7 +123,7 @@ const GameFooter: FC<IGameFooter> = ({
 				className={styles.footer}
 				style={{
 					height: (windowWidth < 800 && '35px') || '65px',
-					bottom: isEnable || !isReady ? '5px' : '-100px',
+					bottom: isEnable || !isReady ? '15px' : '-100px',
 					transition: '.5s',
 					transitionDelay: '.05s',
 					// opacity: isEnable || !isReady ? 1 : 0,

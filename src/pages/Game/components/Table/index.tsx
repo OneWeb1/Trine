@@ -221,13 +221,12 @@ const Table: FC<ITable> = ({
 	const getRoomsState = async () => {
 		const diffRequestTime =
 			(new Date().getTime() - requestStateTime.current) / 1000;
-		if (diffRequestTime > 1) {
+		if (diffRequestTime > 0.1) {
 			requestStateTime.current = new Date().getTime();
 		} else return;
 		const response = await AdminService.getPublicRoomByState(joinRoom.id);
 		if (!response) return;
 		const room = (response.data && response.data) || joinRoom;
-		// if (!players[0]) reJoinRoom();
 		if (
 			(room.state === 'player_recruitment' || room.state === 'result') &&
 			!room.players.some(player => player.me) &&
@@ -240,11 +239,6 @@ const Table: FC<ITable> = ({
 			writeStates(room);
 			showReadyMessage(room);
 		}
-
-		// if (room.template) {
-		// 	localStorage.removeItem('joinRoom');
-		// 	localStorage.removeItem('ready');
-		// }
 
 		if (mePlayer.state !== 'move') {
 			dispatch(setIsEnable(true));

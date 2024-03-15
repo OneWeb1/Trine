@@ -13,7 +13,12 @@ const ModalPay: FC<IModalPay> = ({ title, message }) => {
 			<span style={{ color: '#000' }}>{message}</span>
 
 			<span style={{ display: 'block', marginTop: '15px', color: '#000' }}>
-				Telegram: <span style={{ color: '#0053D0' }}>@telegram_manager</span>
+				Telegram:{' '}
+				<span style={{ color: '#0053D0' }}>
+					<a href='https://t.me/romuchtg' target='_blank'>
+						@manager
+					</a>
+				</span>
 			</span>
 		</Modal>
 	);
