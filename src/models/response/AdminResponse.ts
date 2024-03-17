@@ -46,6 +46,7 @@ export interface RoomsResponse {
 	template: boolean;
 	creator_id: number;
 	svara: boolean;
+	svara_pending: boolean;
 	state: string;
 	time_to_start: number;
 }
