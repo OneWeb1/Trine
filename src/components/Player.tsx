@@ -404,7 +404,7 @@ const Player: FC<IPlayer> = ({
 									}}>
 									<FishkaItem isPlayer={true} value={player.full_bid} />
 								</div>
-								{/* <div className={styles.icon}>
+								<div className={styles.icon}>
 									{!player.me && player.state !== 'defeat' && (
 										<TreeCards
 											style={{
@@ -424,7 +424,7 @@ const Player: FC<IPlayer> = ({
 											cards={['fb', 'fb', 'fb', 'jpg']}
 										/>
 									)}
-								</div> */}
+								</div>
 							</div>
 						)}
 					</>
