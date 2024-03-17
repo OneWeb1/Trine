@@ -11,10 +11,12 @@ import ButtonSpecial from '../UI/ButtonSpecial';
 import styles from './../stylesheet/styles-components/GameFooter.module.scss';
 import ButtonFunction from '../UI/ButtonFunction';
 import AdminService from '../services/AdminService';
-import { IPlayerRoom } from '../models/response/AdminResponse';
+import { IPlayerRoom, RoomsResponse } from '../models/response/AdminResponse';
+// import { IRoomData } from '../pages/Home/interfaces';
 
 interface IGameFooter {
 	isReady?: boolean;
+	roomState: RoomsResponse;
 	isEnable: boolean;
 	mePlayer: IPlayerRoom;
 	joinTax: number;
@@ -27,7 +29,8 @@ interface IGameFooter {
 
 const GameFooter: FC<IGameFooter> = ({
 	readyHandler,
-	isReady,
+	roomState,
+	// isReady,
 	isEnable,
 	mePlayer,
 	joinTax,
@@ -43,6 +46,9 @@ const GameFooter: FC<IGameFooter> = ({
 
 	const rangeRef = useRef<HTMLInputElement>(null);
 	const multiplay = (sum: number, x: number) => sum * x;
+
+	const states = ['spectate', 'won', 'defeat'];
+	const roomStates = ['player_recruitment', 'result', 'starting'];
 
 	const supportHandler = async () => {
 		dispatch(setIsEnable(false));
@@ -123,19 +129,28 @@ const GameFooter: FC<IGameFooter> = ({
 				className={styles.footer}
 				style={{
 					height: (windowWidth < 800 && '35px') || '65px',
-					bottom: isEnable || !isReady ? '15px' : '-100px',
+					bottom:
+						isEnable ||
+						(states.includes(mePlayer.state) &&
+							roomStates.includes(roomState.state))
+							? '15px'
+							: '-100px',
 					transition: '.5s',
 					transitionDelay: '.05s',
 					// opacity: isEnable || !isReady ? 1 : 0,
 				}}>
-				{!isReady && (
+				{states.includes(mePlayer.state) && (
 					<div className={styles.readyWrapper}>
 						<ButtonSpecial
 							style={{ minWidth: '200px' }}
 							className={styles.buttonReady}
 							disabled={true}
 							wait={true}
-							title={mePlayer.state === 'out' ? 'Вступити до свари' : 'Готовий'}
+							title={
+								!mePlayer.fight && roomState.svara_pending
+									? 'Вступити до свари'
+									: 'Готовий'
+							}
 							onClick={async () => {
 								readyHandler();
 							}}
@@ -146,9 +161,13 @@ const GameFooter: FC<IGameFooter> = ({
 					className={styles.menu}
 					style={{
 						opacity: (isEnable && 1) || 0.4,
-						display: (!isReady && 'none') || 'block',
+						display:
+							(states.includes(mePlayer.state) &&
+								roomStates.includes(roomState.state) &&
+								'none') ||
+							'block',
 					}}>
-					{isReady && (
+					{['bidding'].includes(roomState.state) && (
 						<div className={styles.flexContainer}>
 							<div
 								style={{

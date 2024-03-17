@@ -25,6 +25,8 @@ export interface IPublicRoom {
 	max_bid: number;
 	template: boolean;
 	creator_id: number;
+	svara: boolean;
+	svara_pending: boolean;
 	state: string;
 	fight?: boolean;
 }

@@ -184,29 +184,6 @@ const Table: FC<ITable> = ({
 		}
 	};
 
-	const showReadyMessage = (room: RoomsResponse) => {
-		room.players.forEach(player => {
-			const prevState = recruitmentStateRef.current[player.id];
-			if (
-				!playersReadyRef.current.includes(player.id) &&
-				player.state !== prevState
-			) {
-				playersReadyRef.current.push(player.id);
-				delete recruitmentStateRef.current[player.id];
-				dispatch(
-					setVisibleStateMessage({
-						visible: true,
-						message: 'Готовий',
-						id: player.id,
-					}),
-				);
-				setTimeout(() => {
-					dispatch(setVisibleStateMessage({ visible: false, id: -1 }));
-				}, 4000);
-			}
-		});
-	};
-
 	const translateStateToMessage = (state: string): string => {
 		const states: { [key: string]: string } = {
 			support: 'Підтримати',
@@ -237,7 +214,6 @@ const Table: FC<ITable> = ({
 		}
 		if (room.state === 'player_recruitment' || isWriteReadyState.current) {
 			writeStates(room);
-			showReadyMessage(room);
 		}
 
 		if (mePlayer.state !== 'move') {

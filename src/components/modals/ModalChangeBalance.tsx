@@ -81,11 +81,12 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 						marginRight: w ? '10px' : '0px',
 						marginBottom: w ? '0' : '10px',
 					}}
+					loading={true}
 					value='Обнулити баланс'
 					onClick={resetBalance}
 				/>
 
-				<Button value='Змінити баланс' onClick={changeBalance} />
+				<Button value='Змінити баланс' loading={true} onClick={changeBalance} />
 			</div>
 		</Modal>
 	);

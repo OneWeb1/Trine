@@ -1,5 +1,8 @@
 import { FC } from 'react';
 
+import { RootState as CustomRootState } from '../../store/rootReducer';
+import { useSelector } from 'react-redux';
+
 import Modal from './Modal';
 
 interface IModalPay {
@@ -8,15 +11,17 @@ interface IModalPay {
 }
 
 const ModalPay: FC<IModalPay> = ({ title, message }) => {
+	const { transfersData } = useSelector((state: CustomRootState) => state.app);
+
 	return (
 		<Modal title={title}>
 			<span style={{ color: '#000' }}>{message}</span>
 
 			<span style={{ display: 'block', marginTop: '15px', color: '#000' }}>
-				Telegram:{' '}
+				{transfersData.label}{' '}
 				<span style={{ color: '#0053D0' }}>
-					<a href='https://t.me/romuchtg' target='_blank'>
-						@manager
+					<a href={transfersData.link} target='_blank'>
+						{transfersData.name}
 					</a>
 				</span>
 			</span>

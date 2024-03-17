@@ -300,6 +300,12 @@ const Player: FC<IPlayer> = ({
 							/>
 						)}
 
+					{player.state === 'ready' && (
+						<div className={styles.viewReady}>
+							<div className={styles.viewState}>Готовий</div>
+						</div>
+					)}
+
 					{!player.cards.includes('*') && !isReady && !player.me && (
 						<div
 							style={{
@@ -398,7 +404,7 @@ const Player: FC<IPlayer> = ({
 									}}>
 									<FishkaItem isPlayer={true} value={player.full_bid} />
 								</div>
-								<div className={styles.icon}>
+								{/* <div className={styles.icon}>
 									{!player.me && player.state !== 'defeat' && (
 										<TreeCards
 											style={{
@@ -418,13 +424,13 @@ const Player: FC<IPlayer> = ({
 											cards={['fb', 'fb', 'fb', 'jpg']}
 										/>
 									)}
-								</div>
+								</div> */}
 							</div>
 						)}
 					</>
 				)}
 			</div>
-			{index === 0 && (
+			{index === 0 && player.state !== 'spectate' && (
 				<div className={styles.cards}>
 					{isVisibleCards && (
 						<TreeCards

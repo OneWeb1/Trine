@@ -87,7 +87,6 @@ const Game: FC = () => {
 			limit: 10000,
 		});
 		const joinRoom = JSON.parse(localStorage.getItem('joinRoom') || '{}');
-		// if (joinRoom) await AdminService.roomLeave();
 		const openRoom = Object.keys(joinRoom).length
 			? data.items.find(room => room.id === joinRoom.id)
 			: data.items.find(room => room.id === id);
@@ -158,6 +157,7 @@ const Game: FC = () => {
 							isEnable={
 								mePlayer.state === 'move' && roomState.state === 'bidding'
 							}
+							roomState={roomState}
 							isReady={ready}
 							joinTax={Number(roomState.join_tax)}
 							mePlayer={mePlayer}
@@ -174,32 +174,6 @@ const Game: FC = () => {
 			{roomState.state === 'starting' && (
 				<ModalTimer timer={roomState.time_to_start} />
 			)}
-			{/* <ModalTimer timer={roomState.time_to_start} /> */}
-
-			{/* {gameAction.state === 'won' && (
-				<ModalAfterGame
-					title='Ви виграли'
-					message='Сума виграшу:'
-					isWin={true}
-					sum={Math.floor(roomState.bank * 0.97)}
-					isHide={false}
-					onClick={() => {
-						setRoomResultState({} as RoomsResponse);
-						dispatch(setGameAction({ state: '' }));
-					}}
-				/>
-			)} */}
-			{/* {gameAction.state === 'defeat' && (
-				<ModalAfterGame
-					title='Ви програли'
-					message='Сума програшу:'
-					isWin={false}
-					sum={mePlayer.full_bid}
-					onClick={() => {
-						dispatch(setGameAction({ state: '' }));
-					}}
-				/>
-			)} */}
 
 			{gameAction.state === 'room-not-found' && (
 				<ModalAfterGame
@@ -217,7 +191,5 @@ const Game: FC = () => {
 		</>
 	);
 };
-
-// game/////
 
 export default Game;

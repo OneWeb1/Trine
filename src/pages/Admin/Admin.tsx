@@ -12,6 +12,7 @@ import ModalChangeBalance from '../../components/modals/ModalChangeBalance';
 import LeftMenu from './LeftMenu';
 import { setVisibleBurgerMenu } from '../../store/slices/app.slice';
 import ModalStatistics from '../../components/modals/ModalStatistics';
+import Transfers from './Transfers';
 
 const Admin: FC = () => {
 	const dispatch = useDispatch();
@@ -48,6 +49,12 @@ const Admin: FC = () => {
 		localStorage.setItem('tab', 'rooms');
 	};
 
+	const tabTransfersHandler = () => {
+		setTab('transfers');
+		if (windowWidth < 1300) dispatch(setVisibleBurgerMenu(false));
+		localStorage.setItem('tab', 'transfers');
+	};
+
 	useEffect(() => {
 		const handleResize = () => {
 			setWindowWidth(window.innerWidth);
@@ -75,6 +82,7 @@ const Admin: FC = () => {
 						tab={tab}
 						tabAccountsHandler={tabAccountsHandler}
 						tabRoomsHandler={tabRoomsHandler}
+						tabTransfersHandler={tabTransfersHandler}
 					/>
 				</div>
 
@@ -85,10 +93,12 @@ const Admin: FC = () => {
 						tab={tab}
 						tabAccountsHandler={tabAccountsHandler}
 						tabRoomsHandler={tabRoomsHandler}
+						tabTransfersHandler={tabTransfersHandler}
 					/>
 					<div className={styles.rightMenu}>
 						{tab === 'accounts' && <Accounts />}
 						{tab === 'rooms' && <Rooms hideName={windowWidth < 900} />}
+						{tab === 'transfers' && <Transfers />}
 					</div>
 				</div>
 			</div>

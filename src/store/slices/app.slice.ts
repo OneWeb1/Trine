@@ -21,8 +21,15 @@ interface IStats {
 	numbers: number[];
 }
 
+interface ITransfersData {
+	label: string;
+	name: string;
+	link: string;
+}
+
 interface IState {
 	stats: IStats;
+	transfersData: ITransfersData;
 	avatars: string[];
 	isAuth: boolean;
 	isRememberMe: boolean;
@@ -54,8 +61,19 @@ interface IState {
 	roomState: RoomsResponse;
 	roomResultState: RoomsResponse;
 }
+
+const transfersLength = Object.keys(
+	JSON.parse(localStorage.getItem('transfersData') || '{}'),
+).length;
+
 const initialState: IState = {
 	stats: {} as IStats,
+	transfersData: (transfersLength &&
+		JSON.parse(localStorage.getItem('transfersData') || '{}')) || {
+		label: 'Telegram:',
+		name: '@manager',
+		link: 'https://t.me/romuchtg',
+	},
 	avatars: JSON.parse(localStorage.getItem('avatars') || '[]'),
 	baseIconPath: 'https://trine-game.online',
 	isAuth: (localStorage.getItem('token') && true) || false,
@@ -98,6 +116,9 @@ const appSlice = createSlice({
 	reducers: {
 		setStats(state, action) {
 			state.stats = action.payload;
+		},
+		setTransfersData(state, action) {
+			state.transfersData = action.payload;
 		},
 		setAvatars(state, action) {
 			state.avatars = action.payload;
@@ -194,6 +215,7 @@ const appSlice = createSlice({
 
 export const {
 	setStats,
+	setTransfersData,
 	setAvatars,
 	setVisibleModal,
 	setIsSubmit,

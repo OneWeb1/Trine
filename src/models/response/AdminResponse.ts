@@ -45,6 +45,7 @@ export interface RoomsResponse {
 	max_bid: number;
 	template: boolean;
 	creator_id: number;
+	svara: boolean;
 	state: string;
 	time_to_start: number;
 }

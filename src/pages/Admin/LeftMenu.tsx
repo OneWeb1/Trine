@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import { MdManageAccounts } from 'react-icons/md';
 import { MdRoomPreferences } from 'react-icons/md';
+import { FaMoneyBillTransfer } from 'react-icons/fa6';
 // import { ImStatsBars } from 'react-icons/im';
 import { ImHome } from 'react-icons/im';
 
@@ -19,6 +20,7 @@ interface ILeftMenu {
 	tab: string;
 	tabRoomsHandler: () => void;
 	tabAccountsHandler: () => void;
+	tabTransfersHandler: () => void;
 }
 
 const LeftMenu: FC<ILeftMenu> = ({
@@ -27,6 +29,7 @@ const LeftMenu: FC<ILeftMenu> = ({
 	tab,
 	tabRoomsHandler,
 	tabAccountsHandler,
+	tabTransfersHandler,
 }) => {
 	const { visibleBurgerMenu } = useSelector(
 		(state: CustomRootState) => state.app,
@@ -60,15 +63,15 @@ const LeftMenu: FC<ILeftMenu> = ({
 					<MdRoomPreferences style={{ marginRight: '10px' }} />
 					<span>Кімнати</span>
 				</div>
-				{/* <div
+				<div
 					className={classNames(
 						styles.item,
-						tab === 'statistics' && styles.tabActive,
+						tab === 'transfers' && styles.tabActive,
 					)}
-					onClick={tabAccountsHandler}>
-					<ImStatsBars style={{ marginRight: '10px' }} />
-					<span>Статистика</span>
-				</div> */}
+					onClick={tabTransfersHandler}>
+					<FaMoneyBillTransfer style={{ marginRight: '10px' }} />
+					<span>Перекази</span>
+				</div>
 				<Link to='/'>
 					<div
 						className={classNames(
