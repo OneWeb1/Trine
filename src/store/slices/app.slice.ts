@@ -72,7 +72,7 @@ const initialState: IState = {
 		JSON.parse(localStorage.getItem('transfersData') || '{}')) || {
 		label: 'Telegram:',
 		name: '@manager',
-		link: 'https://t.me/romuchtg',
+		link: 'https://t.me/trinka_1',
 	},
 	avatars: JSON.parse(localStorage.getItem('avatars') || '[]'),
 	baseIconPath: 'https://trine-game.online',
