@@ -263,7 +263,8 @@ const Table: FC<ITable> = ({
 		let id = roomState.players.length - 1;
 		let lastPlayer = roomState.players[id];
 		if (!lastPlayer) return -1;
-		let state = lastPlayer.state === 'defeat';
+		let state =
+			lastPlayer.state === 'defeat' || lastPlayer.state === 'spectate';
 		while (state) {
 			id = id - 1;
 			lastPlayer = roomState.players[id];
