@@ -68,7 +68,7 @@ const Table: FC<ITable> = ({
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { joinRoom, check } = useSelector(
+	const { joinRoom, check, account } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const [players, setPlayers] = useState<IPlayerRoom[]>([]);
@@ -357,9 +357,12 @@ const Table: FC<ITable> = ({
 					))}
 				</LandscapeTable>
 			)}
-			<div className={styles.btnCopy} onClick={stateCopyHandler}>
-				<LuCopy />
-			</div>
+
+			{account.is_admin && (
+				<div className={styles.btnCopy} onClick={stateCopyHandler}>
+					<LuCopy />
+				</div>
+			)}
 		</>
 	);
 };
