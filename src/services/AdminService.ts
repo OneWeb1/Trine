@@ -72,9 +72,10 @@ export default class AdminService {
 	}
 	static async getPublicRoomByState(
 		id: string,
+		isFull: boolean,
 	): Promise<AxiosResponse<RoomsResponse> | null> {
 		if (typeof id !== 'string') return null;
-		return $api.get<RoomsResponse>(`/room/${id}`);
+		return $api.get<RoomsResponse>(`/room/${id}`, { params: { full: isFull } });
 	}
 
 	static async getMeProfile(): Promise<AxiosResponse<ProfileMeResponse>> {

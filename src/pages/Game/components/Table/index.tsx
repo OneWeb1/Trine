@@ -205,7 +205,10 @@ const Table: FC<ITable> = ({
 		if (diffRequestTime > 0.1) {
 			requestStateTime.current = new Date().getTime();
 		} else return;
-		const response = await AdminService.getPublicRoomByState(joinRoom.id);
+		const response = await AdminService.getPublicRoomByState(
+			joinRoom.id,
+			false,
+		);
 		if (!response) return;
 		const room = (response.data && response.data) || joinRoom;
 		if (
@@ -282,8 +285,13 @@ const Table: FC<ITable> = ({
 		return lastPlayer.id;
 	};
 
-	const stateCopyHandler = () => {
-		navigator.clipboard.writeText(JSON.stringify(roomState));
+	const stateCopyHandler = async () => {
+		await AdminService.getPublicRoomByState(joinRoom.id, true).then(
+			response => {
+				const stateText = JSON.stringify(response?.data);
+				navigator.clipboard.writeText(stateText);
+			},
+		);
 	};
 
 	useEffect(() => {
