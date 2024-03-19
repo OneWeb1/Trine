@@ -273,7 +273,7 @@ const Table: FC<ITable> = ({
 				lastPlayer = { id: -1 } as IPlayerRoom;
 				continue;
 			}
-			state = lastPlayer.state === 'defeat';
+			state = lastPlayer.state === 'defeat' || lastPlayer.state === 'spectate';
 		}
 		return lastPlayer.id;
 	};
