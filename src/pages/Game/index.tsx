@@ -1,4 +1,5 @@
 import { FC, useState, useRef, useEffect } from 'react';
+import { LuCopy } from 'react-icons/lu';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -98,9 +99,9 @@ const Game: FC = () => {
 			return;
 		}
 
-		if (!openRoom || (openRoom && openRoom.id !== id)) {
-			navigate(`/game/${id}/not-found`);
-		}
+		// if (!openRoom || (openRoom && openRoom.id !== id)) {
+		// 	navigate(`/game/${id}/not-found`);
+		// }
 	};
 
 	useEffect(() => {

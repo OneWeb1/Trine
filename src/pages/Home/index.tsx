@@ -181,7 +181,14 @@ const Home: FC = () => {
 												</div>
 											)}
 											{loadingRooms.current && !rooms.length && (
-												<div>
+												<div
+													style={{
+														width: '100%',
+														height: '470px',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+													}}>
 													Список кімнат порожній. <br /> Для створення публічних
 													кімнат звяжіться з нашими менеджерами{' '}
 												</div>

@@ -9,6 +9,8 @@ import {
 	RefObject,
 } from 'react';
 
+import { LuCopy } from 'react-icons/lu';
+
 import { useNavigate } from 'react-router-dom';
 
 import { RootState as CustomRootState } from '../../../../store/rootReducer';
@@ -36,6 +38,8 @@ import { IPlayerRoom } from '../../../Admin/interfaces';
 
 import { RoomsResponse } from '../../../../models/response/AdminResponse';
 import GameService from '../../../../services/GameService';
+
+import styles from './../../../../stylesheet/styles/Game.module.scss';
 
 interface ITable {
 	roomState: RoomsResponse;
@@ -278,6 +282,10 @@ const Table: FC<ITable> = ({
 		return lastPlayer.id;
 	};
 
+	const stateCopyHandler = () => {
+		navigator.clipboard.writeText(JSON.stringify(roomState));
+	};
+
 	useEffect(() => {
 		(async () => {
 			await getRoomsState();
@@ -341,6 +349,9 @@ const Table: FC<ITable> = ({
 					))}
 				</LandscapeTable>
 			)}
+			<div className={styles.btnCopy} onClick={stateCopyHandler}>
+				<LuCopy />
+			</div>
 		</>
 	);
 };

@@ -13,3 +13,28 @@
 	padding: 0 20px;
 	color: #fff;
 }
+
+.btnCopy {
+	position: fixed;
+	width: 40px;
+	height: 40px;
+	bottom: 100px;
+	right: 20px;
+	border: 3px solid rgb(15, 16, 18);
+	background-color: rgba(33, 27, 36, 0);
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	cursor: pointer;
+	font-size: 18px;
+	border: 2px solid rgba(41, 112, 250, 0.2);
+	transition: 0.4s;
+
+	&:hover {
+		transform: scale(0.9);
+		background: linear-gradient(#2970fa, #17203f);
+		border: 2px solid rgba(41, 112, 250, 1);
+	}
+}
