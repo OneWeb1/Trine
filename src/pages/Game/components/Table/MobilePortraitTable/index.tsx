@@ -49,7 +49,7 @@ const MobilePortraitTable: FC<IMobilePortraitTable> = ({
 								</div>
 								<div className={styles.displayWrapper}>
 									<div className={styles.tax}>
-										Налог (1%){' '}
+										Налог (3%){' '}
 										<span
 											className={styles.taxNumber}
 											style={{ marginLeft: '3px', fontWeight: '600' }}>
