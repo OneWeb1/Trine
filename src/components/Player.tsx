@@ -306,24 +306,6 @@ const Player: FC<IPlayer> = ({
 						</div>
 					)}
 
-					{!player.cards.includes('*') && !isReady && !player.me && (
-						<div
-							style={{
-								position: 'absolute',
-								width: '160px',
-								marginLeft: '-60px',
-								marginTop: '0px',
-								zIndex: 1000,
-							}}>
-							<TreeCards
-								style={{ transform: 'scale(.8) translateY(-20px)' }}
-								cards={player.cards}
-								number={player.cards_sum}
-								visible={true}
-							/>
-						</div>
-					)}
-
 					<div
 						className={classNames(
 							styles.avatar,
