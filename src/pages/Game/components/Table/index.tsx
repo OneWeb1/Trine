@@ -288,7 +288,7 @@ const Table: FC<ITable> = ({
 	const stateCopyHandler = async () => {
 		await AdminService.getPublicRoomByState(joinRoom.id, true).then(
 			response => {
-				const stateText = JSON.stringify(response?.data);
+				const stateText = JSON.stringify(response?.data, null, 2);
 				navigator.clipboard.writeText(stateText);
 			},
 		);
