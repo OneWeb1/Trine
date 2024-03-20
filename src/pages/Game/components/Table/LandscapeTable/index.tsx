@@ -16,10 +16,10 @@ const LandscapeTable: FC<ILandscapeTable> = ({
 	roomState,
 	children,
 }) => {
-	const investigatorsCount =
-		roomState.players?.filter(
-			player => roomState.state === 'bidding' && player.state === 'spectate',
-		).length || 0;
+	// const investigatorsCount =
+	// 	roomState.players?.filter(
+	// 		player => roomState.state === 'bidding' && player.state === 'spectate',
+	// 	).length || 0;
 	// const isQuarrel =
 	// 	roomState.players?.filter(player => player.state === 'out' || player.fight)
 	// 		.length || 0;
@@ -58,7 +58,7 @@ const LandscapeTable: FC<ILandscapeTable> = ({
 										</span>
 									</div>
 									<div className={styles.eyeWrapper}>
-										Слідкувачі: <span>{investigatorsCount}</span>
+										{/* Слідкувачі: <span>{investigatorsCount}</span> */}
 									</div>
 									<FishkaItem value={roomState.bank} />
 								</div>
