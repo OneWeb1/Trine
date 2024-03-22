@@ -32,7 +32,9 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 		settingsProfile.is_super_admin || settingsProfile.is_admin,
 	);
 	const [visible, setVisible] = useState<boolean>(false);
-	const [offset] = useState<number>(isAccounts ? 1 : 0);
+	const [offset] = useState<number>(
+		isAccounts && account.is_super_admin ? 1 : 0,
+	);
 	const menuRef = useRef<HTMLDivElement | null>(null);
 
 	const giveAdminHandler = async () => {
@@ -73,11 +75,11 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 			<div
 				style={{
 					opacity: (visible && 1) || 0,
-					height: (offset + values.length) * 35 + 20 + values.length * 5,
+					height: (offset + values.length) * 35 + 20 + values.length * 5 - 5,
 				}}
 				className={styles.menu}
 				ref={menuRef}>
-				{isAccounts && (
+				{isAccounts && account.is_super_admin && (
 					<div className={styles.item} onClick={giveAdminHandler}>
 						<div>Адміністратор</div>
 						<div className={styles.check}>

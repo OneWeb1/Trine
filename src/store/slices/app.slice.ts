@@ -62,14 +62,9 @@ interface IState {
 	roomResultState: RoomsResponse;
 }
 
-const transfersLength = Object.keys(
-	JSON.parse(localStorage.getItem('transfersData') || '{}'),
-).length;
-
 const initialState: IState = {
 	stats: {} as IStats,
-	transfersData: (transfersLength &&
-		JSON.parse(localStorage.getItem('transfersData') || '{}')) || {
+	transfersData: {
 		label: 'Telegram:',
 		name: '@manager',
 		link: 'https://t.me/trinka_1',

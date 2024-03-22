@@ -100,8 +100,6 @@ const Pagination: FC<IPagination> = ({
 			setMinNumber(numbers - fixVisibleNumber);
 			setMaxNumber(numbers - 1);
 
-			console.log(numbers);
-
 			setVisibleButtons(buttons.slice(numbers - fixVisibleNumber, numbers - 1));
 		}
 	};

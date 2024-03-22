@@ -65,7 +65,6 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 				navigate(`/game/${data.id}`);
 				localStorage.setItem('joinRoom', JSON.stringify(data));
 			} catch (e) {
-				console.log('You not playing!!!');
 				await AdminService.roomIsReady(true);
 				// await AdminService.roomLeave();
 				localStorage.removeItem('joinRoom');

@@ -151,7 +151,6 @@ const Accounts: FC = () => {
 				console.log(e);
 			}
 		}, 1000);
-		console.log({ pagesNumber });
 		return () => clearTimeout(Debounce);
 	}, [searchId]);
 

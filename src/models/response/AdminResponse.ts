@@ -1,3 +1,17 @@
+export interface GlobalsData {
+	globals: GlobalsResponse;
+}
+
+export interface GlobalsResponse {
+	transfers: TransfersData;
+}
+
+export interface TransfersData {
+	resource_name: string;
+	username: string;
+	link: string;
+}
+
 export interface AdminProfileResponse {
 	id: number;
 	nickname: string;

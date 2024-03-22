@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, memo } from 'react';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useSelector } from 'react-redux';
@@ -29,4 +29,5 @@ const ModalPay: FC<IModalPay> = ({ title, message }) => {
 	);
 };
 
-export default ModalPay;
+const memoModalPay = memo(ModalPay);
+export default memoModalPay;

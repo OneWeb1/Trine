@@ -8,11 +8,29 @@ import {
 	RoomStatisticsResponse,
 	RoomsPageDataResponse,
 	RoomsResponse,
+	GlobalsResponse,
+	GlobalsData,
 } from '../models/response/AdminResponse';
 import $api from '../http';
 import { AxiosResponse } from 'axios';
 
 export default class AdminService {
+	static async getGlobalsAll(): Promise<AxiosResponse<GlobalsData>> {
+		return $api.get<GlobalsData>('/globals');
+	}
+
+	static async patchGlobalsAll(
+		data: GlobalsResponse,
+	): Promise<AxiosResponse<GlobalsResponse>> {
+		return $api.patch<GlobalsResponse>('/globals', data);
+	}
+
+	static async postGlobalsAll(
+		data: GlobalsResponse,
+	): Promise<AxiosResponse<GlobalsResponse>> {
+		return $api.post<GlobalsResponse>('/globals', data);
+	}
+
 	static async getProfiles(
 		offset: number,
 		limit: number,
