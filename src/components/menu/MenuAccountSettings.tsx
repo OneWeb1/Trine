@@ -63,7 +63,9 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 	useEffect(() => {
 		document.body.style.overflowY = 'hidden';
 
-		return () => (document.body.style.overflowY = 'scroll');
+		return () => {
+			document.body.style.overflowY = 'scroll';
+		};
 	}, [visible]);
 
 	return (
