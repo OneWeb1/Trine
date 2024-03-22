@@ -97,7 +97,7 @@ const Accounts: FC = () => {
 		const account = JSON.parse(storageAccount);
 		AdminService.removeProfileById(account.id);
 		dispatch(setUpdateAccounts());
-		// location.reload();
+		location.reload();
 	};
 
 	const changePage = (pageNumber: number) => {
@@ -240,6 +240,7 @@ const Accounts: FC = () => {
 					y={menuPosition.y}
 					values={['Змінити баланс', 'Статистика', 'Видалити']}
 					handlers={[changeBalance, getStats, removeAccount]}
+					isAccounts={true}
 					hideMenu={hideMenu}
 				/>
 			)}

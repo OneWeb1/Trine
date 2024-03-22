@@ -318,6 +318,7 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 						y={menuPosition.y}
 						values={['Статистика', 'Видалити']}
 						handlers={[getState, removeRoom]}
+						isAccounts={false}
 						hideMenu={hideMenu}
 					/>
 				)}

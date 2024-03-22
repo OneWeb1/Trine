@@ -38,6 +38,7 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 		);
 		dispatch(setVisibleModal('h'));
 		dispatch(setUpdateAccounts());
+		location.reload();
 	};
 
 	const resetBalance = async () => {

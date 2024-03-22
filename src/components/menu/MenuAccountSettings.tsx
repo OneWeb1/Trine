@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ interface IMenuAccountSettings {
 	y: number;
 	values: string[];
 	handlers: Array<() => void>;
+	isAccounts: boolean;
 	hideMenu?: () => void;
 }
 
@@ -20,6 +21,7 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 	y,
 	values,
 	handlers,
+	isAccounts,
 	hideMenu,
 }) => {
 	const { account } = useSelector((state: CustomRootState) => state.app);
@@ -30,6 +32,7 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 		settingsProfile.is_super_admin || settingsProfile.is_admin,
 	);
 	const [visible, setVisible] = useState<boolean>(false);
+	const [offset] = useState<number>(isAccounts ? 1 : 0);
 	const menuRef = useRef<HTMLDivElement | null>(null);
 
 	const giveAdminHandler = async () => {
@@ -57,21 +60,30 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 		setVisible(true);
 	}, 0);
 
+	useEffect(() => {
+		document.body.style.overflowY = 'hidden';
+
+		return () => (document.body.style.overflowY = 'scroll');
+	}, [visible]);
+
 	return (
 		<div className={styles.menuWrapper} onClick={hideMenu}>
 			<div
 				style={{
 					opacity: (visible && 1) || 0,
-					height: (1 + values.length) * 35 + 20 + values.length * 5 - 5,
+					height: (offset + values.length) * 35 + 20 + values.length * 5,
 				}}
 				className={styles.menu}
 				ref={menuRef}>
-				<div className={styles.item} onClick={giveAdminHandler}>
-					<div>Адміністратор</div>
-					<div className={styles.check}>
-						{isAdmin && <div className={styles.checked}></div>}
+				{isAccounts && (
+					<div className={styles.item} onClick={giveAdminHandler}>
+						<div>Адміністратор</div>
+						<div className={styles.check}>
+							{isAdmin && <div className={styles.checked}></div>}
+						</div>
 					</div>
-				</div>
+				)}
+
 				{values.map((value, idx) => (
 					<div key={idx} className={styles.item} onClick={handlers[idx]}>
 						{value}
