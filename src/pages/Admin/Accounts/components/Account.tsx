@@ -35,7 +35,15 @@ const Account: FC<IAccount> = ({ profile }) => {
 
 	return (
 		<>
-			<div className={styles.tableItem}>
+			<div
+				style={{
+					background: profile.is_super_admin
+						? 'rgba(95,5,200,.2)'
+						: profile.is_admin
+						? 'rgba(45,5,200,.2)'
+						: '',
+				}}
+				className={styles.tableItem}>
 				<div className={styles.leftWrapper}>
 					<div className={styles.id}>{profile.id}</div>
 					<div className={styles.profileWrapper}>

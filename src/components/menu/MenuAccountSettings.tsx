@@ -1,6 +1,11 @@
 import { FC, useRef, useState } from 'react';
 
+import { RootState as CustomRootState } from '../../store/rootReducer';
+import { useSelector } from 'react-redux';
+
 import styles from './../../stylesheet/styles-components/menu/MenuAccountSettings.module.scss';
+import AdminService from '../../services/AdminService';
+import { ProfileMeResponse } from '../../models/response/AdminResponse';
 
 interface IMenuAccountSettings {
 	x: number;
@@ -17,8 +22,25 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 	handlers,
 	hideMenu,
 }) => {
+	const { account } = useSelector((state: CustomRootState) => state.app);
+	const [settingsProfile] = useState<ProfileMeResponse>(
+		JSON.parse(localStorage.getItem('account_settings') || '{}'),
+	);
+	const [isAdmin, setIsAdmin] = useState<boolean>(
+		settingsProfile.is_super_admin || settingsProfile.is_admin,
+	);
 	const [visible, setVisible] = useState<boolean>(false);
 	const menuRef = useRef<HTMLDivElement | null>(null);
+
+	const giveAdminHandler = async () => {
+		if (account.id === settingsProfile.id) return;
+		await AdminService.giveAdmin(settingsProfile.id, !settingsProfile.is_admin)
+			.then(() => {
+				setIsAdmin(!settingsProfile.is_admin);
+				location.reload();
+			})
+			.catch(e => console.log(e));
+	};
 
 	setTimeout(() => {
 		if (!menuRef.current) return;
@@ -40,10 +62,16 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 			<div
 				style={{
 					opacity: (visible && 1) || 0,
-					height: values.length * 35 + 20 + values.length * 5 - 5,
+					height: (1 + values.length) * 35 + 20 + values.length * 5 - 5,
 				}}
 				className={styles.menu}
 				ref={menuRef}>
+				<div className={styles.item} onClick={giveAdminHandler}>
+					<div>Адміністратор</div>
+					<div className={styles.check}>
+						{isAdmin && <div className={styles.checked}></div>}
+					</div>
+				</div>
 				{values.map((value, idx) => (
 					<div key={idx} className={styles.item} onClick={handlers[idx]}>
 						{value}

@@ -20,6 +20,7 @@ import styles from './../styles/Accounts.module.scss';
 import {
 	AdminProfileResponse,
 	IPlayerRoom,
+	ProfileMeResponse,
 } from '../../../models/response/AdminResponse';
 import Account from './components/Account';
 import Spinner from '../../../components/spinner';
@@ -32,7 +33,7 @@ const Accounts: FC = () => {
 		menuAccountSettingsPosition: menuPosition,
 		updateAccounts,
 	} = useSelector((state: CustomRootState) => state.app);
-	const [profiles, setProfiles] = useState<AdminProfileResponse[]>([]);
+	const [profiles, setProfiles] = useState<ProfileMeResponse[]>([]);
 
 	const [pagesNumber, setPagesNumber] = useState<number>(
 		JSON.parse(localStorage.getItem('accounts-length') || '0'),
@@ -56,6 +57,7 @@ const Accounts: FC = () => {
 			setProfiles(data.items);
 			setPagesNumber(data.pages);
 			setLoading(true);
+			localStorage.setItem('accounts-length', JSON.stringify(data.pages));
 		} catch (e) {
 			console.log(e);
 		}
@@ -149,6 +151,7 @@ const Accounts: FC = () => {
 				console.log(e);
 			}
 		}, 1000);
+		console.log({ pagesNumber });
 		return () => clearTimeout(Debounce);
 	}, [searchId]);
 

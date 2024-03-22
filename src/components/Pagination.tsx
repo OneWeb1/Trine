@@ -61,6 +61,7 @@ const Pagination: FC<IPagination> = ({
 	const [fixVisibleNumber] = useState<number>(5);
 	const [minNumber, setMinNumber] = useState<number>(2);
 	const [maxNumber, setMaxNumber] = useState<number>(fixVisibleNumber);
+
 	const [visibleButtons, setVisibleButtons] = useState(
 		buttons.slice(minNumber - 1, maxNumber),
 	);
@@ -99,6 +100,8 @@ const Pagination: FC<IPagination> = ({
 			setMinNumber(numbers - fixVisibleNumber);
 			setMaxNumber(numbers - 1);
 
+			console.log(numbers);
+
 			setVisibleButtons(buttons.slice(numbers - fixVisibleNumber, numbers - 1));
 		}
 	};
@@ -113,6 +116,9 @@ const Pagination: FC<IPagination> = ({
 	};
 
 	useEffect(() => {
+		changePageNumber(currentPageNumber);
+		movePageNumber(currentPageNumber - 1);
+		movePageNumber(currentPageNumber);
 		changePageNumber(currentPageNumber);
 	}, []);
 

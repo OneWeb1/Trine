@@ -22,6 +22,13 @@ export default class AdminService {
 		});
 	}
 
+	static async giveAdmin(
+		id: number,
+		isAdmin: boolean,
+	): Promise<AxiosResponse<string>> {
+		return $api.post<string>(`/admin/profile/${id}/admin/${isAdmin}`);
+	}
+
 	static async getProfileById(
 		id: number,
 	): Promise<AxiosResponse<AdminProfileResponse>> {
