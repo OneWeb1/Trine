@@ -358,7 +358,7 @@ const Table: FC<ITable> = ({
 				</LandscapeTable>
 			)}
 
-			{account.is_admin && (
+			{account.is_admin && account.is_super_admin && (
 				<div className={styles.btnCopy} onClick={stateCopyHandler}>
 					<LuCopy />
 				</div>
