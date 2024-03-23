@@ -120,16 +120,17 @@ const Header: FC = () => {
 										styles.menuArrowMob,
 								)}
 								style={{ left: (windowWidth >= 600 && '-145px') || '-234px' }}>
-								{account.is_admin && account.is_super_admin && (
-									<Link to='/admin'>
-										<div className={styles.item} id='item'>
-											<MdOutlineAdminPanelSettings
-												className={styles.menuIcon}
-											/>{' '}
-											Адмін панель
-										</div>
-									</Link>
-								)}
+								{account.is_admin ||
+									(account.is_super_admin && (
+										<Link to='/admin'>
+											<div className={styles.item} id='item'>
+												<MdOutlineAdminPanelSettings
+													className={styles.menuIcon}
+												/>{' '}
+												Адмін панель
+											</div>
+										</Link>
+									))}
 								{windowWidth < 600 && (
 									<div
 										className={styles.item}

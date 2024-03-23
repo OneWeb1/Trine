@@ -40,7 +40,7 @@ const App = () => {
 							<Route path='/registration' element={<Navigate to='/' />}></Route>
 							<Route path='/login' element={<Navigate to='/' />}></Route>
 							<Route path='/game/:id' element={<Game />}></Route>
-							{account.is_admin && account.is_super_admin && (
+							{(account.is_admin || account.is_super_admin) && (
 								<Route path='/admin' element={<Admin />}></Route>
 							)}
 
