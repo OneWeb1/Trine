@@ -98,9 +98,9 @@ const Game: FC = () => {
 			return;
 		}
 
-		// if (!openRoom || (openRoom && openRoom.id !== id)) {
-		// 	navigate(`/game/${id}/not-found`);
-		// }
+		if (!openRoom || (openRoom && openRoom.id !== id)) {
+			navigate(`/game/${id}/not-found`);
+		}
 	};
 
 	useEffect(() => {
