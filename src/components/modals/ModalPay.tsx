@@ -1,7 +1,11 @@
-import { FC, memo } from 'react';
+import { FC, useEffect, memo } from 'react';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import AdminService from '../../services/AdminService';
+import { setTransfersData } from '../../store/slices/app.slice';
+import { GlobalsData } from '../../models/response/AdminResponse';
+import { AxiosResponse } from 'axios';
 
 import Modal from './Modal';
 
@@ -11,7 +15,28 @@ interface IModalPay {
 }
 
 const ModalPay: FC<IModalPay> = ({ title, message }) => {
+	const dispatch = useDispatch();
 	const { transfersData } = useSelector((state: CustomRootState) => state.app);
+
+	const getGlobals = async () => {
+		await AdminService.getGlobalsAll()
+			.then((response: AxiosResponse<GlobalsData>) => {
+				const { transfers } = response.data.globals;
+				console.log(transfers);
+				dispatch(
+					setTransfersData({
+						label: transfers.resource_name,
+						name: transfers.username,
+						link: transfers.link,
+					}),
+				);
+			})
+			.catch(e => console.log(e));
+	};
+
+	useEffect(() => {
+		getGlobals();
+	}, []);
 
 	return (
 		<Modal title={title}>

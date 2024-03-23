@@ -45,6 +45,7 @@ const Transfers: FC = () => {
 		await AdminService.getGlobalsAll()
 			.then((response: AxiosResponse<GlobalsData>) => {
 				const { transfers } = response.data.globals;
+				console.log(transfers);
 				dispatch(
 					setTransfersData({
 						label: transfers.resource_name,
