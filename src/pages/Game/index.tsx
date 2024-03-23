@@ -104,11 +104,10 @@ const Game: FC = () => {
 	};
 
 	useEffect(() => {
-		window.addEventListener('resize', resizeHandler.bind(null, tableRef));
-	}, []);
-
-	useEffect(() => {
+		document.title = `Trine | Гра`;
 		getRooms();
+
+		window.addEventListener('resize', resizeHandler.bind(null, tableRef));
 	}, []);
 
 	resizeHandler(tableRef);

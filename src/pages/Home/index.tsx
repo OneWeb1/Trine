@@ -111,6 +111,7 @@ const Home: FC = () => {
 	};
 
 	useEffect(() => {
+		document.title = 'Trine | Головна';
 		const handleResize = () => {
 			setWindowWidth(window.innerWidth);
 		};

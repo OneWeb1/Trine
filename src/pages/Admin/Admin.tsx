@@ -56,6 +56,7 @@ const Admin: FC = () => {
 	};
 
 	useEffect(() => {
+		document.title = `Trine | Адмін`;
 		const handleResize = () => {
 			setWindowWidth(window.innerWidth);
 		};

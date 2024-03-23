@@ -1,4 +1,4 @@
-import { FC, useState, useRef } from 'react';
+import { FC, useState, useEffect, useRef } from 'react';
 
 import { RootState as CustomRootState } from '../../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,6 +48,10 @@ const Registration: FC = () => {
 			}, 2000);
 		}
 	};
+
+	useEffect(() => {
+		document.title = `Trine | Реєстрація`;
+	}, []);
 
 	return (
 		<>

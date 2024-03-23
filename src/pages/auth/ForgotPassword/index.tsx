@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import { RootState as CustomRootState } from '../../../store/rootReducer';
 import { useSelector } from 'react-redux';
@@ -42,6 +42,10 @@ const ForgotPassword: FC = () => {
 			setIsError(false);
 		}, 2000);
 	};
+
+	useEffect(() => {
+		document.title = `Trine | Забули пароль`;
+	}, []);
 
 	return (
 		<>

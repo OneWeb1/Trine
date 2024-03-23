@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 
 import { RootState as CustomRootState } from '../../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,6 +56,10 @@ const Login: FC = () => {
 			setIsError(false);
 		}, 2000);
 	};
+
+	useEffect(() => {
+		document.title = `Trine | Вхід`;
+	}, []);
 
 	return (
 		<>
