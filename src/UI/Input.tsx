@@ -54,7 +54,7 @@ const Input: FC<IInput> = ({
 						}
 						onChange={e => {
 							onChange(e.target.value);
-							setIsError(false);
+							if (setIsError) setIsError(false);
 						}}
 					/>
 					{children}
@@ -69,7 +69,7 @@ const Input: FC<IInput> = ({
 						value={value}
 						onChange={e => {
 							onChange(e.target.value);
-							setIsError(false);
+							if (setIsError) setIsError(false);
 						}}
 					/>
 
