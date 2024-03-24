@@ -7,7 +7,6 @@ import AuthService from '../../../services/AuthService';
 
 import CheckBoxLabel from '../../../UI/CheckBoxLabel';
 import CustomLink from '../../../UI/CustomLink';
-// import ButtonIcon from '../../../UI/ButtonIcon';
 import Button from '../../../UI/Button';
 import Input from '../../../UI/Input';
 import Spinner from '../../../components/spinner';
@@ -40,6 +39,7 @@ const Registration: FC = () => {
 			localStorage.setItem('password', String(password));
 			dispatch(setIsAuth(true));
 		} catch (e) {
+			console.log(e);
 			setIsLoading(true);
 			setIsError(true);
 			if (timeoutRef.current) clearTimeout(timeoutRef.current);

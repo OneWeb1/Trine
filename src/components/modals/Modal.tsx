@@ -33,7 +33,7 @@ const Modal: FC<IModal> = ({
 		if (isHide !== false) dispatch(setVisibleModal('h'));
 	};
 	const hideModalClose = () => {
-		if (close === true) dispatch(setVisibleModal('h'));
+		if (close === false) dispatch(setVisibleModal('h'));
 	};
 	return (
 		<>
@@ -59,14 +59,13 @@ const Modal: FC<IModal> = ({
 								</div>
 							) : (
 								<>
-									{isHide !== false ||
-										(close === false && (
-											<div
-												className={styles.close}
-												onClick={() => hideModalClose()}>
-												<IoClose />
-											</div>
-										))}
+									{(isHide !== false || close === false) && (
+										<div
+											className={styles.close}
+											onClick={() => hideModalClose()}>
+											<IoClose />
+										</div>
+									)}
 								</>
 							)}
 						</div>
