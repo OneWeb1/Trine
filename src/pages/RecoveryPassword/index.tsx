@@ -16,8 +16,9 @@ const RecoveryPassword = () => {
 		await AuthService.verifyEmail(code)
 			.then(response => {
 				if (response.status === 200) {
-					const { access_token } = response.data;
+					const { access_token, prolong_token } = response.data;
 					localStorage.setItem('token', JSON.stringify(access_token));
+					localStorage.setItem('prolong_token', JSON.stringify(prolong_token));
 					setIsLoading(true);
 				}
 			})
