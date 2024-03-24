@@ -13,14 +13,12 @@ const RecoveryPassword = () => {
 	const code = queryParams.get('code') || '';
 
 	const recovery = async () => {
-		await AuthService.verifyEmail(code)
+		await AuthService.verify(code)
 			.then(response => {
-				if (response.status === 200) {
-					const { access_token, prolong_token } = response.data;
-					localStorage.setItem('token', JSON.stringify(access_token));
-					localStorage.setItem('prolong_token', JSON.stringify(prolong_token));
-					setIsLoading(true);
-				}
+				const { access_token, prolong_token } = response.data;
+				localStorage.setItem('token', access_token);
+				localStorage.setItem('prolong_token', prolong_token);
+				setIsLoading(true);
 			})
 			.catch(error => {
 				setIsError(true);

@@ -21,14 +21,14 @@ export default class AuthService {
 		});
 	}
 
-	static async verifyEmail(code: string): Promise<AxiosResponse<AuthResponse>> {
-		return $api.post<AuthResponse>(`/auth/verify?code=${code}`);
+	static async verify(code: string): Promise<AxiosResponse<AuthResponse>> {
+		return $api.get<AuthResponse>(`/auth/verify?code=${code}`);
 	}
 
-	static async recoveryPassword(
+	static async recovery(
 		formData: FormData,
 	): Promise<AxiosResponse<AuthResponse>> {
-		return $api.post<AuthResponse>('/auth/recovery_password', formData, {
+		return $api.post<AuthResponse>('/auth/recovery', formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},

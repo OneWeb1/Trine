@@ -17,28 +17,24 @@ import AuthService from '../../../services/AuthService';
 // da
 
 const ForgotPassword: FC = () => {
-	// const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { isSubmit } = useSelector((state: CustomRootState) => state.app);
 	const [email, setEmail] = useState<string | number>('');
 	const [isError, setIsError] = useState<boolean>(false);
-	// const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const recoveryPassword = async () => {
 		const formData = new FormData();
 		formData.append('email', String(email));
 
 		if (String(email).length > 5) {
-			// setIsLoading(false);
 			try {
-				const { data } = await AuthService.recoveryPassword(formData);
+				const { data } = await AuthService.recovery(formData);
 				console.log(data);
 				setTimeout(() => {
 					alert(`Повідомлення відправлено на пошту ${email}`);
 					navigate('/');
 				}, 100);
 			} catch (e) {
-				// setIsLoading(true);
 				setIsError(true);
 			}
 		} else setIsError(true);
@@ -74,19 +70,10 @@ const ForgotPassword: FC = () => {
 
 						<Button
 							style={{ marginTop: '10px' }}
-							// loading={isLoading}
+							loading={true}
+							noLoading={false}
 							onClick={recoveryPassword}>
 							Відновити пароль
-							{/* {!isLoading && (
-								<div
-									style={{
-										position: 'absolute',
-										marginLeft: '70px',
-										marginTop: '-6px',
-									}}>
-									<Spinner style={{ transform: 'scale(.25)' }} />
-								</div>
-							)} */}
 						</Button>
 					</div>
 				</div>

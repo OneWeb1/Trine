@@ -13,11 +13,9 @@ const ModalRecoveryPassword = () => {
 		const formData = new FormData();
 		formData.append('password', String(password));
 		await AdminService.changePassword(formData)
-			.then(response => {
-				if (response.status == 200) {
-					setIsClose(true);
-					window.location.href = '/';
-				}
+			.then(() => {
+				setIsClose(true);
+				window.location.href = '/';
 			})
 			.catch(error => {
 				setIsError(true);

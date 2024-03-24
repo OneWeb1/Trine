@@ -10,11 +10,9 @@ const Verify = () => {
 	const code = queryParams.get('code') || '';
 
 	const verify = async () => {
-		await AuthService.verifyEmail(code)
-			.then(response => {
-				if (response.status === 200) {
-					setIsLoading(true);
-				}
+		await AuthService.verify(code)
+			.then(() => {
+				setIsLoading(true);
 			})
 			.catch(error => {
 				console.log(error);

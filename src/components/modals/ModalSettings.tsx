@@ -27,7 +27,9 @@ const ModalSettings: FC = () => {
 	const [password, setPassword] = useState<string | number>(
 		localStorage.getItem('password') || '********',
 	);
-	const [currentPassword, setCurrentPassword] = useState<string | number>('');
+	const [currentPassword, setCurrentPassword] = useState<string | number>(
+		localStorage.getItem('password') || '',
+	);
 	const [newPassword, setNewPassword] = useState<string | number>('');
 
 	const [isVisibleInput, setIsVisibleInput] = useState<boolean>(false);
@@ -64,7 +66,7 @@ const ModalSettings: FC = () => {
 			} catch (e) {
 				return;
 			}
-		} else if ($currentPassword.length || $newPassword.length) {
+		} else if (!$currentPassword.length || !$newPassword.length) {
 			alert('Password is not empty');
 			dispatch(setVisibleModal('h'));
 			throw new Error('Password is not empty');
