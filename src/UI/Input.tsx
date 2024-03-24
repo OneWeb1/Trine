@@ -13,6 +13,7 @@ interface IInput {
 	readOnly?: boolean | null;
 	children?: ReactNode;
 	isDeleteFocus?: boolean;
+	setIsError?: Dispatch<SetStateAction<boolean>>;
 	onChange: Dispatch<SetStateAction<number | string>>;
 }
 
@@ -21,11 +22,13 @@ const Input: FC<IInput> = ({
 	label,
 	placeholder,
 	value,
+	setIsError,
 	readOnly,
 	children,
 	onChange,
 }) => {
 	const [visiblePassword, setVisiblePassword] = useState<boolean>(false);
+
 	return (
 		<div className={styles.inputWrapper}>
 			{label && <div className={styles.label}>{label}</div>}
@@ -49,7 +52,10 @@ const Input: FC<IInput> = ({
 						readOnly={
 							(readOnly === null && true) || (readOnly && true) || false
 						}
-						onChange={e => onChange(e.target.value)}
+						onChange={e => {
+							onChange(e.target.value);
+							setIsError(false);
+						}}
 					/>
 					{children}
 				</div>
@@ -61,7 +67,10 @@ const Input: FC<IInput> = ({
 						placeholder={placeholder}
 						className={styles.input}
 						value={value}
-						onChange={e => onChange(e.target.value)}
+						onChange={e => {
+							onChange(e.target.value);
+							setIsError(false);
+						}}
 					/>
 
 					{type === 'password' && (

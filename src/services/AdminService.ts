@@ -10,6 +10,7 @@ import {
 	RoomsResponse,
 	GlobalsResponse,
 	GlobalsData,
+	MoveResponse,
 } from '../models/response/AdminResponse';
 import $api from '../http';
 import { AxiosResponse } from 'axios';
@@ -148,12 +149,12 @@ export default class AdminService {
 	static async do(params: {
 		action: string;
 		sum?: number;
-	}): Promise<AxiosResponse<RoomsResponse>> {
+	}): Promise<AxiosResponse<MoveResponse>> {
 		const query =
 			(params.action === 'raise' && {
 				params: { sum: params.sum },
 			}) ||
 			{};
-		return $api.post<RoomsResponse>(`/room/do/${params.action}`, null, query);
+		return $api.post<MoveResponse>(`/room/do/${params.action}`, null, query);
 	}
 }

@@ -11,15 +11,29 @@ interface IModal {
 	title: string;
 	score?: string;
 	isHide?: boolean;
+	close?: boolean;
 	children: ReactNode;
+	style?: CSSProperties;
 	styleNode?: CSSProperties;
 }
 
-const Modal: FC<IModal> = ({ title, score, isHide, children, styleNode }) => {
+const Modal: FC<IModal> = ({
+	title,
+	score,
+	isHide,
+	close,
+	children,
+	styleNode,
+	style,
+}) => {
 	const dispatch = useDispatch();
 	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
+	if (close) dispatch(setVisibleModal('h'));
 	const hideModal = () => {
 		if (isHide !== false) dispatch(setVisibleModal('h'));
+	};
+	const hideModalClose = () => {
+		if (close === true) dispatch(setVisibleModal('h'));
 	};
 	return (
 		<>
@@ -28,7 +42,10 @@ const Modal: FC<IModal> = ({ title, score, isHide, children, styleNode }) => {
 					style={styleNode}
 					className={styles.modalWrapper}
 					onClick={() => hideModal()}>
-					<div className={styles.modal} onClick={e => e.stopPropagation()}>
+					<div
+						style={style}
+						className={styles.modal}
+						onClick={e => e.stopPropagation()}>
 						<div className={styles.header}>
 							<div className={styles.title}>{title}</div>
 							{score ? (
@@ -42,11 +59,14 @@ const Modal: FC<IModal> = ({ title, score, isHide, children, styleNode }) => {
 								</div>
 							) : (
 								<>
-									{isHide !== false && (
-										<div className={styles.close} onClick={() => hideModal()}>
-											<IoClose />
-										</div>
-									)}
+									{isHide !== false ||
+										(close === false && (
+											<div
+												className={styles.close}
+												onClick={() => hideModalClose()}>
+												<IoClose />
+											</div>
+										))}
 								</>
 							)}
 						</div>

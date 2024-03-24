@@ -56,8 +56,8 @@ const ModalSettings: FC = () => {
 		}
 		if ($password === $currentPassword && $newPassword.length > 3) {
 			const formData = new FormData();
-			formData.append('password', $newPassword);
 			formData.append('prevPassword', $password);
+			formData.append('password', $newPassword);
 			try {
 				await AdminService.changePassword(formData);
 				localStorage.setItem('password', $newPassword);

@@ -13,7 +13,7 @@ import { TbUserPentagon } from 'react-icons/tb';
 
 import { RootState as CustomRootState } from '../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAccount } from '../store/slices/app.slice';
+import { setAccount, setBalance } from '../store/slices/app.slice';
 
 import { VscDebugStepBack } from 'react-icons/vsc';
 // import { RiSettings3Line } from 'react-icons/ri';
@@ -31,7 +31,7 @@ interface IGameHeader {
 
 const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
 	const dispatch = useDispatch();
-	const { account, baseIconPath } = useSelector(
+	const { account, baseIconPath, balance } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
 	const navigate = useNavigate();
@@ -80,6 +80,8 @@ const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
 			}, 3000);
 		}
 
+		dispatch(setBalance(account.balance));
+
 		return () => {
 			if (intervalRef.current) {
 				clearInterval(intervalRef.current);
@@ -119,7 +121,7 @@ const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
 							<span
 								className={styles.chipsNumber}
 								style={{ fontSize: (wm750 && '10px') || '14px' }}>
-								{account.balance}
+								{balance}
 							</span>
 						</div>
 					</div>

@@ -24,6 +24,7 @@ import {
 	// setIsAction,
 	setRoomResultState,
 	setIsEnable,
+	setBalance,
 } from '../../../../store/slices/app.slice';
 
 import LandscapeTable from './LandscapeTable';
@@ -231,7 +232,11 @@ const Table: FC<ITable> = ({
 		room.players.forEach(async player => {
 			if (player.me) {
 				if (player.time_for_move < 0) {
-					await AdminService.do({ action: 'drop' });
+					await AdminService.do({ action: 'drop' })
+						.then(response => {
+							dispatch(setBalance(response.data.effective_profile.balance));
+						})
+						.catch(error => console.log(error));
 				}
 				setMePlayer(player);
 			}

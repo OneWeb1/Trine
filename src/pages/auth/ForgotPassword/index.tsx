@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 // import { setIsAuth, setIsSubmit } from '../../../store/slices/app.slice';
 // import AuthService from '../../../services/AuthService';
 
-// import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../../UI/Button';
 import Input from '../../../UI/Input';
 
@@ -18,10 +18,11 @@ import AuthService from '../../../services/AuthService';
 
 const ForgotPassword: FC = () => {
 	// const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { isSubmit } = useSelector((state: CustomRootState) => state.app);
 	const [email, setEmail] = useState<string | number>('');
 	const [isError, setIsError] = useState<boolean>(false);
-	const [isLoading] = useState<boolean>(true);
+	// const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const recoveryPassword = async () => {
 		const formData = new FormData();
@@ -32,7 +33,10 @@ const ForgotPassword: FC = () => {
 			try {
 				const { data } = await AuthService.recoveryPassword(formData);
 				console.log(data);
-				// return <Navigate to='/' />;
+				setTimeout(() => {
+					alert(`Повідомлення відправлено на пошту ${email}`);
+					navigate('/');
+				}, 100);
 			} catch (e) {
 				// setIsLoading(true);
 				setIsError(true);
@@ -70,7 +74,7 @@ const ForgotPassword: FC = () => {
 
 						<Button
 							style={{ marginTop: '10px' }}
-							loading={isLoading}
+							// loading={isLoading}
 							onClick={recoveryPassword}>
 							Відновити пароль
 							{/* {!isLoading && (

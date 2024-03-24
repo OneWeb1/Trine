@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { GiCardExchange } from 'react-icons/gi';
 
 import { RootState as CustomRootState } from '../store/rootReducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import FishkaItem from './FishkaItem';
 import TreeCards from './cards';
@@ -15,6 +15,7 @@ import { IPlayerRoom, RoomsResponse } from '../models/response/AdminResponse';
 import styles from './../stylesheet/styles-components/Players.module.scss';
 import AdminService from '../services/AdminService';
 import CircleTimer from './timer';
+import { setBalance } from '../store/slices/app.slice';
 // import { setVisibleStateMessage } from '../store/slices/app.slice';
 
 interface IPlayer {
@@ -44,6 +45,7 @@ const Player: FC<IPlayer> = ({
 	cards,
 	index,
 }) => {
+	const dispatch = useDispatch();
 	const { visibleStateMessage, baseIconPath } = useSelector(
 		(state: CustomRootState) => state.app,
 	);
@@ -62,7 +64,8 @@ const Player: FC<IPlayer> = ({
 
 	const doCheckCards = async () => {
 		try {
-			await AdminService.do({ action: 'check' });
+			const response = await AdminService.do({ action: 'check' });
+			dispatch(setBalance(response.data.effective_profile.balance));
 		} catch (e) {
 			console.log(e);
 		}

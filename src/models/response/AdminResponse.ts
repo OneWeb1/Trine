@@ -47,6 +47,11 @@ export interface IPlayerRoom {
 	fight: boolean;
 }
 
+export interface MoveResponse {
+	effective_room: RoomsResponse;
+	effective_profile: ProfileMeResponse;
+}
+
 export interface RoomsResponse {
 	name: string;
 	id: string;

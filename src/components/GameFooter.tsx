@@ -1,7 +1,7 @@
 import { FC, useState, useEffect, ChangeEvent, useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { setIsEnable } from '../store/slices/app.slice';
+import { setBalance, setIsEnable } from '../store/slices/app.slice';
 
 import { MdDoubleArrow } from 'react-icons/md';
 
@@ -52,15 +52,20 @@ const GameFooter: FC<IGameFooter> = ({
 
 	const supportHandler = async () => {
 		dispatch(setIsEnable(false));
-		await AdminService.do({ action: 'support' });
+		await AdminService.do({ action: 'support' })
+			.then(response => {
+				dispatch(setBalance(response.data.effective_profile.balance));
+			})
+			.catch(error => console.log(error));
 	};
 	const raiseHandler = async () => {
 		dispatch(setIsEnable(false));
 		try {
-			await AdminService.do({
+			const response = await AdminService.do({
 				action: 'raise',
 				sum: Math.round(raiseSum),
 			});
+			dispatch(setBalance(response.data.effective_profile.balance));
 			setRaiseSum(raiseSum * 2);
 			setPercent((raiseSum / maxBid) * 10000);
 		} catch (e) {
@@ -72,7 +77,8 @@ const GameFooter: FC<IGameFooter> = ({
 		dispatch(setIsEnable(false));
 
 		try {
-			await AdminService.do({ action: 'drop' });
+			const response = await AdminService.do({ action: 'drop' });
+			dispatch(setBalance(response.data.effective_profile.balance));
 		} catch (e) {
 			console.log(e);
 		}
