@@ -28,8 +28,7 @@ const ForgotPassword: FC = () => {
 
 		if (String(email).length > 5) {
 			try {
-				const { data } = await AuthService.recovery(formData);
-				console.log(data);
+				await AuthService.recovery(formData);
 				setTimeout(() => {
 					alert(`Повідомлення відправлено на пошту ${email}`);
 					navigate('/');

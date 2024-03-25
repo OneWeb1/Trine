@@ -33,7 +33,7 @@ const Modal: FC<IModal> = ({
 		if (isHide !== false) dispatch(setVisibleModal('h'));
 	};
 	const hideModalClose = () => {
-		if (close === false) dispatch(setVisibleModal('h'));
+		if (isHide !== false || close === false) dispatch(setVisibleModal('h'));
 	};
 	return (
 		<>
