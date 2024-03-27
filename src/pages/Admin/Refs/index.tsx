@@ -64,7 +64,7 @@ const Refs: FC = () => {
 		}
 	};
 
-	const editData = () => {
+	const editLink = () => {
 		visibleCreateRefHandler(false);
 	};
 
@@ -242,7 +242,7 @@ const Refs: FC = () => {
 						// 'Завантажити exel файл',
 						'Видалити посилання',
 					]}
-					handlers={[copyLink, editData, downloadExelFile, deleteLink]}
+					handlers={[copyLink, editLink, deleteLink]}
 					isAccounts={false}
 					hideMenu={hideMenu}
 				/>
