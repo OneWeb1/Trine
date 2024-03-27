@@ -239,7 +239,6 @@ const Refs: FC = () => {
 					values={[
 						'Скопіювати посилання',
 						'Редагувати посилання',
-						// 'Завантажити exel файл',
 						'Видалити посилання',
 					]}
 					handlers={[copyLink, editLink, deleteLink]}
