@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
 	AdminProfileResponse,
+	AdminRefsResponse,
 	RoomsResponse,
 } from '../../models/response/AdminResponse';
 
@@ -29,6 +30,8 @@ interface ITransfersData {
 
 interface IState {
 	stats: IStats;
+	refs: AdminRefsResponse;
+	refsUpdate: number;
 	transfersData: ITransfersData;
 	avatars: string[];
 	isAuth: boolean;
@@ -64,6 +67,8 @@ interface IState {
 
 const initialState: IState = {
 	stats: {} as IStats,
+	refs: {} as AdminRefsResponse,
+	refsUpdate: 1,
 	transfersData: {
 		label: 'Telegram:',
 		name: '@manager',
@@ -111,6 +116,12 @@ const appSlice = createSlice({
 	reducers: {
 		setStats(state, action) {
 			state.stats = action.payload;
+		},
+		setRefs(state, action) {
+			state.refs = action.payload;
+		},
+		setRefsUpdate(state, action) {
+			state.refsUpdate = action.payload;
 		},
 		setTransfersData(state, action) {
 			state.transfersData = action.payload;
@@ -210,6 +221,8 @@ const appSlice = createSlice({
 
 export const {
 	setStats,
+	setRefs,
+	setRefsUpdate,
 	setTransfersData,
 	setAvatars,
 	setVisibleModal,

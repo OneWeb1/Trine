@@ -37,6 +37,10 @@ input:after {
 	user-select: initial;
 }
 
+input::placeholder {
+	padding-right: 5px;
+}
+
 img {
 	border: 0;
 	margin: 0;

@@ -49,7 +49,7 @@ const Button: FC<IButton> = ({
 				!style || isResize === false ? styles.button : styles.cutButton,
 				className,
 			)}
-			style={buttonStyles}
+			style={{ ...buttonStyles, ...style }}
 			onClick={() => handler()}>
 			{loading === false ? (
 				<Spinner style={{ marginTop: '-12px', marginLeft: '-10px' }} />

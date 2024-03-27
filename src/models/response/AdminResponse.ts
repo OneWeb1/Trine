@@ -12,6 +12,22 @@ export interface TransfersData {
 	link: string;
 }
 
+export interface AdminRefsResponse {
+	pages: number;
+	page: number;
+	items_count: number;
+	items: AdminRefResponse[];
+}
+
+export interface AdminRefResponse {
+	id: number;
+	name: string;
+	code: string;
+	refLink: string;
+	effectiveLink: string;
+	registeredCount: number;
+}
+
 export interface AdminProfileResponse {
 	id: number;
 	nickname: string;

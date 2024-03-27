@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { MdManageAccounts } from 'react-icons/md';
 import { MdRoomPreferences } from 'react-icons/md';
 import { FaMoneyBillTransfer } from 'react-icons/fa6';
+import { RiShareForward2Fill } from 'react-icons/ri';
 // import { ImStatsBars } from 'react-icons/im';
 import { ImHome } from 'react-icons/im';
 
@@ -21,6 +22,7 @@ interface ILeftMenu {
 	tabRoomsHandler: () => void;
 	tabAccountsHandler: () => void;
 	tabTransfersHandler: () => void;
+	tabRefsHandler: () => void;
 }
 
 const LeftMenu: FC<ILeftMenu> = ({
@@ -30,6 +32,7 @@ const LeftMenu: FC<ILeftMenu> = ({
 	tabRoomsHandler,
 	tabAccountsHandler,
 	tabTransfersHandler,
+	tabRefsHandler,
 }) => {
 	const { visibleBurgerMenu } = useSelector(
 		(state: CustomRootState) => state.app,
@@ -62,6 +65,15 @@ const LeftMenu: FC<ILeftMenu> = ({
 					onClick={tabRoomsHandler}>
 					<MdRoomPreferences style={{ marginRight: '10px' }} />
 					<span>Кімнати</span>
+				</div>
+				<div
+					className={classNames(
+						styles.item,
+						tab === 'refs' && styles.tabActive,
+					)}
+					onClick={tabRefsHandler}>
+					<RiShareForward2Fill style={{ marginRight: '10px' }} />
+					<span>Рефералки</span>
 				</div>
 				<div
 					className={classNames(

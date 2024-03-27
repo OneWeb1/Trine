@@ -5,7 +5,7 @@ import axios, {
 } from 'axios';
 import AuthService from '../services/AuthService';
 
-export const API_URL = `https://trine-game.online/api`;
+export const API_URL = `http://193.202.118.219:5555/api`;
 
 const $api = axios.create({
 	withCredentials: false,

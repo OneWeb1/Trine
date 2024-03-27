@@ -31,7 +31,7 @@ const AdminHeader: FC = () => {
 					<div className={styles.logo}>
 						<img src={adminLogo} alt='Logo' />
 					</div>
-					<div className={styles.logoText}>Admin Panel</div>
+					<div className={styles.logoText}>Адмін панель</div>
 				</div>
 			</div>
 

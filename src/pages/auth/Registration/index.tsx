@@ -26,9 +26,12 @@ const Registration: FC = () => {
 	const timeoutRef = useRef<number>(0);
 
 	const registerUser = async () => {
+		const urlParams = new URLSearchParams(window.location.search);
+		const ref = urlParams.get('ref');
 		const formData = new FormData();
 		formData.append('email', String(email));
 		formData.append('password', String(password));
+		if (ref) formData.append('ref', String(ref));
 		setIsLoading(false);
 
 		try {

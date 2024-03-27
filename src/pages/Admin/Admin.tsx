@@ -13,6 +13,8 @@ import LeftMenu from './LeftMenu';
 import { setVisibleBurgerMenu } from '../../store/slices/app.slice';
 import ModalStatistics from '../../components/modals/ModalStatistics';
 import Transfers from './Transfers';
+import Refs from './Refs';
+import ModalCreateRef from '../../components/modals/ModalCreateRef';
 
 const Admin: FC = () => {
 	const dispatch = useDispatch();
@@ -26,6 +28,8 @@ const Admin: FC = () => {
 	const menuWrapperRef = useRef<HTMLDivElement>(null);
 
 	const display = windowWidth < 1300 && visibleBurgerMenu ? 'flex' : 'none';
+
+	const refSettings = JSON.parse(localStorage.getItem('ref_settings') || '{}');
 
 	const hideBurgerMenu = (e: MouseEvent) => {
 		if (windowWidth > 1300) return;
@@ -53,6 +57,12 @@ const Admin: FC = () => {
 		setTab('transfers');
 		if (windowWidth < 1300) dispatch(setVisibleBurgerMenu(false));
 		localStorage.setItem('tab', 'transfers');
+	};
+
+	const tabRefsHandler = () => {
+		setTab('refs');
+		if (windowWidth < 1300) dispatch(setVisibleBurgerMenu(false));
+		localStorage.setItem('tab', 'refs');
 	};
 
 	useEffect(() => {
@@ -84,6 +94,7 @@ const Admin: FC = () => {
 						tabAccountsHandler={tabAccountsHandler}
 						tabRoomsHandler={tabRoomsHandler}
 						tabTransfersHandler={tabTransfersHandler}
+						tabRefsHandler={tabRefsHandler}
 					/>
 				</div>
 
@@ -95,9 +106,11 @@ const Admin: FC = () => {
 						tabAccountsHandler={tabAccountsHandler}
 						tabRoomsHandler={tabRoomsHandler}
 						tabTransfersHandler={tabTransfersHandler}
+						tabRefsHandler={tabRefsHandler}
 					/>
 					<div className={styles.rightMenu}>
 						{tab === 'accounts' && <Accounts />}
+						{tab === 'refs' && <Refs />}
 						{tab === 'rooms' && <Rooms hideName={windowWidth < 900} />}
 						{tab === 'transfers' && <Transfers />}
 					</div>
@@ -105,6 +118,12 @@ const Admin: FC = () => {
 			</div>
 			{visibleModal === 'cpr' && (
 				<ModalCreateRoom title='Створити публічну кімнату' type='public' />
+			)}
+			{visibleModal === 'crr' && (
+				<ModalCreateRef
+					nameValue={refSettings.name}
+					effectiveLinkValue={refSettings.effectiveLink}
+				/>
 			)}
 			{visibleModal === 'cb' && <ModalChangeBalance title='Зміна балансу' />}
 			{visibleModal === 'ss' && <ModalStatistics stats={stats} />}

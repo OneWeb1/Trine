@@ -11,11 +11,56 @@ import {
 	GlobalsResponse,
 	GlobalsData,
 	MoveResponse,
+	AdminRefsResponse,
 } from '../models/response/AdminResponse';
 import $api from '../http';
 import { AxiosResponse } from 'axios';
 
 export default class AdminService {
+	static async createRef(data: {
+		name: string;
+		effectiveLink: string;
+	}): Promise<AxiosResponse<string>> {
+		return $api.post<string>(`/admin/adRefs/create`, {
+			name: data.name,
+			effectiveLink: data.effectiveLink,
+		});
+	}
+
+	static async removeRef(id: number): Promise<AxiosResponse<string>> {
+		return $api.delete<string>(`/admin/adRefs/${id}`);
+	}
+
+	static async patchRef(
+		id: number,
+		newData: { name: string; effectiveLink: string },
+	): Promise<AxiosResponse<string>> {
+		return $api.patch<string>(`/admin/adRefs/${id}`, {
+			name: newData.name,
+			effectiveLink: newData.effectiveLink,
+		});
+	}
+
+	static async searchRef(
+		query: string,
+		perPage: number,
+		page: number,
+	): Promise<AxiosResponse<AdminRefsResponse>> {
+		return $api.get<AdminRefsResponse>(`/admin/adRefs/search`, {
+			params: {
+				query,
+				perPage,
+				page,
+			},
+		});
+	}
+
+	static async downloadExelFile() {
+		return $api.get(`/admin/adRefs/excel`, {
+			responseType: 'blob',
+		});
+	}
+
 	static async getGlobalsAll(): Promise<AxiosResponse<GlobalsData>> {
 		return $api.get<GlobalsData>('/globals');
 	}

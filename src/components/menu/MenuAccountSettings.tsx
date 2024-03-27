@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ interface IMenuAccountSettings {
 	values: string[];
 	handlers: Array<() => void>;
 	isAccounts: boolean;
+	style?: CSSProperties;
 	hideMenu?: () => void;
 }
 
@@ -22,6 +23,7 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 	values,
 	handlers,
 	isAccounts,
+	style,
 	hideMenu,
 }) => {
 	const { account } = useSelector((state: CustomRootState) => state.app);
@@ -71,11 +73,12 @@ const MenuAccountSettings: FC<IMenuAccountSettings> = ({
 	}, [visible]);
 
 	return (
-		<div className={styles.menuWrapper} onClick={hideMenu}>
+		<div style={style} className={styles.menuWrapper} onClick={hideMenu}>
 			<div
 				style={{
 					opacity: (visible && 1) || 0,
 					height: (offset + values.length) * 35 + 20 + values.length * 5 - 5,
+					...style,
 				}}
 				className={styles.menu}
 				ref={menuRef}>
