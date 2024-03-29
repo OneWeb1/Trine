@@ -25,7 +25,7 @@ import {
 	ExelGenerateStateResponse,
 } from '../../../models/response/AdminResponse';
 import FileLoader from '../../../components/fileLoader';
-import { AuthResponse } from '../../../models/response/AuthResponse';
+// import { AuthResponse } from '../../../models/response/AuthResponse';
 import Spinner from '../../../components/spinner';
 
 const Refs: FC = () => {
