@@ -19,7 +19,7 @@ const FileLoader: FC<FileLoaderProps> = ({ state }) => {
 					{state.filename?.slice(40, state.filename.length)}
 				</div>
 				<div className={styles.viewLoader}>
-					<div className={styles.label}>Збір данних...</div>
+					<div className={styles.label}>Збір даних...</div>
 					<div className={styles.loader}>
 						<div
 							style={{ width: `${state.data_gather_progress}%` }}
