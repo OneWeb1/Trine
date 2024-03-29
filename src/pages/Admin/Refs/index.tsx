@@ -247,7 +247,7 @@ const Refs: FC = () => {
 
 						{loading && refs.items.map(ref => <Ref item={ref} />)}
 
-						{!refs.items.length && (
+						{!refs.items?.length && (
 							<div
 								style={{ display: !loading ? 'none' : 'flex' }}
 								className={styles.flexCenter}>
