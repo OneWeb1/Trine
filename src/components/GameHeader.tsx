@@ -73,6 +73,7 @@ const GameHeader: FC<IGameHeader> = ({ isFullScreen, handleFullScreen }) => {
 					const { data } = await AdminService.getMeProfile();
 					if (data && Object.keys(data).length) {
 						dispatch(setAccount(data));
+						dispatch(setBalance(data.balance));
 					}
 				} catch (e) {
 					console.log(e);

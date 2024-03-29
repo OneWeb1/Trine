@@ -5,7 +5,7 @@ import axios, {
 } from 'axios';
 import AuthService from '../services/AuthService';
 
-export const API_URL = `http://trine-game.online/api`;
+export const API_URL = `https://trine-game.online/api`;
 
 const $api = axios.create({
 	withCredentials: false,
@@ -23,6 +23,7 @@ $api.interceptors.response.use(
 	},
 	async error => {
 		const originRequest = error.config;
+
 		if (
 			error.response.status === 401 &&
 			originRequest &&

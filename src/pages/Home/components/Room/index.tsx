@@ -283,9 +283,10 @@ const Room: FC<IRoom> = ({ room, offset, isDelete, hideName }) => {
 									padding: '9px 32px',
 									fontWeight: 500,
 									fontSize: '12px',
-									background: '',
+									background:
+										'linear-gradient(180deg, #2C3756 0%, #1F2841 100%)',
 								}}
-								background='linear-gradient(180deg, #2C3756 0%, #1F2841 100%)'
+								// background='linear-gradient(180deg, #2C3756 0%, #1F2841 100%)'
 								resize={true}
 								value='Увійти'
 								loading={true}

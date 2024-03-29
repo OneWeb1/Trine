@@ -50,7 +50,7 @@ const LandscapeTable: FC<ILandscapeTable> = ({
 							<div className={styles.column}>
 								<div className={styles.displayWrapper}>
 									<div className={styles.tax}>
-										Налог (3%)
+										Податок (3%)
 										<span
 											className={styles.taxNumber}
 											style={{ marginLeft: '3px', fontWeight: '600' }}>

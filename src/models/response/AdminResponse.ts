@@ -12,6 +12,18 @@ export interface TransfersData {
 	link: string;
 }
 
+export interface ExelResponse {
+	done: boolean;
+	filename: string;
+}
+
+export interface ExelGenerateStateResponse {
+	done: boolean;
+	filename: string;
+	data_gather_progress: number;
+	file_generation_progress: number;
+}
+
 export interface AdminRefsResponse {
 	pages: number;
 	page: number;

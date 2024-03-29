@@ -12,6 +12,8 @@ import {
 	GlobalsData,
 	MoveResponse,
 	AdminRefsResponse,
+	ExelResponse,
+	ExelGenerateStateResponse,
 } from '../models/response/AdminResponse';
 import $api from '../http';
 import { AxiosResponse } from 'axios';
@@ -55,8 +57,18 @@ export default class AdminService {
 		});
 	}
 
-	static async downloadExelFile() {
-		return $api.get(`/admin/adRefs/excel`, {
+	static async createExelFile(): Promise<AxiosResponse<ExelResponse>> {
+		return $api.get(`/admin/adRefs/excel`);
+	}
+
+	static async getStateExelFile(): Promise<
+		AxiosResponse<ExelGenerateStateResponse>
+	> {
+		return $api.get(`/admin/adRefs/excel/state`);
+	}
+
+	static async downloadExelFile(fileName: string) {
+		return $api.get(`/admin/adRefs/excel/${fileName}`, {
 			responseType: 'blob',
 		});
 	}

@@ -20,7 +20,13 @@ import Ref from './components/Ref';
 import Pagination from '../../../components/Pagination';
 import AdminService from '../../../services/AdminService';
 import MenuAccountSettings from '../../../components/menu/MenuAccountSettings';
-import { AdminRefResponse } from '../../../models/response/AdminResponse';
+import {
+	AdminRefResponse,
+	ExelGenerateStateResponse,
+} from '../../../models/response/AdminResponse';
+import FileLoader from '../../../components/fileLoader';
+import { AuthResponse } from '../../../models/response/AuthResponse';
+import Spinner from '../../../components/spinner';
 
 const Refs: FC = () => {
 	const dispatch = useDispatch();
@@ -33,6 +39,10 @@ const Refs: FC = () => {
 
 	const [searchName, setSearchName] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
+	const [downloadFileState, setDownloadFileState] =
+		useState<ExelGenerateStateResponse>({} as ExelGenerateStateResponse);
+	const [isVisibleGenerateFile, setIsVisibleGenerateFile] =
+		useState<boolean>(false);
 	const refTimeoutId = useRef<number>(0);
 
 	// const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -69,18 +79,48 @@ const Refs: FC = () => {
 	};
 
 	const downloadExelFile = async () => {
+		setIsVisibleGenerateFile(true);
 		try {
-			const response = await AdminService.downloadExelFile();
-			console.log(response);
-			const url = window.URL.createObjectURL(new Blob([response.data]));
-			const link = document.createElement('a');
-			link.href = url;
-			link.setAttribute('download', 'statistics.xlsx');
-			document.body.appendChild(link);
-			link.click();
+			const createResponse = await AdminService.createExelFile();
+			getStateExelFile(createResponse.data.filename);
 		} catch (error) {
 			console.error('Ошибка при загрузке файла:', error);
 		}
+	};
+
+	const getStateExelFile = (filename: string) => {
+		const intervalId = setInterval(async () => {
+			try {
+				const stateResponse = await AdminService.getStateExelFile();
+				if (!stateResponse.data.done) {
+					setDownloadFileState(stateResponse.data);
+				} else {
+					setDownloadFileState(stateResponse.data);
+					clearInterval(intervalId);
+
+					try {
+						const downloadResponse = await AdminService.downloadExelFile(
+							filename,
+						);
+						const url = window.URL.createObjectURL(
+							new Blob([downloadResponse.data]),
+						);
+						const link = document.createElement('a');
+						link.href = url;
+						link.setAttribute('download', filename);
+						document.body.appendChild(link);
+						link.click();
+						setIsVisibleGenerateFile(false);
+					} catch (e) {
+						console.log(e);
+					}
+
+					console.log('Done: ', stateResponse.data.done);
+				}
+			} catch (e) {
+				console.log(e);
+			}
+		}, 100);
 	};
 
 	const deleteLink = async () => {
@@ -188,7 +228,7 @@ const Refs: FC = () => {
 						<div className={styles.link}>Посилання</div>
 						<div style={{ display: 'flex' }}>
 							{window.innerWidth > 550 && (
-								<div className={styles.telegram}>Telegram</div>
+								<div className={styles.telegram}>Зв'язок</div>
 							)}
 
 							<div className={styles.iconWrapper}>
@@ -199,26 +239,21 @@ const Refs: FC = () => {
 				</div>
 				<div>
 					<div className={styles.tableItems}>
-						{/* {!loading && (
+						{!loading && (
 							<div className={styles.flexCenter}>
 								<Spinner />
 							</div>
-						)} */}
+						)}
 
-						{/* {loading && searchProfile && (
-							<div style={{ display: !searchId ? 'none' : 'flex' }}>
-								<Ref key={0} ref={searchProfile} />
-							</div>
-						)} */}
 						{loading && refs.items.map(ref => <Ref item={ref} />)}
 
-						{/* {!searchProfile && isNotFound && searchId && (
+						{!refs.items.length && (
 							<div
 								style={{ display: !loading ? 'none' : 'flex' }}
 								className={styles.flexCenter}>
-								Аккаунта з таким ID не існує
+								Посилань з такою назвою не знайдено
 							</div>
-						)} */}
+						)}
 					</div>
 
 					<div style={{ padding: '0px 10px', paddingTop: '10px' }}>
@@ -246,6 +281,7 @@ const Refs: FC = () => {
 					hideMenu={hideMenu}
 				/>
 			)}
+			{isVisibleGenerateFile && <FileLoader state={downloadFileState} />}
 		</>
 	);
 };
