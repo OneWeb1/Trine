@@ -21,7 +21,7 @@ interface IModalChangeBalance {
 
 const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 	const dispatch = useDispatch();
-	const [balance, setBalance] = useState<string | number>(0);
+	const [balance, setBalance] = useState<string | number>('');
 	const [account] = useState<ProfileMeResponse>(
 		JSON.parse(
 			localStorage.getItem('account_settings') || '{balance:0, id: -1}',
@@ -31,14 +31,13 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 	const w = window.innerWidth > 400;
 
 	const changeBalance = async () => {
-		if (!String(balance).replace(/\D/gi, '').length) return;
-		await AdminService.changeBalance(
-			account.id,
-			currentBalance + Number(balance),
-		);
+		console.log({ balance });
+		if (!/^[-+]?\d+$/.test(String(balance))) return;
+
+		await AdminService.changeBalance(account.id, String(balance));
 		dispatch(setVisibleModal('h'));
 		dispatch(setUpdateAccounts());
-		location.reload();
+		// location.reload();
 	};
 
 	const resetBalance = async () => {
@@ -53,8 +52,9 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 				Поточний баланс: {currentBalance} ₴
 			</div>
 			<Input
-				type='number'
+				type='text'
 				label='Сумма'
+				value={balance}
 				placeholder='Вкажіть сумму для зміни балансу'
 				onChange={setBalance}
 			/>
@@ -67,7 +67,7 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 					color: 'green',
 				}}>
 				<p style={{ marginBottom: '5px' }}>
-					Для того щоб поповнити баланс, введіть сумму більшу за нуль.
+					Для того щоб поповнити баланс, введіть + та сумму більшу за нуль.
 				</p>
 				<p>Для того щоб зняти кошти з балансу, введіть сумму меншу за нуль.</p>
 			</div>

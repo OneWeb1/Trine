@@ -77,8 +77,13 @@ const Ref: FC<IRef> = ({ item }) => {
 						className={styles.wrapper}>
 						{window.innerWidth > 550 && (
 							<div className={styles.telegram}>
-								<Link target='blank' to={`https://${item.effectiveLink}`}>
-									@{item.effectiveLink.split('/')[1]}
+								<Link target='blank' to={`${item.effectiveLink}`}>
+									@
+									{
+										item.effectiveLink.split('/')[
+											item.effectiveLink.split('/').length - 1
+										]
+									}
 								</Link>
 							</div>
 						)}

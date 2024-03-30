@@ -189,9 +189,12 @@ export default class AdminService {
 
 	static async changeBalance(
 		id: number,
-		balance: number,
+		balance: string,
 	): Promise<AxiosResponse<string>> {
-		return $api.post<string>(`/admin/profile/${id}/update?balance=${balance}`);
+		console.log(balance);
+		return $api.post<string>(`/admin/profile/${id}/update`, null, {
+			params: { balance },
+		});
 	}
 
 	static async createPublicRoom(
