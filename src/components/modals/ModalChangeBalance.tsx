@@ -41,7 +41,7 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 	};
 
 	const resetBalance = async () => {
-		await AdminService.changeBalance(account.id, 0);
+		await AdminService.changeBalance(account.id, '0');
 		setCurrentBalance(0);
 		dispatch(setUpdateAccounts());
 	};
