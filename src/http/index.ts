@@ -25,7 +25,7 @@ $api.interceptors.response.use(
 		const originRequest = error.config;
 
 		if (
-			error.response.status === 401 &&
+			error.response?.status === 401 &&
 			originRequest &&
 			!originRequest._isRetry
 		) {

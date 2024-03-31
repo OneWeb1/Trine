@@ -56,6 +56,24 @@ const Refs: FC = () => {
 		dispatch(setVisibleMenuAccountSettings('hide'));
 	};
 
+	const copyLinkFile = () => {
+		if (navigator.clipboard) {
+			const refSettings: AdminRefResponse = JSON.parse(
+				localStorage.getItem('ref_settings') || '{}',
+			);
+			navigator.clipboard
+				.writeText(refSettings.fileLink)
+				.then(() => {
+					console.log('Посилання скопіїовано');
+				})
+				.catch(err => {
+					console.error('Помилка при копіюванні:', err);
+				});
+		} else {
+			console.error('Браузер не підтримує API Clipboard');
+		}
+	};
+
 	const copyLink = () => {
 		if (navigator.clipboard) {
 			const refSettings: AdminRefResponse = JSON.parse(
@@ -272,11 +290,12 @@ const Refs: FC = () => {
 					x={menuPosition.x}
 					y={menuPosition.y}
 					values={[
-						'Скопіювати посилання',
+						'Реферальне посилання',
+						'Посилання до файлу',
 						'Редагувати посилання',
 						'Видалити посилання',
 					]}
-					handlers={[copyLink, editLink, deleteLink]}
+					handlers={[copyLink, copyLinkFile, editLink, deleteLink]}
 					isAccounts={false}
 					hideMenu={hideMenu}
 				/>

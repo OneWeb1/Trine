@@ -36,6 +36,7 @@ export interface AdminRefResponse {
 	name: string;
 	code: string;
 	refLink: string;
+	fileLink: string;
 	effectiveLink: string;
 	registeredCount: number;
 }
