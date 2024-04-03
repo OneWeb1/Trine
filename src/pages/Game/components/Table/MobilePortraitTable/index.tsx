@@ -53,7 +53,9 @@ const MobilePortraitTable: FC<IMobilePortraitTable> = ({
 										<span
 											className={styles.taxNumber}
 											style={{ marginLeft: '3px', fontWeight: '600' }}>
-											{(roomState.bank * 0.03).toFixed(2)}
+											{Math.ceil(
+												roomState.bank * 0.03 > 10 ? 10 : roomState.bank * 0.03,
+											)}
 										</span>
 									</div>
 
