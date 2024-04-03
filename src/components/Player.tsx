@@ -283,7 +283,10 @@ const Player: FC<IPlayer> = ({
 						className={styles.moneyInfo}>
 						{player.state === 'defeat' && `-${Math.floor(player.full_bid)}`}
 						{player.state === 'won' &&
-							`+${Math.floor(roomState.bank - roomState.bank * 0.03)}`}
+							`+${Math.floor(
+								roomState.bank -
+									(roomState.bank * 0.03 > 10 ? 10 : roomState.bank * 0.03),
+							)}`}
 					</div>
 					{(player.state === 'move' || player.me) &&
 						player.time_for_move > 0 && (
