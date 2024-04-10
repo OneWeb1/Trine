@@ -12,7 +12,7 @@ interface IInputSearch {
 
 const InputSearch: FC<IInputSearch> = ({ placeholder, value, onChange }) => {
 	return (
-		<div className={styles.wrapper}>
+		<div style={{ marginLeft: '10px' }} className={styles.wrapper}>
 			<div className={styles.icon}>
 				<CgSearch />
 			</div>{' '}

@@ -10,6 +10,7 @@ import {
 } from '../../../store/slices/app.slice';
 
 import { MdOutlineSettingsEthernet } from 'react-icons/md';
+import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
 
 import MenuAccountSettings from '../../../components/menu/MenuAccountSettings';
 import Pagination from '../../../components/Pagination';
@@ -91,6 +92,15 @@ const Accounts: FC = () => {
 		dispatch(setVisibleModal('ss'));
 	};
 
+	const getTotalBalance = async () => {
+		await AdminService.getTotalBalance()
+			.then(response => {
+				const { totalBalance } = response.data;
+				alert(`Сумма балансів: ${totalBalance}`);
+			})
+			.catch(e => console.log(e));
+	};
+
 	const removeAccount = () => {
 		const storageAccount = localStorage.getItem('account_settings');
 		if (!storageAccount) return;
@@ -152,7 +162,7 @@ const Accounts: FC = () => {
 			}
 		}, 1000);
 		return () => clearTimeout(Debounce);
-	}, [searchId]);
+	}, [searchId, updateAccounts]);
 
 	return (
 		<>
@@ -164,11 +174,19 @@ const Accounts: FC = () => {
 						Аккаунти
 					</div>
 
-					<InputSearch
-						value={searchId}
-						placeholder='Пошук по ID аккаунту'
-						onChange={setSearchId}
-					/>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
+						<InputSearch
+							value={searchId}
+							placeholder='Пошук по ID аккаунту'
+							onChange={setSearchId}
+						/>
+						<div
+							style={{ marginLeft: '10px' }}
+							className={styles.btnBalance}
+							onClick={getTotalBalance}>
+							<MdOutlineAccountBalanceWallet />
+						</div>
+					</div>
 				</div>
 				<div
 					className={styles.tableHeader}

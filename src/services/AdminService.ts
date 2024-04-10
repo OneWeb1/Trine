@@ -111,6 +111,12 @@ export default class AdminService {
 		return $api.get<AdminProfileResponse>(`/admin/profile/${id}`);
 	}
 
+	static async getTotalBalance(): Promise<
+		AxiosResponse<{ totalBalance: number }>
+	> {
+		return $api.get<{ totalBalance: number }>('/admin/profile/total-balance');
+	}
+
 	static async getRoomsCount(): Promise<AxiosResponse<RoomsCountResponse>> {
 		return $api.get(`/admin/rooms-count`);
 	}
