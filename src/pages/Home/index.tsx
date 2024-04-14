@@ -257,7 +257,7 @@ const Home: FC = () => {
 						<div className={styles.telegramIcon}>
 							<FaTelegram />
 						</div>{' '}
-						Наш телеграм канал
+						Ми в телеграм
 					</a>
 				</div>
 			</div>
