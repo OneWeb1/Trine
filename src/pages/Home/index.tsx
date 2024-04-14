@@ -1,6 +1,7 @@
 import { FC, useRef, useState, useEffect } from 'react';
 
 import Spinner from '../../components/spinner';
+import { FaTelegram } from 'react-icons/fa';
 
 // import { useNavigate } from 'react-router-dom';
 
@@ -37,7 +38,6 @@ import {
 } from '../../models/response/AdminResponse';
 // import GameService from '../../services/GameService';
 const Home: FC = () => {
-	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { visibleModal } = useSelector((state: CustomRootState) => state.app);
 	const [rooms, setRooms] = useState<RoomsResponse[]>([]);
@@ -251,6 +251,16 @@ const Home: FC = () => {
 					<Spinner />
 				</div>
 			)}
+			<div className={styles.viewLink}>
+				<div className={styles.link}>
+					<a target='_blank' href='https://t.me/+AbYtgcKeF7wyOGRi'>
+						<div className={styles.telegramIcon}>
+							<FaTelegram />
+						</div>{' '}
+						Наш телеграм канал
+					</a>
+				</div>
+			</div>
 		</>
 	);
 };
