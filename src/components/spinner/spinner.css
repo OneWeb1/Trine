@@ -21,8 +21,16 @@
 	width: 6px;
 	height: 18px;
 	border-radius: 20%;
-	background: rgb(255, 255, 255);
 }
+
+.black::after {
+	background-color: black;
+}
+
+.white::after {
+	background-color: rgb(255, 255, 255);
+}
+
 .lds-spinner div:nth-child(1) {
 	transform: rotate(0deg);
 	animation-delay: -1.1s;

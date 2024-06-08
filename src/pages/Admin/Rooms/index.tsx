@@ -77,7 +77,7 @@ const SettingsRooms: FC<ISettingsRooms> = ({ hideName }) => {
 		if (!intervalRef.current) {
 			intervalRef.current = setInterval(() => {
 				setUpdate(prev => prev + 1);
-			}, 3000);
+			}, 300);
 			setUpdate(prev => prev + 1);
 		}
 	}, [updateRoom, update]);

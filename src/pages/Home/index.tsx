@@ -36,6 +36,7 @@ import {
 	// RoomsPageDataResponse,
 	RoomsResponse,
 } from '../../models/response/AdminResponse';
+import ModalWheelOfFortune from '../../components/modals/ModalWheelOfFortune';
 // import GameService from '../../services/GameService';
 const Home: FC = () => {
 	const dispatch = useDispatch();
@@ -110,6 +111,10 @@ const Home: FC = () => {
 		await AdminService.roomLeave();
 	};
 
+	const openModalWheelFortune = () => {
+		dispatch(setVisibleModal('wof'));
+	};
+
 	useEffect(() => {
 		document.title = 'Trine | Головна';
 		const handleResize = () => {
@@ -119,7 +124,7 @@ const Home: FC = () => {
 		if (!intervalRef.current) {
 			intervalRef.current = setInterval(() => {
 				setUpdate(prev => prev + 1);
-			}, 3000);
+			}, 300);
 		}
 
 		window.addEventListener('resize', handleResize);
@@ -147,21 +152,28 @@ const Home: FC = () => {
 					<div className={styles.rightMenu}>
 						<div className={styles.flex}>
 							<div className={styles.title}>Публічні кімнати</div>
-							{windowWidth >= 500 && (
-								<Button
-									style={{
-										padding: '9px 32px',
-										fontWeight: 500,
-										fontSize: '12px',
-										marginTop: '-6px',
-										minHeight: '35px',
-									}}
-									resize={true}
-									noLoading={true}
-									value='Приєднатися за кодом'
-									onClick={joinToCodeHandler}
-								/>
-							)}
+							{/* // <Button
+								// 	style={{
+								// 		padding: '9px 32px',
+								// 		fontWeight: 500,
+								// 		fontSize: '12px',
+								// 		marginTop: '-6px',
+								// 		minHeight: '35px',
+								// 	}}
+								// 	resize={true}
+								// 	noLoading={true}
+								// 	value='Приєднатися за кодом'
+								// 	onClick={joinToCodeHandler}
+								// /> */}
+							<div
+								className={styles.wheelButton}
+								onClick={openModalWheelFortune}>
+								<div className={styles.image}>
+									<img src='/assets/wheel.png' alt='wheel' />
+								</div>
+
+								<div className={styles.content}>крутити</div>
+							</div>
 						</div>
 						<div>
 							{updateRooms && (
@@ -245,6 +257,7 @@ const Home: FC = () => {
 				<ModalCreateRoom title='Створити приватну кімнату' type='private' />
 			)}
 			{visibleModal === 'mr' && <ModalMyRooms />}
+			{visibleModal === 'wof' && <ModalWheelOfFortune />}
 
 			{!loading && (
 				<div style={{ width: '100%', height: '500px' }} className='flex-center'>
