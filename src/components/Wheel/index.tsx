@@ -7,6 +7,10 @@ import {
 	useState,
 } from 'react';
 import './style.css';
+
+import { RootState as CustomRootState } from '../../store/rootReducer';
+import { useSelector } from 'react-redux';
+
 import WheelFortuneService from '../../services/WheelFortuneService';
 import Spinner from '../spinner';
 
@@ -18,6 +22,7 @@ interface WheelProps {
 }
 
 const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
+	const { account } = useSelector((state: CustomRootState) => state.app);
 	const [sectors, setSectors] = useState<typeSector[]>([]);
 	const [isVisibleBorder, setIsVisibleBorder] = useState<boolean>(false);
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -152,6 +157,7 @@ const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
 			engine();
 			const spinHandler = async () => {
 				if (angVel) return;
+				if (account.balance < bet) return;
 				angVel = rand(0.25, 0.45);
 				setTimeout(async () => {
 					const result = await WheelFortuneService.getResult(bet);
