@@ -9,8 +9,8 @@ import {
 import './style.css';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setVisibleModal } from '../../store/slices/app.slice';
 import WheelFortuneService from '../../services/WheelFortuneService';
 import Spinner from '../spinner';
 
@@ -22,6 +22,7 @@ interface WheelProps {
 }
 
 const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
+	const dispatch = useDispatch();
 	const { account } = useSelector((state: CustomRootState) => state.app);
 	const [sectors, setSectors] = useState<typeSector[]>([]);
 	const [isVisibleBorder, setIsVisibleBorder] = useState<boolean>(false);
@@ -157,7 +158,10 @@ const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
 			engine();
 			const spinHandler = async () => {
 				if (angVel) return;
-				if (account.balance < bet) return;
+				if (account.balance < bet) {
+					dispatch(setVisibleModal('dp'));
+					return;
+				}
 				angVel = rand(0.25, 0.45);
 				setTimeout(async () => {
 					const result = await WheelFortuneService.getResult(bet);
