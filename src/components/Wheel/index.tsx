@@ -158,7 +158,7 @@ const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
 					val = result.data.multiplier + 'x';
 					const targetIndex = indexes[val];
 					rotateToTarget(targetIndex);
-				}, 7000);
+				}, 4000);
 			};
 			if (spinRef.current) spinRef.current.onclick = spinHandler;
 		};

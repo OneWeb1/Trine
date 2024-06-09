@@ -23,7 +23,7 @@ import ModalPay from '../../components/modals/ModalPay';
 
 import Header from '../../components/Header';
 // import LeftMenu from './components/LeftMenu';
-import Button from '../../UI/Button';
+// import Button from '../../UI/Button';
 
 import Room from './components/Room';
 import Pagination from '../../components/Pagination';
@@ -54,9 +54,9 @@ const Home: FC = () => {
 	const offsetRef = useRef<number>((pagesNumber - 1) * limit);
 	const loadingRooms = useRef<boolean>(false);
 	const intervalRef = useRef<number | null>(null);
-	const joinToCodeHandler = async () => {
-		dispatch(setVisibleModal('jc'));
-	};
+	// const joinToCodeHandler = async () => {
+	// 	dispatch(setVisibleModal('jc'));
+	// };
 
 	const getPublickRooms = async (isRequest: boolean, isUpdate?: boolean) => {
 		if (!isRequest) return;
