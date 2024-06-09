@@ -10,9 +10,10 @@ import './style.css';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { setVisibleModal } from '../../store/slices/app.slice';
+import { setAccount, setVisibleModal } from '../../store/slices/app.slice';
 import WheelFortuneService from '../../services/WheelFortuneService';
 import Spinner from '../spinner';
+import AdminService from '../../services/AdminService';
 
 type typeSector = { color: string; label: string };
 
@@ -21,15 +22,16 @@ interface WheelProps {
 	setBet: Dispatch<SetStateAction<number>>;
 }
 
-const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
+const Wheel: FC<WheelProps> = ({ bet }) => {
 	const dispatch = useDispatch();
 	const { account } = useSelector((state: CustomRootState) => state.app);
 	const [sectors, setSectors] = useState<typeSector[]>([]);
 	const [isVisibleBorder, setIsVisibleBorder] = useState<boolean>(false);
+	const [deg, setDeg] = useState<number>(180);
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	const spinRef = useRef<HTMLDivElement | null>(null);
-
-	const rand = (min: number, max: number) => Math.random() * (max - min) + min;
+	const timeClickRef = useRef<number | null>(Number(new Date()) - 10000);
+	const rand = (min: number, max: number) => Math.floor(max - min + 1 + min);
 
 	const wheelContainer = (sectors: typeSector[]) => {
 		if (!canvasRef.current) return;
@@ -42,19 +44,11 @@ const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
 		const TAU = 2 * PI;
 		const arc = TAU / sectors.length;
 
-		const friction = 0.991; // 0.995=soft, 0.99=mid, 0.98=hard
-
 		let angVel = 0; // Angular velocity
-		let ang = 0; // Angle in radians
-		let val: string | null = null;
-		const indexes: { [key: string]: number } = {
-			'0x': 0,
-			'2x': 1,
-			'4x': 2,
-			'8x': 3,
-		};
+		const ang = 0; // Angle in radians
 
 		const getIndex = () => Math.floor(tot - (ang / TAU) * tot) % tot;
+		const prizeIdxs: { [key: number]: number } = { 4: 0, 2: 1, 0: 2, 8: 3 };
 
 		const drawSector = (
 			sector: { color: string; label: string },
@@ -62,6 +56,7 @@ const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
 		) => {
 			if (!ctx) return;
 			const ang = arc * i;
+
 			ctx.save();
 
 			ctx.beginPath();
@@ -84,21 +79,7 @@ const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
 			if (!canvasRef.current) return;
 			if (!spinRef.current) return;
 			const sector = sectors[getIndex()];
-			canvasRef.current.style.transform = `rotate(${ang - PI / 2}rad)`;
 
-			if (angVel < 0.008 && angVel && sector.label !== val) {
-				let diff = 0;
-				if (val)
-					diff = (Math.abs(indexes[val] - indexes[sector.label]) * 1.5) / 200;
-				angVel += Math.abs(diff);
-			} else if (angVel < 0.009 && angVel && sector.label === val) {
-				setTimeout(() => {
-					angVel = 0;
-
-					setBet(bet);
-					val = null;
-				}, 4000);
-			}
 			spinRef.current.textContent = angVel
 				? sector.label
 				: `Крутити за ${bet}₴`;
@@ -106,68 +87,58 @@ const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
 			spinRef.current.style.background = '#012031';
 		};
 
-		const frame = () => {
-			if (!angVel) return;
-			angVel *= friction;
-			if (angVel < 0.002) angVel = 0;
-			ang += angVel;
-			ang %= TAU;
-			rotate();
+		const getPrizeId = (angle: number) => {
+			const normalizedAngle = ((angle % 360) + 360) % 360;
+			if (normalizedAngle >= 0 && normalizedAngle < 90) {
+				return 4;
+			} else if (normalizedAngle >= 90 && normalizedAngle < 180) {
+				return 2;
+			} else if (normalizedAngle >= 180 && normalizedAngle < 270) {
+				return 0;
+			} else {
+				return 8;
+			}
 		};
 
-		const engine = () => {
-			frame();
-			requestAnimationFrame(engine);
-		};
-
-		const rotateToTarget = (targetIndex: number) => {
-			const targetAngle = targetIndex * arc;
-			let angleDifference = targetAngle - ang;
-			angleDifference = ((angleDifference + PI) % TAU) - PI;
-
-			// Add multiple full rotations
-			const n = 5; // Number of full rotations
-			const finalAngle = ang + angleDifference + TAU * n;
-
-			const rotateFrame = () => {
-				if (!canvasRef.current) return;
-				if (angVel < 0.001) {
-					// Small threshold to stop
-					angVel = 0;
-					ang = finalAngle % TAU;
-					canvasRef.current.style.transform = `rotate(${ang - PI / 2}rad)`;
-					setTimeout(() => {
-						setBet(bet);
-					}, 3000);
-					return;
-				}
-				angVel *= friction;
-				ang += angVel;
-				ang %= TAU;
-				canvasRef.current.style.transform = `rotate(${ang - PI / 2}rad)`;
-				requestAnimationFrame(rotateFrame);
-			};
-
-			angVel = 0.4; // Initial velocity
-			requestAnimationFrame(rotateFrame);
+		const getRandomDegrees = (prevAngle: number, nextPrizeId: number) => {
+			const nextAngle = prevAngle + rand(1000, 1600);
+			const currentPrizeId = getPrizeId(nextAngle);
+			const offsetAngle =
+				(prizeIdxs[nextPrizeId] - prizeIdxs[currentPrizeId]) * 90;
+			return nextAngle + offsetAngle;
+			8;
 		};
 
 		const init = () => {
 			sectors.forEach(drawSector);
 			rotate();
-			engine();
 			const spinHandler = async () => {
-				if (angVel) return;
+				if (!timeClickRef.current) return;
+				if (Number(new Date()) - Number(timeClickRef.current) > 5000) {
+					timeClickRef.current = Number(new Date());
+				} else return;
 				if (account.balance < bet) {
 					dispatch(setVisibleModal('dp'));
 					return;
 				}
-				angVel = rand(0.25, 0.45);
 				try {
-					const result = await WheelFortuneService.getResult(bet);
-					val = result.data.multiplier + 'x';
-					const targetIndex = indexes[val];
-					rotateToTarget(targetIndex);
+					const { data } = await WheelFortuneService.getResult(bet);
+
+					setDeg(prev => {
+						if (canvasRef.current) {
+							canvasRef.current.style.transition = `5s`;
+							canvasRef.current.style.transform = `rotate(${getRandomDegrees(
+								prev,
+								Number(data.multiplier),
+							)}deg)`;
+						}
+						return prev + 1000 || deg;
+					});
+					setTimeout(async () => {
+						const { data } = await AdminService.getMeProfile();
+						dispatch(setAccount(data));
+					}, 5000);
+					angVel = rand(0.25, 0.45);
 				} catch (e) {
 					console.log(e);
 				}

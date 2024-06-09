@@ -27,6 +27,7 @@
 
 #wheel {
 	display: block;
+	/* transition: 5s; */
 }
 
 #spin {

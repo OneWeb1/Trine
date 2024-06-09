@@ -13,16 +13,20 @@
 		"@reduxjs/toolkit": "^2.0.1",
 		"axios": "^1.6.2",
 		"classnames": "^2.3.2",
+		"jquery": "^3.7.1",
 		"rc-slider": "^10.5.0",
-		"react": "^18.2.0",
+		"react": "^18.3.1",
 		"react-dom": "^18.2.0",
 		"react-helmet": "^6.1.0",
 		"react-icons": "^4.12.0",
 		"react-redux": "^9.0.4",
 		"react-router-dom": "^6.21.0",
-		"scss": "^0.2.4"
+		"scss": "^0.2.4",
+		"spring": "^0.0.0",
+		"velocity-animate": "^1.5.2"
 	},
 	"devDependencies": {
+		"@types/jquery": "^3.5.30",
 		"@types/react": "^18.2.43",
 		"@types/react-dom": "^18.2.17",
 		"@types/react-helmet": "^6.1.11",

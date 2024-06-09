@@ -86,6 +86,7 @@ const Home: FC = () => {
 	};
 
 	const initData = async () => {
+		if (visibleModal === 'wof') return;
 		const { data } = await AdminService.getMeProfile();
 		if (!data.avatar_id) addStandartAvatar();
 		dispatch(setAccount(data));
