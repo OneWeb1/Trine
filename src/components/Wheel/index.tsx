@@ -163,12 +163,14 @@ const Wheel: FC<WheelProps> = ({ bet, setBet }) => {
 					return;
 				}
 				angVel = rand(0.25, 0.45);
-				setTimeout(async () => {
+				try {
 					const result = await WheelFortuneService.getResult(bet);
 					val = result.data.multiplier + 'x';
 					const targetIndex = indexes[val];
 					rotateToTarget(targetIndex);
-				}, 4000);
+				} catch (e) {
+					console.log(e);
+				}
 			};
 			if (spinRef.current) spinRef.current.onclick = spinHandler;
 		};
