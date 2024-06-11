@@ -1,7 +1,10 @@
 import { AxiosResponse } from 'axios';
 import {
+	WheelFortuneHistoryPaginationResponse,
+	WheelFortuneHistoryResponse,
 	WheelFortuneResultResponse,
 	WheelFortuneStateResponse,
+	WheelFortuneStatusResponse,
 } from '../models/response/WheelFortuneResponse';
 import $api from '../http';
 
@@ -15,6 +18,18 @@ export default class WheelFortuneService {
 	): Promise<AxiosResponse<WheelFortuneResultResponse>> {
 		return $api.get<WheelFortuneResultResponse>(
 			`/fortune/result?bid=${bid || 20}`,
+		);
+	}
+
+	static async getStatus(): Promise<AxiosResponse<WheelFortuneStatusResponse>> {
+		return $api.get<WheelFortuneStatusResponse>(`/admin/fortune/status`);
+	}
+
+	static async getHistory(
+		page?: number,
+	): Promise<AxiosResponse<WheelFortuneHistoryResponse>> {
+		return $api.get<WheelFortuneHistoryResponse>(
+			`/admin/fortune/history?page=${page || 1}`,
 		);
 	}
 }

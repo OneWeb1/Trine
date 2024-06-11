@@ -15,6 +15,7 @@ import ModalStatistics from '../../components/modals/ModalStatistics';
 import Transfers from './Transfers';
 import Refs from './Refs';
 import ModalCreateRef from '../../components/modals/ModalCreateRef';
+import WheelFortuneHistory from './WheelFortuneHistory';
 
 const Admin: FC = () => {
 	const dispatch = useDispatch();
@@ -65,6 +66,12 @@ const Admin: FC = () => {
 		localStorage.setItem('tab', 'refs');
 	};
 
+	const tabWheelFortuneHandler = () => {
+		setTab('wheel-fortune');
+		if (windowWidth < 1300) dispatch(setVisibleBurgerMenu(false));
+		localStorage.setItem('tab', 'wheel-fortune');
+	};
+
 	useEffect(() => {
 		document.title = `Trine | Адмін`;
 		const handleResize = () => {
@@ -95,6 +102,7 @@ const Admin: FC = () => {
 						tabRoomsHandler={tabRoomsHandler}
 						tabTransfersHandler={tabTransfersHandler}
 						tabRefsHandler={tabRefsHandler}
+						tabWheelFortuneHandler={tabWheelFortuneHandler}
 					/>
 				</div>
 
@@ -107,12 +115,14 @@ const Admin: FC = () => {
 						tabRoomsHandler={tabRoomsHandler}
 						tabTransfersHandler={tabTransfersHandler}
 						tabRefsHandler={tabRefsHandler}
+						tabWheelFortuneHandler={tabWheelFortuneHandler}
 					/>
 					<div className={styles.rightMenu}>
 						{tab === 'accounts' && <Accounts />}
 						{tab === 'refs' && <Refs />}
 						{tab === 'rooms' && <Rooms hideName={windowWidth < 900} />}
 						{tab === 'transfers' && <Transfers />}
+						{tab === 'wheel-fortune' && <WheelFortuneHistory />}
 					</div>
 				</div>
 			</div>

@@ -6,6 +6,7 @@ import { MdManageAccounts } from 'react-icons/md';
 import { MdRoomPreferences } from 'react-icons/md';
 import { FaMoneyBillTransfer } from 'react-icons/fa6';
 import { RiShareForward2Fill } from 'react-icons/ri';
+import { LuFerrisWheel } from 'react-icons/lu';
 // import { ImStatsBars } from 'react-icons/im';
 import { ImHome } from 'react-icons/im';
 
@@ -23,6 +24,7 @@ interface ILeftMenu {
 	tabAccountsHandler: () => void;
 	tabTransfersHandler: () => void;
 	tabRefsHandler: () => void;
+	tabWheelFortuneHandler: () => void;
 }
 
 const LeftMenu: FC<ILeftMenu> = ({
@@ -33,6 +35,7 @@ const LeftMenu: FC<ILeftMenu> = ({
 	tabAccountsHandler,
 	tabTransfersHandler,
 	tabRefsHandler,
+	tabWheelFortuneHandler,
 }) => {
 	const { visibleBurgerMenu } = useSelector(
 		(state: CustomRootState) => state.app,
@@ -83,6 +86,15 @@ const LeftMenu: FC<ILeftMenu> = ({
 					onClick={tabTransfersHandler}>
 					<FaMoneyBillTransfer style={{ marginRight: '10px' }} />
 					<span>Перекази</span>
+				</div>
+				<div
+					className={classNames(
+						styles.item,
+						tab === 'wheel-fortune' && styles.tabActive,
+					)}
+					onClick={tabWheelFortuneHandler}>
+					<LuFerrisWheel style={{ marginRight: '10px' }} />
+					<span>Колесо фортуни</span>
 				</div>
 				<Link to='/'>
 					<div
