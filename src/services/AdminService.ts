@@ -189,7 +189,7 @@ export default class AdminService {
 		});
 	}
 
-	static async changeAvatar(id: number): Promise<AxiosResponse<string>> {
+	static async changeAvatar(id: string): Promise<AxiosResponse<string>> {
 		return $api.post<string>(`/profile/change_avatar?id=${id}`);
 	}
 
