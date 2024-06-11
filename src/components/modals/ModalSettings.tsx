@@ -51,7 +51,7 @@ const ModalSettings: FC = () => {
 		const $currentPassword = String(currentPassword);
 		const $newPassword = String(newPassword);
 		if (account.avatar_id !== selectAvatarId) {
-			console.log({ selectAvatarId });
+			{ selectAvatarId });
 			await AdminService.changeAvatar(selectAvatarId);
 		}
 		if (name !== account.nickname) {
@@ -81,7 +81,6 @@ const ModalSettings: FC = () => {
 	};
 
 	const selectAvatar = (id: string) => {
-		console.log(id);
 		setSelectAvatarId(id);
 	};
 
@@ -89,7 +88,6 @@ const ModalSettings: FC = () => {
 		const getAvatars = async () => {
 			try {
 				const { data: avatars } = await AdminService.getAvatars();
-				console.log(avatars);
 				dispatch(setAvatars(avatars));
 			} catch (e) {
 				console.log(e);

@@ -125,7 +125,7 @@ const Home: FC = () => {
 		if (!intervalRef.current) {
 			intervalRef.current = setInterval(() => {
 				setUpdate(prev => prev + 1);
-			}, 300);
+			}, 2000);
 		}
 
 		window.addEventListener('resize', handleResize);
