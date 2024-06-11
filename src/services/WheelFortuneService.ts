@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import {
-	WheelFortuneHistoryPaginationResponse,
+	// WheelFortuneHistoryPaginationResponse,
 	WheelFortuneHistoryResponse,
 	WheelFortuneResultResponse,
 	WheelFortuneStateResponse,
