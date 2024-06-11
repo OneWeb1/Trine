@@ -265,9 +265,13 @@
 
 		.profileWrapper {
 			.content {
+				.name {
+					font-size: 8px;
+				}
 				.email {
 					max-width: 80px;
 					width: 80px;
+					font-size: 8px;
 				}
 			}
 		}
