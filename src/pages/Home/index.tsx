@@ -82,7 +82,7 @@ const Home: FC = () => {
 	const addStandartAvatar = async () => {
 		const { data } = await AdminService.getAvatars();
 		const id = Math.floor(Math.random() * (data.length - 0));
-		await AdminService.changeAvatar(id);
+		await AdminService.changeAvatar(String(id));
 	};
 
 	const initData = async () => {
