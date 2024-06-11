@@ -100,14 +100,30 @@
 	justify-content: center;
 }
 
+@media screen and (max-width: 1150px) {
+	.tableHeader {
+		font-size: 14px;
+
+		.rightWrapper {
+			width: 450px;
+
+			.cellItem {
+				max-width: 100px;
+				width: 100px;
+			}
+		}
+	}
+}
+
 @media screen and (max-width: 950px) {
 	.tableHeader {
 		font-size: 14px;
 		.idColumn {
 			width: 50px;
 		}
+
 		.rightWrapper {
-			width: 200px;
+			// width: 200px;
 			.dateCreated {
 				display: none;
 			}
@@ -115,7 +131,7 @@
 	}
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 850px) {
 	.tableHeader {
 		font-size: 13px;
 
@@ -124,30 +140,45 @@
 			margin-right: 10px;
 		}
 		.rightWrapper {
-			max-width: 140px;
+			max-width: 350px;
 		}
 	}
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 750px) {
 	.tableHeader {
-		font-size: 11px;
+		font-size: 7px;
+
 		.rightWrapper {
+			max-width: 200px;
+		}
+		padding: 0 10px;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	.tableHeader {
+		.idColumn {
+			display: none;
+		}
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.tableHeader {
+		// font-size: 11px;
+
+		padding: 0 10px;
+
+		.leftWWrapper {
 			max-width: 100px;
 		}
-		padding: 0 10px;
-	}
-}
 
-@media screen and (max-width: 340px) {
-	.tableHeader {
-		font-size: 11px;
 		.rightWrapper {
-			width: 40px;
-			.balanceColumn {
-				display: none;
+			.cellItem {
+				max-width: 70px;
+				width: 70px;
 			}
 		}
-		padding: 0 10px;
 	}
 }

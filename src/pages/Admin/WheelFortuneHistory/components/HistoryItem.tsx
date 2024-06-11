@@ -24,18 +24,7 @@ interface IHistoryItem {
 
 const HistoryItem: FC<IHistoryItem> = ({ rotate, pageNumber, id }) => {
 	console.log(pageNumber * id);
-	// const dispatch = useDispatch();
 	const { baseIconPath } = useSelector((state: CustomRootState) => state.app);
-	// const settingsRef = useRef<HTMLDivElement | null>(null);
-
-	// const visibleMenu = () => {
-	// 	if (!settingsRef.current) return;
-	// 	dispatch(setVisibleMenuAccountSettings('account-settings'));
-	// 	localStorage.setItem('account_settings', JSON.stringify(profile));
-
-	// 	const box = settingsRef.current.getBoundingClientRect();
-	// 	dispatch(setMenuAccountSettingsPosition({ x: box.x, y: box.y }));
-	// };
 
 	return (
 		<>
@@ -68,10 +57,10 @@ const HistoryItem: FC<IHistoryItem> = ({ rotate, pageNumber, id }) => {
 					</div>
 				</div>
 				<div className={styles.rightWrapper}>
-					<div className={styles.cellItem}>{rotate.prev_balance}₴</div>
 					<div className={styles.cellItem}>{rotate.bid}</div>
 					<div className={styles.cellItem}>{rotate.multiplier}x</div>
 					<div className={styles.cellItem}>{rotate.prize}</div>
+					<div className={styles.cellItem}>{rotate.prev_balance}₴</div>
 					<div className={styles.cellItem}>{rotate.balance}₴</div>
 				</div>
 			</div>

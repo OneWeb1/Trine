@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { CSSProperties, Dispatch, FC, SetStateAction } from 'react';
 
 import { CgSearch } from 'react-icons/cg';
 
@@ -7,12 +7,18 @@ import styles from './../stylesheet/styles-ui/InputSearch.module.scss';
 interface IInputSearch {
 	placeholder: string;
 	value: string;
+	style?: CSSProperties;
 	onChange: Dispatch<SetStateAction<string>>;
 }
 
-const InputSearch: FC<IInputSearch> = ({ placeholder, value, onChange }) => {
+const InputSearch: FC<IInputSearch> = ({
+	placeholder,
+	value,
+	style,
+	onChange,
+}) => {
 	return (
-		<div style={{ marginLeft: '10px' }} className={styles.wrapper}>
+		<div style={{ marginLeft: '10px', ...style }} className={styles.wrapper}>
 			<div className={styles.icon}>
 				<CgSearch />
 			</div>{' '}

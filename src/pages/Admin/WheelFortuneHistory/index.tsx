@@ -41,6 +41,7 @@ const WheelFortuneHistory: FC = () => {
 	const [history, setHistory] = useState<WheelFortuneHistoryResponse>(
 		{} as WheelFortuneHistoryResponse,
 	);
+	const [w, setW] = useState<number>(window.innerWidth);
 
 	const [pagesNumber, setPagesNumber] = useState<number>(
 		JSON.parse(localStorage.getItem('accounts-length') || '0'),
@@ -152,6 +153,17 @@ const WheelFortuneHistory: FC = () => {
 	}, [updateAccounts]);
 
 	useEffect(() => {
+		const resizeHandler = () => {
+			setW(window.innerWidth);
+		};
+		window.addEventListener('resize', resizeHandler);
+
+		return () => {
+			window.removeEventListener('resize', resizeHandler);
+		};
+	}, []);
+
+	useEffect(() => {
 		const profileId = parseInt(searchId);
 		if (searchId.length) {
 			setIsNotFound(true);
@@ -195,6 +207,7 @@ const WheelFortuneHistory: FC = () => {
 					<div style={{ display: 'flex', alignItems: 'center' }}>
 						<InputSearch
 							value={searchId}
+							style={{ width: window.innerWidth < 400 ? '150px' : 'inherit' }}
 							placeholder='Пошук по ID аккаунту'
 							onChange={setSearchId}
 						/>
@@ -215,13 +228,15 @@ const WheelFortuneHistory: FC = () => {
 					}}>
 					<div style={{ display: 'flex', alignItems: 'center' }}>
 						<div className={styles.idColumn}>ID</div>
-						<div>Обліковий запис</div>
+						<div>Гравець</div>
 					</div>
 					<div className={styles.rightWrapper}>
-						<div className={styles.cellItem}>ПБ</div>
 						<div className={styles.cellItem}>Ставка</div>
-						<div className={styles.cellItem}>Множник</div>
+						<div className={styles.cellItem}>
+							{w >= 850 ? 'Множник' : 'Множ...'}
+						</div>
 						<div className={styles.cellItem}>Приз</div>
+						<div className={styles.cellItem}>ПБ</div>
 						<div className={styles.cellItem}>Баланс</div>
 					</div>
 				</div>
