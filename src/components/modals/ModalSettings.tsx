@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, memo, useState, useEffect } from 'react';
 
 import classNames from 'classnames';
 
@@ -68,7 +68,7 @@ const ModalSettings: FC = () => {
 				return;
 			}
 		} else if (!$currentPassword.length || !$newPassword.length) {
-			alert('Password is not empty');
+			// alert('Password is not empty');
 			dispatch(setVisibleModal('h'));
 			throw new Error('Password is not empty');
 		}
@@ -81,6 +81,7 @@ const ModalSettings: FC = () => {
 	};
 
 	const selectAvatar = (id: string) => {
+		console.log(id);
 		setSelectAvatarId(id);
 	};
 
@@ -88,6 +89,7 @@ const ModalSettings: FC = () => {
 		const getAvatars = async () => {
 			try {
 				const { data: avatars } = await AdminService.getAvatars();
+				console.log(avatars);
 				dispatch(setAvatars(avatars));
 			} catch (e) {
 				console.log(e);
@@ -183,4 +185,5 @@ const ModalSettings: FC = () => {
 	);
 };
 
-export default ModalSettings;
+const memoModalSettings = memo(ModalSettings);
+export default memoModalSettings;
