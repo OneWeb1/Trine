@@ -51,7 +51,6 @@ const ModalSettings: FC = () => {
 		const $currentPassword = String(currentPassword);
 		const $newPassword = String(newPassword);
 		if (account.avatar_id !== selectAvatarId) {
-			{ selectAvatarId });
 			await AdminService.changeAvatar(selectAvatarId);
 		}
 		if (name !== account.nickname) {
