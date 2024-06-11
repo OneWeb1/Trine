@@ -38,7 +38,9 @@ const WheelFortuneHistory: FC = () => {
 		updateAccounts,
 	} = useSelector((state: CustomRootState) => state.app);
 	const [profiles, setProfiles] = useState<ProfileMeResponse[]>([]);
-	const [history, setHistory] = useState<WheelFortuneHistoryResponse>({});
+	const [history, setHistory] = useState<WheelFortuneHistoryResponse>(
+		{} as WheelFortuneHistoryResponse,
+	);
 
 	const [pagesNumber, setPagesNumber] = useState<number>(
 		JSON.parse(localStorage.getItem('accounts-length') || '0'),
