@@ -9,7 +9,7 @@ import {
 	setStats,
 } from '../../../store/slices/app.slice';
 
-import { MdOutlineSettingsEthernet } from 'react-icons/md';
+// import { MdOutlineSettingsEthernet } from 'react-icons/md';
 import { MdOutlineAccountBalanceWallet } from 'react-icons/md';
 
 import MenuAccountSettings from '../../../components/menu/MenuAccountSettings';
@@ -128,7 +128,7 @@ const WheelFortuneHistory: FC = () => {
 
 	const changePage = (pageNumber: number) => {
 		const lastOffset = JSON.parse(
-			localStorage.getItem('accounts-offset') || '0',
+			localStorage.getItem('accounts-offset') || '0' || `${profiles}`,
 		);
 
 		const offset = (pageNumber - 1) * limit;

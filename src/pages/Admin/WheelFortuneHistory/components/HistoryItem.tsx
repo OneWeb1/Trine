@@ -1,17 +1,17 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 
 import { TbUserPentagon } from 'react-icons/tb';
 
 import { RootState as CustomRootState } from '../../../../store/rootReducer';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-	setVisibleMenuAccountSettings,
-	setMenuAccountSettingsPosition,
-} from '../../../../store/slices/app.slice';
+import { useSelector } from 'react-redux';
+// import {
+// 	setVisibleMenuAccountSettings,
+// 	setMenuAccountSettingsPosition,
+// } from '../../../../store/slices/app.slice';
 
-import { HiOutlineDotsVertical } from 'react-icons/hi';
+// import { HiOutlineDotsVertical } from 'react-icons/hi';
 
-import { AdminProfileResponse } from '../../../../models/response/AdminResponse';
+// import { AdminProfileResponse } from '../../../../models/response/AdminResponse';
 
 import styles from './../../styles/styles-components/History.module.scss';
 import { WheelFortuneHistoryRotationResponse } from '../../../../models/response/WheelFortuneResponse';
@@ -24,9 +24,9 @@ interface IHistoryItem {
 
 const HistoryItem: FC<IHistoryItem> = ({ rotate, pageNumber, id }) => {
 	console.log(pageNumber * id);
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const { baseIconPath } = useSelector((state: CustomRootState) => state.app);
-	const settingsRef = useRef<HTMLDivElement | null>(null);
+	// const settingsRef = useRef<HTMLDivElement | null>(null);
 
 	// const visibleMenu = () => {
 	// 	if (!settingsRef.current) return;
