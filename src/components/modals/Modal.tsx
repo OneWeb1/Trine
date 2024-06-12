@@ -14,6 +14,7 @@ interface IModal {
 	close?: boolean;
 	children: ReactNode;
 	style?: CSSProperties;
+	isScroll?: boolean;
 	styleNode?: CSSProperties;
 }
 
@@ -24,6 +25,7 @@ const Modal: FC<IModal> = ({
 	close,
 	children,
 	styleNode,
+	isScroll,
 	style,
 }) => {
 	const dispatch = useDispatch();
@@ -69,18 +71,22 @@ const Modal: FC<IModal> = ({
 								</>
 							)}
 						</div>
-						<div
-							className={styles.scrollWrapper}
-							style={{
-								height:
-									window.innerHeight - 80 < 700
-										? window.innerHeight - 80 + 'px'
-										: 700 + 'px',
-								overflowY: 'scroll',
-								paddingBottom: '20px',
-							}}>
-							{children}
-						</div>
+						{isScroll && (
+							<div
+								className={styles.scrollWrapper}
+								style={{
+									height:
+										window.innerHeight - 80 < 700
+											? window.innerHeight - 80 + 'px'
+											: 700 + 'px',
+									overflowY: 'scroll',
+									paddingBottom: '0px',
+								}}>
+								{children}
+							</div>
+						)}
+
+						{!isScroll && children}
 					</div>
 				</div>
 			)}

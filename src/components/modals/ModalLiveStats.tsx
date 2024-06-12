@@ -28,7 +28,7 @@ const ModalLiveStats: FC<IModalLiveStats> = ({ title }) => {
 	}, []);
 
 	return (
-		<Modal title={title}>
+		<Modal title={title} isScroll={true}>
 			<TableLiveStats title='Тринька' data={trineData} />
 			<TableLiveStats
 				style={{ paddingBottom: '30px' }}
