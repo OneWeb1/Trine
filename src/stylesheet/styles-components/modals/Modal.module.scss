@@ -14,11 +14,12 @@
 .modal {
 	max-width: 550px;
 	width: 550px;
+	max-height: calc(100vh - 40px);
 	padding: 20px;
 	background: #fff;
 	border-radius: 10px;
-	// margin-top: 50px;
 	box-shadow: 0px 0px 129px 0px rgba(9, 15, 30, 0.15);
+	overflow: hidden;
 
 	.header {
 		width: 100%;
@@ -65,6 +66,9 @@
 		}
 	}
 
+	.scrollWrapper {
+		padding-bottom: 20px;
+	}
 	.scrollWrapper::-webkit-scrollbar {
 		width: 0;
 	}

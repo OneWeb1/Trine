@@ -30,7 +30,11 @@ const ModalLiveStats: FC<IModalLiveStats> = ({ title }) => {
 	return (
 		<Modal title={title}>
 			<TableLiveStats title='Тринька' data={trineData} />
-			<TableLiveStats title='Колесо фортуни' data={wheelData} />
+			<TableLiveStats
+				style={{ paddingBottom: '30px' }}
+				title='Колесо фортуни'
+				data={wheelData}
+			/>
 		</Modal>
 	);
 };

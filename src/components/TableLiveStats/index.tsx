@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import { CSSProperties, FC } from 'react';
 import styles from './TableLiveStats.module.scss';
 import { LiveWinsResponse } from '../../models/response/AdminResponse';
 
 interface ITableLiveStats {
 	title: string;
 	data: LiveWinsResponse[];
+	style?: CSSProperties;
 }
 
 interface ITableItem {
@@ -28,9 +29,9 @@ const TableItem: FC<ITableItem> = ({ item }) => {
 	);
 };
 
-const TableLiveStats: FC<ITableLiveStats> = ({ title, data }) => {
+const TableLiveStats: FC<ITableLiveStats> = ({ title, data, style }) => {
 	return (
-		<div className={styles.table}>
+		<div style={style} className={styles.table}>
 			<div style={{ fontWeight: 600, textAlign: 'left' }}>{title}</div>
 			<div className={styles.header}>
 				<div className={styles.item}>Гравець</div>
@@ -40,6 +41,11 @@ const TableLiveStats: FC<ITableLiveStats> = ({ title, data }) => {
 				{data?.map(item => (
 					<TableItem item={item} />
 				))}
+				{!data.length && (
+					<div style={{ textAlign: 'center' }}>
+						Грай щоб зявилася статистика
+					</div>
+				)}
 			</div>
 		</div>
 	);
