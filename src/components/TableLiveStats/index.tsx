@@ -31,7 +31,7 @@ const TableItem: FC<ITableItem> = ({ item }) => {
 const TableLiveStats: FC<ITableLiveStats> = ({ title, data }) => {
 	return (
 		<div className={styles.table}>
-			<div style={{ fontWeight: 600, textAlign: 'center' }}>{title}</div>
+			<div style={{ fontWeight: 600, textAlign: 'left' }}>{title}</div>
 			<div className={styles.header}>
 				<div className={styles.item}>Гравець</div>
 				<div className={styles.item}>Виграш</div>
