@@ -31,7 +31,6 @@ const ModalChangeBalance: FC<IModalChangeBalance> = ({ title }) => {
 	const w = window.innerWidth > 400;
 
 	const changeBalance = async () => {
-		console.log({ balance });
 		if (!/^[-+]?\d+$/.test(String(balance))) return;
 
 		await AdminService.changeBalance(account.id, String(balance));

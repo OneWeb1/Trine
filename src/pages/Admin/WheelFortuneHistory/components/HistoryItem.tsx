@@ -17,20 +17,17 @@ import styles from './../../styles/styles-components/History.module.scss';
 import { WheelFortuneHistoryRotationResponse } from '../../../../models/response/WheelFortuneResponse';
 
 interface IHistoryItem {
-	pageNumber: number;
-	id: number;
 	rotate: WheelFortuneHistoryRotationResponse;
 }
 
-const HistoryItem: FC<IHistoryItem> = ({ rotate, pageNumber, id }) => {
-	console.log(pageNumber * id);
+const HistoryItem: FC<IHistoryItem> = ({ rotate }) => {
 	const { baseIconPath } = useSelector((state: CustomRootState) => state.app);
 
 	return (
 		<>
 			<div className={styles.tableItem}>
 				<div className={styles.leftWrapper}>
-					<div className={styles.id}>{pageNumber + id}</div>
+					<div className={styles.id}>{rotate.id}</div>
 					<div className={styles.profileWrapper}>
 						<div className={styles.avatar}>
 							<div

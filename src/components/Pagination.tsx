@@ -17,6 +17,7 @@ interface IPagination {
 	numbers: number;
 	workPages: number;
 	current?: number;
+	change?: number;
 	changePage?: (pageNumber: number) => void;
 }
 

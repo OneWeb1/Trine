@@ -25,11 +25,14 @@ export default class WheelFortuneService {
 		return $api.get<WheelFortuneStatusResponse>(`/admin/fortune/status`);
 	}
 
-	static async getHistory(
-		page?: number,
-	): Promise<AxiosResponse<WheelFortuneHistoryResponse>> {
+	static async getHistory(params: {
+		page?: number;
+		profileId?: number;
+	}): Promise<AxiosResponse<WheelFortuneHistoryResponse>> {
 		return $api.get<WheelFortuneHistoryResponse>(
-			`/admin/fortune/history?page=${page || 1}`,
+			`/admin/fortune/history?page=${params.page || 1}${
+				params.profileId ? `&account_id=${params.profileId}` : ''
+			}`,
 		);
 	}
 }

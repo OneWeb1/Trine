@@ -132,8 +132,6 @@ const Refs: FC = () => {
 					} catch (e) {
 						console.log(e);
 					}
-
-					console.log('Done: ', stateResponse.data.done);
 				}
 			} catch (e) {
 				console.log(e);
@@ -163,7 +161,6 @@ const Refs: FC = () => {
 		await AdminService.searchRef(query, pages, page)
 			.then(response => {
 				const { pages, page, items_count, items } = response.data;
-				console.log({ pages, page, items_count, items });
 				dispatch(setRefs({ pages, page, items_count, items }));
 				setLoading(true);
 			})

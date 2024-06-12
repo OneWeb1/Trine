@@ -6,10 +6,12 @@ import { Link } from 'react-router-dom';
 
 import { TbUserPentagon } from 'react-icons/tb';
 import { MdOutlineAdminPanelSettings } from 'react-icons/md';
-import { GiPayMoney } from 'react-icons/gi';
+// import { GiPayMoney } from 'react-icons/gi';
 import { BiMoneyWithdraw } from 'react-icons/bi';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { CiLogout } from 'react-icons/ci';
+import { TbLivePhoto } from 'react-icons/tb';
+import { LuAlignVerticalSpaceBetween } from 'react-icons/lu';
 
 import { RootState as CustomRootState } from '../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -138,10 +140,11 @@ const Header: FC = () => {
 											dispatch(setVisibleModal('dp'));
 											setIsVisibleDropDownMenu(false);
 										}}>
-										<GiPayMoney className={styles.menuIcon} />
+										<LuAlignVerticalSpaceBetween className={styles.menuIcon} />
 										Поповнення рахунку
 									</div>
 								)}
+
 								<div
 									className={styles.item}
 									id='item'
@@ -151,6 +154,15 @@ const Header: FC = () => {
 									}}>
 									<BiMoneyWithdraw className={styles.menuIcon} /> Виведення
 									коштів
+								</div>
+								<div
+									className={styles.item}
+									id='item'
+									onClick={() => {
+										dispatch(setVisibleModal('lw'));
+										setIsVisibleDropDownMenu(false);
+									}}>
+									<TbLivePhoto className={styles.menuIcon} /> Лайв виграші
 								</div>
 								<div
 									className={styles.item}

@@ -37,6 +37,8 @@ import {
 	RoomsResponse,
 } from '../../models/response/AdminResponse';
 import ModalWheelOfFortune from '../../components/modals/ModalWheelOfFortune';
+import GameService from '../../services/GameService';
+import ModalLiveStats from '../../components/modals/ModalLiveStats';
 // import GameService from '../../services/GameService';
 const Home: FC = () => {
 	const dispatch = useDispatch();
@@ -71,11 +73,9 @@ const Home: FC = () => {
 		if (isUpdate) {
 			isRequestRef.current = true;
 		}
-		// setTimeout(() => {
 		if (!loadingRooms.current) {
 			loadingRooms.current = true;
 		}
-		// }, 0);
 		localStorage.setItem('home-rooms-length', JSON.stringify(data.pages));
 	};
 
@@ -115,6 +115,16 @@ const Home: FC = () => {
 	const openModalWheelFortune = () => {
 		dispatch(setVisibleModal('wof'));
 	};
+
+	useEffect(() => {
+		const getLiveWins = async () => {
+			const { data } = await GameService.liveWins();
+
+			console.log(data);
+		};
+
+		getLiveWins();
+	}, []);
 
 	useEffect(() => {
 		document.title = 'Trine | Головна';
@@ -259,6 +269,7 @@ const Home: FC = () => {
 			)}
 			{visibleModal === 'mr' && <ModalMyRooms />}
 			{visibleModal === 'wof' && <ModalWheelOfFortune />}
+			{visibleModal === 'lw' && <ModalLiveStats title='Лайв виграші' />}
 
 			{!loading && (
 				<div style={{ width: '100%', height: '500px' }} className='flex-center'>

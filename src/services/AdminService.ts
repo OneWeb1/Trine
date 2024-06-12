@@ -197,7 +197,6 @@ export default class AdminService {
 		id: number,
 		balance: string,
 	): Promise<AxiosResponse<string>> {
-		console.log(balance);
 		return $api.post<string>(`/admin/profile/${id}/update`, null, {
 			params: { balance },
 		});

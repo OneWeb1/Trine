@@ -121,8 +121,8 @@ const Admin: FC = () => {
 						{tab === 'accounts' && <Accounts />}
 						{tab === 'refs' && <Refs />}
 						{tab === 'rooms' && <Rooms hideName={windowWidth < 900} />}
-						{tab === 'transfers' && <Transfers />}
 						{tab === 'wheel-fortune' && <WheelFortuneHistory />}
+						{tab === 'transfers' && <Transfers />}
 					</div>
 				</div>
 			</div>

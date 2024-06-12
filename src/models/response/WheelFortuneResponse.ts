@@ -26,6 +26,7 @@ export interface WheelFortuneHistoryPaginationResponse {
 }
 
 export interface WheelFortuneHistoryRotationResponse {
+	id: number;
 	account: ProfileMeResponse;
 	balance: number;
 	bid: number;

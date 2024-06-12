@@ -149,3 +149,9 @@ export interface RoomsCountResponse {
 	// inactive_rooms_count: number;
 	rooms_count: number;
 }
+
+export interface LiveWinsResponse {
+	type: string;
+	prize: number;
+	account: ProfileMeResponse;
+}
