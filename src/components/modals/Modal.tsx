@@ -69,7 +69,18 @@ const Modal: FC<IModal> = ({
 								</>
 							)}
 						</div>
-						{children}
+						<div
+							className={styles.scrollWrapper}
+							style={{
+								height:
+									window.innerHeight - 80 < 700
+										? window.innerHeight - 80 + 'px'
+										: 700 + 'px',
+								overflowY: 'scroll',
+								paddingBottom: '20px',
+							}}>
+							{children}
+						</div>
 					</div>
 				</div>
 			)}
