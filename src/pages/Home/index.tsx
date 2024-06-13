@@ -39,6 +39,7 @@ import {
 import ModalWheelOfFortune from '../../components/modals/ModalWheelOfFortune';
 import GameService from '../../services/GameService';
 import ModalLiveStats from '../../components/modals/ModalLiveStats';
+import VaweButton from '../../UI/VaweButton';
 // import GameService from '../../services/GameService';
 const Home: FC = () => {
 	const dispatch = useDispatch();
@@ -162,7 +163,9 @@ const Home: FC = () => {
 					{/* <LeftMenu /> */}
 					<div className={styles.rightMenu}>
 						<div className={styles.flex}>
-							<div className={styles.title}>Публічні кімнати</div>
+							<div className={styles.title}>
+								<VaweButton />
+							</div>
 							{/* // <Button
 								// 	style={{
 								// 		padding: '9px 32px',

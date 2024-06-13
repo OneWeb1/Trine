@@ -10,7 +10,7 @@ import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 import { BiMoneyWithdraw } from 'react-icons/bi';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { CiLogout } from 'react-icons/ci';
-import { TbLivePhoto } from 'react-icons/tb';
+// import { TbLivePhoto } from 'react-icons/tb';
 import { LuAlignVerticalSpaceBetween } from 'react-icons/lu';
 
 import { RootState as CustomRootState } from '../store/rootReducer';
@@ -155,7 +155,7 @@ const Header: FC = () => {
 									<BiMoneyWithdraw className={styles.menuIcon} /> Виведення
 									коштів
 								</div>
-								<div
+								{/* <div
 									className={styles.item}
 									id='item'
 									onClick={() => {
@@ -163,7 +163,7 @@ const Header: FC = () => {
 										setIsVisibleDropDownMenu(false);
 									}}>
 									<TbLivePhoto className={styles.menuIcon} /> Лайв виграші
-								</div>
+								</div> */}
 								<div
 									className={styles.item}
 									id='item'
