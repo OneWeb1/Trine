@@ -12,7 +12,8 @@ const VaweButton = () => {
 
 	return (
 		<button className={styles.button} onClick={clickHandler}>
-			<TbLivePhoto style={{ fontSize: '16px' }} /> <span>Лайв виграші</span>
+			<TbLivePhoto style={{ fontSize: '16px', marginTop: '.1px' }} />{' '}
+			<span>Лайв виграші</span>
 		</button>
 	);
 };
