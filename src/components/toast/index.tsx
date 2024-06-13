@@ -18,13 +18,13 @@ const StyledToastContainer = styled(ToastContainer).attrs({
 	progressClassName: 'progress',
 })`
 	/* .progress is passed to progressClassName */
-	height: 430px;
+	height: 410px;
 	padding: 0px 20px;
-	overflow-y: scroll;
-	opacity: 1;
+	// overflow-y: scroll;
+	// opacity: 1;
 
 	&::-webkit-scrollbar {
-		width: 10;
+		width: 0;
 	}
 
 	.toast {
@@ -60,10 +60,16 @@ const ToastNotification = () => {
 		const getLiveWins = async () => {
 			try {
 				const { data } = await GameService.liveWins();
-				data.forEach(item => {
+				data.slice(0, 6).forEach(item => {
 					const notify = () => toast(<TableItem item={item} />);
 					notify();
 				});
+				setTimeout(() => {
+					data.slice(6, 11).forEach(item => {
+						const notify = () => toast(<TableItem item={item} />);
+						notify();
+					});
+				}, 5000);
 			} catch (e) {
 				console.log(e);
 			}
@@ -76,7 +82,7 @@ const ToastNotification = () => {
 		<div>
 			<StyledToastContainer
 				position='bottom-right'
-				autoClose={10000}
+				autoClose={5000}
 				hideProgressBar={false}
 				newestOnTop={false}
 				closeOnClick
