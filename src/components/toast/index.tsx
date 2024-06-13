@@ -18,7 +18,7 @@ const StyledToastContainer = styled(ToastContainer).attrs({
 	progressClassName: 'progress',
 })`
 	/* .progress is passed to progressClassName */
-	height: 220px;
+	height: 330px;
 	overflow-y: scroll;
 	opacity: 1;
 
@@ -29,6 +29,8 @@ const StyledToastContainer = styled(ToastContainer).attrs({
 	.toast {
 		height: 10px;
 		background: rgba(255, 255, 255, 1);
+		border-radius: 5px;
+		margin-bottom: 5px;
 	}
 	.progress {
 		background: rgba(42, 113, 255, 0.804);
