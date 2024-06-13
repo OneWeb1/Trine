@@ -1,0 +1,48 @@
+.tableItem {
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 12px;
+	font-weight: 600;
+
+	.profileWrapper {
+		display: flex;
+		align-items: center;
+
+		.icon {
+			width: 30px;
+			height: 30px;
+			border-radius: 500px;
+			margin-right: 5px;
+			overflow: hidden;
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+
+	&:nth-child(odd) {
+		// background-color: #28314d09;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.tableItem {
+		.profileWrapper {
+			.name {
+				max-width: 122px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: block;
+			}
+		}
+
+		&:nth-child(odd) {
+			// background-color: #28314d09;
+		}
+	}
+}
