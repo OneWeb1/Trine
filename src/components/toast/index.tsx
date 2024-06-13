@@ -18,13 +18,13 @@ const StyledToastContainer = styled(ToastContainer).attrs({
 	progressClassName: 'progress',
 })`
 	/* .progress is passed to progressClassName */
-	height: 230px;
+	height: 430px;
 	padding: 0px 20px;
 	overflow-y: scroll;
 	opacity: 1;
 
 	&::-webkit-scrollbar {
-		width: 5;
+		width: 10;
 	}
 
 	.toast {
