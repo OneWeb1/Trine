@@ -28,7 +28,6 @@ import Button from '../UI/Button';
 import logo from './../../public/assets/logo1.svg';
 
 import styles from './../stylesheet/styles-components/Header.module.scss';
-import ToastNotification from './toast';
 
 const Header: FC = () => {
 	const dispatch = useDispatch();
