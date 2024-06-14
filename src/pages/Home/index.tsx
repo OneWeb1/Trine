@@ -167,7 +167,6 @@ const Home: FC = () => {
 							<div className={styles.title}>
 								Публічні кімнати
 								{/* <VaweButton /> */}
-								<ToastNotification />
 							</div>
 							{/* // <Button
 								// 	style={{
