@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 
@@ -28,6 +28,8 @@ import Button from '../UI/Button';
 import logo from './../../public/assets/logo1.svg';
 
 import styles from './../stylesheet/styles-components/Header.module.scss';
+import GameService from '../services/GameService';
+import { LiveWinsResponse } from '../models/response/AdminResponse';
 
 const Header: FC = () => {
 	const dispatch = useDispatch();
@@ -37,6 +39,11 @@ const Header: FC = () => {
 	const [isVisibleDropDownMenu, setIsVisibleDropDownMenu] =
 		useState<boolean>(false);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+	const [playerWin, setPlayerWin] = useState<LiveWinsResponse>(
+		{} as LiveWinsResponse,
+	);
+
+	const intervalRef = useRef<number>(0);
 
 	const visibleMenuHandler = () => {
 		setTimeout(() => {
@@ -58,7 +65,22 @@ const Header: FC = () => {
 			setWindowWidth(window.innerWidth);
 		};
 
+		const getLiveWins = async () => {
+			try {
+				const { data } = await GameService.liveWins();
+				setPlayerWin(data[0]);
+			} catch (e) {
+				console.log(e);
+			}
+		};
+
+		getLiveWins();
+
 		const hideDropDownMenu = () => setIsVisibleDropDownMenu(false);
+
+		intervalRef.current = setInterval(() => {
+			getLiveWins();
+		}, 1000);
 
 		window.addEventListener('resize', handleResize);
 		window.addEventListener('click', hideDropDownMenu);
@@ -211,7 +233,9 @@ const Header: FC = () => {
 						)}
 					</div>
 				</div>
-				<div className={styles.notification}>Player щойно виграв 10₴</div>
+				<div className={styles.notification}>
+					{playerWin?.account?.nickname} щойно виграв +{playerWin?.prize}₴
+				</div>
 			</header>
 		</>
 	);
