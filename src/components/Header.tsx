@@ -212,9 +212,7 @@ const Header: FC = () => {
 						)}
 					</div>
 				</div>
-				<div className={styles.notification}>
-					<ToastNotification />
-				</div>
+				<div className={styles.notification}>Player щойно виграв 10₴</div>
 			</header>
 		</>
 	);
