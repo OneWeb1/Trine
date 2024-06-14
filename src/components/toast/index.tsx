@@ -42,7 +42,7 @@ const StyledToastContainer = styled(ToastContainer).attrs({
 const TableItem: FC<ITableItem> = ({ item }) => {
 	return (
 		<div className={styles.tableItem}>
-			Гравець
+			{/* Гравець */}
 			<div className={styles.icon}>
 				<img
 					src={`https://trine-game.online/avatar/${item.account.avatar_id}`}
