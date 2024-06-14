@@ -75,7 +75,7 @@ const ToastNotification = () => {
 	return (
 		<div>
 			<StyledToastContainer
-				position={window.innerWidth > 500 ? 'bottom-right' : 'bottom-center'}
+				position={window.innerWidth > 500 ? 'bottom-right' : 'top-center'}
 				autoClose={3000}
 				hideProgressBar={false}
 				newestOnTop={false}
