@@ -40,7 +40,7 @@ import ModalWheelOfFortune from '../../components/modals/ModalWheelOfFortune';
 import GameService from '../../services/GameService';
 import ModalLiveStats from '../../components/modals/ModalLiveStats';
 // import VaweButton from '../../UI/VaweButton';
-import ToastNotification from '../../components/toast';
+// import ToastNotification from '../../components/toast';
 // import GameService from '../../services/GameService';
 const Home: FC = () => {
 	const dispatch = useDispatch();
