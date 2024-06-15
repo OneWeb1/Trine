@@ -52,7 +52,7 @@ const Header: FC = () => {
 
 	const cssStyle = {
 		opacity: 1,
-		height: `${playersWin.length * 31}px`,
+		height: `${3 * 31}px`,
 		padding: '5px',
 	};
 

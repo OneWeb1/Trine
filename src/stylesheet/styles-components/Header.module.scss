@@ -64,8 +64,30 @@ header {
 			transition: 0.5s;
 			padding-top: 5px;
 			background-color: #225fd8;
-			overflow: hidden;
+			overflow-y: scroll;
 			border-radius: 8px;
+
+			&::-webkit-scrollbar {
+				width: 12px; /* Ширина вертикального скролбару */
+				height: 12px; /* Висота горизонтального скролбару */
+			}
+
+			/* Стилізація треку (доріжки) скролбару */
+			&::-webkit-scrollbar-track {
+				background: #f1f1f11e; /* Колір треку */
+				border-radius: 8px; /* Радіус заокруглення */
+			}
+
+			/* Стилізація ручки (бігунка) скролбару */
+			&::-webkit-scrollbar-thumb {
+				background: #ffffff; /* Колір ручки */
+				border-radius: 8px; /* Радіус заокруглення */
+			}
+
+			/* Стилізація ручки скролбару при наведенні */
+			&::-webkit-scrollbar-thumb:hover {
+				background: #ffffff; /* Колір ручки при наведенні */
+			}
 
 			div {
 				width: 100%;
