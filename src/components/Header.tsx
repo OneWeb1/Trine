@@ -39,11 +39,22 @@ const Header: FC = () => {
 	const [isVisibleDropDownMenu, setIsVisibleDropDownMenu] =
 		useState<boolean>(false);
 	const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+	const [playersWin, setPlayersWin] = useState<LiveWinsResponse[]>(
+		[] as LiveWinsResponse[],
+	);
 	const [playerWin, setPlayerWin] = useState<LiveWinsResponse>(
 		{} as LiveWinsResponse,
 	);
 
+	const [openList, setOpenList] = useState<boolean>(false);
+
 	const intervalRef = useRef<number>(0);
+
+	const cssStyle = {
+		opacity: 1,
+		height: `${playersWin.length * 31}px`,
+		padding: '5px',
+	};
 
 	const visibleMenuHandler = () => {
 		setTimeout(() => {
@@ -69,6 +80,8 @@ const Header: FC = () => {
 			try {
 				const { data } = await GameService.liveWins();
 				setPlayerWin(data[0]);
+				setPlayersWin(data);
+				console.log(data);
 			} catch (e) {
 				console.log(e);
 			}
@@ -86,6 +99,7 @@ const Header: FC = () => {
 		window.addEventListener('click', hideDropDownMenu);
 
 		return () => {
+			clearInterval(intervalRef.current);
 			window.removeEventListener('resize', handleResize);
 			window.removeEventListener('click', hideDropDownMenu);
 		};
@@ -234,7 +248,26 @@ const Header: FC = () => {
 					</div>
 				</div>
 				<div className={styles.notification}>
-					{playerWin?.account?.nickname} щойно виграв +{playerWin?.prize}₴
+					<div
+						style={{ opacity: openList ? 1 : 0 }}
+						className={styles.arrow}></div>
+
+					<div className={styles.title} onClick={() => setOpenList(!openList)}>
+						<div className={styles.name}>{playerWin?.account?.nickname}</div>
+						{'   '}
+						щойно виграв +{playerWin?.prize}₴
+					</div>
+					<div style={openList ? cssStyle : {}} className={styles.menu}>
+						{playersWin.map(playerWin => (
+							<div>
+								<span className={styles.name}>
+									{playerWin?.account?.nickname}
+								</span>
+								{'   '}
+								щойно виграв +{playerWin?.prize}₴
+							</div>
+						))}
+					</div>
 				</div>
 			</header>
 		</>
