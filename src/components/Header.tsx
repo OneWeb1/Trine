@@ -247,28 +247,32 @@ const Header: FC = () => {
 						)}
 					</div>
 				</div>
-				<div className={styles.notification}>
-					<div
-						style={{ opacity: openList ? 1 : 0 }}
-						className={styles.arrow}></div>
+				{playersWin?.length && (
+					<div className={styles.notification}>
+						<div
+							style={{ opacity: openList ? 1 : 0 }}
+							className={styles.arrow}></div>
 
-					<div className={styles.title} onClick={() => setOpenList(!openList)}>
-						<div className={styles.name}>{playerWin?.account?.nickname}</div>
-						{'   '}
-						щойно виграв +{playerWin?.prize}₴
+						<div
+							className={styles.title}
+							onClick={() => setOpenList(!openList)}>
+							<div className={styles.name}>{playerWin.account.nickname}</div>
+							{'   '}
+							щойно виграв +{playerWin?.prize}₴
+						</div>
+						<div style={openList ? cssStyle : {}} className={styles.menu}>
+							{playersWin.map(playerWin => (
+								<div>
+									<span className={styles.name}>
+										{playerWin?.account?.nickname}
+									</span>
+									{'   '}
+									щойно виграв +{playerWin.prize}₴
+								</div>
+							))}
+						</div>
 					</div>
-					<div style={openList ? cssStyle : {}} className={styles.menu}>
-						{playersWin.map(playerWin => (
-							<div>
-								<span className={styles.name}>
-									{playerWin?.account?.nickname}
-								</span>
-								{'   '}
-								щойно виграв +{playerWin?.prize}₴
-							</div>
-						))}
-					</div>
-				</div>
+				)}
 			</header>
 		</>
 	);
