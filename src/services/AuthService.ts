@@ -38,7 +38,6 @@ export default class AuthService {
 	static async prolong(token: string): Promise<AxiosResponse<AuthResponse>> {
 		return $api.post<AuthResponse>(
 			`/auth/prolong?token=${token}`,
-			// { token },
 			{
 				headers: {
 					'Content-Type': 'application/json',

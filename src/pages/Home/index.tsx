@@ -39,6 +39,7 @@ import {
 import ModalWheelOfFortune from '../../components/modals/ModalWheelOfFortune';
 import GameService from '../../services/GameService';
 import ModalLiveStats from '../../components/modals/ModalLiveStats';
+import ModalToBuyPremium from '../../components/modals/ModalToBuyPremium';
 // import VaweButton from '../../UI/VaweButton';
 // import ToastNotification from '../../components/toast';
 // import GameService from '../../services/GameService';
@@ -275,6 +276,7 @@ const Home: FC = () => {
 			{visibleModal === 'mr' && <ModalMyRooms />}
 			{visibleModal === 'wof' && <ModalWheelOfFortune />}
 			{visibleModal === 'lw' && <ModalLiveStats title='Лайв виграші' />}
+			{visibleModal === 'pm' && <ModalToBuyPremium />}
 
 			{!loading && (
 				<div style={{ width: '100%', height: '500px' }} className='flex-center'>

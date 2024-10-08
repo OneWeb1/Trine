@@ -81,7 +81,6 @@ const Header: FC = () => {
 				const { data } = await GameService.liveWins();
 				setPlayerWin(data[0]);
 				setPlayersWin(data);
-				console.log(data);
 			} catch (e) {
 				console.log(e);
 			}

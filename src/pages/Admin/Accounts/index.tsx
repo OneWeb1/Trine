@@ -26,6 +26,7 @@ import {
 import Account from './components/Account';
 import Spinner from '../../../components/spinner';
 import InputSearch from '../../../UI/InputSearch';
+import classNames from 'classnames';
 
 const Accounts: FC = () => {
 	const dispatch = useDispatch();
@@ -46,16 +47,26 @@ const Accounts: FC = () => {
 
 	const [searchId, setSearchId] = useState<string>('');
 	const [isNotFound, setIsNotFound] = useState(false);
+	const [tabs] = useState<string[]>(['Всі', 'Преміум']);
+	const [selectTabId, setSelectTabId] = useState<number>(0);
+	const [premiumNumbers, setPremiumNumbers] = useState<number>(0);
 
 	const offsetRef = useRef<number>(
 		JSON.parse(localStorage.getItem('accounts-offset') || '0'),
 	);
 
-	const getProfiles = async () => {
+	const getProfiles = async (tabId: number) => {
 		if (typeof offsetRef.current !== 'number') return;
 		try {
-			const { data } = await AdminService.getProfiles(offsetRef.current, limit);
-			setProfiles(data.items);
+			const { data } = await AdminService.getProfiles(
+				offsetRef.current,
+				limit,
+				tabId,
+			);
+			if (tabId) {
+				setPremiumNumbers(data.items_count);
+				setProfiles([...data.items]);
+			} else setProfiles(data.items);
 			setPagesNumber(data.pages);
 			setLoading(true);
 			localStorage.setItem('accounts-length', JSON.stringify(data.pages));
@@ -120,7 +131,7 @@ const Accounts: FC = () => {
 		offsetRef.current = offset;
 		setProfiles([]);
 		setLoading(false);
-		getProfiles();
+		getProfiles(0);
 		localStorage.setItem('accounts-offset', JSON.stringify(offset));
 		localStorage.setItem('accounts-page', JSON.stringify(pageNumber));
 	};
@@ -129,8 +140,15 @@ const Accounts: FC = () => {
 		dispatch(setVisibleMenuAccountSettings('hide'));
 	};
 
+	const selectTab = (id: number) => {
+		if (id !== selectTabId) {
+			getProfiles(id);
+			setSelectTabId(id);
+		}
+	};
+
 	useEffect(() => {
-		getProfiles();
+		getProfiles(0);
 	}, [updateAccounts]);
 
 	useEffect(() => {
@@ -188,6 +206,18 @@ const Accounts: FC = () => {
 						</div>
 					</div>
 				</div>
+				<div className={styles.tabs}>
+					{tabs.map((tab, idx) => (
+						<div
+							className={classNames(
+								styles.tab,
+								selectTabId === idx ? styles.activeTab : '',
+							)}
+							onClick={() => selectTab(idx)}>
+							{selectTabId === 1 && idx ? `${tab} ${premiumNumbers}` : tab}
+						</div>
+					))}
+				</div>
 				<div
 					className={styles.tableHeader}
 					style={{
@@ -242,12 +272,16 @@ const Accounts: FC = () => {
 					</div>
 
 					<div style={{ padding: '0px 10px', paddingTop: '10px' }}>
-						<Pagination
-							numbers={pagesNumber > 10 ? pagesNumber : 10}
-							workPages={!pagesNumber ? 1 : pagesNumber}
-							current={JSON.parse(localStorage.getItem('accounts-page') || '0')}
-							changePage={changePage}
-						/>
+						{!selectTabId && (
+							<Pagination
+								numbers={pagesNumber > 10 ? pagesNumber : 10}
+								workPages={!pagesNumber ? 1 : pagesNumber}
+								current={JSON.parse(
+									localStorage.getItem('accounts-page') || '0',
+								)}
+								changePage={changePage}
+							/>
+						)}
 					</div>
 				</div>
 			</div>

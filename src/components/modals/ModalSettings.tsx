@@ -1,4 +1,4 @@
-import { FC, memo, useState, useEffect } from 'react';
+import { FC, memo, useState, useRef, useEffect } from 'react';
 
 import classNames from 'classnames';
 
@@ -37,6 +37,33 @@ const ModalSettings: FC = () => {
 	const [selectAvatarId, setSelectAvatarId] = useState<string>(
 		account.avatar_id,
 	);
+	const inputFileRef = useRef<HTMLInputElement | null>(null);
+
+	const getAvatars = async () => {
+		try {
+			const { data: avatars } = await AdminService.getAvatars();
+			dispatch(setAvatars(avatars));
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	const uploadAvatar = async (formData: FormData) => {
+		try {
+			await AdminService.uploadAvatar(formData);
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
+	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (event.target.files && event.target.files[0]) {
+			const file = event.target.files[0];
+			const formData = new FormData();
+			formData.append('image', file);
+			uploadAvatar(formData);
+		}
+	};
 
 	const changePassword = () => {
 		setIsVisibleInput(!isVisibleInput);
@@ -83,102 +110,136 @@ const ModalSettings: FC = () => {
 		setSelectAvatarId(id);
 	};
 
-	useEffect(() => {
-		const getAvatars = async () => {
-			try {
-				const { data: avatars } = await AdminService.getAvatars();
-				dispatch(setAvatars(avatars));
-			} catch (e) {
-				console.log(e);
+	const handleSelectAvatarToGallery = () => {
+		if (!account.is_premium) {
+			dispatch(setVisibleModal('pm'));
+			return;
+		}
+		inputFileRef.current?.click();
+	};
+
+	if (!avatars.includes(account.avatar_id)) {
+		dispatch(setAvatars([...avatars, account.avatar_id]));
+	} else {
+		const key = account.avatar_id.includes('premium');
+		if (!key) {
+			const premiumAvatar = avatars.find(avatar => avatar.includes('premium'));
+			if (premiumAvatar) {
+				dispatch(
+					setAvatars([...avatars.filter(avatar => avatar !== premiumAvatar)]),
+				);
 			}
-		};
+		}
+	}
+
+	useEffect(() => {
 		if (!avatars.length) {
 			getAvatars();
 		}
 	}, []);
 
 	return (
-		<Modal title='Налаштування' score={`#${account.id}`}>
-			<div className={styles.subtitle}>Аватарки</div>
-			<div className={styles.avatars}>
-				{avatars.map(avatar => (
-					<div
-						key={Math.random()}
-						className={classNames(
-							styles.avatar,
-							avatar === account.avatar_id && styles.currentSelectAvatar,
-							avatar === selectAvatarId && styles.selectAvatar,
-						)}
-						onClick={() => selectAvatar(avatar)}>
-						<img src={`${baseIconPath}/avatar/${avatar}`} alt='avatar' />
-					</div>
-				))}
-			</div>
+		<>
+			<Modal title='Налаштування' score={`#${account.id}`}>
+				<div className={styles.subtitle}>Аватарки</div>
+				<div className={styles.avatars}>
+					{avatars.map(avatar => (
+						<div
+							key={Math.random()}
+							className={classNames(
+								styles.avatar,
+								avatar === account.avatar_id && styles.currentSelectAvatar,
+								avatar === selectAvatarId && styles.selectAvatar,
+							)}
+							onClick={() => selectAvatar(avatar)}>
+							<img src={`${baseIconPath}/avatar/${avatar}`} alt='avatar' />
+						</div>
+					))}
+				</div>
+				<hr style={{ marginBottom: '10px', opacity: 0.3 }} />
+				<input
+					ref={inputFileRef}
+					type='file'
+					style={{ position: 'absolute', opacity: 0 }}
+					onChange={handleImageChange}
+				/>
 
-			<div className={styles.subtitle}>Особисті дані</div>
-			<Input
-				type='text'
-				placeholder="Введіть ім'я"
-				label="Ім'я"
-				value={name}
-				onChange={setName}
-			/>
-			<Input
-				type='text'
-				readOnly={null}
-				placeholder='Введіть імейл'
-				label='Імейл'
-				value={email}
-				onChange={setEmail}
-			/>
-			<Input
-				type='password'
-				placeholder='Введіть пароль'
-				label='Пароль'
-				value={password}
-				readOnly={isVisibleInput === false ? null : true}
-				onChange={setPassword}>
+				<button
+					className={styles.selectGallery}
+					onClick={handleSelectAvatarToGallery}>
+					<div style={{ position: 'relative', width: '120px' }}>
+						Вибрати з галереї
+						{!account.is_premium && (
+							<span className={styles.premiumMark}>Premium</span>
+						)}
+					</div>{' '}
+				</button>
+
+				<div className={styles.subtitle}>Особисті дані</div>
+				<Input
+					type='text'
+					placeholder="Введіть ім'я"
+					label="Ім'я"
+					value={name}
+					onChange={setName}
+				/>
+				<Input
+					type='text'
+					readOnly={null}
+					placeholder='Введіть імейл'
+					label='Імейл'
+					value={email}
+					onChange={setEmail}
+				/>
+				<Input
+					type='password'
+					placeholder='Введіть пароль'
+					label='Пароль'
+					value={password}
+					readOnly={isVisibleInput === false ? null : true}
+					onChange={setPassword}>
+					<Button
+						style={{
+							height: '40px',
+							padding: '0px 34px',
+							marginLeft: '10px',
+						}}
+						resize={true}
+						value={(!isVisibleInput && 'Змінити') || 'Скасувати'}
+						noLoading={true}
+						onClick={changePassword}
+					/>
+				</Input>
+
+				{isVisibleInput && (
+					<>
+						<Input
+							type='password'
+							placeholder='Введіть поточний пароль'
+							label='Поточний пароль'
+							value={currentPassword}
+							onChange={setCurrentPassword}
+						/>
+
+						<Input
+							type='password'
+							placeholder='Введіть новий пароль'
+							label='Новий пароль'
+							value={newPassword}
+							onChange={setNewPassword}
+						/>
+					</>
+				)}
+
 				<Button
 					style={{
-						height: '40px',
-						padding: '0px 34px',
-						marginLeft: '10px',
+						marginTop: '15px',
 					}}
-					resize={true}
-					value={(!isVisibleInput && 'Змінити') || 'Скасувати'}
-					noLoading={true}
-					onClick={changePassword}
+					value='Зберегти зміни'
+					onClick={saveChanges}
 				/>
-			</Input>
-
-			{isVisibleInput && (
-				<>
-					<Input
-						type='password'
-						placeholder='Введіть поточний пароль'
-						label='Поточний пароль'
-						value={currentPassword}
-						onChange={setCurrentPassword}
-					/>
-
-					<Input
-						type='password'
-						placeholder='Введіть новий пароль'
-						label='Новий пароль'
-						value={newPassword}
-						onChange={setNewPassword}
-					/>
-				</>
-			)}
-
-			<Button
-				style={{
-					marginTop: '15px',
-				}}
-				value='Зберегти зміни'
-				onClick={saveChanges}
-			/>
-		</Modal>
+			</Modal>
+		</>
 	);
 };
 

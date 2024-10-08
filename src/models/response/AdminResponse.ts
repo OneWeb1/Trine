@@ -48,6 +48,7 @@ export interface AdminProfileResponse {
 	created_at: string;
 	is_admin: boolean;
 	is_super_admin: boolean;
+	is_premium: boolean;
 	email: string;
 	balance: number;
 	verified: boolean;
@@ -123,6 +124,7 @@ export interface ProfileMeResponse {
 	is_super_admin: boolean;
 	email: string;
 	balance: number;
+	is_premium: boolean;
 	verified: false;
 }
 
@@ -137,17 +139,16 @@ export interface PlayerStatisticsResponse {
 	won_times: number;
 	defeat_times: number;
 }
+export interface RoomsCountResponse {
+	player_recruitment: number;
+	// inactive_rooms_count: number;
+	rooms_count: number;
+}
 
 export interface RoomStatisticsResponse {
 	max_bank: 0;
 	total_bank: 0;
 	round_count: 0;
-}
-
-export interface RoomsCountResponse {
-	player_recruitment: number;
-	// inactive_rooms_count: number;
-	rooms_count: number;
 }
 
 export interface LiveWinsResponse {

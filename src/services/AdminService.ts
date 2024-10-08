@@ -92,9 +92,12 @@ export default class AdminService {
 	static async getProfiles(
 		offset: number,
 		limit: number,
+		tabId: number,
 	): Promise<AxiosResponse<ProfilesPageDataResponse>> {
 		return $api.get<ProfilesPageDataResponse>('/admin/profile/', {
-			params: { offset, limit },
+			params: !tabId
+				? { offset, limit }
+				: { offset: 0, limit: 100000, onlyPremium: true },
 		});
 	}
 
@@ -103,6 +106,16 @@ export default class AdminService {
 		isAdmin: boolean,
 	): Promise<AxiosResponse<string>> {
 		return $api.post<string>(`/admin/profile/${id}/admin/${isAdmin}`);
+	}
+
+	static async buyPremium(): Promise<AxiosResponse<string>> {
+		return $api.post<string>(`/profile/buy_premium`);
+	}
+
+	static async uploadAvatar(
+		formData: FormData,
+	): Promise<AxiosResponse<{ avatar_id: string }>> {
+		return $api.post<{ avatar_id: string }>(`/profile/upload_avatar`, formData);
 	}
 
 	static async getProfileById(

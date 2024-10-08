@@ -68,25 +68,22 @@ header {
 			border-radius: 8px;
 
 			&::-webkit-scrollbar {
-				width: 12px; /* Ширина вертикального скролбару */
-				height: 12px; /* Висота горизонтального скролбару */
+				width: 12px;
+				height: 12px;
 			}
 
-			/* Стилізація треку (доріжки) скролбару */
 			&::-webkit-scrollbar-track {
-				background: #f1f1f11e; /* Колір треку */
-				border-radius: 8px; /* Радіус заокруглення */
+				background: #f1f1f11e;
+				border-radius: 8px;
 			}
 
-			/* Стилізація ручки (бігунка) скролбару */
 			&::-webkit-scrollbar-thumb {
-				background: #ffffff; /* Колір ручки */
-				border-radius: 8px; /* Радіус заокруглення */
+				background: #ffffff;
+				border-radius: 8px;
 			}
 
-			/* Стилізація ручки скролбару при наведенні */
 			&::-webkit-scrollbar-thumb:hover {
-				background: #ffffff; /* Колір ручки при наведенні */
+				background: #ffffff;
 			}
 
 			div {
@@ -97,10 +94,10 @@ header {
 				justify-content: center;
 
 				.name {
-					white-space: nowrap; /* Забороняє перенесення тексту на новий рядок */
-					overflow: hidden; /* Приховує текст, який виходить за межі елемента */
-					text-overflow: ellipsis; /* Додає три крапки в кінці обрізаного тексту */
-					max-width: 100px; /* Встановлює ширину елемента */
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					max-width: 100px;
 					text-align-last: left;
 					margin-right: 5px;
 				}
@@ -169,6 +166,8 @@ header {
 			}
 
 			.balance {
+				display: flex;
+				align-items: center;
 				color: #fff;
 				font-weight: 700;
 				font-size: 14px;

@@ -30,6 +30,7 @@ export interface WheelFortuneHistoryRotationResponse {
 	account: ProfileMeResponse;
 	balance: number;
 	bid: number;
+	is_premium: boolean;
 	multiplier: number;
 	prev_balance: number;
 	prize: number;
