@@ -19,6 +19,7 @@ import ModalJoinToCode from '../../components/modals/ModalJoinToCode';
 import ModalSettings from '../../components/modals/ModalSettings';
 
 import ModalMyRooms from '../../components/modals/ModalMyRooms';
+import ModalReplenishment from '../../components/modals/ModalReplenishment';
 import ModalPay from '../../components/modals/ModalPay';
 
 import Header from '../../components/Header';
@@ -258,10 +259,7 @@ const Home: FC = () => {
 				/>
 			)}
 			{visibleModal === 'dp' && (
-				<ModalPay
-					title='Поповнення рахунку'
-					message="Для поповнення рахунку звяжіться з нашим менеджером та вкажіть Ім'я та ID свого аккаунта."
-				/>
+				<ModalReplenishment title='Поповнення рахунку' />
 			)}
 			{visibleModal === 's' && <ModalSettings />}
 			{visibleModal === 'jc' && (
