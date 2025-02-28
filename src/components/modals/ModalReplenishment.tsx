@@ -1,11 +1,7 @@
-import { FC, useEffect, memo, useState } from 'react';
+import { FC, memo, useState } from 'react';
 
 import { RootState as CustomRootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import AdminService from '../../services/AdminService';
-import { setTransfersData } from '../../store/slices/app.slice';
-import { GlobalsData } from '../../models/response/AdminResponse';
-import { AxiosResponse } from 'axios';
 import { setVisibleModal } from '../../store/slices/app.slice';
 
 import Modal from './Modal';
@@ -25,21 +21,6 @@ const ModalReplenishment: FC<IModalReplenishment> = ({ title }) => {
 
 	const [isError, setIsError] = useState<boolean>(false);
 
-	const getGlobals = async () => {
-		await AdminService.getGlobalsAll()
-			.then((response: AxiosResponse<GlobalsData>) => {
-				const { transfers } = response.data.globals;
-				dispatch(
-					setTransfersData({
-						label: transfers.resource_name,
-						name: transfers.username,
-						link: transfers.link,
-					}),
-				);
-			})
-			.catch(e => console.log(e));
-	};
-
 	const replenishmentBalance = (userId: number, deposit: number) => {
 		if (isError) setIsError(false);
 		if (!userId || !deposit) {
@@ -53,10 +34,6 @@ const ModalReplenishment: FC<IModalReplenishment> = ({ title }) => {
 			dispatch(setVisibleModal('h'));
 		}
 	};
-
-	useEffect(() => {
-		getGlobals();
-	}, []);
 
 	return (
 		<Modal title={title}>
