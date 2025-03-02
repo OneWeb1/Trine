@@ -71,7 +71,7 @@ const initialState: IState = {
 	refsUpdate: 1,
 	transfersData: {
 		label: 'Telegram:',
-		name: '@manager',
+		name: '@admin',
 		link: 'https://t.me/trinka_1',
 	},
 	avatars: JSON.parse(localStorage.getItem('avatars') || '[]'),

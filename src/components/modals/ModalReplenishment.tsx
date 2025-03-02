@@ -10,9 +10,15 @@ import Button from '../../UI/Button';
 
 interface IModalReplenishment {
 	title: string;
+	message: string;
+	warn: string;
 }
 
-const ModalReplenishment: FC<IModalReplenishment> = ({ title }) => {
+const ModalReplenishment: FC<IModalReplenishment> = ({
+	title,
+	message,
+	warn,
+}) => {
 	const dispatch = useDispatch();
 	const { account } = useSelector((state: CustomRootState) => state.app);
 
@@ -40,7 +46,7 @@ const ModalReplenishment: FC<IModalReplenishment> = ({ title }) => {
 			<Input
 				type='number'
 				label='ID'
-				value={account.id}
+				value={account.is_admin ? userId : account.id}
 				placeholder='Введіть ID облікового запису'
 				onChange={setUserId}
 			/>
@@ -50,9 +56,11 @@ const ModalReplenishment: FC<IModalReplenishment> = ({ title }) => {
 				placeholder='Введіть суму депозиту'
 				onChange={setDeposit}
 			/>
-			<div style={{ marginBottom: '20px', color: 'red' }}>
+			<div style={{ marginBottom: '5px', color: 'red' }}>
 				{isError && 'Ви не вказали суму депозиту'}
 			</div>
+			<span>{message}</span>
+			<p style={{ color: 'orange', marginBottom: '20px' }}>{warn}</p>
 			<Button
 				noLoading={true}
 				onClick={() => replenishmentBalance(Number(userId), Number(deposit))}>

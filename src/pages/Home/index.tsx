@@ -21,6 +21,7 @@ import ModalSettings from '../../components/modals/ModalSettings';
 import ModalMyRooms from '../../components/modals/ModalMyRooms';
 import ModalReplenishment from '../../components/modals/ModalReplenishment';
 import ModalPay from '../../components/modals/ModalPay';
+import ModalPayGroup from '../../components/modals/ModalPayGroup';
 
 import Header from '../../components/Header';
 // import LeftMenu from './components/LeftMenu';
@@ -258,8 +259,19 @@ const Home: FC = () => {
 					message="Для виведення коштів звяжіться з нашим менеджером, вкажіть Ім'я та ID свого аккаунта та суму яку ви хочете вивести."
 				/>
 			)}
-			{visibleModal === 'dp' && (
-				<ModalReplenishment title='Поповнення рахунку' />
+			{visibleModal === 'dp' && <ModalPayGroup title='Поповнення рахунку' />}
+			{visibleModal === 'mra' && (
+				<ModalPay
+					title='Поповнення через админа'
+					message="Для поповнення рахунку звяжіться админістратором, вкажіть Ім'я та ID свого аккаунта та суму яку ви хочете поповнити."
+				/>
+			)}
+			{visibleModal === 'mrt' && (
+				<ModalReplenishment
+					title='Поповнення через телеграм'
+					message='Моментальне поповнення через телеграм'
+					warn='⚠️ Зверніть увагу: присутня комісія телеграму.'
+				/>
 			)}
 			{visibleModal === 's' && <ModalSettings />}
 			{visibleModal === 'jc' && (
