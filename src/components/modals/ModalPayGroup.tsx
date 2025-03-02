@@ -35,7 +35,7 @@ const ModalPayGroup: FC<IModalPayGroup> = ({ title }) => {
 			/>
 			<div style={{ margin: '10px 0' }}></div>
 			<Button
-				value='Поповнити через админа'
+				value='Поповнити через адміна'
 				noLoading={true}
 				onClick={showModalReplenishmentAdmin}
 			/>
