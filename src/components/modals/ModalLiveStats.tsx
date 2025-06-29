@@ -15,7 +15,6 @@ const ModalLiveStats: FC<IModalLiveStats> = ({ title }) => {
 	const getLiveWins = async () => {
 		try {
 			const { data } = await GameService.liveWins();
-			console.log(data);
 			setTrineData(data.filter(item => item.type === 'room'));
 			setWheelData(data.filter(item => item.type === 'fortune'));
 		} catch (e) {

@@ -82,14 +82,13 @@ const Game: FC = () => {
 	};
 
 	const getRooms = async () => {
-		const { data } = await AdminService.getRooms({
-			offset: 0,
-			limit: 10000,
-		});
 		const joinRoom = JSON.parse(localStorage.getItem('joinRoom') || '{}');
-		const openRoom = Object.keys(joinRoom).length
-			? data.items.find(room => room.id === joinRoom.id)
-			: data.items.find(room => room.id === id);
+
+		const { data } = await AdminService.getPublicRoomByState(joinRoom.id, true);
+		const openRoomIdFromUrl = window.location.href.split('/');
+		const urlRoomId = openRoomIdFromUrl[openRoomIdFromUrl.length - 1];
+
+		const openRoom = data.room || urlRoomId;
 
 		if (!Object.keys(joinRoom).length && openRoom) {
 			const { data } = await GameService.joinRoom(openRoom.id);

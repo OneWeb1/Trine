@@ -101,6 +101,11 @@ export interface RoomsResponse {
 	time_to_start: number;
 }
 
+export interface RoomByStateResponse {
+	active_profiles: ProfileMeResponse;
+	room: RoomsResponse;
+}
+
 export interface RoomsPageDataResponse {
 	pages: number;
 	page: number;
