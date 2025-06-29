@@ -14,7 +14,6 @@ import {
 	AdminRefsResponse,
 	ExelResponse,
 	ExelGenerateStateResponse,
-	RoomByState,
 	RoomByStateResponse,
 } from '../models/response/AdminResponse';
 import $api from '../http';

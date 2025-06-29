@@ -128,7 +128,7 @@ export interface ProfileMeResponse {
 	verified: false;
 }
 
-export interface RoomByStateResponse {
+export interface RoomByStateResponse extends RoomsResponse {
 	active_profiles: ProfileMeResponse;
 	room: RoomsResponse;
 }
