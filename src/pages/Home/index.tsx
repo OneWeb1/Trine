@@ -21,7 +21,7 @@ import ModalSettings from '../../components/modals/ModalSettings';
 import ModalMyRooms from '../../components/modals/ModalMyRooms';
 import ModalReplenishment from '../../components/modals/ModalReplenishment';
 import ModalPay from '../../components/modals/ModalPay';
-import ModalPayGroup from '../../components/modals/ModalPayGroup';
+// import ModalPayGroup from '../../components/modals/ModalPayGroup';
 
 import Header from '../../components/Header';
 // import LeftMenu from './components/LeftMenu';
